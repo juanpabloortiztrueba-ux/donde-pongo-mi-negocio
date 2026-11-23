@@ -1,0 +1,6 @@
+# headless evita la pregunta de correo de la primera vez (abre http://localhost:8501 a mano).
+[server]
+headless = true
+
+[browser]
+gatherUsageStats = false

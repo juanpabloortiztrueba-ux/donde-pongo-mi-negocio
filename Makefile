@@ -28,7 +28,7 @@ carpetas:         ## documentos de carpetas/ que salen del codigo (~20 s, sin Ol
 indexar:          ## carpetas + embeddings con nomic-embed-text (~1 min; necesita Ollama)
 	$(PY) scripts/04_indexar.py
 
-app:              ## interfaz en http://localhost:8501
+app:              ## interfaz en http://localhost:8501 (abrela en el navegador)
 	uv run streamlit run app/ui.py
 
 evaluar:          ## 20 preguntas al agente (~20-30 min; necesita Ollama) -> reports/evaluacion.md

@@ -34,7 +34,7 @@ El repo trae `data/processed/`, `data/index/` y `models/`, así que no hace falt
 git clone <url-del-repo> donde-pongo-mi-negocio
 cd donde-pongo-mi-negocio
 make setup        # uv sync + ollama pull qwen3:8b + ollama pull nomic-embed-text  (~5-10 min, casi todo es la descarga de 5.5 GB)
-make app          # abre http://localhost:8501
+make app          # levanta la app; abre http://localhost:8501 en tu navegador
 ```
 
 Si no tienes `make`: `xcode-select --install`, o corre los comandos de la tabla de abajo.
@@ -61,6 +61,8 @@ uv run streamlit run app/ui.py
 
 Escribe en el chat, por ejemplo: «quiero poner una heladería», «una farmacia en Iztapalapa», «algo barato para una zona de nivel bajo» o «¿cómo está la inflación?». Cada respuesta tarda **~1 a 1.5 min** en una MacBook Air M4 de 16 GB (mediana 85 s en la evaluación de 20 preguntas). Mientras el modelo está cargado usa ~6 GB de memoria; si la Mac anda justa, cierra otras apps (en la evaluación el swap subió de 3.3 a ~10.9 GB y volvió a 4.7 GB al descargar el modelo con `ollama stop qwen3:8b`). Si Ollama no está corriendo, la app responde con una plantilla armada directo de los datos (sin LLM) y lo avisa. El mapa de la derecha cambia al giro y filtros de la última recomendación; también los puedes elegir en la barra lateral. El mapa interactivo usa internet para el fondo (OpenStreetMap); sin internet activa «Mapa estático» y se dibuja con los mismos datos.
 
+Para comprobar que todo funciona sin esperar la evaluación completa, corre 3 preguntas del evaluador (heladería, un negocio en Coyoacán y la trampa de Monterrey; ~5 min, necesita Ollama): `uv run python eval/evaluar.py --rehacer --ids 1,17,20`. El resumen final dirá «3/3 pasan; trampa ok» y `aprobado=False`: es normal, «aprobado» exige las 20 preguntas. (Sin `--rehacer` solo recalifica las respuestas guardadas en el repo, sin llamar al modelo.)
+
 Desde la terminal, sin interfaz:
 
 ```bash
@@ -84,7 +86,7 @@ INEGI_TOKEN=...     # https://www.inegi.org.mx/app/desarrolladores/generatoken/U
 | Variables | `make features` | `uv run python scripts/02_features.py` | ~5 s |
 | Modelo | `make entrenar` | `$env:OMP_NUM_THREADS=6; uv run python scripts/03_entrenar.py` | ~5 min |
 | Carpetas + índice | `make indexar` | `uv run python scripts/04_indexar.py` | ~1 min (Ollama encendido) |
-| Pruebas | `make pruebas` | `uv run pytest -q` | ~20 s |
+| Pruebas | `make pruebas` | `uv run pytest -q` | ~20 s (sin `.env` una prueba, la de tokens, sale «skipped»: es normal) |
 | Evaluación | `make evaluar` | `uv run python eval/evaluar.py --rehacer` | ~20-30 min |
 | App | `make app` | `uv run streamlit run app/ui.py` | segundos |
 | Todo | `make todo` | los pasos anteriores en orden | ~1 h |
