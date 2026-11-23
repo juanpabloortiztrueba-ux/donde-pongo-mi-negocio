@@ -1,0 +1,571 @@
+{
+ "fecha": "2026-11-23",
+ "modelo": "sklearn HistGradientBoostingClassifier",
+ "sklearn": "1.9.1",
+ "params": {
+  "learning_rate": 0.06,
+  "max_iter": 800,
+  "max_leaf_nodes": 31,
+  "min_samples_leaf": 80,
+  "l2_regularization": 1.0,
+  "early_stopping": true,
+  "validation_fraction": 0.1,
+  "n_iter_no_change": 25,
+  "random_state": 0
+ },
+ "n_iter_final": 546,
+ "modelo_id": "89c7b8e6f737",
+ "features": [
+  "giro_cod",
+  "area_km2",
+  "pob_total",
+  "pob_0_14",
+  "pob_15_24",
+  "pob_25_59",
+  "pob_60_mas",
+  "hogares",
+  "viviendas_habitadas",
+  "prom_ocupantes",
+  "escolaridad_prom",
+  "pct_viv_auto",
+  "pct_viv_internet",
+  "pct_viv_pc",
+  "pct_viv_celular",
+  "pea",
+  "pob_ocupada",
+  "im_2020",
+  "densidad_hab_km2",
+  "decil_esperado",
+  "ing_trim_mediano_est",
+  "p_nse_bajo",
+  "p_nse_medio",
+  "p_nse_alto",
+  "es_cdmx",
+  "sec11_500m",
+  "sec11_1km",
+  "sec21_500m",
+  "sec21_1km",
+  "sec22_500m",
+  "sec22_1km",
+  "sec23_500m",
+  "sec23_1km",
+  "sec31_500m",
+  "sec31_1km",
+  "sec32_500m",
+  "sec32_1km",
+  "sec33_500m",
+  "sec33_1km",
+  "sec43_500m",
+  "sec43_1km",
+  "sec46_500m",
+  "sec46_1km",
+  "sec48_500m",
+  "sec48_1km",
+  "sec49_500m",
+  "sec49_1km",
+  "sec51_500m",
+  "sec51_1km",
+  "sec52_500m",
+  "sec52_1km",
+  "sec53_500m",
+  "sec53_1km",
+  "sec54_500m",
+  "sec54_1km",
+  "sec55_500m",
+  "sec55_1km",
+  "sec56_500m",
+  "sec56_1km",
+  "sec61_500m",
+  "sec61_1km",
+  "sec62_500m",
+  "sec62_1km",
+  "sec71_500m",
+  "sec71_1km",
+  "sec72_500m",
+  "sec72_1km",
+  "sec81_500m",
+  "sec81_1km",
+  "sec93_500m",
+  "sec93_1km",
+  "empleo_500m",
+  "empleo_1km",
+  "estab_500m",
+  "estab_1km",
+  "pob_diurna",
+  "n_establecimientos",
+  "n_escuelas_500m",
+  "n_escuelas_1km",
+  "n_hospitales_500m",
+  "n_hospitales_1km",
+  "n_plazas_500m",
+  "n_plazas_1km",
+  "dist_estacion_m",
+  "dist_metro_m",
+  "afluencia_metro_cercano",
+  "n_estaciones_1km",
+  "afluencia_metro_1km",
+  "comp_huff",
+  "comp_1km",
+  "comp_ageb",
+  "compl_huff",
+  "giro_total_log",
+  "radio_m",
+  "gasto_rubro_ageb",
+  "gasto_area",
+  "pob_obj_ageb",
+  "pob_obj_area",
+  "pob_diurna_area",
+  "nse_fit",
+  "comp_por_10mil_obj"
+ ],
+ "features_sobrevivencia": [
+  "giro_cod",
+  "per_ocu_medio",
+  "area_km2",
+  "pob_total",
+  "pob_0_14",
+  "pob_15_24",
+  "pob_25_59",
+  "pob_60_mas",
+  "hogares",
+  "viviendas_habitadas",
+  "prom_ocupantes",
+  "escolaridad_prom",
+  "pct_viv_auto",
+  "pct_viv_internet",
+  "pct_viv_pc",
+  "pct_viv_celular",
+  "pea",
+  "pob_ocupada",
+  "im_2020",
+  "densidad_hab_km2",
+  "decil_esperado",
+  "ing_trim_mediano_est",
+  "p_nse_bajo",
+  "p_nse_medio",
+  "p_nse_alto",
+  "es_cdmx",
+  "sec11_500m",
+  "sec11_1km",
+  "sec21_500m",
+  "sec21_1km",
+  "sec22_500m",
+  "sec22_1km",
+  "sec23_500m",
+  "sec23_1km",
+  "sec31_500m",
+  "sec31_1km",
+  "sec32_500m",
+  "sec32_1km",
+  "sec33_500m",
+  "sec33_1km",
+  "sec43_500m",
+  "sec43_1km",
+  "sec46_500m",
+  "sec46_1km",
+  "sec48_500m",
+  "sec48_1km",
+  "sec49_500m",
+  "sec49_1km",
+  "sec51_500m",
+  "sec51_1km",
+  "sec52_500m",
+  "sec52_1km",
+  "sec53_500m",
+  "sec53_1km",
+  "sec54_500m",
+  "sec54_1km",
+  "sec55_500m",
+  "sec55_1km",
+  "sec56_500m",
+  "sec56_1km",
+  "sec61_500m",
+  "sec61_1km",
+  "sec62_500m",
+  "sec62_1km",
+  "sec71_500m",
+  "sec71_1km",
+  "sec72_500m",
+  "sec72_1km",
+  "sec81_500m",
+  "sec81_1km",
+  "sec93_500m",
+  "sec93_1km",
+  "empleo_500m",
+  "empleo_1km",
+  "estab_500m",
+  "estab_1km",
+  "pob_diurna",
+  "n_establecimientos",
+  "n_escuelas_500m",
+  "n_escuelas_1km",
+  "n_hospitales_500m",
+  "n_hospitales_1km",
+  "n_plazas_500m",
+  "n_plazas_1km",
+  "dist_estacion_m",
+  "dist_metro_m",
+  "afluencia_metro_cercano",
+  "n_estaciones_1km",
+  "afluencia_metro_1km",
+  "comp_huff",
+  "comp_1km",
+  "comp_ageb",
+  "compl_huff",
+  "giro_total_log",
+  "radio_m",
+  "gasto_rubro_ageb",
+  "gasto_area",
+  "pob_obj_ageb",
+  "pob_obj_area",
+  "pob_diurna_area",
+  "nse_fit",
+  "comp_por_10mil_obj"
+ ],
+ "categoricas": [
+  "giro_cod"
+ ],
+ "giros": [
+  "heladeria",
+  "cafeteria",
+  "gimnasio",
+  "farmacia",
+  "papeleria",
+  "lavanderia",
+  "veterinaria",
+  "taqueria",
+  "abarrotes",
+  "barberia_estetica",
+  "consultorio_dental",
+  "guarderia",
+  "ferreteria",
+  "pasteleria",
+  "libreria",
+  "renta_bicicletas",
+  "tortilleria",
+  "fonda",
+  "pizzeria",
+  "optica",
+  "tienda_ropa",
+  "zapateria",
+  "cerrajeria",
+  "taller_mecanico",
+  "purificadora",
+  "panaderia",
+  "tienda_mascotas",
+  "escuela_idiomas",
+  "spa",
+  "cafe_internet",
+  "floreria",
+  "carniceria",
+  "fruteria",
+  "comida_china",
+  "sushi",
+  "bar",
+  "coworking",
+  "consultorio_medico",
+  "laboratorio_clinico",
+  "tienda_celulares"
+ ],
+ "cortes": {
+  "features": "DENUE 11/2020 + Censo 2020",
+  "etiqueta": "aparece en DENUE 05/2026 y no en 11/2020"
+ },
+ "r_empate_m": 50.0,
+ "pliegues": [
+  {
+   "pliegue": 0,
+   "n_test": 47040,
+   "municipios_test": 15,
+   "auc": 0.891752949882523,
+   "iter": 491,
+   "segundos": 9.1
+  },
+  {
+   "pliegue": 1,
+   "n_test": 46960,
+   "municipios_test": 14,
+   "auc": 0.8944495223478685,
+   "iter": 545,
+   "segundos": 10.0
+  },
+  {
+   "pliegue": 2,
+   "n_test": 47040,
+   "municipios_test": 15,
+   "auc": 0.8824264676266301,
+   "iter": 500,
+   "segundos": 9.5
+  },
+  {
+   "pliegue": 3,
+   "n_test": 47000,
+   "municipios_test": 16,
+   "auc": 0.8912982956542079,
+   "iter": 438,
+   "segundos": 8.6
+  },
+  {
+   "pliegue": 4,
+   "n_test": 46960,
+   "municipios_test": 16,
+   "auc": 0.8928652777395204,
+   "iter": 559,
+   "segundos": 10.5
+  }
+ ],
+ "validacion": {
+  "auc_oof_global": 0.891316926298018,
+  "ap_oof_global": 0.8113324303482524,
+  "tasa_base_global": 0.32218297872340423
+ },
+ "etiquetas": {
+  "ids_actual": 1081737,
+  "ids_hist": 996622,
+  "ids_en_ambos": 651710,
+  "actual_solo_con_coord": 430025,
+  "hist_solo_con_coord": 344392,
+  "empatados_por_nombre": 5430,
+  "nuevos": 424595,
+  "nuevos_por_anio_alta": {
+   "2010": 36,
+   "2011": 2,
+   "2012": 1,
+   "2013": 5,
+   "2014": 21,
+   "2016": 19,
+   "2017": 18,
+   "2018": 3,
+   "2019": 24,
+   "2020": 41,
+   "2021": 2285,
+   "2022": 436,
+   "2023": 8221,
+   "2024": 382982,
+   "2025": 16652,
+   "2026": 13849
+  },
+  "hist_sobreviven_pct": 65.95
+ },
+ "sobrevivencia": {
+  "n": 517372,
+  "tasa_sobrevive": 0.684457218403779,
+  "auc_oof": 0.5901839461066878,
+  "ap_oof": 0.7429468830179153,
+  "por_giro": {
+   "abarrotes": {
+    "n": 110544,
+    "tasa": 0.7330293819655522,
+    "auc": 0.5332874567693854
+   },
+   "bar": {
+    "n": 2468,
+    "tasa": 0.539708265802269,
+    "auc": 0.588216517573912
+   },
+   "barberia_estetica": {
+    "n": 44737,
+    "tasa": 0.6440083152647696,
+    "auc": 0.519663219471727
+   },
+   "cafe_internet": {
+    "n": 12295,
+    "tasa": 0.5345262301748678,
+    "auc": 0.5367881350082937
+   },
+   "cafeteria": {
+    "n": 17555,
+    "tasa": 0.6182853887781259,
+    "auc": 0.5539684417400745
+   },
+   "carniceria": {
+    "n": 30740,
+    "tasa": 0.7310344827586207,
+    "auc": 0.5699815810134438
+   },
+   "cerrajeria": {
+    "n": 2850,
+    "tasa": 0.7964912280701755,
+    "auc": 0.5236222087194289
+   },
+   "comida_china": {
+    "n": 252,
+    "tasa": 0.6944444444444444,
+    "auc": 0.5204452690166976
+   },
+   "consultorio_dental": {
+    "n": 13201,
+    "tasa": 0.7316869934095902,
+    "auc": 0.5344035243824582
+   },
+   "consultorio_medico": {
+    "n": 10050,
+    "tasa": 0.6793034825870646,
+    "auc": 0.5396055458830697
+   },
+   "coworking": {
+    "n": 25,
+    "tasa": 0.56,
+    "auc": 0.5
+   },
+   "escuela_idiomas": {
+    "n": 594,
+    "tasa": 0.4898989898989899,
+    "auc": 0.5259489866512425
+   },
+   "farmacia": {
+    "n": 15770,
+    "tasa": 0.7444514901712111,
+    "auc": 0.5402468919221681
+   },
+   "ferreteria": {
+    "n": 14581,
+    "tasa": 0.7851313352993622,
+    "auc": 0.5564625557873033
+   },
+   "floreria": {
+    "n": 6831,
+    "tasa": 0.7807056067925633,
+    "auc": 0.6022413283340222
+   },
+   "fonda": {
+    "n": 22851,
+    "tasa": 0.5647892871209137,
+    "auc": 0.5913383246784947
+   },
+   "fruteria": {
+    "n": 24138,
+    "tasa": 0.6411053111276825,
+    "auc": 0.499938273872673
+   },
+   "gimnasio": {
+    "n": 4522,
+    "tasa": 0.6001769128704113,
+    "auc": 0.5443758722389967
+   },
+   "guarderia": {
+    "n": 928,
+    "tasa": 0.5064655172413793,
+    "auc": 0.5789812319985135
+   },
+   "heladeria": {
+    "n": 4813,
+    "tasa": 0.6064824433825057,
+    "auc": 0.5404676711187997
+   },
+   "laboratorio_clinico": {
+    "n": 1652,
+    "tasa": 0.725181598062954,
+    "auc": 0.5542966250652703
+   },
+   "lavanderia": {
+    "n": 11536,
+    "tasa": 0.6340152565880721,
+    "auc": 0.5147827013131082
+   },
+   "libreria": {
+    "n": 737,
+    "tasa": 0.6390773405698779,
+    "auc": 0.5457193940264675
+   },
+   "optica": {
+    "n": 3513,
+    "tasa": 0.7315684600056931,
+    "auc": 0.5508694001675256
+   },
+   "panaderia": {
+    "n": 9771,
+    "tasa": 0.6650291679459626,
+    "auc": 0.5537834057756567
+   },
+   "papeleria": {
+    "n": 35206,
+    "tasa": 0.7003067658921774,
+    "auc": 0.5281870516376876
+   },
+   "pasteleria": {
+    "n": 2349,
+    "tasa": 0.7232865048957003,
+    "auc": 0.5295956897722642
+   },
+   "pizzeria": {
+    "n": 2686,
+    "tasa": 0.6046165301563663,
+    "auc": 0.5734057406325086
+   },
+   "purificadora": {
+    "n": 6727,
+    "tasa": 0.713393786234577,
+    "auc": 0.530367127833513
+   },
+   "renta_bicicletas": {
+    "n": 9,
+    "tasa": 0.6666666666666666,
+    "auc": 0.2222222222222222
+   },
+   "spa": {
+    "n": 1159,
+    "tasa": 0.5530629853321829,
+    "auc": 0.5258584860768949
+   },
+   "sushi": {
+    "n": 584,
+    "tasa": 0.6523972602739726,
+    "auc": 0.6267923406125958
+   },
+   "taller_mecanico": {
+    "n": 21783,
+    "tasa": 0.7214800532525364,
+    "auc": 0.5202790964542334
+   },
+   "taqueria": {
+    "n": 21019,
+    "tasa": 0.6257195870402968,
+    "auc": 0.5488099253186414
+   },
+   "tienda_celulares": {
+    "n": 6321,
+    "tasa": 0.608764436006961,
+    "auc": 0.5459067597411714
+   },
+   "tienda_mascotas": {
+    "n": 3612,
+    "tasa": 0.6403654485049833,
+    "auc": 0.5557569143446338
+   },
+   "tienda_ropa": {
+    "n": 21819,
+    "tasa": 0.6267931619230945,
+    "auc": 0.5783869834459835
+   },
+   "tortilleria": {
+    "n": 16930,
+    "tasa": 0.7580626107501477,
+    "auc": 0.5463093904314225
+   },
+   "veterinaria": {
+    "n": 3484,
+    "tasa": 0.779276693455798,
+    "auc": 0.5243443567140124
+   },
+   "zapateria": {
+    "n": 6730,
+    "tasa": 0.6976225854383358,
+    "auc": 0.5842486517885879
+   }
+  }
+ },
+ "pesos_score": {
+  "prob_apertura": 0.3,
+  "demanda_neta": 0.25,
+  "pob_neta": 0.15,
+  "flujo": 0.2,
+  "complementarios": 0.1
+ },
+ "top_k": [
+  50,
+  100
+ ],
+ "filas_entrenamiento": 235000,
+ "segundos": 279
+}

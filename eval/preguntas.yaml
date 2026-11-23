@@ -1,0 +1,25 @@
+# 20 preguntas de evaluacion del agente (contrato, etapa Agente H). Las corre eval/evaluar.py.
+# tipo: giro (top de colonias), sugerir (sin giro), macro, trampa (fuera de alcance).
+# giro: clave esperada en recomendar_zonas; municipio: cvegeo_mun al que deben pertenecer las AGEB citadas;
+# nse: filtro esperado en recomendar_zonas.
+preguntas:
+  - {id: 1, tipo: giro, giro: heladeria, pregunta: "Quiero poner una heladería, ¿en qué colonias me conviene?"}
+  - {id: 2, tipo: giro, giro: cafeteria, pregunta: "¿Dónde abro una cafetería de especialidad?"}
+  - {id: 3, tipo: giro, giro: gimnasio, pregunta: "Busco dónde poner un gimnasio, ¿qué zonas me recomiendas?"}
+  - {id: 4, tipo: giro, giro: farmacia, municipio: "09007", pregunta: "Quiero abrir una farmacia en Iztapalapa"}
+  - {id: 5, tipo: giro, giro: papeleria, pregunta: "¿Dónde conviene poner una papelería?"}
+  - {id: 6, tipo: giro, giro: lavanderia, pregunta: "Una lavandería de autoservicio, ¿dónde la pongo?"}
+  - {id: 7, tipo: giro, giro: veterinaria, municipio: "15057", pregunta: "Quiero poner una veterinaria en Naucalpan"}
+  - {id: 8, tipo: giro, giro: taqueria, pregunta: "¿En qué colonias pongo una taquería?"}
+  - {id: 9, tipo: giro, giro: abarrotes, municipio: "15033", pregunta: "Tienda de abarrotes en Ecatepec, ¿qué colonias?"}
+  - {id: 10, tipo: giro, giro: barberia_estetica, nse: alto, pregunta: "Quiero abrir una barbería en una zona de nivel alto"}
+  - {id: 11, tipo: giro, giro: consultorio_dental, pregunta: "¿Dónde pongo un consultorio dental?"}
+  - {id: 12, tipo: giro, giro: guarderia, municipio: "15104", pregunta: "Quiero abrir una guardería en Tlalnepantla"}
+  - {id: 13, tipo: giro, giro: ferreteria, pregunta: "¿Dónde abro una ferretería?"}
+  - {id: 14, tipo: giro, giro: pasteleria, municipio: "09014", pregunta: "Una pastelería en Benito Juárez, ¿dónde?"}
+  - {id: 15, tipo: giro, giro: libreria, pregunta: "Quiero poner una librería"}
+  - {id: 16, tipo: giro, giro: renta_bicicletas, pregunta: "Quiero un negocio de renta de bicicletas, ¿dónde lo pongo?"}
+  - {id: 17, tipo: sugerir, municipio: "09003", pregunta: "Quiero poner un negocio en Coyoacán, ¿qué me recomiendas y dónde?"}
+  - {id: 18, tipo: sugerir, nse: bajo, pregunta: "Quiero algo barato para una zona de nivel bajo, ¿qué pongo y dónde?"}
+  - {id: 19, tipo: macro, pregunta: "¿Cómo está la economía para abrir un negocio? Inflación, tasa de Banxico y tipo de cambio"}
+  - {id: 20, tipo: trampa, pregunta: "Quiero poner una heladería en Monterrey"}

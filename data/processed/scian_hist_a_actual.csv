@@ -1,0 +1,955 @@
+codigo_hist,titulo_hist,codigo_actual,titulo_actual,n,n_total,share,metodo,cambio_codigo
+112511,Camaronicultura,,,1,1,1.0,sin_mapeo,True
+112512,"Piscicultura y otra acuicultura, excepto camaronicultura",112515,Piscicultura en agua dulce,38,43,0.884,empirico,True
+114119,"Pesca y captura de otros peces, crustáceos, moluscos y otras especies",114119,"Pesca y captura de otros peces, crustáceos, moluscos y otras especies",2,3,0.667,empirico,False
+115111,Servicios de fumigación agrícola,115111,Servicios de fumigación agrícola,1,2,0.5,identidad,False
+115113,Beneficio de productos agrícolas,115113,Beneficio de productos agrícolas,6,6,1.0,empirico,False
+115119,Otros servicios relacionados con la agricultura,115119,Otros servicios relacionados con la agricultura,1,3,0.333,empirico,False
+115210,Servicios relacionados con la cría y explotación de animales,115210,Servicios relacionados con la cría y explotación de animales,3,5,0.6,empirico,False
+115310,Servicios relacionados con el aprovechamiento forestal,115310,Servicios relacionados con el aprovechamiento forestal,0,0,,identidad,False
+211111,Extracción de petróleo y gas natural asociado,211111,Extracción de petróleo y gas natural asociado,1,2,0.5,identidad,False
+211112,Extracción de gas natural no asociado,211112,Extracción de gas natural no asociado,2,2,1.0,identidad,False
+212210,Minería de hierro,212210,Minería de hierro,0,0,,identidad,False
+212221,Minería de oro,212221,Minería de oro,2,3,0.667,empirico,False
+212222,Minería de plata,212222,Minería de plata,1,1,1.0,identidad,False
+212231,Minería de cobre,212231,Minería de cobre,0,0,,identidad,False
+212232,Minería de plomo y zinc,212232,Minería de plomo y zinc,1,1,1.0,identidad,False
+212299,Minería de otros minerales metálicos,212299,Minería de otros minerales metálicos,0,0,,identidad,False
+212311,Minería de piedra caliza,212311,Minería de piedra caliza,2,3,0.667,empirico,False
+212319,Minería de otras piedras dimensionadas,212319,Minería de otras piedras dimensionadas,14,15,0.933,empirico,False
+212321,Minería de arena y grava para la construcción,212321,Minería de arena y grava para la construcción,22,22,1.0,empirico,False
+212322,Minería de tezontle y tepetate,212322,Minería de tezontle y tepetate,4,4,1.0,empirico,False
+212324,Minería de sílice,212324,Minería de sílice,0,0,,identidad,False
+212325,Minería de caolín,212325,Minería de caolín,0,0,,identidad,False
+212392,Minería de piedra de yeso,212392,Minería de piedra de yeso,1,1,1.0,identidad,False
+212393,Minería de barita,212393,Minería de barita,1,1,1.0,identidad,False
+212399,Minería de otros minerales no metálicos,212399,Minería de otros minerales no metálicos,2,2,1.0,identidad,False
+213111,Perforación de pozos petroleros y de gas,213111,Perforación de pozos petroleros y de gas,6,9,0.667,empirico,False
+213119,Otros servicios relacionados con la minería,212398,Minería de minerales no metálicos para productos químicos,1,5,0.2,empirico,True
+221111,Generación de electricidad a partir de combustibles fósiles,221123,Comercialización de energía eléctrica,44,106,0.415,empirico,True
+221112,Generación de electricidad a partir de energía hidráulica,221112,Generación de electricidad a partir de energía hidráulica,4,4,1.0,empirico,False
+221113,Generación de electricidad a partir de energía solar,221113,Generación de electricidad a partir de energía solar,27,29,0.931,empirico,False
+221114,Generación de electricidad a partir de energía eólica,221114,Generación de electricidad a partir de energía eólica,33,36,0.917,empirico,False
+221119,Generación de electricidad a partir de otro tipo de energía,221119,Generación de electricidad a partir de otro tipo de energía,1,2,0.5,identidad,False
+221121,Transmisión de energía eléctrica,221121,Transmisión de energía eléctrica,4,11,0.364,empirico,False
+221122,Distribución de energía eléctrica,221122,Distribución de energía eléctrica,1,1,1.0,identidad,False
+221123,Comercialización de energía eléctrica,221123,Comercialización de energía eléctrica,65,80,0.812,empirico,False
+221210,Suministro de gas natural por ductos al consumidor final,221210,Suministro de gas natural por ductos al consumidor final,10,12,0.833,empirico,False
+221311,"Captación, tratamiento y suministro de agua realizados por el sector privado",221311,"Captación, tratamiento y suministro de agua realizados por el sector privado",21,27,0.778,empirico,False
+221312,"Captación, tratamiento y suministro de agua realizados por el sector público",221312,"Captación, tratamiento y suministro de agua realizados por el sector público",766,801,0.956,empirico,False
+236111,Edificación de vivienda unifamiliar,236111,Edificación de vivienda unifamiliar,104,194,0.536,empirico,False
+236112,Edificación de vivienda multifamiliar,236112,Edificación de vivienda multifamiliar,51,100,0.51,empirico,False
+236113,Supervisión de edificación residencial,236113,Supervisión de edificación residencial,15,17,0.882,empirico,False
+236211,"Edificación de naves y plantas industriales, excepto la supervisión",236211,"Edificación de naves y plantas industriales, excepto la supervisión",34,69,0.493,empirico,False
+236212,Supervisión de edificación de naves y plantas industriales,236212,Supervisión de edificación de naves y plantas industriales,2,2,1.0,identidad,False
+236221,"Edificación de inmuebles comerciales y de servicios, excepto la supervisión",236221,"Edificación de inmuebles comerciales y de servicios, y otras edificaciones no residenciales, excepto la supervisión",151,246,0.614,empirico,False
+236222,Supervisión de edificación de inmuebles comerciales y de servicios,236222,"Supervisión de edificación de inmuebles comerciales y de servicios, y otras edificaciones no residenciales",8,9,0.889,empirico,False
+237111,"Construcción de obras para el tratamiento, distribución y suministro de agua y drenaje",237111,"Construcción de obras para el tratamiento, distribución y suministro de agua y drenaje",20,28,0.714,empirico,False
+237112,Construcción de sistemas de riego agrícola,237112,Construcción de sistemas de riego agrícola,1,2,0.5,identidad,False
+237113,"Supervisión de construcción de obras para el tratamiento, distribución y suministro de agua, drenaje y riego",237113,"Supervisión de construcción de obras para el tratamiento, distribución y suministro de agua, drenaje y riego",1,1,1.0,identidad,False
+237121,Construcción de sistemas de distribución de petróleo y gas,237121,Construcción de sistemas de distribución de petróleo y gas,8,18,0.444,empirico,False
+237122,Construcción de plantas de refinería y petroquímica,237122,Construcción de plantas de refinería y petroquímica,4,7,0.571,empirico,False
+237123,Supervisión de construcción de obras para petróleo y gas,237123,Supervisión de construcción de obras para petróleo y gas,2,3,0.667,empirico,False
+237131,Construcción de obras de generación y conducción de energía eléctrica,237131,Construcción de obras de generación y conducción de energía eléctrica,29,47,0.617,empirico,False
+237132,Construcción de obras para telecomunicaciones,237132,Construcción de obras para telecomunicaciones,8,16,0.5,empirico,False
+237133,Supervisión de construcción de obras de generación y conducción de energía eléctrica y de obras para telecomunicaciones,237133,Supervisión de construcción de obras de generación y conducción de energía eléctrica y de obras para telecomunicaciones,1,2,0.5,identidad,False
+237211,División de terrenos,237211,División de terrenos,0,0,,identidad,False
+237212,Construcción de obras de urbanización,237212,Construcción de obras de urbanización,13,34,0.382,empirico,False
+237213,Supervisión de división de terrenos y de construcción de obras de urbanización,237213,Supervisión de división de terrenos y de construcción de obras de urbanización,0,0,,identidad,False
+237311,Instalación de señalamientos y protecciones en obras viales,237311,Instalación de señalamientos y protecciones en obras viales,2,5,0.4,empirico,False
+237312,"Construcción de carreteras, puentes y similares",237312,"Construcción de carreteras, puentes y similares",35,71,0.493,empirico,False
+237313,Supervisión de construcción de vías de comunicación,237313,Supervisión de construcción de vías de comunicación,1,1,1.0,identidad,False
+237991,Construcción de presas y represas,237991,Construcción de presas y represas,0,0,,identidad,False
+237992,"Construcción de obras marítimas, fluviales y subacuáticas",237992,"Construcción de obras marítimas, fluviales y subacuáticas",3,3,1.0,empirico,False
+237993,Construcción de obras para transporte eléctrico y ferroviario,237993,Construcción de obras para transporte eléctrico y ferroviario,9,12,0.75,empirico,False
+237994,Supervisión de construcción de otras obras de ingeniería civil,237994,Supervisión de construcción de otras obras de ingeniería civil,8,11,0.727,empirico,False
+237999,Otras construcciones de ingeniería civil,237999,Otras construcciones de ingeniería civil,1,2,0.5,identidad,False
+238110,Trabajos de cimentaciones,238110,Trabajos de cimentaciones,10,15,0.667,empirico,False
+238121,Montaje de estructuras de concreto prefabricadas,238121,Montaje de estructuras de concreto prefabricadas,1,2,0.5,identidad,False
+238122,Montaje de estructuras de acero prefabricadas,236211,"Edificación de naves y plantas industriales, excepto la supervisión",3,11,0.273,empirico,True
+238130,Trabajos de albañilería,238130,Trabajos de albañilería,13,21,0.619,empirico,False
+238190,Otros trabajos en exteriores,238190,Otros trabajos en exteriores,53,68,0.779,empirico,False
+238210,Instalaciones eléctricas en construcciones,238210,Instalaciones eléctricas en construcciones,111,133,0.835,empirico,False
+238221,Instalaciones hidrosanitarias y de gas,238221,Instalaciones hidrosanitarias y de gas,370,405,0.914,empirico,False
+238222,Instalaciones de sistemas centrales de aire acondicionado y calefacción,238222,Instalaciones de sistemas centrales de aire acondicionado y calefacción,31,37,0.838,empirico,False
+238290,Otras instalaciones y equipamiento en construcciones,238290,Otras instalaciones y equipamiento en construcciones,24,29,0.828,empirico,False
+238311,Colocación de muros falsos y aislamiento,238311,Colocación de muros falsos y aislamiento,26,29,0.897,empirico,False
+238312,"Trabajos de enyesado, empastado y tiroleado",238312,"Trabajos de enyesado, empastado y tiroleado",9,9,1.0,empirico,False
+238320,Trabajos de pintura y otros cubrimientos de paredes,238320,Trabajos de pintura y otros cubrimientos de paredes,8,10,0.8,empirico,False
+238330,Colocación de pisos flexibles y de madera,238330,Colocación de pisos flexibles y de madera,27,31,0.871,empirico,False
+238340,Colocación de pisos cerámicos y azulejos,238340,Colocación de pisos cerámicos y azulejos,9,12,0.75,empirico,False
+238350,Realización de trabajos de carpintería en el lugar de la construcción,238350,Realización de trabajos de carpintería en el lugar de la construcción,13,22,0.591,empirico,False
+238390,Otros trabajos de acabados en edificaciones,238390,Otros trabajos de acabados en edificaciones,42,57,0.737,empirico,False
+238910,Preparación de terrenos para la construcción,238910,Preparación de terrenos para la construcción,10,19,0.526,empirico,False
+238990,Otros trabajos especializados para la construcción,238990,Otros trabajos especializados para la construcción,17,24,0.708,empirico,False
+311110,Elaboración de alimentos para animales,311110,Elaboración de alimentos balanceados para animales,38,43,0.884,empirico,False
+311212,Elaboración de harina de trigo,311212,Elaboración de harina de trigo,9,10,0.9,empirico,False
+311213,Elaboración de harina de maíz,311213,Elaboración de harina de maíz,6,7,0.857,empirico,False
+311214,Elaboración de harina de otros productos agrícolas,311214,Elaboración de harina de otros productos agrícolas,322,336,0.958,empirico,False
+311215,Elaboración de malta,311215,Elaboración de malta,0,0,,identidad,False
+311221,Elaboración de féculas y otros almidones y sus derivados,311221,Elaboración de féculas y otros almidones y sus derivados,4,4,1.0,empirico,False
+311222,Elaboración de aceites y grasas vegetales comestibles,311222,Elaboración de aceites y grasas vegetales comestibles,17,20,0.85,empirico,False
+311230,Elaboración de cereales para el desayuno,311230,Elaboración de cereales para el desayuno,8,8,1.0,empirico,False
+311311,Elaboración de azúcar de caña,311311,Elaboración de azúcar de caña,5,6,0.833,empirico,False
+311319,Elaboración de otros azúcares,311319,Elaboración de otros azúcares,1,2,0.5,identidad,False
+311340,"Elaboración de dulces, chicles y productos de confitería que no sean de chocolate",311340,"Elaboración de dulces, chicles y productos de confitería que no sean de chocolate",181,191,0.948,empirico,False
+311350,Elaboración de chocolate y productos de chocolate,311350,Elaboración de chocolate y productos de chocolate,56,61,0.918,empirico,False
+311411,Congelación de frutas y verduras,311411,Congelación de frutas y verduras,1,1,1.0,identidad,False
+311412,Congelación de guisos y otros alimentos preparados,311412,Congelación de guisos y otros alimentos preparados,4,7,0.571,empirico,False
+311421,Deshidratación de frutas y verduras,311421,Deshidratación de frutas y verduras,1,2,0.5,identidad,False
+311422,Conservación de frutas y verduras por procesos distintos a la congelación y la deshidratación,311422,Conservación de frutas y verduras por procesos distintos a la congelación y la deshidratación,27,36,0.75,empirico,False
+311423,Conservación de guisos y otros alimentos preparados por procesos distintos a la congelación,311423,Conservación de guisos y otros alimentos preparados por procesos distintos a la congelación,55,64,0.859,empirico,False
+311511,Elaboración de leche líquida,311511,Elaboración de leche líquida,4,8,0.5,empirico,False
+311512,"Elaboración de leche en polvo, condensada y evaporada",311512,"Elaboración de leche en polvo, condensada y evaporada",4,4,1.0,empirico,False
+311513,Elaboración de derivados y fermentos lácteos,311513,Elaboración de derivados y fermentos lácteos,113,123,0.919,empirico,False
+311520,Elaboración de helados y paletas,311520,Elaboración de helados y paletas,1425,1521,0.937,empirico,False
+311611,"Matanza de ganado, aves y otros animales comestibles",311611,"Matanza de ganado, aves y otros animales comestibles",24,28,0.857,empirico,False
+311612,"Corte y empacado de carne de ganado, aves y otros animales comestibles",311612,"Corte y empacado de carne de ganado, aves y otros animales comestibles",17,22,0.773,empirico,False
+311613,"Preparación de embutidos y otras conservas de carne de ganado, aves y otros animales comestibles",311613,"Elaboración de embutidos y otras conservas de carne de ganado, aves y otros animales comestibles",73,80,0.912,empirico,False
+311614,Elaboración de manteca y otras grasas animales comestibles,311614,Elaboración de manteca y otras grasas animales comestibles,49,56,0.875,empirico,False
+311710,Preparación y envasado de pescados y mariscos,311710,Preparación y envasado de pescados y mariscos,6,8,0.75,empirico,False
+311811,Panificación industrial,311811,Panificación industrial,14,17,0.824,empirico,False
+311812,Panificación tradicional,311812,Panificación tradicional,6140,6464,0.95,empirico,False
+311813,Elaboración de tortillas de harina de trigo de forma tradicional,311813,Elaboración de tortillas de harina de trigo de forma tradicional,123,141,0.872,empirico,False
+311820,Elaboración de galletas y pastas para sopa,311820,Elaboración de galletas y pastas para sopa,52,57,0.912,empirico,False
+311830,Elaboración de tortillas de maíz y molienda de nixtamal,311830,Elaboración de tortillas de maíz y molienda de nixtamal,12285,12611,0.974,empirico,False
+311910,Elaboración de botanas,311910,Elaboración de botanas,638,690,0.925,empirico,False
+311921,Beneficio del café,311921,Beneficio del café,0,0,,identidad,False
+311922,Elaboración de café tostado y molido,311922,Elaboración de café tostado y molido destinado a unidades que lo comercializan,11,11,1.0,empirico,False
+311923,Elaboración de café instantáneo,311923,Elaboración de café instantáneo,1,1,1.0,identidad,False
+311924,Preparación y envasado de té,311924,Preparación y envasado de té,2,2,1.0,identidad,False
+311930,"Elaboración de concentrados, polvos, jarabes y esencias de sabor para bebidas",311930,"Elaboración de concentrados, polvos, jarabes y esencias de sabor para bebidas",42,48,0.875,empirico,False
+311940,Elaboración de condimentos y aderezos,311940,Elaboración de condimentos y aderezos,17,20,0.85,empirico,False
+311991,Elaboración de gelatinas y otros postres en polvo,311991,Elaboración de gelatinas y otros postres en polvo,4,4,1.0,empirico,False
+311992,Elaboración de levadura,311992,Elaboración de levadura,2,2,1.0,identidad,False
+311993,Elaboración de alimentos frescos para consumo inmediato,722519,Servicios de preparación de otros alimentos para consumo inmediato,14,30,0.467,empirico,True
+311999,Elaboración de otros alimentos,311999,Elaboración de otros alimentos procesados y envasados,25,29,0.862,empirico,False
+312111,Elaboración de refrescos y otras bebidas no alcohólicas,312111,Elaboración de refrescos y otras bebidas no alcohólicas,14,19,0.737,empirico,False
+312112,Purificación y embotellado de agua,312112,Purificación y embotellado de agua,4673,4772,0.979,empirico,False
+312113,Elaboración de hielo,312113,Elaboración de hielo,33,35,0.943,empirico,False
+312120,Elaboración de cerveza,312120,Elaboración de cerveza,7,7,1.0,empirico,False
+312131,Elaboración de bebidas alcohólicas a base de uva,312131,Elaboración de bebidas alcohólicas a base de uva,2,2,1.0,identidad,False
+312132,Elaboración de pulque,312132,Elaboración de pulque,9,13,0.692,empirico,False
+312141,Elaboración de ron y otras bebidas destiladas de caña,312141,Elaboración de ron y otras bebidas destiladas de caña,2,2,1.0,identidad,False
+312142,Elaboración de bebidas destiladas de agave,312144,Elaboración de tequila,5,9,0.556,empirico,True
+312149,Elaboración de otras bebidas destiladas,312149,Elaboración de otras bebidas destiladas,2,2,1.0,identidad,False
+312222,Elaboración de puros y otros productos de tabaco,312222,Elaboración de puros y otros productos de tabaco,1,1,1.0,identidad,False
+313111,Preparación e hilado de fibras duras naturales,313111,Preparación e hilado de fibras duras naturales,6,8,0.75,empirico,False
+313112,Preparación e hilado de fibras blandas naturales,313112,Preparación e hilado de fibras blandas naturales,12,13,0.923,empirico,False
+313113,Fabricación de hilos para coser y bordar,313113,Fabricación de hilos para coser y bordar,20,24,0.833,empirico,False
+313210,Fabricación de telas anchas de tejido de trama,313210,Fabricación de telas anchas de tejido de trama,47,51,0.922,empirico,False
+313220,Fabricación de telas angostas de tejido de trama y pasamanería,313220,Fabricación de telas angostas de tejido de trama y pasamanería,26,32,0.812,empirico,False
+313230,Fabricación de telas no tejidas (comprimidas),313230,Fabricación de telas no tejidas (comprimidas),6,7,0.857,empirico,False
+313240,Fabricación de telas de tejido de punto,313240,Fabricación de telas de tejido de punto,19,21,0.905,empirico,False
+313310,Acabado de productos textiles,313310,Acabado de productos textiles,38,49,0.776,empirico,False
+313320,Fabricación de telas recubiertas,313320,Fabricación de telas recubiertas,20,22,0.909,empirico,False
+314110,Fabricación de alfombras y tapetes,314110,Fabricación de alfombras y tapetes,6,7,0.857,empirico,False
+314120,"Confección de cortinas, blancos y similares",314120,"Confección de cortinas, blancos y similares",115,127,0.906,empirico,False
+314911,Confección de costales,314911,Confección de costales,10,10,1.0,empirico,False
+314912,Confección de productos de textiles recubiertos y de materiales sucedáneos,314912,Confección de productos de textiles recubiertos y de materiales sucedáneos,82,86,0.953,empirico,False
+314991,"Confección, bordado y deshilado de productos textiles",314991,"Confección, bordado y deshilado de productos textiles",366,387,0.946,empirico,False
+314992,Fabricación de redes y otros productos de cordelería,314992,Fabricación de redes y otros productos de cordelería,16,18,0.889,empirico,False
+314993,Fabricación de productos textiles reciclados,314993,Fabricación de borras y estopas,4,11,0.364,empirico,False
+314999,Fabricación de banderas y otros productos textiles no clasificados en otra parte,314999,Fabricación de banderas y otros productos textiles no clasificados en otra parte,3,6,0.5,empirico,False
+315110,Fabricación de calcetines y medias de tejido de punto,315121,Fabricación de calcetines y medias de tejido de punto,17,18,0.944,empirico,True
+315191,Fabricación de ropa interior de tejido de punto,315122,Fabricación de ropa interior de tejido de punto,3,6,0.5,empirico,True
+315192,Fabricación de ropa exterior de tejido de punto,315123,Fabricación de ropa exterior de tejido de punto,64,90,0.711,empirico,True
+315210,"Confección de prendas de vestir de cuero, piel y de materiales sucedáneos",315210,"Confección de prendas de vestir de cuero, piel y materiales sucedáneos",4,9,0.444,empirico,False
+315221,Confección en serie de ropa interior y de dormir,315221,Confección en serie de ropa interior y de dormir,47,51,0.922,empirico,False
+315222,Confección en serie de camisas,315222,Confección en serie de camisas,22,24,0.917,empirico,False
+315223,Confección en serie de uniformes,315223,Confección en serie de uniformes,313,368,0.851,empirico,False
+315224,Confección en serie de disfraces y trajes típicos,315224,Confección en serie de disfraces y trajes típicos,48,66,0.727,empirico,False
+315225,Confección de prendas de vestir sobre medida,315225,Confección de prendas de vestir sobre medida,680,797,0.853,empirico,False
+315229,Confección en serie de otra ropa exterior de materiales textiles,315229,Confección en serie de otra ropa exterior de materiales textiles,747,846,0.883,empirico,False
+315991,Confección de sombreros y gorras,315991,Confección de sombreros y gorras,7,9,0.778,empirico,False
+315999,Confección de otros accesorios y prendas de vestir no clasificados en otra parte,315999,Confección de otros accesorios y prendas de vestir no clasificados en otra parte,37,44,0.841,empirico,False
+316110,Curtido y acabado de cuero y piel,316110,Curtido y acabado de cuero y piel,12,14,0.857,empirico,False
+316211,Fabricación de calzado con corte de piel y cuero,316211,Fabricación de calzado con corte de piel y cuero,72,75,0.96,empirico,False
+316212,Fabricación de calzado con corte de tela,316212,Fabricación de calzado con corte de tela,26,29,0.897,empirico,False
+316213,Fabricación de calzado de plástico,316213,Fabricación de calzado de plástico,51,53,0.962,empirico,False
+316214,Fabricación de calzado de hule,316214,Fabricación de calzado de hule,2,3,0.667,empirico,False
+316219,Fabricación de huaraches y calzado de otro tipo de materiales,316219,Fabricación de huaraches y calzado de otro tipo de materiales,7,8,0.875,empirico,False
+316991,"Fabricación de bolsos de mano, maletas y similares",316991,"Fabricación de bolsos de mano, maletas y similares",86,100,0.86,empirico,False
+316999,"Fabricación de otros productos de cuero, piel y materiales sucedáneos",316999,"Fabricación de otros productos de cuero, piel y materiales sucedáneos",35,43,0.814,empirico,False
+321111,Aserraderos integrados,321111,Aserraderos integrados,2,2,1.0,identidad,False
+321112,Aserrado de tablas y tablones,321112,Aserrado de tablas y tablones,18,24,0.75,empirico,False
+321113,Tratamiento de la madera y fabricación de postes y durmientes,321113,Tratamiento de la madera y fabricación de postes y durmientes,0,0,,identidad,False
+321210,Fabricación de laminados y aglutinados de madera,321210,Fabricación de laminados y aglutinados de madera,10,14,0.714,empirico,False
+321910,Fabricación de productos de madera para la construcción,321910,Fabricación de productos de madera para la construcción,1632,1746,0.935,empirico,False
+321920,Fabricación de productos para embalaje y envases de madera,321920,Fabricación de productos para embalaje y envases de madera,135,143,0.944,empirico,False
+321991,"Fabricación de productos de materiales trenzables, excepto palma",321991,"Fabricación de productos de materiales trenzables, excepto palma",2,3,0.667,empirico,False
+321992,Fabricación de artículos y utensilios de madera para el hogar,321992,Fabricación de artículos y utensilios de madera para el hogar,72,87,0.828,empirico,False
+321993,Fabricación de productos de madera de uso industrial,321993,Fabricación de productos de madera de uso industrial,29,38,0.763,empirico,False
+321999,Fabricación de otros productos de madera,321999,Fabricación de otros productos de madera,30,41,0.732,empirico,False
+322121,Fabricación de papel en plantas integradas,322121,Fabricación de papel en plantas integradas,1,1,1.0,identidad,False
+322122,Fabricación de papel a partir de pulpa,322122,Fabricación de papel a partir de pulpa,20,23,0.87,empirico,False
+322131,Fabricación de cartón en plantas integradas,322131,Fabricación de cartón en plantas integradas,3,5,0.6,empirico,False
+322132,Fabricación de cartón y cartoncillo a partir de pulpa,322132,Fabricación de cartón y cartoncillo a partir de pulpa,17,18,0.944,empirico,False
+322210,Fabricación de envases de cartón,322210,Fabricación de envases de cartón,173,182,0.951,empirico,False
+322220,Fabricación de bolsas de papel y productos celulósicos recubiertos y tratados,322220,Fabricación de bolsas de papel y productos celulósicos recubiertos y tratados,44,47,0.936,empirico,False
+322230,Fabricación de productos de papelería,322230,Fabricación de productos de papelería,33,35,0.943,empirico,False
+322291,Fabricación de pañales desechables y productos sanitarios,322291,Fabricación de pañales desechables y productos sanitarios,10,10,1.0,empirico,False
+322299,Fabricación de otros productos de cartón y papel,322299,Fabricación de otros productos de cartón y papel,181,193,0.938,empirico,False
+323111,"Impresión de libros, periódicos y revistas",323111,"Impresión de libros, periódicos y revistas",82,122,0.672,empirico,False
+323119,Impresión de formas continuas y otros impresos,323119,Impresión de formas continuas y otros impresos,2622,2786,0.941,empirico,False
+323120,Industrias conexas a la impresión,323120,Industrias conexas a la impresión,138,150,0.92,empirico,False
+324110,Refinación de petróleo,324110,Refinación de petróleo,1,1,1.0,identidad,False
+324120,Fabricación de productos de asfalto,324120,Fabricación de productos de asfalto,9,9,1.0,empirico,False
+324191,Fabricación de aceites y grasas lubricantes,324191,Fabricación de aceites y grasas lubricantes,21,25,0.84,empirico,False
+325110,Fabricación de petroquímicos básicos del gas natural y del petróleo refinado,325110,Fabricación de petroquímicos básicos del gas natural y del petróleo refinado,1,2,0.5,identidad,False
+325120,Fabricación de gases industriales,325120,Fabricación de gases industriales,8,8,1.0,empirico,False
+325130,Fabricación de pigmentos y colorantes sintéticos,325130,Fabricación de pigmentos y colorantes sintéticos,22,22,1.0,empirico,False
+325180,Fabricación de otros productos químicos básicos inorgánicos,325180,Fabricación de otros productos químicos básicos inorgánicos,42,50,0.84,empirico,False
+325190,Fabricación de otros productos químicos básicos orgánicos,325190,Fabricación de otros productos químicos básicos orgánicos,25,36,0.694,empirico,False
+325211,Fabricación de resinas sintéticas,325211,Fabricación de resinas sintéticas,57,70,0.814,empirico,False
+325212,Fabricación de hules sintéticos,325212,Fabricación de hules sintéticos,1,2,0.5,identidad,False
+325220,Fabricación de fibras químicas,325220,Fabricación de fibras químicas,3,3,1.0,empirico,False
+325310,Fabricación de fertilizantes,325310,Fabricación de fertilizantes y composta,14,15,0.933,empirico,False
+325320,"Fabricación de pesticidas y otros agroquímicos, excepto fertilizantes",325320,"Fabricación de plaguicidas y otros agroquímicos, excepto fertilizantes y composta",17,19,0.895,empirico,False
+325411,Fabricación de materias primas para la industria farmacéutica,325411,Fabricación de materias primas para la industria farmacéutica,6,8,0.75,empirico,False
+325412,Fabricación de preparaciones farmacéuticas,325412,Fabricación de preparaciones farmacéuticas,198,220,0.9,empirico,False
+325510,Fabricación de pinturas y recubrimientos,325510,Fabricación de pinturas y recubrimientos,70,90,0.778,empirico,False
+325520,Fabricación de adhesivos,325520,Fabricación de adhesivos,32,33,0.97,empirico,False
+325610,"Fabricación de jabones, limpiadores y dentífricos",325610,"Fabricación de jabones, limpiadores y dentífricos",153,166,0.922,empirico,False
+325620,"Fabricación de cosméticos, perfumes y otras preparaciones de tocador",325620,"Fabricación de cosméticos, perfumes y otras preparaciones de tocador",74,89,0.831,empirico,False
+325910,Fabricación de tintas para impresión,325910,Fabricación de tintas para impresión,15,16,0.938,empirico,False
+325920,Fabricación de explosivos,325920,Fabricación de explosivos,0,0,,identidad,False
+325991,Fabricación de cerillos,325991,Fabricación de cerillos,4,4,1.0,empirico,False
+325992,"Fabricación de películas, placas y papel fotosensible para fotografía",325992,"Fabricación de películas, placas y papel fotosensible para fotografía",2,3,0.667,empirico,False
+325993,Fabricación de resinas de plásticos reciclados,325993,Fabricación de resinas de plásticos reciclados,57,63,0.905,empirico,False
+325999,Fabricación de otros productos químicos,325999,Fabricación de otros productos químicos,102,123,0.829,empirico,False
+326110,Fabricación de bolsas y películas de plástico flexible,326110,Fabricación de bolsas y películas de plástico,187,201,0.93,empirico,False
+326120,"Fabricación de tubería y conexiones, y tubos para embalaje",326120,"Fabricación de tubería y conexiones, y tubos para embalaje",47,48,0.979,empirico,False
+326130,Fabricación de laminados de plástico rígido,326130,Fabricación de laminados de plástico,33,35,0.943,empirico,False
+326140,Fabricación de espumas y productos de poliestireno,326140,Fabricación de espumas y productos de poliestireno,25,31,0.806,empirico,False
+326150,Fabricación de espumas y productos de uretano,326150,Fabricación de espumas y productos de uretano,28,32,0.875,empirico,False
+326160,Fabricación de botellas de plástico,326160,Fabricación de botellas de plástico,51,53,0.962,empirico,False
+326191,Fabricación de productos de plástico para el hogar con y sin reforzamiento,326191,Fabricación de productos de plástico para el hogar con y sin reforzamiento,125,138,0.906,empirico,False
+326192,Fabricación de autopartes de plástico con y sin reforzamiento,326192,Fabricación de autopartes de plástico con y sin reforzamiento,36,44,0.818,empirico,False
+326193,Fabricación de envases y contenedores de plástico para embalaje con y sin reforzamiento,326193,Fabricación de envases y contenedores de plástico para embalaje con y sin reforzamiento,150,169,0.888,empirico,False
+326194,Fabricación de otros productos de plástico de uso industrial sin reforzamiento,326194,Fabricación de otros productos de plástico de uso industrial sin reforzamiento,73,84,0.869,empirico,False
+326198,Fabricación de otros productos de plástico con reforzamiento,326198,Fabricación de otros productos de plástico con reforzamiento,30,35,0.857,empirico,False
+326199,Fabricación de otros productos de plástico sin reforzamiento,326199,Fabricación de otros productos de plástico sin reforzamiento,71,88,0.807,empirico,False
+326211,Fabricación de llantas y cámaras,326211,Fabricación de llantas y cámaras,8,10,0.8,empirico,False
+326212,Revitalización de llantas,326212,Revitalización de llantas,3,6,0.5,empirico,False
+326220,Fabricación de bandas y mangueras de hule y de plástico,326220,Fabricación de bandas y mangueras de hule y de plástico,22,26,0.846,empirico,False
+326290,Fabricación de otros productos de hule,326290,Fabricación de otros productos de hule,85,91,0.934,empirico,False
+327111,"Fabricación de artículos de alfarería, porcelana y loza",327111,"Fabricación de artículos de alfarería, porcelana y loza",129,148,0.872,empirico,False
+327112,Fabricación de muebles de baño,327112,Fabricación de muebles de baño,4,4,1.0,empirico,False
+327121,Fabricación de ladrillos no refractarios,327121,Fabricación de ladrillos no refractarios,159,163,0.975,empirico,False
+327122,Fabricación de azulejos y losetas no refractarias,327122,Fabricación de azulejos y losetas no refractarias,12,14,0.857,empirico,False
+327123,Fabricación de productos refractarios,327123,Fabricación de productos refractarios,9,10,0.9,empirico,False
+327211,Fabricación de vidrio,327211,Fabricación de vidrio,13,18,0.722,empirico,False
+327213,Fabricación de envases y ampolletas de vidrio,327213,Fabricación de envases y ampolletas de vidrio,10,13,0.769,empirico,False
+327214,Fabricación de fibra de vidrio,327214,Fabricación de fibra de vidrio,3,12,0.25,empirico,False
+327215,Fabricación de artículos de vidrio de uso doméstico,327215,Fabricación de artículos de vidrio de uso doméstico,25,29,0.862,empirico,False
+327216,Fabricación de artículos de vidrio de uso industrial y comercial,327216,Fabricación de artículos de vidrio de uso industrial y comercial,1,2,0.5,identidad,False
+327219,Fabricación de otros productos de vidrio,327219,Fabricación de otros productos de vidrio,55,66,0.833,empirico,False
+327310,Fabricación de cemento y productos a base de cemento en plantas integradas,327310,Fabricación de cemento y productos a base de cemento en plantas integradas,10,14,0.714,empirico,False
+327320,Fabricación de concreto,327320,Fabricación de concreto,65,69,0.942,empirico,False
+327330,Fabricación de tubos y bloques de cemento y concreto,327330,Fabricación de tubos y bloques de cemento y concreto,249,261,0.954,empirico,False
+327391,Fabricación de productos preesforzados de concreto,327391,Fabricación de productos preesforzados de concreto,24,25,0.96,empirico,False
+327399,Fabricación de otros productos de cemento y concreto,327399,Fabricación de otros productos de cemento y concreto,45,49,0.918,empirico,False
+327410,Fabricación de cal,327410,Fabricación de cal,1,1,1.0,identidad,False
+327420,Fabricación de yeso y productos de yeso,327420,Fabricación de yeso y productos de yeso,76,82,0.927,empirico,False
+327910,Fabricación de productos abrasivos,327910,Fabricación de productos abrasivos,13,13,1.0,empirico,False
+327991,Fabricación de productos a base de piedras de cantera,327991,Fabricación de productos a base de piedras de cantera,277,282,0.982,empirico,False
+327999,Fabricación de otros productos a base de minerales no metálicos,327999,Fabricación de otros productos a base de minerales no metálicos,16,21,0.762,empirico,False
+331112,Fabricación de desbastes primarios y ferroaleaciones,331112,Fabricación de desbastes primarios y ferroaleaciones,1,1,1.0,identidad,False
+331210,Fabricación de tubos y postes de hierro y acero,331210,Fabricación de tubos y postes de hierro y acero,30,34,0.882,empirico,False
+331220,Fabricación de otros productos de hierro y acero,331220,Fabricación de otros productos de hierro y acero,50,58,0.862,empirico,False
+331310,Industria básica del aluminio,331310,Industria básica del aluminio,22,25,0.88,empirico,False
+331411,Fundición y refinación de cobre,331411,Fundición y refinación de cobre,1,1,1.0,identidad,False
+331412,Fundición y refinación de metales preciosos,331412,Fundición y refinación de metales preciosos,1,2,0.5,identidad,False
+331419,Fundición y refinación de otros metales no ferrosos,331419,Fundición y refinación de otros metales no ferrosos,3,4,0.75,empirico,False
+331420,Laminación secundaria de cobre,331420,Laminación secundaria de cobre,11,13,0.846,empirico,False
+331490,Laminación secundaria de otros metales no ferrosos,331490,Laminación secundaria de otros metales no ferrosos,1,1,1.0,identidad,False
+331510,Moldeo por fundición de piezas de hierro y acero,331510,Moldeo por fundición de piezas de hierro y acero,50,55,0.909,empirico,False
+331520,Moldeo por fundición de piezas metálicas no ferrosas,331520,Moldeo por fundición de piezas metálicas no ferrosas,36,45,0.8,empirico,False
+332110,Fabricación de productos metálicos forjados y troquelados,332110,Fabricación de productos metálicos forjados y troquelados,53,60,0.883,empirico,False
+332211,Fabricación de herramientas de mano metálicas sin motor,332211,Fabricación de herramientas de mano metálicas sin motor,39,47,0.83,empirico,False
+332212,Fabricación de utensilios de cocina metálicos,332212,Fabricación de utensilios de cocina metálicos,60,62,0.968,empirico,False
+332310,Fabricación de estructuras metálicas,332310,Fabricación de estructuras metálicas,138,247,0.559,empirico,False
+332320,Fabricación de productos de herrería,332320,Fabricación de productos de herrería,4230,4527,0.934,empirico,False
+332410,Fabricación de calderas industriales,332410,Fabricación de calderas industriales,12,13,0.923,empirico,False
+332420,Fabricación de tanques metálicos de calibre grueso,332420,Fabricación de tanques metálicos de calibre grueso,33,33,1.0,empirico,False
+332430,Fabricación de envases metálicos de calibre ligero,332430,Fabricación de envases metálicos de calibre ligero,28,29,0.966,empirico,False
+332510,Fabricación de herrajes y cerraduras,332510,Fabricación de herrajes y cerraduras,47,57,0.825,empirico,False
+332610,"Fabricación de alambre, productos de alambre y resortes",332610,"Fabricación de alambre, productos de alambre y resortes",136,148,0.919,empirico,False
+332710,Maquinado de piezas metálicas para maquinaria y equipo en general,332710,Maquinado de piezas para maquinaria y equipo en general,916,963,0.951,empirico,False
+332720,"Fabricación de tornillos, tuercas, remaches y similares",332720,"Fabricación de tornillos, tuercas, remaches y similares",49,56,0.875,empirico,False
+332810,Recubrimientos y terminados metálicos,332810,Recubrimientos y terminados metálicos,127,135,0.941,empirico,False
+332910,Fabricación de válvulas metálicas,332910,Fabricación de válvulas metálicas,27,27,1.0,empirico,False
+332991,Fabricación de baleros y rodamientos,332991,Fabricación de baleros o rodamientos,3,3,1.0,empirico,False
+332999,Fabricación de otros productos metálicos,332999,Fabricación de otros productos metálicos,110,147,0.748,empirico,False
+333111,Fabricación de maquinaria y equipo agrícola,333111,Fabricación de maquinaria y equipo agrícola,4,5,0.8,empirico,False
+333112,Fabricación de maquinaria y equipo pecuario,333112,Fabricación de maquinaria y equipo pecuario,2,2,1.0,identidad,False
+333120,Fabricación de maquinaria y equipo para la construcción,333120,Fabricación de maquinaria y equipo para la construcción,6,8,0.75,empirico,False
+333130,Fabricación de maquinaria y equipo para la industria extractiva,333130,Fabricación de maquinaria y equipo para la industria extractiva,3,4,0.75,empirico,False
+333241,Fabricación de maquinaria y equipo para la industria de la madera,333241,Fabricación de maquinaria y equipo para la industria de la madera,2,2,1.0,identidad,False
+333242,Fabricación de maquinaria y equipo para la industria del hule y del plástico,333242,Fabricación de maquinaria y equipo para la industria del hule y del plástico,5,7,0.714,empirico,False
+333243,Fabricación de maquinaria y equipo para la industria alimentaria y de las bebidas,333243,Fabricación de maquinaria y equipo para la industria alimentaria y de las bebidas,42,50,0.84,empirico,False
+333244,Fabricación de maquinaria y equipo para la industria textil,333244,Fabricación de maquinaria y equipo para la industria textil,6,9,0.667,empirico,False
+333245,Fabricación de maquinaria y equipo para la industria de la impresión,333245,Fabricación de maquinaria y equipo para la industria de la impresión,16,27,0.593,empirico,False
+333246,Fabricación de maquinaria y equipo para la industria del vidrio y otros minerales no metálicos,333246,Fabricación de maquinaria y equipo para la industria del vidrio y otros minerales no metálicos,5,5,1.0,empirico,False
+333249,Fabricación de maquinaria y equipo para otras industrias manufactureras,333249,Fabricación de maquinaria y equipo para otras industrias manufactureras,26,32,0.812,empirico,False
+333311,Fabricación de aparatos fotográficos,333311,Fabricación de aparatos fotográficos,1,1,1.0,identidad,False
+333319,Fabricación de otra maquinaria y equipo para el comercio y los servicios,333319,Fabricación de otra maquinaria y equipo para el comercio y los servicios,28,44,0.636,empirico,False
+333411,Fabricación de equipo de aire acondicionado y calefacción,333411,Fabricación de equipo de aire acondicionado y calefacción,33,38,0.868,empirico,False
+333412,Fabricación de equipo de refrigeración industrial y comercial,333412,Fabricación de equipo de refrigeración industrial y comercial,18,19,0.947,empirico,False
+333510,Fabricación de maquinaria y equipo para la industria metalmecánica,333510,Fabricación de maquinaria y equipo para la industria metalmecánica,29,33,0.879,empirico,False
+333610,"Fabricación de motores de combustión interna, turbinas y transmisiones",333610,"Fabricación de motores de combustión interna, turbinas y transmisiones",3,8,0.375,empirico,False
+333910,Fabricación de bombas y sistemas de bombeo,333910,Fabricación de bombas y sistemas de bombeo,22,23,0.957,empirico,False
+333920,Fabricación de maquinaria y equipo para levantar y trasladar,333920,Fabricación de maquinaria y equipo para levantar y trasladar,30,38,0.789,empirico,False
+333991,Fabricación de equipo para soldar y soldaduras,333991,Fabricación de equipo para soldar y soldaduras,13,13,1.0,empirico,False
+333992,Fabricación de maquinaria y equipo para envasar y empacar,333992,Fabricación de maquinaria y equipo para envasar y empacar,9,11,0.818,empirico,False
+333993,Fabricación de aparatos e instrumentos para pesar,333993,Fabricación de aparatos e instrumentos para pesar,3,4,0.75,empirico,False
+333999,Fabricación de otra maquinaria y equipo para la industria en general,333999,Fabricación de otra maquinaria y equipo para la industria en general,27,38,0.711,empirico,False
+334110,Fabricación de computadoras y equipo periférico,334110,Fabricación de computadoras y equipo periférico,3,4,0.75,empirico,False
+334210,Fabricación de equipo telefónico,334210,Fabricación de equipo telefónico,2,2,1.0,identidad,False
+334220,"Fabricación de equipo de transmisión y recepción de señales de radio y televisión, y equipo de comunicación inalámbrico",334220,"Fabricación de equipo de transmisión y recepción de señales de radio y televisión, y equipo de comunicación inalámbrico",7,13,0.538,empirico,False
+334290,Fabricación de otros equipos de comunicación,334290,Fabricación de otros equipos de comunicación,3,3,1.0,empirico,False
+334310,Fabricación de equipo de audio y de video,334310,Fabricación de equipo de audio y de video,3,3,1.0,empirico,False
+334410,Fabricación de componentes electrónicos,334410,Fabricación de componentes electrónicos,21,25,0.84,empirico,False
+334511,Fabricación de relojes,334511,Fabricación de relojes,2,2,1.0,identidad,False
+334519,"Fabricación de otros instrumentos de medición, control, navegación, y equipo médico electrónico",334519,"Fabricación de otros instrumentos de medición, control, navegación, y equipo médico electrónico",21,25,0.84,empirico,False
+334610,Fabricación y reproducción de medios magnéticos y ópticos,334610,Fabricación y reproducción de medios magnéticos y ópticos,4,4,1.0,empirico,False
+335110,Fabricación de focos,335131,Fabricación de focos,15,15,1.0,empirico,True
+335120,Fabricación de lámparas ornamentales,335132,Fabricación de lámparas ornamentales,35,35,1.0,empirico,True
+335210,Fabricación de enseres electrodomésticos menores,335210,Fabricación de enseres electrodomésticos menores,16,17,0.941,empirico,False
+335220,Fabricación de aparatos de línea blanca,335220,Fabricación de aparatos de línea blanca,21,24,0.875,empirico,False
+335311,Fabricación de motores y generadores eléctricos,335311,Fabricación de motores y generadores eléctricos,9,9,1.0,empirico,False
+335312,Fabricación de equipo y aparatos de distribución de energía eléctrica,335312,Fabricación de equipo y aparatos de distribución de energía eléctrica,45,48,0.938,empirico,False
+335910,Fabricación de acumuladores y pilas,335910,Fabricación de acumuladores y pilas,1,1,1.0,identidad,False
+335920,Fabricación de cables de conducción eléctrica,335920,Fabricación de cables de conducción eléctrica,17,19,0.895,empirico,False
+335930,"Fabricación de enchufes, contactos, fusibles y otros accesorios para instalaciones eléctricas",335930,"Fabricación de enchufes, contactos, fusibles y otros accesorios para instalaciones eléctricas",21,23,0.913,empirico,False
+335991,Fabricación de productos eléctricos de carbón y grafito,335991,Fabricación de productos eléctricos de carbón y grafito,2,3,0.667,empirico,False
+335999,Fabricación de otros productos eléctricos,335999,Fabricación de otros productos eléctricos,11,13,0.846,empirico,False
+336110,Fabricación de automóviles y camionetas,336110,Fabricación de automóviles y camionetas,4,4,1.0,empirico,False
+336120,Fabricación de camiones y tractocamiones,336120,Fabricación de camiones y tractocamiones,4,6,0.667,empirico,False
+336210,Fabricación de carrocerías y remolques,336210,Fabricación de carrocerías y remolques,65,69,0.942,empirico,False
+336310,Fabricación de motores y sus partes para vehículos automotrices,336310,Fabricación de motores y sus partes para vehículos automotrices,5,8,0.625,empirico,False
+336320,Fabricación de equipo eléctrico y electrónico y sus partes para vehículos automotores,336320,Fabricación de equipo eléctrico y electrónico y sus partes para vehículos automotores,8,11,0.727,empirico,False
+336330,Fabricación de partes de sistemas de dirección y de suspensión para vehículos automotrices,336330,Fabricación de partes de sistemas de dirección y de suspensión para vehículos automotrices,12,15,0.8,empirico,False
+336340,Fabricación de partes de sistemas de frenos para vehículos automotrices,336340,Fabricación de partes de sistemas de frenos para vehículos automotrices,19,21,0.905,empirico,False
+336350,Fabricación de partes de sistemas de transmisión para vehículos automotores,336350,Fabricación de partes de sistemas de transmisión para vehículos automotores,7,9,0.778,empirico,False
+336360,Fabricación de asientos y accesorios interiores para vehículos automotores,336360,Fabricación de asientos y accesorios interiores para vehículos automotores,35,46,0.761,empirico,False
+336370,Fabricación de piezas metálicas troqueladas para vehículos automotrices,336370,Fabricación de piezas metálicas troqueladas para vehículos automotrices,19,21,0.905,empirico,False
+336390,Fabricación de otras partes para vehículos automotrices,336390,Fabricación de otras partes para vehículos automotrices,34,46,0.739,empirico,False
+336410,Fabricación de equipo aeroespacial,336410,Fabricación de equipo aeroespacial,1,1,1.0,identidad,False
+336510,Fabricación de equipo ferroviario,336510,Fabricación de equipo ferroviario,7,8,0.875,empirico,False
+336610,Fabricación de embarcaciones,336610,Fabricación de embarcaciones,7,7,1.0,empirico,False
+336991,Fabricación de motocicletas,336991,Fabricación de motocicletas,0,0,,identidad,False
+336992,Fabricación de bicicletas y triciclos,336992,Fabricación de bicicletas y triciclos,17,19,0.895,empirico,False
+336999,Fabricación de otro equipo de transporte,336999,Fabricación de otro equipo de transporte,1,2,0.5,identidad,False
+337110,Fabricación de cocinas integrales y muebles modulares de baño,337110,Fabricación de cocinas integrales y muebles modulares de baño,160,179,0.894,empirico,False
+337120,"Fabricación de muebles, excepto cocinas integrales, muebles modulares de baño y muebles de oficina y estantería",337120,"Fabricación de muebles, excepto cocinas integrales, muebles modulares de baño y muebles de oficina y estantería",1855,2016,0.92,empirico,False
+337210,Fabricación de muebles de oficina y estantería,337210,Fabricación de muebles de oficina y estantería,223,247,0.903,empirico,False
+337910,Fabricación de colchones,337910,Fabricación de colchones,55,60,0.917,empirico,False
+337920,Fabricación de persianas y cortineros,337920,Fabricación de persianas y cortineros,43,47,0.915,empirico,False
+339111,"Fabricación de equipo no electrónico para uso médico, dental y para laboratorio",339111,"Fabricación de equipo no electrónico para uso médico, dental y para laboratorio",182,208,0.875,empirico,False
+339112,Fabricación de material desechable de uso médico,339112,Fabricación de material desechable de uso médico,30,34,0.882,empirico,False
+339113,Fabricación de artículos oftálmicos,339113,Fabricación de artículos oftálmicos,100,107,0.935,empirico,False
+339912,Orfebrería y joyería de metales y piedras preciosos,339912,Orfebrería y joyería de metales y piedras preciosos,99,114,0.868,empirico,False
+339913,Joyería de metales y piedras no preciosos y de otros materiales,339913,Joyería de metales y piedras no preciosos y de otros materiales,80,96,0.833,empirico,False
+339914,Metalistería de metales no preciosos,339914,Metalistería de metales no preciosos,62,67,0.925,empirico,False
+339920,Fabricación de artículos deportivos,339920,Fabricación de artículos deportivos,34,37,0.919,empirico,False
+339930,Fabricación de juguetes,339930,Fabricación de juguetes,91,106,0.858,empirico,False
+339940,"Fabricación de artículos y accesorios para escritura, pintura, dibujo y actividades de oficina",339940,"Fabricación de artículos y accesorios para escritura, pintura, dibujo y actividades de oficina",70,75,0.933,empirico,False
+339950,Fabricación de anuncios y señalamientos,339950,Fabricación de anuncios y señalamientos,92,98,0.939,empirico,False
+339991,Fabricación de instrumentos musicales,339991,Fabricación de instrumentos musicales,18,21,0.857,empirico,False
+339992,"Fabricación de cierres, botones y agujas",339992,"Fabricación de cierres, botones y agujas",18,21,0.857,empirico,False
+339993,"Fabricación de escobas, cepillos y similares",339993,"Fabricación de escobas, cepillos y similares",36,39,0.923,empirico,False
+339994,Fabricación de velas y veladoras,339994,Fabricación de velas y veladoras,48,51,0.941,empirico,False
+339995,Fabricación de ataúdes,339995,Fabricación de ataúdes,14,17,0.824,empirico,False
+339999,Otras industrias manufactureras,339999,Otras industrias manufactureras,370,470,0.787,empirico,False
+431110,Comercio al por mayor de abarrotes,431110,Comercio al por mayor de abarrotes,486,813,0.598,empirico,False
+431121,Comercio al por mayor de carnes rojas,431121,Comercio al por mayor de carnes rojas,162,170,0.953,empirico,False
+431122,Comercio al por mayor de carne de aves,431122,Comercio al por mayor de carne de aves,97,102,0.951,empirico,False
+431123,Comercio al por mayor de pescados y mariscos,431123,Comercio al por mayor de pescados y mariscos,122,122,1.0,empirico,False
+431130,Comercio al por mayor de frutas y verduras frescas,431130,Comercio al por mayor de frutas y verduras frescas,291,402,0.724,empirico,False
+431140,Comercio al por mayor de huevo,431140,Comercio al por mayor de huevo,66,68,0.971,empirico,False
+431150,"Comercio al por mayor de semillas y granos alimenticios, especias y chiles secos",431150,"Comercio al por mayor de semillas y granos alimenticios, especias y chiles secos",121,141,0.858,empirico,False
+431160,Comercio al por mayor de leche y otros productos lácteos,431160,Comercio al por mayor de leche y otros productos lácteos,192,207,0.928,empirico,False
+431170,Comercio al por mayor de embutidos,431170,Comercio al por mayor de embutidos,26,27,0.963,empirico,False
+431180,Comercio al por mayor de dulces y materias primas para repostería,431180,Comercio al por mayor de dulces y materias primas para repostería,113,128,0.883,empirico,False
+431191,Comercio al por mayor de pan y pasteles,431191,Comercio al por mayor de pan y pasteles,32,37,0.865,empirico,False
+431192,Comercio al por mayor de botanas y frituras,431192,Comercio al por mayor de botanas y frituras,45,47,0.957,empirico,False
+431193,Comercio al por mayor de conservas alimenticias,431193,Comercio al por mayor de conservas alimenticias,29,33,0.879,empirico,False
+431194,Comercio al por mayor de miel,431194,Comercio al por mayor de miel,1,1,1.0,identidad,False
+431199,Comercio al por mayor de otros alimentos,431199,Comercio al por mayor de otros alimentos,66,82,0.805,empirico,False
+431211,Comercio al por mayor de bebidas no alcohólicas y hielo,431211,Comercio al por mayor de bebidas no alcohólicas y hielo,134,143,0.937,empirico,False
+431212,Comercio al por mayor de vinos y licores,431212,Comercio al por mayor de vinos y licores,45,49,0.918,empirico,False
+431213,Comercio al por mayor de cerveza,431213,Comercio al por mayor de cerveza,39,44,0.886,empirico,False
+431220,"Comercio al por mayor de cigarros, puros y tabaco",431220,"Comercio al por mayor de cigarros, puros y tabaco",16,16,1.0,empirico,False
+432111,"Comercio al por mayor de fibras, hilos y telas",432111,"Comercio al por mayor de fibras, hilos y telas",337,353,0.955,empirico,False
+432112,Comercio al por mayor de blancos,432112,Comercio al por mayor de blancos,11,11,1.0,empirico,False
+432113,Comercio al por mayor de cueros y pieles,432113,Comercio al por mayor de cueros y pieles,76,85,0.894,empirico,False
+432119,Comercio al por mayor de otros productos textiles,432119,Comercio al por mayor de otros productos textiles,95,115,0.826,empirico,False
+432120,"Comercio al por mayor de ropa, bisutería y accesorios de vestir",432120,"Comercio al por mayor de ropa, bisutería y accesorios de vestir",281,357,0.787,empirico,False
+432130,Comercio al por mayor de calzado,432130,Comercio al por mayor de calzado,127,144,0.882,empirico,False
+433110,Comercio al por mayor de productos farmacéuticos,433110,Comercio al por mayor de productos farmacéuticos,312,351,0.889,empirico,False
+433210,Comercio al por mayor de artículos de perfumería y cosméticos,433210,Comercio al por mayor de artículos de perfumería y cosméticos,153,179,0.855,empirico,False
+433220,Comercio al por mayor de artículos de joyería y relojes,433220,Comercio al por mayor de artículos de joyería y relojes,163,182,0.896,empirico,False
+433311,Comercio al por mayor de discos y casetes,433311,Comercio al por mayor de grabaciones de audio y video en medios físicos,9,10,0.9,empirico,False
+433312,Comercio al por mayor de juguetes y bicicletas,433312,Comercio al por mayor de juguetes y bicicletas,117,135,0.867,empirico,False
+433313,Comercio al por mayor de artículos y aparatos deportivos,433313,Comercio al por mayor de artículos y aparatos deportivos,53,63,0.841,empirico,False
+433410,Comercio al por mayor de artículos de papelería,433410,Comercio al por mayor de artículos de papelería,282,336,0.839,empirico,False
+433420,Comercio al por mayor de libros,433420,Comercio al por mayor de libros,46,50,0.92,empirico,False
+433430,Comercio al por mayor de revistas y periódicos,433430,Comercio al por mayor de revistas y periódicos,48,48,1.0,empirico,False
+433510,Comercio al por mayor de electrodomésticos menores y aparatos de línea blanca,433510,Comercio al por mayor de electrodomésticos menores y aparatos de línea blanca,99,123,0.805,empirico,False
+434111,"Comercio al por mayor de fertilizantes, plaguicidas y semillas para siembra",434111,"Comercio al por mayor de fertilizantes, plaguicidas y semillas para siembra",98,111,0.883,empirico,False
+434112,"Comercio al por mayor de medicamentos veterinarios y alimentos para animales, excepto mascotas",434112,"Comercio al por mayor de medicamentos veterinarios y alimentos para animales, excepto mascotas",825,921,0.896,empirico,False
+434211,"Comercio al por mayor de cemento, tabique y grava",434211,"Comercio al por mayor de cemento, tabique y grava",1971,2062,0.956,empirico,False
+434219,"Comercio al por mayor de otros materiales para la construcción, excepto de madera y metálicos",434219,"Comercio al por mayor de otros materiales para la construcción, excepto de madera y metálicos",272,292,0.932,empirico,False
+434221,Comercio al por mayor de materiales metálicos para la construcción y la manufactura,434221,Comercio al por mayor de materiales metálicos para la construcción y la manufactura,645,686,0.94,empirico,False
+434222,Comercio al por mayor de productos químicos para la industria farmacéutica y para otro uso industrial,434222,Comercio al por mayor de productos químicos para la industria farmacéutica y para otro uso industrial,446,487,0.916,empirico,False
+434223,"Comercio al por mayor de envases en general, papel y cartón para la industria",434223,"Comercio al por mayor de envases en general, papel y cartón para la industria",387,432,0.896,empirico,False
+434224,Comercio al por mayor de madera para la construcción y la industria,434224,Comercio al por mayor de madera para la construcción y la industria,956,999,0.957,empirico,False
+434225,Comercio al por mayor de equipo y material eléctrico,434225,Comercio al por mayor de equipo y material eléctrico,1141,1236,0.923,empirico,False
+434226,Comercio al por mayor de pintura,434226,Comercio al por mayor de pintura,153,160,0.956,empirico,False
+434227,Comercio al por mayor de vidrios y espejos,434227,Comercio al por mayor de vidrios y espejos,77,82,0.939,empirico,False
+434228,Comercio al por mayor de ganado y aves en pie,434228,Comercio al por mayor de ganado y aves en pie,51,53,0.962,empirico,False
+434229,Comercio al por mayor de otras materias primas para otras industrias,434229,Comercio al por mayor de otras materias primas para otras industrias,258,342,0.754,empirico,False
+434230,Comercio al por mayor de combustibles de uso industrial,434230,Comercio al por mayor de combustibles,46,55,0.836,empirico,False
+434240,Comercio al por mayor de artículos desechables,434240,Comercio al por mayor de artículos desechables,86,96,0.896,empirico,False
+434311,Comercio al por mayor de desechos metálicos,434311,Comercio al por mayor de desechos metálicos,1701,1792,0.949,empirico,False
+434312,Comercio al por mayor de desechos de papel y de cartón,434312,Comercio al por mayor de desechos de papel y de cartón,515,538,0.957,empirico,False
+434313,Comercio al por mayor de desechos de vidrio,434313,Comercio al por mayor de desechos de vidrio,26,29,0.897,empirico,False
+434314,Comercio al por mayor de desechos de plástico,434314,Comercio al por mayor de desechos de plástico,516,547,0.943,empirico,False
+434319,Comercio al por mayor de otros materiales de desecho,434319,Comercio al por mayor de otros materiales de desecho,238,269,0.885,empirico,False
+435110,"Comercio al por mayor de maquinaria y equipo agropecuario, forestal y para la pesca",435110,"Comercio al por mayor de maquinaria y equipo agropecuario, forestal y para la pesca",46,54,0.852,empirico,False
+435210,Comercio al por mayor de maquinaria y equipo para la construcción y la minería,435210,Comercio al por mayor de maquinaria y equipo para la construcción y la minería,72,81,0.889,empirico,False
+435220,Comercio al por mayor de maquinaria y equipo para la industria manufacturera,435220,Comercio al por mayor de maquinaria y equipo para la industria manufacturera,326,366,0.891,empirico,False
+435311,"Comercio al por mayor de equipo de telecomunicaciones, fotografía y cinematografía",435311,"Comercio al por mayor de equipo de telecomunicaciones, fotografía y cinematografía",179,211,0.848,empirico,False
+435312,Comercio al por mayor de artículos y accesorios para diseño y pintura artística,435312,Comercio al por mayor de artículos y accesorios para diseño y pintura artística,193,249,0.775,empirico,False
+435313,"Comercio al por mayor de mobiliario, equipo e instrumental médico y de laboratorio",435313,"Comercio al por mayor de mobiliario, equipo e instrumental médico y de laboratorio",622,662,0.94,empirico,False
+435319,Comercio al por mayor de maquinaria y equipo para otros servicios y para actividades comerciales,435319,Comercio al por mayor de maquinaria y equipo para otros servicios y para actividades comerciales,508,631,0.805,empirico,False
+435411,"Comercio al por mayor de mobiliario, equipo, y accesorios de cómputo",435411,"Comercio al por mayor de mobiliario, equipo, y accesorios de cómputo",205,221,0.928,empirico,False
+435412,Comercio al por mayor de mobiliario y equipo de oficina,435412,Comercio al por mayor de mobiliario y equipo de oficina,127,144,0.882,empirico,False
+435419,Comercio al por mayor de otra maquinaria y equipo de uso general,435419,Comercio al por mayor de otra maquinaria y equipo de uso general,602,685,0.879,empirico,False
+436111,Comercio al por mayor de camiones,436111,Comercio al por mayor de camiones,67,68,0.985,empirico,False
+436112,"Comercio al por mayor de partes y refacciones nuevas para automóviles, camionetas y camiones",436112,"Comercio al por mayor de partes y refacciones nuevas para automóviles, camionetas y camiones",229,262,0.874,empirico,False
+437111,"Intermediación de comercio al por mayor de productos agropecuarios, excepto a través de Internet y de otros medios electrónicos",437311,Intermediación de comercio al por mayor de productos agropecuarios,6,9,0.667,empirico,True
+437112,"Intermediación de comercio al por mayor de productos para la industria, el comercio y los servicios, excepto a través de Internet y de otros medios electrónicos",437312,"Intermediación de comercio al por mayor de productos para la industria, el comercio y los servicios",10,13,0.769,empirico,True
+437113,"Intermediación de comercio al por mayor para productos de uso doméstico y personal, excepto a través de Internet y de otros medios electrónicos",437313,Intermediación de comercio al por mayor de productos de uso doméstico y personal,5,9,0.556,empirico,True
+437210,Intermediación de comercio al por mayor exclusivamente a través de Internet y otros medios electrónicos,437312,"Intermediación de comercio al por mayor de productos para la industria, el comercio y los servicios",3,6,0.5,empirico,True
+461110,"Comercio al por menor en tiendas de abarrotes, ultramarinos y misceláneas",461110,"Comercio al por menor en tiendas de abarrotes, ultramarinos y misceláneas",75228,76821,0.979,empirico,False
+461121,Comercio al por menor de carnes rojas,461121,Comercio al por menor de carnes rojas,10229,10431,0.981,empirico,False
+461122,Comercio al por menor de carne de aves,461122,Comercio al por menor de carne de aves,11414,11832,0.965,empirico,False
+461123,Comercio al por menor de pescados y mariscos,461123,Comercio al por menor de pescados y mariscos,751,775,0.969,empirico,False
+461130,Comercio al por menor de frutas y verduras frescas,461130,Comercio al por menor de frutas y verduras frescas,13800,14602,0.945,empirico,False
+461140,"Comercio al por menor de semillas y granos alimenticios, especias y chiles secos",461140,"Comercio al por menor de semillas y granos alimenticios, especias y chiles secos",3920,4126,0.95,empirico,False
+461150,"Comercio al por menor de leche, otros productos lácteos y embutidos",461150,"Comercio al por menor de leche, otros productos lácteos y embutidos",5844,6127,0.954,empirico,False
+461160,Comercio al por menor de dulces y materias primas para repostería,461160,Comercio al por menor de dulces y materias primas para repostería,9494,10737,0.884,empirico,False
+461170,Comercio al por menor de paletas de hielo y helados,461170,Comercio al por menor de paletas de hielo y helados,2456,2625,0.936,empirico,False
+461190,Comercio al por menor de otros alimentos,461190,Comercio al por menor de otros alimentos,4997,5570,0.897,empirico,False
+461211,Comercio al por menor de vinos y licores,461211,Comercio al por menor de vinos y licores,824,887,0.929,empirico,False
+461212,Comercio al por menor de cerveza,461212,Comercio al por menor de cerveza,905,1030,0.879,empirico,False
+461213,Comercio al por menor de bebidas no alcohólicas y hielo,461213,Comercio al por menor de bebidas no alcohólicas y hielo,1324,1800,0.736,empirico,False
+461220,"Comercio al por menor de cigarros, puros y tabaco",461220,"Comercio al por menor de cigarros, puros y tabaco",45,54,0.833,empirico,False
+462111,Comercio al por menor en supermercados,462111,Comercio al por menor en supermercados,560,950,0.589,empirico,False
+462112,Comercio al por menor en minisupers,462112,Comercio al por menor en minisupers,3026,4211,0.719,empirico,False
+462210,Comercio al por menor en tiendas departamentales,462210,Comercio al por menor en tiendas departamentales,407,429,0.949,empirico,False
+463111,Comercio al por menor de telas,463111,Comercio al por menor de telas,1051,1104,0.952,empirico,False
+463112,Comercio al por menor de blancos,463112,Comercio al por menor de blancos,635,706,0.899,empirico,False
+463113,Comercio al por menor de artículos de mercería y bonetería,463113,Comercio al por menor de artículos de mercería y bonetería,2705,2971,0.91,empirico,False
+463211,"Comercio al por menor de ropa, excepto de bebé y lencería",463211,"Comercio al por menor de ropa, excepto de bebé y lencería",12696,13527,0.939,empirico,False
+463212,Comercio al por menor de ropa de bebé,463212,Comercio al por menor de ropa de bebé,1009,1109,0.91,empirico,False
+463213,Comercio al por menor de lencería,463213,Comercio al por menor de lencería,1085,1181,0.919,empirico,False
+463214,"Comercio al por menor de disfraces, vestimenta regional y vestidos de novia",463214,"Comercio al por menor de disfraces, trajes típicos y vestidos de novia",1253,1381,0.907,empirico,False
+463215,Comercio al por menor de bisutería y accesorios de vestir,463215,Comercio al por menor de bisutería y accesorios de vestir,1768,2048,0.863,empirico,False
+463216,Comercio al por menor de ropa de cuero y piel y de otros artículos de estos materiales,463216,Comercio al por menor de ropa de cuero y piel y de otros artículos de estos materiales,937,1051,0.892,empirico,False
+463217,Comercio al por menor de pañales desechables,463217,Comercio al por menor de pañales desechables,421,468,0.9,empirico,False
+463218,Comercio al por menor de sombreros,463218,Comercio al por menor de sombreros,159,198,0.803,empirico,False
+463310,Comercio al por menor de calzado,463310,Comercio al por menor de calzado,4363,4619,0.945,empirico,False
+464111,Farmacias sin minisúper,464111,Farmacias sin minisúper,9898,10178,0.972,empirico,False
+464112,Farmacias con minisúper,464112,Farmacias con minisúper,1334,1483,0.9,empirico,False
+464113,"Comercio al por menor de productos naturistas, medicamentos homeopáticos y de complementos alimenticios",464113,"Comercio al por menor de productos naturistas, medicamentos homeopáticos y de complementos alimenticios",2885,3368,0.857,empirico,False
+464121,Comercio al por menor de lentes,464121,Comercio al por menor de lentes,2479,2552,0.971,empirico,False
+464122,Comercio al por menor de artículos ortopédicos,464122,Comercio al por menor de artículos ortopédicos,413,440,0.939,empirico,False
+465111,Comercio al por menor de artículos de perfumería y cosméticos,465111,Comercio al por menor de artículos de perfumería y cosméticos,3700,3940,0.939,empirico,False
+465112,Comercio al por menor de artículos de joyería y relojes,465112,Comercio al por menor de artículos de joyería y relojes,1487,1546,0.962,empirico,False
+465211,Comercio al por menor de discos y casetes,465211,Comercio al por menor de grabaciones de audio y video en medios físicos,584,732,0.798,empirico,False
+465212,Comercio al por menor de juguetes,465212,Comercio al por menor de juguetes,1660,1828,0.908,empirico,False
+465213,Comercio al por menor de bicicletas,465213,Comercio al por menor de bicicletas y triciclos,244,289,0.844,empirico,False
+465214,Comercio al por menor de equipo y material fotográfico,465214,Comercio al por menor de equipo y material fotográfico,85,109,0.78,empirico,False
+465215,Comercio al por menor de artículos y aparatos deportivos,465215,Comercio al por menor de artículos y aparatos deportivos,1702,1863,0.914,empirico,False
+465216,Comercio al por menor de instrumentos musicales,465216,Comercio al por menor de instrumentos musicales,246,264,0.932,empirico,False
+465311,Comercio al por menor de artículos de papelería,465311,Comercio al por menor de artículos de papelería,23741,24561,0.967,empirico,False
+465312,Comercio al por menor de libros,465312,Comercio al por menor de libros,447,470,0.951,empirico,False
+465313,Comercio al por menor de revistas y periódicos,465313,Comercio al por menor de revistas y periódicos,2585,2672,0.967,empirico,False
+465911,Comercio al por menor de mascotas,465911,Comercio al por menor de mascotas y sus accesorios,2179,2305,0.945,empirico,False
+465912,Comercio al por menor de regalos,465912,Comercio al por menor de regalos,5068,5935,0.854,empirico,False
+465913,Comercio al por menor de artículos religiosos,465913,Comercio al por menor de artículos religiosos,680,723,0.941,empirico,False
+465914,Comercio al por menor de artículos desechables,465914,Comercio al por menor de artículos desechables,1546,1716,0.901,empirico,False
+465915,Comercio al por menor en tiendas de artesanías,465915,Comercio al por menor en tiendas de artesanías,1284,1430,0.898,empirico,False
+465919,Comercio al por menor de otros artículos de uso personal,465919,Comercio al por menor de otros artículos de uso personal,961,1178,0.816,empirico,False
+466111,Comercio al por menor de muebles para el hogar,466111,Comercio al por menor de muebles para el hogar,2450,2557,0.958,empirico,False
+466112,Comercio al por menor de electrodomésticos menores y aparatos de línea blanca,466112,Comercio al por menor de electrodomésticos menores y aparatos de línea blanca,802,982,0.817,empirico,False
+466113,Comercio al por menor de muebles para jardín,466113,Comercio al por menor de muebles para jardín,10,14,0.714,empirico,False
+466114,"Comercio al por menor de cristalería, loza y utensilios de cocina",466114,"Comercio al por menor de cristalería, loza y utensilios de cocina",1102,1235,0.892,empirico,False
+466211,"Comercio al por menor de mobiliario, equipo y accesorios de cómputo",466211,"Comercio al por menor de mobiliario, equipo y accesorios de cómputo",496,565,0.878,empirico,False
+466212,Comercio al por menor de teléfonos y otros aparatos de comunicación,466212,Comercio al por menor de teléfonos y otros aparatos de comunicación,3542,3749,0.945,empirico,False
+466311,"Comercio al por menor de alfombras, cortinas, tapices y similares",466311,"Comercio al por menor de alfombras, cortinas, tapices y similares",392,450,0.871,empirico,False
+466312,Comercio al por menor de plantas y flores naturales,466312,Comercio al por menor de plantas y flores naturales,4991,5127,0.973,empirico,False
+466313,Comercio al por menor de antigüedades y obras de arte,466313,Comercio al por menor de antigüedades y obras de arte,106,116,0.914,empirico,False
+466314,Comercio al por menor de lámparas ornamentales y candiles,466314,Comercio al por menor de lámparas ornamentales y candiles,146,167,0.874,empirico,False
+466319,Comercio al por menor de otros artículos para la decoración de interiores,466319,Comercio al por menor de otros artículos para la decoración de interiores,986,1167,0.845,empirico,False
+466410,Comercio al por menor de artículos usados,466410,Comercio al por menor de artículos usados,1705,1986,0.859,empirico,False
+467111,Comercio al por menor en ferreterías y tlapalerías,467111,Comercio al por menor en ferreterías y tlapalerías,10941,11413,0.959,empirico,False
+467112,Comercio al por menor de pisos y recubrimientos cerámicos,467112,Comercio al por menor de pisos y recubrimientos cerámicos,684,720,0.95,empirico,False
+467113,Comercio al por menor de pintura,467113,Comercio al por menor de pintura,2297,2347,0.979,empirico,False
+467114,Comercio al por menor de vidrios y espejos,467114,Comercio al por menor de vidrios y espejos,2937,3037,0.967,empirico,False
+467115,Comercio al por menor de artículos para la limpieza,467115,Comercio al por menor de artículos para la limpieza,7899,8332,0.948,empirico,False
+467116,Comercio al por menor de materiales para la construcción en tiendas de autoservicio especializadas,467116,Comercio al por menor de materiales para la construcción en tiendas de autoservicio especializadas,22,33,0.667,empirico,False
+467117,Comercio al por menor de artículos para albercas y otros artículos,467117,Comercio al por menor de artículos para albercas y otros artículos,37,45,0.822,empirico,False
+468111,Comercio al por menor de automóviles y camionetas nuevos,468111,Comercio al por menor de automóviles y camionetas nuevos,348,362,0.961,empirico,False
+468112,Comercio al por menor de automóviles y camionetas usados,468112,Comercio al por menor de automóviles y camionetas usados,296,330,0.897,empirico,False
+468211,"Comercio al por menor de partes y refacciones nuevas para automóviles, camionetas y camiones",468211,"Comercio al por menor de partes y refacciones nuevas para automóviles, camionetas y camiones",5665,6060,0.935,empirico,False
+468212,"Comercio al por menor de partes y refacciones usadas para automóviles, camionetas y camiones",468212,"Comercio al por menor de partes y refacciones usadas para automóviles, camionetas y camiones",872,928,0.94,empirico,False
+468213,"Comercio al por menor de llantas y cámaras para automóviles, camionetas y camiones",468213,"Comercio al por menor de llantas y cámaras para automóviles, camionetas y camiones",559,574,0.974,empirico,False
+468311,Comercio al por menor de motocicletas,468311,Comercio al por menor de motocicletas,434,476,0.912,empirico,False
+468319,Comercio al por menor de otros vehículos de motor,468319,Comercio al por menor de otros vehículos de motor,8,10,0.8,empirico,False
+468411,Comercio al por menor de gasolina y diesel,468411,Comercio al por menor de gasolina y diésel,1052,1062,0.991,empirico,False
+468412,Comercio al por menor de gas L.P. en cilindros y para tanques estacionarios,468412,Comercio al por menor de gas LP en cilindros y para tanques estacionarios,228,243,0.938,empirico,False
+468413,Comercio al por menor de gas L.P. en estaciones de carburación,468413,Comercio al por menor de gas LP en estaciones de carburación,66,73,0.904,empirico,False
+468414,Comercio al por menor en estaciones de gas natural vehicular,468414,Comercio al por menor en estaciones de gas natural vehicular,5,9,0.556,empirico,False
+468419,Comercio al por menor de otros combustibles,468419,Comercio al por menor de otros combustibles,273,286,0.955,empirico,False
+468420,"Comercio al por menor de aceites y grasas lubricantes, aditivos y similares para vehículos de motor",468420,"Comercio al por menor de aceites y grasas lubricantes, aditivos y similares para vehículos de motor",956,1016,0.941,empirico,False
+469110,"Comercio al por menor exclusivamente a través de Internet, y catálogos impresos, televisión y similares",469110,"Intermediación de comercio al por menor, y comercio al por menor a través de catálogos impresos, televisión y similares",31,48,0.646,empirico,False
+481111,Transporte aéreo regular en líneas aéreas nacionales,481111,Transporte aéreo regular en líneas aéreas nacionales,30,35,0.857,empirico,False
+481112,Transporte aéreo regular en líneas aéreas extranjeras,481112,Transporte aéreo regular en líneas aéreas extranjeras,31,34,0.912,empirico,False
+481210,Transporte aéreo no regular,481210,Transporte aéreo no regular,11,13,0.846,empirico,False
+482110,Transporte por ferrocarril,482110,Transporte por ferrocarril,6,6,1.0,empirico,False
+483111,"Transporte marítimo de altura, excepto de petróleo y gas natural",483113,Transporte marítimo de petróleo y gas natural,2,4,0.5,empirico,True
+483112,"Transporte marítimo de cabotaje, excepto de petróleo y gas natural",483112,"Transporte marítimo de cabotaje, excepto de petróleo y gas natural",3,3,1.0,empirico,False
+483113,Transporte marítimo de petróleo y gas natural,483113,Transporte marítimo de petróleo y gas natural,1,1,1.0,identidad,False
+483210,Transporte por aguas interiores,483210,Transporte por aguas interiores,0,0,,identidad,False
+484111,Autotransporte local de productos agrícolas sin refrigeración,484111,Autotransporte local de productos agrícolas sin refrigeración,1,2,0.5,identidad,False
+484119,Otro autotransporte local de carga general,484119,Otro autotransporte local de carga general,70,87,0.805,empirico,False
+484121,Autotransporte foráneo de productos agrícolas sin refrigeración,484121,Autotransporte foráneo de productos agrícolas sin refrigeración,8,9,0.889,empirico,False
+484129,Otro autotransporte foráneo de carga general,484129,Otro autotransporte foráneo de carga general,506,551,0.918,empirico,False
+484210,Servicios de mudanzas,484210,Servicios de mudanzas,188,194,0.969,empirico,False
+484221,Autotransporte local de materiales para la construcción,484221,Autotransporte local de materiales para la construcción,11,16,0.688,empirico,False
+484222,Autotransporte local de materiales y residuos peligrosos,484222,Autotransporte local de materiales y residuos peligrosos,5,9,0.556,empirico,False
+484223,Autotransporte local con refrigeración,484223,Autotransporte local con refrigeración,3,7,0.429,empirico,False
+484224,Autotransporte local de madera,484224,Autotransporte local de madera,1,1,1.0,identidad,False
+484229,Otro autotransporte local de carga especializado,484229,Otro autotransporte local de carga especializado,34,45,0.756,empirico,False
+484231,Autotransporte foráneo de materiales para la construcción,484231,Autotransporte foráneo de materiales para la construcción,21,30,0.7,empirico,False
+484232,Autotransporte foráneo de materiales y residuos peligrosos,484232,Autotransporte foráneo de materiales y residuos peligrosos,51,56,0.911,empirico,False
+484233,Autotransporte foráneo con refrigeración,484233,Autotransporte foráneo con refrigeración,29,31,0.935,empirico,False
+484239,Otro autotransporte foráneo de carga especializado,484239,Otro autotransporte foráneo de carga especializado,64,83,0.771,empirico,False
+485111,Transporte colectivo urbano y suburbano de pasajeros en autobuses de ruta fija,485111,Transporte colectivo urbano y suburbano de pasajeros en autobuses de ruta fija,149,165,0.903,empirico,False
+485113,Transporte colectivo urbano y suburbano de pasajeros en trolebuses y trenes ligeros,485113,Transporte colectivo urbano y suburbano de pasajeros en trolebuses y trenes ligeros,25,25,1.0,empirico,False
+485114,Transporte colectivo urbano y suburbano de pasajeros en metro,485114,Transporte colectivo urbano y suburbano de pasajeros en metro,138,138,1.0,empirico,False
+485115,Transporte colectivo urbano y suburbano de pasajeros en autobuses que transitan en carril exclusivo,485115,Transporte colectivo urbano y suburbano de pasajeros en autobuses que transitan en carril exclusivo,5,6,0.833,empirico,False
+485210,Transporte colectivo foráneo de pasajeros de ruta fija,485210,Transporte colectivo foráneo de pasajeros de ruta fija,195,210,0.929,empirico,False
+485320,Alquiler de automóviles con chofer,485320,Alquiler de automóviles con chofer,10,13,0.769,empirico,False
+485410,Transporte escolar y de personal,485410,Transporte escolar y de personal,24,27,0.889,empirico,False
+485510,Alquiler de autobuses con chofer,485510,Alquiler de autobuses con chofer,48,51,0.941,empirico,False
+485990,Otro transporte terrestre de pasajeros,485990,Otro transporte terrestre de pasajeros,2,3,0.667,empirico,False
+486110,Transporte de petróleo crudo por ductos,486110,Transporte de petróleo crudo por ductos,0,0,,identidad,False
+486210,Transporte de gas natural por ductos,486210,Transporte de gas natural por ductos,19,19,1.0,empirico,False
+486910,Transporte por ductos de productos refinados del petróleo,486910,Transporte por ductos de productos refinados del petróleo,1,1,1.0,identidad,False
+487110,Transporte turístico por tierra,487110,Transporte turístico por tierra,12,28,0.429,empirico,False
+487210,Transporte turístico por agua,487210,Transporte turístico por agua,1,2,0.5,identidad,False
+487990,Otro transporte turístico,487990,Otro transporte turístico,2,2,1.0,identidad,False
+488111,Servicios a la navegación aérea,488111,Servicios a la navegación aérea,2,2,1.0,identidad,False
+488112,Administración de aeropuertos y helipuertos,488112,Administración de aeropuertos y helipuertos,8,8,1.0,empirico,False
+488190,Otros servicios relacionados con el transporte aéreo,488190,Otros servicios relacionados con el transporte aéreo,21,24,0.875,empirico,False
+488210,Servicios relacionados con el transporte por ferrocarril,488210,Servicios relacionados con el transporte por ferrocarril,1,2,0.5,identidad,False
+488310,Administración de puertos y muelles,488310,Administración de puertos y muelles,1,1,1.0,identidad,False
+488320,Servicios de carga y descarga para el transporte por agua,488320,Servicios de carga y descarga para el transporte por agua,4,4,1.0,empirico,False
+488330,Servicios para la navegación por agua,488330,Servicios para la navegación por agua,4,4,1.0,empirico,False
+488390,Otros servicios relacionados con el transporte por agua,488390,Otros servicios relacionados con el transporte por agua,3,5,0.6,empirico,False
+488410,Servicios de grúa,488410,Servicios de grúa,112,115,0.974,empirico,False
+488491,Servicios de administración de centrales camioneras,488491,Servicios de administración de centrales camioneras,8,9,0.889,empirico,False
+488492,"Servicios de administración de carreteras, puentes y servicios auxiliares",488492,"Servicios de administración de carreteras, puentes y servicios auxiliares",45,45,1.0,empirico,False
+488493,Servicios de báscula para el transporte y otros servicios relacionados con el transporte por carretera,488493,Servicios de báscula para el transporte y otros servicios relacionados con el transporte por carretera,21,22,0.955,empirico,False
+488511,Servicios de agencias aduanales,488511,Servicios de agencias aduanales,161,166,0.97,empirico,False
+488519,Otros servicios de intermediación para el transporte de carga,488519,Otros servicios de intermediación para el transporte de carga,280,332,0.843,empirico,False
+488990,Otros servicios relacionados con el transporte,488990,Otros servicios relacionados con el transporte,15,26,0.577,empirico,False
+491110,Servicios postales,491110,Servicios postales,127,128,0.992,empirico,False
+492110,Servicios de mensajería y paquetería foránea,492110,Servicios de mensajería y paquetería foránea,333,399,0.835,empirico,False
+492210,Servicios de mensajería y paquetería local,492210,Servicios de mensajería y paquetería local,10,19,0.526,empirico,False
+493111,Almacenes generales de depósito,493111,Almacenes generales de depósito,16,21,0.762,empirico,False
+493119,Otros servicios de almacenamiento general sin instalaciones especializadas,493119,Otros servicios de almacenamiento general sin instalaciones especializadas,37,53,0.698,empirico,False
+493120,Almacenamiento con refrigeración,493120,Almacenamiento con refrigeración,35,38,0.921,empirico,False
+493130,Almacenamiento de productos agrícolas que no requieren refrigeración,493130,Almacenamiento de productos agrícolas que no requieren refrigeración,3,5,0.6,empirico,False
+493190,Otros servicios de almacenamiento con instalaciones especializadas,493190,Otros servicios de almacenamiento con instalaciones especializadas,9,10,0.9,empirico,False
+511111,Edición de periódicos,513111,Edición de periódicos en formato electrónico,7,13,0.538,empirico,True
+511112,Edición de periódicos integrada con la impresión,513112,Edición de periódicos integrada con la impresión,23,29,0.793,empirico,True
+511121,Edición de revistas y otras publicaciones periódicas,513121,Edición de revistas y otras publicaciones periódicas en formato electrónico,24,24,1.0,empirico,True
+511122,Edición de revistas y otras publicaciones periódicas integrada con la impresión,513122,Edición de revistas y otras publicaciones periódicas integrada con la impresión,18,21,0.857,empirico,True
+511131,Edición de libros,513131,Edición de libros en formato electrónico,33,37,0.892,empirico,True
+511132,Edición de libros integrada con la impresión,513132,Edición de libros integrada con la impresión,29,30,0.967,empirico,True
+511141,Edición de directorios y de listas de correo,,,1,1,1.0,sin_mapeo,True
+511142,Edición de directorios y de listas de correo integrada con la impresión,,,0,0,,sin_mapeo,True
+511191,Edición de otros materiales,513191,Edición de otros materiales en formato electrónico,3,4,0.75,empirico,True
+511192,Edición de otros materiales integrada con la impresión,541430,Diseño gráfico,7,16,0.438,empirico,True
+511210,Edición de software y edición de software integrada con la reproducción,513210,Edición de software,27,29,0.931,empirico,True
+512111,Producción de películas,512111,Producción de películas,23,24,0.958,empirico,False
+512112,Producción de programas para la televisión,512112,Producción de programas para la televisión,15,16,0.938,empirico,False
+512113,"Producción de videoclips, comerciales y otros materiales audiovisuales",512113,"Producción de videoclips, comerciales y otros materiales audiovisuales",32,35,0.914,empirico,False
+512120,Distribución de películas y de otros materiales audiovisuales,512120,Distribución de películas y de otros materiales audiovisuales,10,10,1.0,empirico,False
+512130,Exhibición de películas y otros materiales audiovisuales,512130,Exhibición de películas y otros materiales audiovisuales,180,181,0.994,empirico,False
+512190,Servicios de postproducción y otros servicios para la industria fílmica y del video,512190,Servicios de postproducción y otros servicios para la industria fílmica y del video,13,14,0.929,empirico,False
+512230,Editoras de música,512230,Editoras de música,7,7,1.0,empirico,False
+512240,Grabación de discos compactos (CD) y de video digital (DVD) o casetes musicales,512240,Grabación de discos compactos (CD) y de video digital (DVD) o casetes musicales,12,13,0.923,empirico,False
+512250,Productoras y distribuidoras discográficas,512250,Productoras y distribuidoras discográficas,5,7,0.714,empirico,False
+512290,Otros servicios de grabación del sonido,512290,Otros servicios de grabación del sonido,3,3,1.0,empirico,False
+515110,Transmisión de programas de radio,516110,Estaciones de transmisión de programas de radio,51,61,0.836,empirico,True
+515120,Transmisión de programas de televisión,516120,Estaciones de transmisión de programas de televisión,19,20,0.95,empirico,True
+515210,Producción de programación de canales para sistemas de televisión por cable o satelitales,516210,"Servicios de distribución de audio y video en tiempo real (streaming), redes sociales, cadenas de radio y televisión y otros proveedores de contenido",7,9,0.778,empirico,True
+517311,Operadores de servicios de telecomunicaciones alámbricas,517311,Operadores de servicios de telecomunicaciones alámbricas,188,199,0.945,empirico,False
+517312,Operadores de servicios de telecomunicaciones inalámbricas,517312,Operadores de servicios de telecomunicaciones inalámbricas,199,201,0.99,empirico,False
+517410,Operadores de servicios de telecomunicaciones vía satélite,517410,Operadores de servicios de telecomunicaciones vía satélite,10,17,0.588,empirico,False
+517910,Otros servicios de telecomunicaciones,517910,Otros servicios de telecomunicaciones,216,255,0.847,empirico,False
+518210,"Procesamiento electrónico de información, hospedaje y otros servicios relacionados",518210,"Provisión de infraestructura de servicios de cómputo, procesamiento de datos, hospedaje de páginas de internet y otros servicios relacionados",34,41,0.829,empirico,False
+519110,Agencias noticiosas,516210,"Servicios de distribución de audio y video en tiempo real (streaming), redes sociales, cadenas de radio y televisión y otros proveedores de contenido",6,7,0.857,empirico,True
+519121,Bibliotecas y archivos del sector privado,519211,Bibliotecas y archivos del sector privado,17,18,0.944,empirico,True
+519122,Bibliotecas y archivos del sector público,519212,Bibliotecas y archivos del sector público,520,527,0.987,empirico,True
+519130,Edición y difusión de contenido exclusivamente a través de Internet y servicios de búsqueda en la red,519290,Portales de búsqueda en la red y otros servicios de suministro de información,5,9,0.556,empirico,True
+519190,Otros servicios de suministro de información,,,2,2,1.0,sin_mapeo,True
+521110,Banca central,521110,Banca central,12,13,0.923,empirico,False
+522110,Banca múltiple,522110,Banca múltiple,2570,2577,0.997,empirico,False
+522210,Banca de desarrollo,522210,Banca de desarrollo,84,86,0.977,empirico,False
+522220,Fondos y fideicomisos financieros,522220,Fondos y fideicomisos financieros,31,33,0.939,empirico,False
+522310,Uniones de crédito,522310,Uniones de crédito,8,8,1.0,empirico,False
+522320,Cajas de ahorro popular,522320,"Cajas, cooperativas y sociedades financieras de ahorro y préstamo popular",188,199,0.945,empirico,False
+522390,Otras instituciones de ahorro y préstamo,522390,Otras instituciones de ahorro y préstamo,5,12,0.417,empirico,False
+522440,Compañías de autofinanciamiento,522440,Compañías de autofinanciamiento,18,20,0.9,empirico,False
+522451,Montepíos,522451,Montepíos,261,261,1.0,empirico,False
+522452,Casas de empeño,522452,Casas de empeño,604,638,0.947,empirico,False
+522460,Sociedades financieras de objeto múltiple,522460,Sociedades financieras de objeto múltiple,266,320,0.831,empirico,False
+522490,Otras instituciones de intermediación crediticia y financiera no bursátil,522490,Otras instituciones de intermediación crediticia y financiera no bursátil,27,42,0.643,empirico,False
+522510,Servicios relacionados con la intermediación crediticia no bursátil,522510,Servicios relacionados con la intermediación crediticia no bursátil,26,34,0.765,empirico,False
+523110,Casas de bolsa,523110,Casas de bolsa,41,43,0.953,empirico,False
+523121,Casas de cambio,523121,Casas de cambio,6,7,0.857,empirico,False
+523122,Centros cambiarios,523122,Centros cambiarios,115,117,0.983,empirico,False
+523210,Bolsa de valores,523210,Bolsa de valores,8,8,1.0,empirico,False
+523910,Asesoría en inversiones,523910,Asesoría en inversiones,9,13,0.692,empirico,False
+523990,Otros servicios relacionados con la intermediación bursátil,523990,Otros servicios relacionados con la intermediación bursátil,28,33,0.848,empirico,False
+524110,Compañías de seguros,524110,Compañías de seguros,171,178,0.961,empirico,False
+524120,Fondos de aseguramiento campesino,524120,Fondos de aseguramiento campesino,0,0,,identidad,False
+524130,Compañías afianzadoras,524130,Compañías afianzadoras,14,15,0.933,empirico,False
+524210,"Agentes, ajustadores y gestores de seguros y fianzas",524210,"Agentes, ajustadores y gestores de seguros y fianzas",343,369,0.93,empirico,False
+524220,Administración de cajas de pensión y de seguros independientes,524220,Administración de fondos para el retiro,49,50,0.98,empirico,False
+525210,Fondos de inversión,525210,Fondos de inversión,0,0,,identidad,False
+531111,Alquiler sin intermediación de viviendas amuebladas,531111,Alquiler sin intermediación de viviendas amuebladas,9,12,0.75,empirico,False
+531112,Alquiler sin intermediación de viviendas no amuebladas,531112,Alquiler sin intermediación de viviendas no amuebladas,13,15,0.867,empirico,False
+531113,Alquiler sin intermediación de salones para fiestas y convenciones,531113,Alquiler sin intermediación de salones para fiestas y convenciones,2345,2415,0.971,empirico,False
+531114,Alquiler sin intermediación de oficinas y locales comerciales,531114,Alquiler sin intermediación de oficinas y locales comerciales,268,287,0.934,empirico,False
+531115,"Alquiler sin intermediación de teatros, estadios, auditorios y similares",531115,"Alquiler sin intermediación de teatros, estadios, auditorios y similares",13,13,1.0,empirico,False
+531116,Alquiler sin intermediación de edificios industriales dentro de un parque industrial,531116,Alquiler sin intermediación de edificios industriales dentro de un parque industrial,12,15,0.8,empirico,False
+531119,Alquiler sin intermediación de otros bienes raíces,531119,Alquiler sin intermediación de otros bienes raíces,76,87,0.874,empirico,False
+531210,Inmobiliarias y corredores de bienes raíces,531210,Inmobiliarias y corredores de bienes raíces,635,692,0.918,empirico,False
+531311,Servicios de administración de bienes raíces,531311,Servicios de administración de bienes raíces,758,796,0.952,empirico,False
+531319,Otros servicios relacionados con los servicios inmobiliarios,531319,Otros servicios relacionados con los servicios inmobiliarios,156,178,0.876,empirico,False
+532110,Alquiler de automóviles sin chofer,532110,Alquiler de automóviles sin chofer,98,100,0.98,empirico,False
+532121,Alquiler de camiones de carga sin chofer,532121,Alquiler de camiones de carga sin chofer,7,9,0.778,empirico,False
+532122,"Alquiler de autobuses, minibuses y remolques sin chofer",532122,"Alquiler de autobuses, minibuses y remolques sin chofer",23,24,0.958,empirico,False
+532210,Alquiler de aparatos eléctricos y electrónicos para el hogar y personales,532210,Alquiler de aparatos eléctricos y electrónicos para el hogar y personales,3,4,0.75,empirico,False
+532281,Alquiler de prendas de vestir,532281,Alquiler de prendas de vestir,235,247,0.951,empirico,False
+532282,"Alquiler de mesas, sillas, vajillas y similares",532282,"Alquiler de mesas, sillas, vajillas y similares",1127,1185,0.951,empirico,False
+532289,Alquiler de otros artículos para el hogar y personales,532289,Alquiler de otros artículos para el hogar y personales,38,51,0.745,empirico,False
+532310,Centros generales de alquiler,532310,Centros generales de alquiler,86,98,0.878,empirico,False
+532411,"Alquiler de maquinaria y equipo para construcción, minería y actividades forestales",532411,"Alquiler de maquinaria y equipo para construcción, minería y actividades forestales",242,260,0.931,empirico,False
+532412,"Alquiler de equipo de transporte, excepto terrestre",532412,"Alquiler de equipo de transporte, excepto terrestre",6,6,1.0,empirico,False
+532420,Alquiler de equipo de cómputo y de otras máquinas y mobiliario de oficina,532420,Alquiler de equipo de cómputo y de otras máquinas y mobiliario de oficina,29,37,0.784,empirico,False
+532491,"Alquiler de maquinaria y equipo agropecuario, pesquero y para la industria manufacturera",532491,"Alquiler de maquinaria y equipo agropecuario, pesquero y para la industria manufacturera",8,8,1.0,empirico,False
+532492,"Alquiler de maquinaria y equipo para mover, levantar y acomodar materiales",532492,"Alquiler de maquinaria y equipo para mover, levantar y acomodar materiales",73,78,0.936,empirico,False
+532493,Alquiler de maquinaria y equipo comercial y de servicios,532493,Alquiler de maquinaria y equipo comercial y de servicios,88,94,0.936,empirico,False
+533110,"Servicios de alquiler de marcas registradas, patentes y franquicias",533110,"Servicios de alquiler de marcas registradas, patentes y franquicias",6,6,1.0,empirico,False
+541110,Bufetes jurídicos,541110,Bufetes jurídicos,1777,1829,0.972,empirico,False
+541120,Notarías públicas,541120,Notarías públicas,270,272,0.993,empirico,False
+541190,Servicios de apoyo para efectuar trámites legales,541190,Servicios de apoyo para efectuar trámites legales,322,359,0.897,empirico,False
+541211,Servicios de contabilidad y auditoría,541211,Servicios de contabilidad y auditoría,1118,1173,0.953,empirico,False
+541219,Otros servicios relacionados con la contabilidad,541219,Otros servicios técnicos relacionados con la contabilidad,38,64,0.594,empirico,False
+541310,Servicios de arquitectura,541310,Servicios de arquitectura,234,251,0.932,empirico,False
+541320,Servicios de arquitectura de paisaje y urbanismo,541320,Servicios de arquitectura de paisaje y urbanismo,11,12,0.917,empirico,False
+541330,Servicios de ingeniería,541330,Servicios de ingeniería,228,248,0.919,empirico,False
+541340,Servicios de dibujo,541340,Servicios de dibujo,50,61,0.82,empirico,False
+541350,Servicios de inspección de edificios,541350,Servicios de inspección de edificios,14,16,0.875,empirico,False
+541360,Servicios de levantamiento geofísico,541360,Servicios de levantamiento geofísico,12,12,1.0,empirico,False
+541370,Servicios de elaboración de mapas,541370,Servicios de elaboración de mapas,8,10,0.8,empirico,False
+541380,Laboratorios de pruebas,541380,Servicios de laboratorios de pruebas,78,87,0.897,empirico,False
+541410,Diseño y decoración de interiores,541410,Diseño y decoración de interiores,68,79,0.861,empirico,False
+541420,Diseño industrial,541420,Diseño industrial,20,21,0.952,empirico,False
+541430,Diseño gráfico,541430,Diseño gráfico,287,320,0.897,empirico,False
+541490,Diseño de modas y otros diseños especializados,541490,Diseño de modas y otros diseños especializados,22,25,0.88,empirico,False
+541510,Servicios de diseño de sistemas de cómputo y servicios relacionados,541510,Servicios de diseño de sistemas de cómputo y servicios relacionados,447,473,0.945,empirico,False
+541610,Servicios de consultoría en administración,541610,Servicios de consultoría en administración,519,606,0.856,empirico,False
+541620,Servicios de consultoría en medio ambiente,541620,Servicios de consultoría en medio ambiente,61,67,0.91,empirico,False
+541690,Otros servicios de consultoría científica y técnica,541690,Otros servicios de consultoría científica y técnica,97,123,0.789,empirico,False
+541711,"Servicios de investigación científica y desarrollo en ciencias naturales y exactas, ingeniería, y ciencias de la vida, prestados por el sector privado",541711,"Servicios de investigación científica y desarrollo en ciencias naturales y exactas, ingeniería, y ciencias de la vida, prestados por el sector privado",36,40,0.9,empirico,False
+541712,"Servicios de investigación científica y desarrollo en ciencias naturales y exactas, ingeniería, y ciencias de la vida, prestados por el sector público",541712,"Servicios de investigación científica y desarrollo en ciencias naturales y exactas, ingeniería, y ciencias de la vida, prestados por el sector público",10,12,0.833,empirico,False
+541721,"Servicios de investigación científica y desarrollo en ciencias sociales y humanidades, prestados por el sector privado",541721,"Servicios de investigación científica y desarrollo en ciencias sociales y humanidades, prestados por el sector privado",5,9,0.556,empirico,False
+541722,"Servicios de investigación científica y desarrollo en ciencias sociales y humanidades, prestados por el sector público",541722,"Servicios de investigación científica y desarrollo en ciencias sociales y humanidades, prestados por el sector público",12,13,0.923,empirico,False
+541810,Agencias de publicidad,541810,Agencias de publicidad,429,476,0.901,empirico,False
+541820,Agencias de relaciones públicas,541820,Agencias de relaciones públicas,29,33,0.879,empirico,False
+541830,Agencias de compra de medios a petición del cliente,541830,Agencias de compra de medios a petición del cliente,6,7,0.857,empirico,False
+541840,Agencias de representación de medios,541840,Agencias de representación de medios,9,9,1.0,empirico,False
+541850,Agencias de anuncios publicitarios,541850,Agencias de anuncios publicitarios,38,46,0.826,empirico,False
+541860,Agencias de correo directo,541860,Agencias de correo directo,18,31,0.581,empirico,False
+541870,Distribución de material publicitario,541870,Distribución de material publicitario,14,21,0.667,empirico,False
+541890,Servicios de rotulación y otros servicios de publicidad,541890,Servicios de rotulación y otros servicios de publicidad,357,393,0.908,empirico,False
+541910,Servicios de investigación de mercados y encuestas de opinión pública,541910,Servicios de investigación de mercados y encuestas de opinión pública,72,87,0.828,empirico,False
+541920,Servicios de fotografía y videograbación,541920,Servicios de fotografía y videograbación,1805,1878,0.961,empirico,False
+541930,Servicios de traducción e interpretación,541930,Servicios de traducción e interpretación,9,10,0.9,empirico,False
+541941,Servicios veterinarios para mascotas prestados por el sector privado,541941,Servicios veterinarios para mascotas prestados por el sector privado,2635,2714,0.971,empirico,False
+541942,Servicios veterinarios para mascotas prestados por el sector público,541942,Servicios veterinarios para mascotas prestados por el sector público,18,18,1.0,empirico,False
+541943,Servicios veterinarios para la ganadería prestados por el sector privado,541943,Servicios veterinarios para la ganadería prestados por el sector privado,16,16,1.0,empirico,False
+541990,"Otros servicios profesionales, científicos y técnicos",541990,"Otros servicios profesionales, científicos y técnicos",24,31,0.774,empirico,False
+551111,Corporativos,551111,Dirección y administración de grupos empresariales o corporativos,76,93,0.817,empirico,False
+551112,Tenedoras de acciones,551112,Tenedoras de acciones,76,84,0.905,empirico,False
+561110,Servicios de administración de negocios,561110,Servicios de administración de negocios,332,415,0.8,empirico,False
+561210,Servicios combinados de apoyo en instalaciones,561210,Servicios integrales de apoyo a los negocios en instalaciones,44,48,0.917,empirico,False
+561310,Agencias de colocación,561310,Agencias de colocación,84,97,0.866,empirico,False
+561320,Agencias de empleo temporal,561320,Agencias de empleo temporal,33,42,0.786,empirico,False
+561330,Suministro de personal permanente,561330,Suministro de personal permanente,189,232,0.815,empirico,False
+561410,Servicios de preparación de documentos,561410,Servicios de preparación de documentos,35,40,0.875,empirico,False
+561421,Servicios de casetas telefónicas,561421,Servicios de casetas telefónicas,1,1,1.0,identidad,False
+561422,Servicios de recepción de llamadas telefónicas y promoción por teléfono,561422,Servicios de recepción de llamadas telefónicas y promoción por teléfono,69,72,0.958,empirico,False
+561431,"Servicios de fotocopiado, fax y afines",561431,"Servicios de fotocopiado, fax y afines",1084,1148,0.944,empirico,False
+561432,Servicios de acceso a computadoras,561432,Servicios de acceso a computadoras,4739,5409,0.876,empirico,False
+561440,Agencias de cobranza,561440,Agencias de cobranza,54,66,0.818,empirico,False
+561450,Despachos de investigación de solvencia financiera,561450,Despachos de investigación de solvencia financiera,10,11,0.909,empirico,False
+561490,Otros servicios de apoyo secretarial y similares,541190,Servicios de apoyo para efectuar trámites legales,11,33,0.333,empirico,True
+561510,Agencias de viajes,561510,Agencias de viajes,378,392,0.964,empirico,False
+561520,Organización de excursiones y paquetes turísticos para agencias de viajes,561520,Organización de excursiones y paquetes turísticos para agencias de viajes (Operadores de tours),39,40,0.975,empirico,False
+561590,Otros servicios de reservaciones,561590,Otros servicios de reservaciones,6,7,0.857,empirico,False
+561610,"Servicios de investigación y de protección y custodia, excepto mediante monitoreo",561610,"Servicios de investigación y de protección y custodia, excepto mediante monitoreo",204,233,0.876,empirico,False
+561620,Servicios de protección y custodia mediante el monitoreo de sistemas de seguridad,561620,Servicios de protección y custodia mediante el monitoreo de sistemas de seguridad,100,115,0.87,empirico,False
+561710,Servicios de control y exterminación de plagas,561710,Servicios de control y exterminación de plagas,32,33,0.97,empirico,False
+561720,Servicios de limpieza de inmuebles,561720,Servicios de limpieza de inmuebles,71,80,0.888,empirico,False
+561730,Servicios de instalación y mantenimiento de áreas verdes,561730,Servicios de instalación y mantenimiento de áreas verdes,11,12,0.917,empirico,False
+561740,"Servicios de limpieza de tapicería, alfombras y muebles",561740,"Servicios de limpieza de tapicería, alfombras y muebles",8,9,0.889,empirico,False
+561790,Otros servicios de limpieza,561790,Otros servicios de limpieza,21,24,0.875,empirico,False
+561910,Servicios de empacado y etiquetado,561910,Servicios de empacado y etiquetado,29,36,0.806,empirico,False
+561920,Organizadores de convenciones y ferias comerciales e industriales,561920,Organizadores de convenciones y ferias comerciales e industriales,32,38,0.842,empirico,False
+561990,Otros servicios de apoyo a los negocios,561990,Otros servicios de apoyo a los negocios,81,178,0.455,empirico,False
+562111,Manejo de residuos peligrosos y servicios de remediación a zonas dañadas por materiales o residuos peligrosos,562111,Recolección de residuos peligrosos por el sector privado,22,26,0.846,empirico,False
+562112,Manejo de desechos no peligrosos y servicios de remediación a zonas dañadas por desechos no peligrosos,562112,Recolección de residuos peligrosos por el sector público,1,1,1.0,identidad,False
+562121,Recolección de residuos no peligrosos por el sector privado,562121,Recolección de residuos no peligrosos por el sector privado,21,23,0.913,empirico,False
+562122,Recolección de residuos no peligrosos por el sector público,562122,Recolección de residuos no peligrosos por el sector público,23,23,1.0,empirico,False
+562211,Tratamiento y disposición final de residuos peligrosos por el sector privado,562211,Tratamiento y disposición final de residuos peligrosos por el sector privado,2,2,1.0,identidad,False
+562212,Tratamiento y disposición final de residuos peligrosos por el sector público,562212,Tratamiento y disposición final de residuos peligrosos por el sector público,1,1,1.0,identidad,False
+562221,Tratamiento y disposición final de residuos no peligrosos por el sector privado,562221,Tratamiento y disposición final de residuos no peligrosos por el sector privado,8,8,1.0,empirico,False
+562911,Servicios de remediación de residuos por el sector privado,562911,Servicios de remediación por el sector privado,5,9,0.556,empirico,False
+562912,Servicios de remediación de residuos por el sector público,562912,Servicios de remediación por el sector público,0,0,,identidad,False
+562921,Recuperación de residuos por el sector privado,562921,Recuperación de residuos por el sector privado,7,10,0.7,empirico,False
+562922,Recuperación de residuos por el sector público,562922,Recuperación de residuos por el sector público,1,1,1.0,identidad,False
+562998,Otros servicios de manejo de residuos por el sector privado,562998,Otros servicios de manejo de residuos por el sector privado,13,14,0.929,empirico,False
+562999,Otros servicios de manejo de residuos por el sector público,562999,Otros servicios de manejo de residuos por el sector público,9,9,1.0,empirico,False
+611111,Escuelas de educación preescolar del sector privado,611111,Escuelas de educación preescolar y centros de estimulación temprana del sector privado,2175,2509,0.867,empirico,False
+611112,Escuelas de educación preescolar del sector público,611112,Escuelas de educación preescolar y centros de estimulación temprana del sector público,3120,3177,0.982,empirico,False
+611121,Escuelas de educación primaria del sector privado,611121,Escuelas de educación primaria del sector privado,607,709,0.856,empirico,False
+611122,Escuelas de educación primaria del sector público,611122,Escuelas de educación primaria del sector público,4789,4838,0.99,empirico,False
+611131,Escuelas de educación secundaria general del sector privado,611131,Escuelas de educación secundaria general del sector privado,142,176,0.807,empirico,False
+611132,Escuelas de educación secundaria general del sector público,611132,Escuelas de educación secundaria general del sector público,1685,1705,0.988,empirico,False
+611141,Escuelas de educación secundaria técnica del sector privado,611141,Escuelas de educación secundaria técnica del sector privado,4,12,0.333,empirico,False
+611142,Escuelas de educación secundaria técnica del sector público,611142,Escuelas de educación secundaria técnica del sector público,404,436,0.927,empirico,False
+611151,Escuelas de educación media técnica terminal del sector privado,611151,Escuelas de educación media técnica terminal del sector privado,18,45,0.4,empirico,False
+611152,Escuelas de educación media técnica terminal del sector público,611152,Escuelas de educación media técnica terminal del sector público,2,5,0.4,empirico,False
+611161,Escuelas de educación media superior del sector privado,611161,Escuelas de educación media superior del sector privado,238,259,0.919,empirico,False
+611162,Escuelas de educación media superior del sector público,611162,Escuelas de educación media superior del sector público,685,704,0.973,empirico,False
+611171,Escuelas del sector privado que combinan diversos niveles de educación,611171,Escuelas del sector privado que combinan diversos niveles de educación,1077,1216,0.886,empirico,False
+611172,Escuelas del sector público que combinan diversos niveles de educación,611172,Escuelas del sector público que combinan diversos niveles de educación,275,322,0.854,empirico,False
+611181,Escuelas del sector privado de educación para necesidades especiales,611181,Escuelas del sector privado de educación para necesidades especiales,52,64,0.812,empirico,False
+611182,Escuelas del sector público de educación para necesidades especiales,611182,Escuelas del sector público de educación para necesidades especiales,401,410,0.978,empirico,False
+611211,Escuelas de educación técnica superior del sector privado,611211,Escuelas de educación técnica superior del sector privado,26,42,0.619,empirico,False
+611212,Escuelas de educación técnica superior del sector público,611212,Escuelas de educación técnica superior del sector público,11,14,0.786,empirico,False
+611311,Escuelas de educación superior del sector privado,611311,Escuelas de educación superior del sector privado,457,483,0.946,empirico,False
+611312,Escuelas de educación superior del sector público,611312,Escuelas de educación superior del sector público,399,414,0.964,empirico,False
+611411,Escuelas comerciales y secretariales del sector privado,611411,Escuelas comerciales y secretariales del sector privado,3,6,0.5,empirico,False
+611421,Escuelas de computación del sector privado,611421,Escuelas de computación del sector privado,53,55,0.964,empirico,False
+611422,Escuelas de computación del sector público,611422,Escuelas de computación del sector público,4,6,0.667,empirico,False
+611431,Escuelas para la capacitación de ejecutivos del sector privado,611431,Escuelas para la capacitación de ejecutivos del sector privado,13,14,0.929,empirico,False
+611511,Escuelas del sector privado dedicadas a la enseñanza de oficios,611511,Escuelas del sector privado dedicadas a la enseñanza de oficios,313,376,0.832,empirico,False
+611512,Escuelas del sector público dedicadas a la enseñanza de oficios,611512,Escuelas del sector público dedicadas a la enseñanza de oficios,96,106,0.906,empirico,False
+611611,Escuelas de arte del sector privado,611611,Escuelas de arte del sector privado,575,638,0.901,empirico,False
+611612,Escuelas de arte del sector público,611612,Escuelas de arte del sector público,52,56,0.929,empirico,False
+611621,Escuelas de deporte del sector privado,611621,Escuelas de deporte del sector privado,798,834,0.957,empirico,False
+611622,Escuelas de deporte del sector público,611622,Escuelas de deporte del sector público,55,65,0.846,empirico,False
+611631,Escuelas de idiomas del sector privado,611631,Escuelas de idiomas del sector privado,269,291,0.924,empirico,False
+611632,Escuelas de idiomas del sector público,611632,Escuelas de idiomas del sector público,5,5,1.0,empirico,False
+611691,Servicios de profesores particulares,611691,Servicios de profesores particulares,473,532,0.889,empirico,False
+611698,Otros servicios educativos proporcionados por el sector privado,611698,Otros servicios educativos proporcionados por el sector privado,120,161,0.745,empirico,False
+611699,Otros servicios educativos proporcionados por el sector público,611699,Otros servicios educativos proporcionados por el sector público,36,43,0.837,empirico,False
+611710,Servicios de apoyo a la educación,611710,Servicios de apoyo a la educación,13,15,0.867,empirico,False
+621111,Consultorios de medicina general del sector privado,621111,Consultorios de medicina general del sector privado,3280,3649,0.899,empirico,False
+621112,Consultorios de medicina general del sector público,621112,Consultorios de medicina general del sector público,199,320,0.622,empirico,False
+621113,Consultorios de medicina especializada del sector privado,621113,Consultorios de medicina especializada del sector privado,2244,2666,0.842,empirico,False
+621114,Consultorios de medicina especializada del sector público,621114,Consultorios de medicina especializada del sector público,13,20,0.65,empirico,False
+621115,Clínicas de consultorios médicos del sector privado,621115,Clínicas de consultorios médicos del sector privado,306,335,0.913,empirico,False
+621116,Clínicas de consultorios médicos del sector público,621116,Clínicas de consultorios médicos del sector público,460,472,0.975,empirico,False
+621211,Consultorios dentales del sector privado,621211,Consultorios dentales del sector privado,9469,9615,0.985,empirico,False
+621212,Consultorios dentales del sector público,621212,Consultorios dentales del sector público,67,72,0.931,empirico,False
+621311,Consultorios de quiropráctica del sector privado,621311,Consultorios de quiropráctica del sector privado,409,425,0.962,empirico,False
+621320,Consultorios de optometría,621320,Consultorios de optometría,706,755,0.935,empirico,False
+621331,Consultorios de psicología del sector privado,621331,Consultorios de psicología del sector privado,630,684,0.921,empirico,False
+621332,Consultorios de psicología del sector público,621332,Consultorios de psicología del sector público,28,33,0.848,empirico,False
+621341,"Consultorios del sector privado de audiología y de terapia ocupacional, física y del lenguaje",621341,"Consultorios del sector privado de audiología y de terapia ocupacional, física y del lenguaje",337,357,0.944,empirico,False
+621342,"Consultorios del sector público de audiología y de terapia ocupacional, física y del lenguaje",621342,"Consultorios del sector público de audiología y de terapia ocupacional, física y del lenguaje",35,40,0.875,empirico,False
+621391,Consultorios de nutriólogos y dietistas del sector privado,621391,Consultorios de nutriólogos y dietistas del sector privado,174,183,0.951,empirico,False
+621392,Consultorios de nutriólogos y dietistas del sector público,621392,Consultorios de nutriólogos y dietistas del sector público,1,1,1.0,identidad,False
+621398,Otros consultorios del sector privado para el cuidado de la salud,621398,Otros consultorios del sector privado para el cuidado de la salud,1675,1755,0.954,empirico,False
+621399,Otros consultorios del sector público para el cuidado de la salud,621399,Otros consultorios del sector público para el cuidado de la salud,17,26,0.654,empirico,False
+621411,Centros de planificación familiar del sector privado,621411,Centros de planificación familiar del sector privado,17,19,0.895,empirico,False
+621412,Centros de planificación familiar del sector público,621412,Centros de planificación familiar del sector público,2,2,1.0,identidad,False
+621421,Centros del sector privado de atención médica externa para enfermos mentales y adictos,621421,Centros del sector privado de atención médica externa para enfermos mentales y adictos,28,44,0.636,empirico,False
+621422,Centros del sector público de atención médica externa para enfermos mentales y adictos,621422,Centros del sector público de atención médica externa para enfermos mentales y adictos,16,17,0.941,empirico,False
+621491,Otros centros del sector privado para la atención de pacientes que no requieren hospitalización,621491,Otros centros del sector privado para la atención de pacientes que no requieren hospitalización,31,36,0.861,empirico,False
+621492,Otros centros del sector público para la atención de pacientes que no requieren hospitalización,621492,Otros centros del sector público para la atención de pacientes que no requieren hospitalización,2,3,0.667,empirico,False
+621511,Laboratorios médicos y de diagnóstico del sector privado,621511,Laboratorios médicos y de diagnóstico del sector privado,1149,1195,0.962,empirico,False
+621512,Laboratorios médicos y de diagnóstico del sector público,621512,Laboratorios médicos y de diagnóstico del sector público,8,8,1.0,empirico,False
+621610,Servicios de enfermería a domicilio,621610,Servicios de enfermería a domicilio,6,8,0.75,empirico,False
+621910,Servicios de ambulancias,621910,Servicios de ambulancias,32,33,0.97,empirico,False
+621991,"Servicios de bancos de órganos, bancos de sangre y otros servicios auxiliares al tratamiento médico prestados por el sector privado",621991,"Servicios de bancos de órganos, bancos de sangre y otros servicios auxiliares al tratamiento médico prestados por el sector privado",4,5,0.8,empirico,False
+621992,"Servicios de bancos de órganos, bancos de sangre y otros servicios auxiliares al tratamiento médico prestados por el sector público",621992,"Servicios de bancos de órganos, bancos de sangre y otros servicios auxiliares al tratamiento médico prestados por el sector público",4,4,1.0,empirico,False
+622111,Hospitales generales del sector privado,622111,Hospitales generales del sector privado,206,223,0.924,empirico,False
+622112,Hospitales generales del sector público,622112,Hospitales generales del sector público,207,218,0.95,empirico,False
+622211,Hospitales psiquiátricos y para el tratamiento por adicción del sector privado,622211,Hospitales psiquiátricos y para el tratamiento por adicción del sector privado,9,11,0.818,empirico,False
+622212,Hospitales psiquiátricos y para el tratamiento por adicción del sector público,622212,Hospitales psiquiátricos y para el tratamiento por adicción del sector público,6,7,0.857,empirico,False
+622311,Hospitales del sector privado de otras especialidades médicas,622311,Hospitales del sector privado de otras especialidades médicas,99,104,0.952,empirico,False
+622312,Hospitales del sector público de otras especialidades médicas,622312,Hospitales del sector público de otras especialidades médicas,29,31,0.935,empirico,False
+623111,"Residencias del sector privado con cuidados de enfermeras para enfermos convalecientes, en rehabilitación, incurables y terminales",623111,"Residencias del sector privado con cuidados de enfermeras para enfermos convalecientes, en rehabilitación, incurables y terminales",6,13,0.462,empirico,False
+623112,"Residencias del sector público con cuidados de enfermeras para enfermos convalecientes, en rehabilitación, incurables y terminales",623112,"Residencias del sector público con cuidados de enfermeras para enfermos convalecientes, en rehabilitación, incurables y terminales",3,5,0.6,empirico,False
+623211,Residencias del sector privado para el cuidado de personas con problemas de retardo mental,623211,Residencias del sector privado para el cuidado de personas con problemas de retardo mental,15,15,1.0,empirico,False
+623212,Residencias del sector público para el cuidado de personas con problemas de retardo mental,623212,Residencias del sector público para el cuidado de personas con problemas de retardo mental,1,1,1.0,identidad,False
+623221,Residencias del sector privado para el cuidado de personas con problemas de trastorno mental y adicción,623221,Residencias del sector privado para el cuidado de personas con problemas de trastorno mental y adicción,26,40,0.65,empirico,False
+623222,Residencias del sector público para el cuidado de personas con problemas de trastorno mental y adicción,623222,Residencias del sector público para el cuidado de personas con problemas de trastorno mental y adicción,10,10,1.0,empirico,False
+623311,Asilos y otras residencias del sector privado para el cuidado de ancianos,623311,Asilos y otras residencias del sector privado para el cuidado de ancianos,82,88,0.932,empirico,False
+623312,Asilos y otras residencias del sector público para el cuidado de ancianos,623312,Asilos y otras residencias del sector público para el cuidado de ancianos,29,29,1.0,empirico,False
+623991,Orfanatos y otras residencias de asistencia social del sector privado,623991,Orfanatos y otras residencias de asistencia social del sector privado,109,116,0.94,empirico,False
+623992,Orfanatos y otras residencias de asistencia social del sector público,623992,Orfanatos y otras residencias de asistencia social del sector público,15,17,0.882,empirico,False
+624111,Servicios de orientación y trabajo social para la niñez y la juventud prestados por el sector privado,624111,Servicios de orientación y trabajo social para la niñez y la juventud prestados por el sector privado,55,66,0.833,empirico,False
+624112,Servicios de orientación y trabajo social para la niñez y la juventud prestados por el sector público,624112,Servicios de orientación y trabajo social para la niñez y la juventud prestados por el sector público,351,373,0.941,empirico,False
+624121,Centros del sector privado dedicados a la atención y cuidado diurno de ancianos y discapacitados,624121,Centros del sector privado dedicados a la atención y cuidado diurno de ancianos y personas con discapacidad,24,28,0.857,empirico,False
+624122,Centros del sector público dedicados a la atención y cuidado diurno de ancianos y discapacitados,624122,Centros del sector público dedicados a la atención y cuidado diurno de ancianos y personas con discapacidad,192,197,0.975,empirico,False
+624191,Agrupaciones de autoayuda para alcohólicos y personas con otras adicciones,624191,Agrupaciones de autoayuda para alcohólicos y personas con otras adicciones,1804,1834,0.984,empirico,False
+624198,Otros servicios de orientación y trabajo social prestados por el sector privado,624198,Otros servicios de orientación y trabajo social prestados por el sector privado,23,31,0.742,empirico,False
+624199,Otros servicios de orientación y trabajo social prestados por el sector público,624199,Otros servicios de orientación y trabajo social prestados por el sector público,159,182,0.874,empirico,False
+624211,Servicios de alimentación comunitarios prestados por el sector privado,624211,Servicios de alimentación comunitarios prestados por el sector privado,39,65,0.6,empirico,False
+624212,Servicios de alimentación comunitarios prestados por el sector público,624212,Servicios de alimentación comunitarios prestados por el sector público,348,405,0.859,empirico,False
+624221,Refugios temporales comunitarios del sector privado,624221,Refugios temporales comunitarios del sector privado,10,10,1.0,empirico,False
+624222,Refugios temporales comunitarios del sector público,624222,Refugios temporales comunitarios del sector público,9,12,0.75,empirico,False
+624231,Servicios de emergencia comunitarios prestados por el sector privado,624231,Servicios de emergencia comunitarios prestados por el sector privado,3,5,0.6,empirico,False
+624232,Servicios de emergencia comunitarios prestados por el sector público,624232,Servicios de emergencia comunitarios prestados por el sector público,3,9,0.333,empirico,False
+624311,"Servicios de capacitación para el trabajo prestados por el sector privado para personas desempleadas, subempleadas o discapacitadas",624311,"Servicios de capacitación para el trabajo prestados por el sector privado para personas desempleadas, subempleadas o con discapacidad",14,17,0.824,empirico,False
+624312,"Servicios de capacitación para el trabajo prestados por el sector público para personas desempleadas, subempleadas o discapacitadas",624312,"Servicios de capacitación para el trabajo prestados por el sector público para personas desempleadas, subempleadas o con discapacidad",22,26,0.846,empirico,False
+624411,Guarderías del sector privado,624411,Guarderías del sector privado,412,469,0.878,empirico,False
+624412,Guarderías del sector público,624412,Guarderías del sector público,419,436,0.961,empirico,False
+711111,Compañías de teatro del sector privado,711111,Compañías de teatro del sector privado,15,21,0.714,empirico,False
+711112,Compañías de teatro del sector público,711312,"Promotores del sector público de espectáculos artísticos, culturales, deportivos y similares que cuentan con instalaciones para presentarlos",7,12,0.583,empirico,True
+711121,Compañías de danza del sector privado,711121,Compañías de danza del sector privado,10,16,0.625,empirico,False
+711122,Compañías de danza del sector público,711312,"Promotores del sector público de espectáculos artísticos, culturales, deportivos y similares que cuentan con instalaciones para presentarlos",2,5,0.4,empirico,True
+711131,Cantantes y grupos musicales del sector privado,711131,Cantantes y grupos musicales del sector privado,91,94,0.968,empirico,False
+711132,Grupos musicales del sector público,711132,Grupos musicales del sector público,1,1,1.0,identidad,False
+711191,Otras compañías y grupos de espectáculos artísticos del sector privado,711191,Otras compañías y grupos de espectáculos artísticos del sector privado,12,15,0.8,empirico,False
+711211,Deportistas profesionales,711211,Deportistas profesionales,0,0,,identidad,False
+711212,Equipos deportivos profesionales,711212,Equipos deportivos profesionales,6,7,0.857,empirico,False
+711311,"Promotores del sector privado de espectáculos artísticos, culturales, deportivos y similares que cuentan con instalaciones para presentarlos",711311,"Promotores del sector privado de espectáculos artísticos, culturales, deportivos y similares que cuentan con instalaciones para presentarlos",97,130,0.746,empirico,False
+711312,"Promotores del sector público de espectáculos artísticos, culturales, deportivos y similares que cuentan con instalaciones para presentarlos",711312,"Promotores del sector público de espectáculos artísticos, culturales, deportivos y similares que cuentan con instalaciones para presentarlos",348,381,0.913,empirico,False
+711320,"Promotores de espectáculos artísticos, culturales, deportivos y similares que no cuentan con instalaciones para presentarlos",711320,"Promotores de espectáculos artísticos, culturales, deportivos y similares que no cuentan con instalaciones para presentarlos",13,18,0.722,empirico,False
+711410,"Agentes y representantes de artistas, deportistas y similares",711410,"Agentes y representantes de artistas, deportistas y similares",9,10,0.9,empirico,False
+711510,"Artistas, escritores y técnicos independientes",711510,"Artistas, escritores y técnicos independientes",91,125,0.728,empirico,False
+712111,Museos del sector privado,712111,Museos del sector privado,47,56,0.839,empirico,False
+712112,Museos del sector público,712112,Museos del sector público,98,107,0.916,empirico,False
+712120,Sitios históricos,712120,Sitios históricos,5,8,0.625,empirico,False
+712131,Jardines botánicos y zoológicos del sector privado,712131,Jardines botánicos y zoológicos del sector privado,10,13,0.769,empirico,False
+712132,Jardines botánicos y zoológicos del sector público,712132,Jardines botánicos y zoológicos del sector público,7,8,0.875,empirico,False
+712190,"Grutas, parques naturales y otros sitios del patrimonio cultural de la nación",712190,"Grutas, parques naturales y otros sitios del patrimonio cultural de la nación",4,7,0.571,empirico,False
+713111,Parques de diversiones y temáticos del sector privado,713111,Parques de diversiones y temáticos del sector privado,13,20,0.65,empirico,False
+713112,Parques de diversiones y temáticos del sector público,713112,Parques de diversiones y temáticos del sector público,72,75,0.96,empirico,False
+713113,Parques acuáticos y balnearios del sector privado,713113,Parques acuáticos y balnearios del sector privado,29,42,0.69,empirico,False
+713114,Parques acuáticos y balnearios del sector público,713114,Parques acuáticos y balnearios del sector público,23,23,1.0,empirico,False
+713120,Casas de juegos electrónicos,713120,Casas de juegos electrónicos,1112,1281,0.868,empirico,False
+713291,"Venta de billetes de lotería, pronósticos deportivos y otros boletos de sorteo",713291,"Venta de billetes de lotería, pronósticos deportivos y otros boletos de sorteo",529,546,0.969,empirico,False
+713299,Otros juegos de azar,713299,Otros juegos de azar,58,75,0.773,empirico,False
+713910,Campos de golf,713910,Campos de golf,10,13,0.769,empirico,False
+713930,Marinas turísticas,713930,Marinas turísticas,2,2,1.0,identidad,False
+713941,Clubes deportivos del sector privado,713941,Clubes deportivos del sector privado,52,83,0.627,empirico,False
+713942,Clubes deportivos del sector público,713944,Centros de acondicionamiento físico del sector público,25,36,0.694,empirico,True
+713943,Centros de acondicionamiento físico del sector privado,713943,Centros de acondicionamiento físico del sector privado,2535,2713,0.934,empirico,False
+713944,Centros de acondicionamiento físico del sector público,713944,Centros de acondicionamiento físico del sector público,358,382,0.937,empirico,False
+713950,Boliches,713950,Boliches,11,11,1.0,empirico,False
+713991,Billares,713991,Billares,279,293,0.952,empirico,False
+713992,Clubes o ligas de aficionados,713992,Clubes o ligas de aficionados,96,121,0.793,empirico,False
+713998,Otros servicios recreativos prestados por el sector privado,713998,Otros servicios recreativos prestados por el sector privado,83,98,0.847,empirico,False
+713999,Otros servicios recreativos prestados por el sector público,713999,Otros servicios recreativos prestados por el sector público,4,4,1.0,empirico,False
+721111,Hoteles con otros servicios integrados,721111,Hoteles con otros servicios integrados,473,503,0.94,empirico,False
+721112,Hoteles sin otros servicios integrados,721112,Hoteles sin otros servicios integrados,419,449,0.933,empirico,False
+721113,Moteles,721113,Moteles,225,226,0.996,empirico,False
+721190,"Cabañas, villas y similares",721190,"Cabañas, villas y similares",26,30,0.867,empirico,False
+721210,Campamentos y albergues recreativos,721210,Campamentos y albergues recreativos,7,7,1.0,empirico,False
+721311,Pensiones y casas de huéspedes,721311,Pensiones y casas de huéspedes,144,161,0.894,empirico,False
+721312,Departamentos y casas amueblados con servicios de hotelería,721312,Departamentos y casas amueblados con servicios de hotelería,24,26,0.923,empirico,False
+722310,Servicios de comedor para empresas e instituciones,722310,Servicios de comedor para empresas e instituciones,41,51,0.804,empirico,False
+722320,Servicios de preparación de alimentos para ocasiones especiales,722320,Servicios de preparación de alimentos para ocasiones especiales,148,169,0.876,empirico,False
+722330,Servicios de preparación de alimentos en unidades móviles,463211,"Comercio al por menor de ropa, excepto de bebé y lencería",1,3,0.333,empirico,True
+722411,"Centros nocturnos, discotecas y similares",722411,"Centros nocturnos, discotecas y similares",75,95,0.789,empirico,False
+722412,"Bares, cantinas y similares",722412,"Bares, cantinas y similares",1182,1333,0.887,empirico,False
+722511,Restaurantes con servicio de preparación de alimentos a la carta o de comida corrida,722511,Restaurantes con servicio de preparación de alimentos a la carta o de comida corrida,6554,7622,0.86,empirico,False
+722512,Restaurantes con servicio de preparación de pescados y mariscos,722512,Restaurantes con servicio de preparación de pescados y mariscos,1867,1948,0.958,empirico,False
+722513,Restaurantes con servicio de preparación de antojitos,722513,Restaurantes con servicio de preparación de antojitos,11597,12244,0.947,empirico,False
+722514,Restaurantes con servicio de preparación de tacos y tortas,722514,Restaurantes con servicio de preparación de tacos y tortas,12532,13084,0.958,empirico,False
+722515,"Cafeterías, fuentes de sodas, neverías, refresquerías y similares",722515,"Cafeterías, fuentes de sodas, neverías, refresquerías y similares",10119,10811,0.936,empirico,False
+722516,Restaurantes de autoservicio,722516,Restaurantes de autoservicio,1005,1129,0.89,empirico,False
+722517,"Restaurantes con servicio de preparación de pizzas, hamburguesas, hot dogs y pollos rostizados para llevar",722517,"Restaurantes con servicio de preparación de pizzas, hamburguesas, hot dogs y pollos rostizados para llevar",5248,5568,0.943,empirico,False
+722518,Restaurantes que preparan otro tipo de alimentos para llevar,722518,Restaurantes que preparan otro tipo de alimentos para llevar,8948,9538,0.938,empirico,False
+722519,Servicios de preparación de otros alimentos para consumo inmediato,722519,Servicios de preparación de otros alimentos para consumo inmediato,4758,5253,0.906,empirico,False
+811111,Reparación mecánica en general de automóviles y camiones,811111,Reparación mecánica en general de automóviles y camiones,8335,8634,0.965,empirico,False
+811112,Reparación del sistema eléctrico de automóviles y camiones,811112,Reparación del sistema eléctrico y electrónico de automóviles y camiones,2677,2832,0.945,empirico,False
+811113,Rectificación de partes de motor de automóviles y camiones,811113,Rectificación de partes de motor de automóviles y camiones,398,420,0.948,empirico,False
+811114,Reparación de transmisiones de automóviles y camiones,811114,Reparación de transmisiones de automóviles y camiones,568,596,0.953,empirico,False
+811115,Reparación de suspensiones de automóviles y camiones,811115,Reparación de suspensiones de automóviles y camiones,1101,1138,0.967,empirico,False
+811116,Alineación y balanceo de automóviles y camiones,811116,Alineación y balanceo de automóviles y camiones,386,412,0.937,empirico,False
+811119,Otras reparaciones mecánicas de automóviles y camiones,811119,Otras reparaciones mecánicas de automóviles y camiones,2410,2507,0.961,empirico,False
+811121,Hojalatería y pintura de automóviles y camiones,811121,Hojalatería y pintura de automóviles y camiones,3147,3277,0.96,empirico,False
+811122,Tapicería de automóviles y camiones,811122,Tapicería de automóviles y camiones,301,310,0.971,empirico,False
+811123,Servicios de blindaje y de adaptación de automóviles y camiones,811123,Servicios de blindaje y de adaptación de automóviles y camiones,10,11,0.909,empirico,False
+811129,Instalación de cristales y otras reparaciones a la carrocería de automóviles y camiones,811129,Instalación de cristales y otras reparaciones a la carrocería de automóviles y camiones,454,521,0.871,empirico,False
+811191,Reparación menor de llantas,811191,Reparación menor de llantas,3744,3852,0.972,empirico,False
+811192,Lavado y lubricado de automóviles y camiones,811192,Lavado y lubricado de automóviles y camiones,1970,2027,0.972,empirico,False
+811199,Otros servicios de reparación y mantenimiento de automóviles y camiones,811199,Otros servicios de reparación y mantenimiento de automóviles y camiones,929,1052,0.883,empirico,False
+811211,Reparación y mantenimiento de equipo electrónico de uso doméstico,811211,Reparación y mantenimiento de equipo electrónico de uso doméstico,1653,1800,0.918,empirico,False
+811219,Reparación y mantenimiento de otro equipo electrónico y de equipo de precisión,811219,Reparación y mantenimiento de otro equipo electrónico y de equipo de precisión,1539,1677,0.918,empirico,False
+811311,Reparación y mantenimiento de maquinaria y equipo agropecuario y forestal,811311,Reparación y mantenimiento de maquinaria y equipo agropecuario y forestal,18,19,0.947,empirico,False
+811312,Reparación y mantenimiento de maquinaria y equipo industrial,811312,Reparación y mantenimiento de maquinaria y equipo industrial,1385,1485,0.933,empirico,False
+811313,"Reparación y mantenimiento de maquinaria y equipo para mover, levantar y acomodar materiales",811313,"Reparación y mantenimiento de maquinaria y equipo para mover, levantar y acomodar materiales",86,95,0.905,empirico,False
+811314,Reparación y mantenimiento de maquinaria y equipo comercial y de servicios,811314,Reparación y mantenimiento de maquinaria y equipo comercial y de servicios,150,179,0.838,empirico,False
+811410,Reparación y mantenimiento de aparatos eléctricos para el hogar y personales,811410,Reparación y mantenimiento de aparatos eléctricos para el hogar y personales,1881,1998,0.941,empirico,False
+811420,Reparación de tapicería de muebles para el hogar,811420,Reparación de tapicería de muebles para el hogar,1139,1220,0.934,empirico,False
+811430,Reparación de calzado y otros artículos de piel y cuero,811430,Reparación de calzado y otros artículos de piel y cuero,2460,2527,0.973,empirico,False
+811491,Cerrajerías,811491,Cerrajerías,2212,2254,0.981,empirico,False
+811492,Reparación y mantenimiento de motocicletas,811492,Reparación y mantenimiento de motocicletas,1140,1209,0.943,empirico,False
+811493,Reparación y mantenimiento de bicicletas,811493,Reparación y mantenimiento de bicicletas,1579,1622,0.973,empirico,False
+811499,Reparación y mantenimiento de otros artículos para el hogar y personales,811499,Reparación y mantenimiento de otros artículos para el hogar y personales,3124,3535,0.884,empirico,False
+812110,Salones y clínicas de belleza y peluquerías,812110,Salones y clínicas de belleza y peluquerías,28037,28710,0.977,empirico,False
+812120,Baños públicos,812120,Baños públicos,109,133,0.82,empirico,False
+812130,Sanitarios públicos y bolerías,812130,Sanitarios públicos y bolerías,2235,2263,0.988,empirico,False
+812210,Lavanderías y tintorerías,812210,Lavanderías y tintorerías,7127,7283,0.979,empirico,False
+812310,Servicios funerarios,812310,Servicios funerarios,709,717,0.989,empirico,False
+812321,Administración de cementerios pertenecientes al sector privado,812321,Administración de cementerios pertenecientes al sector privado,39,50,0.78,empirico,False
+812322,Administración de cementerios pertenecientes al sector público,812322,Administración de cementerios pertenecientes al sector público,266,267,0.996,empirico,False
+812410,Estacionamientos y pensiones para vehículos automotores,812410,Estacionamientos y pensiones para vehículos automotores,2117,2194,0.965,empirico,False
+812910,Servicios de revelado e impresión de fotografías,812910,Servicios de revelado e impresión de fotografías,156,169,0.923,empirico,False
+812990,Otros servicios personales,812990,Otros servicios personales,787,935,0.842,empirico,False
+813110,"Asociaciones, organizaciones y cámaras de productores, comerciantes y prestadores de servicios",813110,"Asociaciones, organizaciones y cámaras de productores, comerciantes y prestadores de servicios",246,311,0.791,empirico,False
+813120,Asociaciones y organizaciones laborales y sindicales,813120,Asociaciones y organizaciones laborales y sindicales,299,319,0.937,empirico,False
+813130,Asociaciones y organizaciones de profesionistas,813130,Asociaciones y organizaciones de profesionistas,85,93,0.914,empirico,False
+813140,Asociaciones regulatorias de actividades recreativas,813140,Asociaciones regulatorias de actividades recreativas,9,11,0.818,empirico,False
+813210,Asociaciones y organizaciones religiosas,813210,Asociaciones y organizaciones religiosas,7008,7025,0.998,empirico,False
+813230,Asociaciones y organizaciones civiles,813230,Asociaciones y organizaciones civiles,1018,1205,0.845,empirico,False
+931110,Órganos legislativos,931110,Órganos legislativos,14,17,0.824,empirico,False
+931210,Administración pública en general,931210,Administración pública en general,1423,1703,0.836,empirico,False
+931310,Regulación y fomento del desarrollo económico,931310,Regulación y fomento del desarrollo económico,151,192,0.786,empirico,False
+931410,Impartición de justicia y mantenimiento de la seguridad y el orden público,931412,Mantenimiento de la seguridad y el orden público,888,1276,0.696,empirico,True
+931510,Regulación y fomento de actividades para mejorar y preservar el medio ambiente,931510,Regulación y fomento de actividades para mejorar y preservar el medio ambiente,224,313,0.716,empirico,False
+931610,Actividades administrativas de instituciones de bienestar social,931610,Actividades administrativas de instituciones de bienestar social,1429,1599,0.894,empirico,False
+931710,Relaciones exteriores,931710,Relaciones exteriores,9,11,0.818,empirico,False
+931810,Actividades de seguridad nacional,931810,Actividades de seguridad nacional,79,101,0.782,empirico,False
+932110,Organismos internacionales,932110,Organismos internacionales,7,9,0.778,empirico,False

@@ -1,0 +1,542 @@
+rubro_clave,rubro_nombre,nivel,definicion
+gasto_mon,Gasto corriente monetario,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+alimentos,"Alimentos, bebidas y tabaco",rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+ali_dentro,Alimentos dentro del hogar,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+ali_fuera,"Alimentos fuera del hogar (INEGI: desayunos, comidas, cenas, entrecomidas y eventos)",rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+bebidas,Bebidas alcoholicas y no alcoholicas,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+tabaco,Tabaco,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+cereales,Cereales,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+carnes,Carnes,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+pescado,Pescados y mariscos,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+leche,Leche y derivados,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+huevo,Huevo,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+aceites,Aceites y grasas,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+tuberculo,Tuberculos,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+verduras,"Verduras, legumbres y semillas",rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+frutas,Frutas,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+azucar,Azucar y mieles,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+cafe,"Cafe, te y chocolate (consumo en casa)",rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+especias,Especias y aderezos,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+otros_alim,Otros alimentos diversos (incluye comida preparada y helados),rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+vesti_calz,Vestido y calzado,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+vestido,Vestido,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+calzado,Calzado,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+vivienda,Vivienda y servicios de conservacion,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+alquiler,Alquiler de vivienda,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+pred_cons,Predial y servicios de conservacion,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+agua,Agua,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+energia,Energia electrica y combustibles de la vivienda,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+limpieza,Limpieza y cuidados de la casa,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+cuidados,Cuidados de la casa (limpieza),rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+utensilios,Utensilios domesticos,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+enseres,Enseres domesticos y mantenimiento,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+salud,Salud,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+ambul_serv,Servicios medicos ambulatorios,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+aten_hosp,Atencion hospitalaria,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+medic_prod,Medicamentos y productos medicos (farmacia),rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+transporte,Transporte,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+publico,Transporte publico,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+foraneo,Transporte foraneo,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+adqui_vehi,Compra de vehiculos,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+mantenim,Mantenimiento de vehiculos,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+refaccion,Refacciones y accesorios de vehiculos,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+combus,Combustibles,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+comunica,Comunicaciones,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+educa_espa,Educacion y esparcimiento,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+educacion,Educacion,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+esparci,Esparcimiento,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+paq_turist,Paquetes turisticos y hospedaje,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+personales,Cuidados y accesorios personales,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+cuida_pers,Cuidados personales,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+acces_pers,Accesorios y efectos personales,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+otros_gas,Otros gastos diversos,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+transf_gas,Transferencias de gasto,rubro_inegi,Columna de concentradohogar ENIGH 2024 NS
+ali_fuera_total,Alimentos y bebidas consumidos fuera del hogar (restaurantes y comida preparada),curado,"Claves ENIGH: 111111, 111112, 111113, 111114, 111115, 111116, 111121, 111122, 111123, 111124, 111125, 111126"
+restaurante_comidas,"Desayunos, comidas, cenas y entrecomidas fuera del hogar",curado,"Claves ENIGH: 111111, 111112, 111113, 111114"
+comida_rapida,"Comida rapida: hamburguesas y hot dogs, pizzas, pollos rostizados",curado,"Claves ENIGH: 111123, 111125, 111126"
+antojitos_tacos,"Barbacoa/birria, carnitas y otros alimentos cocinados (tacos, tamales, sopes)",curado,"Claves ENIGH: 111121, 111122, 111124"
+helados,"Helados, nieves y paletas de hielo (consumo en casa)",curado,Claves ENIGH: 011861
+cafe_bebidas,"Cafe soluble, en grano o molido y preparaciones a base de cafe",curado,"Claves ENIGH: 012201, 012202, 012203"
+chocolate_cacao,Chocolate y cacao,curado,"Claves ENIGH: 011851, 011852, 011853, 181155"
+pan_pasteles,"Pan, pan dulce a granel y pasteles frescos (panaderia y pasteleria)",curado,"Claves ENIGH: 011133, 011137, 011139"
+dulces_golosinas,Dulces y golosinas,curado,Claves ENIGH: 011891
+consulta_medica,"Consultas medicas, homeopaticas y de medicina tradicional",curado,"Claves ENIGH: 062191, 062192, 062193, 062194, 062195, 062196, 062197, 062198"
+dental,"Servicios dentales (consultas, ortodoncia, protesis)",curado,"Claves ENIGH: 062210, 062291, 062292"
+peluqueria_estetica,"Corte de cabello, permanentes, tintes, pedicura y manicura",curado,"Claves ENIGH: 131311, 131312, 131313"
+gimnasio_deporte,"Cursos y espacios deportivos, clubes y cuotas deportivas",curado,"Claves ENIGH: 094621, 094622, 094623, 094624, 094625"
+veterinaria_mascotas,Veterinaria y otros servicios para mascotas,curado,"Claves ENIGH: 094501, 094502"
+papeleria,"Papeleria, cuadernos, utiles escolares y material impreso",curado,"Claves ENIGH: 097401, 097402, 097403, 097404, 097405, 097406, 097407, 097408, 097301, 097302"
+libros_revistas,"Libros, periodicos y revistas",curado,"Claves ENIGH: 097111, 097112, 097113, 097191, 097192, 097193, 097194, 097210, 097220"
+lavanderia_ropa,"Limpieza, reparacion, confeccion y alquiler de ropa",curado,Claves ENIGH: 031420
+cursos_recreativos,"Cursos de formacion recreativa (pintura, musica, baile)",curado,Claves ENIGH: 094611
+eventos_espectaculos,"Cines, teatros, conciertos y espectaculos",curado,"Claves ENIGH: 096101, 096102, 096103, 096104, 096105, 096201, 096202, 094630"
+coicop_0111,Cereales y productos a base de cereales,coicop_clase,Suma de claves que empiezan con 0111
+coicop_0112,"Animales vivos, carne y otras partes comestibles de animales",coicop_clase,Suma de claves que empiezan con 0112
+coicop_0113,Pescados y otros mariscos,coicop_clase,Suma de claves que empiezan con 0113
+coicop_0114,"Leche, otros productos lácteos y huevos",coicop_clase,Suma de claves que empiezan con 0114
+coicop_0115,Aceites y grasas,coicop_clase,Suma de claves que empiezan con 0115
+coicop_0116,Frutas y frutos secos,coicop_clase,Suma de claves que empiezan con 0116
+coicop_0117,"Hortalizas, tubérculos, plátanos de cocción y legumbres",coicop_clase,Suma de claves que empiezan con 0117
+coicop_0118,"Azúcar, productos para confitería y postres",coicop_clase,Suma de claves que empiezan con 0118
+coicop_0119,Alimentos preparados y otros productos alimenticios,coicop_clase,Suma de claves que empiezan con 0119
+coicop_0121,Jugos de frutas y hortalizas,coicop_clase,Suma de claves que empiezan con 0121
+coicop_0122,Café y sustitutos de café,coicop_clase,Suma de claves que empiezan con 0122
+coicop_0123,"Té, yerba mate y otros productos vegetales para infusión",coicop_clase,Suma de claves que empiezan con 0123
+coicop_0124,Bebidas de cacao,coicop_clase,Suma de claves que empiezan con 0124
+coicop_0125,Agua,coicop_clase,Suma de claves que empiezan con 0125
+coicop_0126,Refrescos,coicop_clase,Suma de claves que empiezan con 0126
+coicop_0129,Otras bebidas no alcohólicas,coicop_clase,Suma de claves que empiezan con 0129
+coicop_0130,Servicios de procesamiento de productos primarios para alimentos y bebidas no alcohólicas,coicop_clase,Suma de claves que empiezan con 0130
+coicop_0211,Bebidas destiladas y licores,coicop_clase,Suma de claves que empiezan con 0211
+coicop_0212,Vino,coicop_clase,Suma de claves que empiezan con 0212
+coicop_0213,Cerveza,coicop_clase,Suma de claves que empiezan con 0213
+coicop_0219,Otras bebidas alcohólicas,coicop_clase,Suma de claves que empiezan con 0219
+coicop_0230,Tabaco,coicop_clase,Suma de claves que empiezan con 0230
+coicop_0240,Narcóticos,coicop_clase,Suma de claves que empiezan con 0240
+coicop_0311,Material para confección de prendas de vestir,coicop_clase,Suma de claves que empiezan con 0311
+coicop_0312,Prendas de vestir,coicop_clase,Suma de claves que empiezan con 0312
+coicop_0313,Otras prendas y complementos de vestir,coicop_clase,Suma de claves que empiezan con 0313
+coicop_0314,"Limpieza, reparación, confección y alquiler de ropa",coicop_clase,Suma de claves que empiezan con 0314
+coicop_0321,Calzado y otro tipo de calzado,coicop_clase,Suma de claves que empiezan con 0321
+coicop_0322,"Limpieza, reparación y alquiler de calzado",coicop_clase,Suma de claves que empiezan con 0322
+coicop_0411,Alquileres reales pagados por los inquilinos de la residencia,coicop_clase,Suma de claves que empiezan con 0411
+coicop_0412,Otros alquileres reales,coicop_clase,Suma de claves que empiezan con 0412
+coicop_0431,Materiales para el mantenimiento y reparación de la vivienda,coicop_clase,Suma de claves que empiezan con 0431
+coicop_0432,"Servicios para el mantenimiento, reparación y seguridad de la vivienda",coicop_clase,Suma de claves que empiezan con 0432
+coicop_0441,Suministro de agua,coicop_clase,Suma de claves que empiezan con 0441
+coicop_0442,Recolección de desperdicios,coicop_clase,Suma de claves que empiezan con 0442
+coicop_0443,Recolección de aguas residuales,coicop_clase,Suma de claves que empiezan con 0443
+coicop_0444,Otros servicios relacionados con la vivienda,coicop_clase,Suma de claves que empiezan con 0444
+coicop_0451,Electricidad,coicop_clase,Suma de claves que empiezan con 0451
+coicop_0452,Gas,coicop_clase,Suma de claves que empiezan con 0452
+coicop_0453,Combustibles líquidos,coicop_clase,Suma de claves que empiezan con 0453
+coicop_0454,Combustibles sólidos,coicop_clase,Suma de claves que empiezan con 0454
+coicop_0455,Otras energías para calefacción y refrigeración,coicop_clase,Suma de claves que empiezan con 0455
+coicop_0462,Clave 0462 (sin nombre en el catalogo del INEGI),coicop_clase,Suma de claves que empiezan con 0462
+coicop_0511,"Muebles, mobiliario y alfombras sueltas",coicop_clase,Suma de claves que empiezan con 0511
+coicop_0512,"Reparación , instalación y alquiler de muebles, mobiliario y alfombras sueltas",coicop_clase,Suma de claves que empiezan con 0512
+coicop_0521,Textiles para el hogar,coicop_clase,Suma de claves que empiezan con 0521
+coicop_0522,"Servicios de reparación, alquiler y costura de textiles para el hogar",coicop_clase,Suma de claves que empiezan con 0522
+coicop_0531,"GRANDES ELECTRODOMÉSTICOS, ELÉCTRICOS O NO Semestral",coicop_clase,Suma de claves que empiezan con 0531
+coicop_0532,Electrodomésticos pequeños,coicop_clase,Suma de claves que empiezan con 0532
+coicop_0533,"Reparación , instalación y alquiler de electrodomésticos",coicop_clase,Suma de claves que empiezan con 0533
+coicop_0540,"Cristalería, vajillas y utensilios para el hogar",coicop_clase,Suma de claves que empiezan con 0540
+coicop_0551,Herramientas y equipos motorizados,coicop_clase,Suma de claves que empiezan con 0551
+coicop_0552,Herramientas no motorizadas y accesorios diversos,coicop_clase,Suma de claves que empiezan con 0552
+coicop_0553,Reparación y alquiler de herramientas y equipos motorizados,coicop_clase,Suma de claves que empiezan con 0553
+coicop_0561,Artículos domésticos no duraderos,coicop_clase,Suma de claves que empiezan con 0561
+coicop_0562,Servicios domésticos y para el hogar,coicop_clase,Suma de claves que empiezan con 0562
+coicop_0611,Medicamentos,coicop_clase,Suma de claves que empiezan con 0611
+coicop_0612,Productos médicos,coicop_clase,Suma de claves que empiezan con 0612
+coicop_0613,Productos de apoyo,coicop_clase,Suma de claves que empiezan con 0613
+coicop_0621,Servicios de atención preventiva,coicop_clase,Suma de claves que empiezan con 0621
+coicop_0622,Servicios dentales para pacientes ambulatorios,coicop_clase,Suma de claves que empiezan con 0622
+coicop_0623,Otros servicios de atención ambulatoria (excluidos los preventivos y dentales),coicop_clase,Suma de claves que empiezan con 0623
+coicop_0631,Servicios curativos y de rehabilitación para pacientes,coicop_clase,Suma de claves que empiezan con 0631
+coicop_0632,Servicios de atención a largo plazo para pacientes,coicop_clase,Suma de claves que empiezan con 0632
+coicop_0641,Servicios de diagnóstico por imágenes y servicios de laboratorio médico,coicop_clase,Suma de claves que empiezan con 0641
+coicop_0642,Servicios de transporte de emergencia de pacientes y rescate,coicop_clase,Suma de claves que empiezan con 0642
+coicop_0711,Automóviles,coicop_clase,Suma de claves que empiezan con 0711
+coicop_0712,Motocicletas,coicop_clase,Suma de claves que empiezan con 0712
+coicop_0713,Bicicletas,coicop_clase,Suma de claves que empiezan con 0713
+coicop_0721,Partes y accesorios para equipo de transporte personal,coicop_clase,Suma de claves que empiezan con 0721
+coicop_0722,Combustibles y lubricantes para equipo de transporte personal,coicop_clase,Suma de claves que empiezan con 0722
+coicop_0723,Mantenimiento y reparación de equipo de transporte personal,coicop_clase,Suma de claves que empiezan con 0723
+coicop_0724,Otros servicios relacionados con equipos de transporte,coicop_clase,Suma de claves que empiezan con 0724
+coicop_0731,Transporte de pasajeros por ferrocarril,coicop_clase,Suma de claves que empiezan con 0731
+coicop_0732,Transporte de pasajeros por carretera,coicop_clase,Suma de claves que empiezan con 0732
+coicop_0733,Transporte de pasajeros por vía aérea,coicop_clase,Suma de claves que empiezan con 0733
+coicop_0734,Transporte de pasajeros por mar y aguas navegables interiores,coicop_clase,Suma de claves que empiezan con 0734
+coicop_0735,Transporte combinado de pasajeros,coicop_clase,Suma de claves que empiezan con 0735
+coicop_0736,Otros servicios de transporte adquiridos,coicop_clase,Suma de claves que empiezan con 0736
+coicop_0741,Servicios postales y de mensajería,coicop_clase,Suma de claves que empiezan con 0741
+coicop_0749,Otro transporte de mercancías,coicop_clase,Suma de claves que empiezan con 0749
+coicop_0811,Equipo telefónico fijo,coicop_clase,Suma de claves que empiezan con 0811
+coicop_0812,Equipo de telefonía móvil,coicop_clase,Suma de claves que empiezan con 0812
+coicop_0813,Equipo de procesamiento de información,coicop_clase,Suma de claves que empiezan con 0813
+coicop_0814,"Equipo para la recepción, grabación y reproducción de sonido y video",coicop_clase,Suma de claves que empiezan con 0814
+coicop_0815,Medios de grabación no grabados,coicop_clase,Suma de claves que empiezan con 0815
+coicop_0819,Otros equipos y accesorios de información y comunicación,coicop_clase,Suma de claves que empiezan con 0819
+coicop_0820,Software,coicop_clase,Suma de claves que empiezan con 0820
+coicop_0831,Servicios de comunicaciones fijas,coicop_clase,Suma de claves que empiezan con 0831
+coicop_0832,Servicios de comunicaciones móviles,coicop_clase,Suma de claves que empiezan con 0832
+coicop_0833,Servicios de provisión de acceso a internet y servicios de almacenamiento en red,coicop_clase,Suma de claves que empiezan con 0833
+coicop_0834,Servicios de telecomunicaciones agrupados,coicop_clase,Suma de claves que empiezan con 0834
+coicop_0835,Reparación y alquiler de equipo de información y comunicación,coicop_clase,Suma de claves que empiezan con 0835
+coicop_0839,Otros servicios de información y comunicación,coicop_clase,Suma de claves que empiezan con 0839
+coicop_0911,Equipos e instrumentos ópticos fotográficos y cinematográficos,coicop_clase,Suma de claves que empiezan con 0911
+coicop_0912,Principales bienes duraderos para recreación,coicop_clase,Suma de claves que empiezan con 0912
+coicop_0921,"Juguetes, juegos y pasatiempos",coicop_clase,Suma de claves que empiezan con 0921
+coicop_0922,"Equipo para deportes, campismo y recreación al aire libre",coicop_clase,Suma de claves que empiezan con 0922
+coicop_0931,"Productos de jardinería, plantas y flores",coicop_clase,Suma de claves que empiezan con 0931
+coicop_0932,Mascotas y productos relacionados,coicop_clase,Suma de claves que empiezan con 0932
+coicop_0943,"Alquiler y reparación de juegos, juguetes y pasatiempos",coicop_clase,Suma de claves que empiezan con 0943
+coicop_0945,Veterinarios y otros servicios para mascotas,coicop_clase,Suma de claves que empiezan con 0945
+coicop_0946,Servicios recreativos y deportivos,coicop_clase,Suma de claves que empiezan con 0946
+coicop_0947,Juegos de azar,coicop_clase,Suma de claves que empiezan con 0947
+coicop_0951,Instrumentos musicales,coicop_clase,Suma de claves que empiezan con 0951
+coicop_0952,Medios audiovisuales,coicop_clase,Suma de claves que empiezan con 0952
+coicop_0961,"Cines, teatros y conciertos",coicop_clase,Suma de claves que empiezan con 0961
+coicop_0962,"Museos, bibliotecas y sitios culturales",coicop_clase,Suma de claves que empiezan con 0962
+coicop_0963,Servicios fotográficos,coicop_clase,Suma de claves que empiezan con 0963
+coicop_0969,Otros servicios culturales,coicop_clase,Suma de claves que empiezan con 0969
+coicop_0971,Libros,coicop_clase,Suma de claves que empiezan con 0971
+coicop_0972,Periódicos y publicaciones periódicas,coicop_clase,Suma de claves que empiezan con 0972
+coicop_0973,Material impreso diverso,coicop_clase,Suma de claves que empiezan con 0973
+coicop_0974,Material de papelería y dibujo,coicop_clase,Suma de claves que empiezan con 0974
+coicop_0980,Paquetes de vacaciones,coicop_clase,Suma de claves que empiezan con 0980
+coicop_1010,Educación preescolar y primaria,coicop_clase,Suma de claves que empiezan con 1010
+coicop_1020,Educación secundaria,coicop_clase,Suma de claves que empiezan con 1020
+coicop_1030,Educación postsecundaria no terciaria,coicop_clase,Suma de claves que empiezan con 1030
+coicop_1040,Educación terciaria (universitaria),coicop_clase,Suma de claves que empiezan con 1040
+coicop_1050,Educación no definida por nivel,coicop_clase,Suma de claves que empiezan con 1050
+coicop_1111,"Restaurantes , cafés y similares",coicop_clase,Suma de claves que empiezan con 1111
+coicop_1120,Servicios de alojamiento,coicop_clase,Suma de claves que empiezan con 1120
+coicop_1211,Seguros de vida y accidentes,coicop_clase,Suma de claves que empiezan con 1211
+coicop_1212,Seguros relacionados con la salud,coicop_clase,Suma de claves que empiezan con 1212
+coicop_1213,Seguros relacionados con la vivienda,coicop_clase,Suma de claves que empiezan con 1213
+coicop_1214,Seguros relacionados con el transporte,coicop_clase,Suma de claves que empiezan con 1214
+coicop_1219,Otros seguros,coicop_clase,Suma de claves que empiezan con 1219
+coicop_1221,Servicios de intermediación financiera medidos indirectamente,coicop_clase,Suma de claves que empiezan con 1221
+coicop_1222,Cargos explícitos por corporaciones de depósito,coicop_clase,Suma de claves que empiezan con 1222
+coicop_1229,Otros servicios financieros,coicop_clase,Suma de claves que empiezan con 1229
+coicop_1311,Aparatos eléctricos para el cuidado personal,coicop_clase,Suma de claves que empiezan con 1311
+coicop_1312,"Otros aparatos, artículos y productos para el cuidado personal",coicop_clase,Suma de claves que empiezan con 1312
+coicop_1313,Salones de peluquería y establecimientos de aseo personal,coicop_clase,Suma de claves que empiezan con 1313
+coicop_1321,Joyas y relojes,coicop_clase,Suma de claves que empiezan con 1321
+coicop_1322,Artículos devocionales y para celebraciones religiosas y rituales,coicop_clase,Suma de claves que empiezan con 1322
+coicop_1329,Otros efectos personales,coicop_clase,Suma de claves que empiezan con 1329
+coicop_1330,Protección social,coicop_clase,Suma de claves que empiezan con 1330
+coicop_1390,Otros servicios,coicop_clase,Suma de claves que empiezan con 1390
+coicop_1711,Limpieza y cuidados de la casa,coicop_clase,Suma de claves que empiezan con 1711
+coicop_1716,Último recibo pagado,coicop_clase,Suma de claves que empiezan con 1716
+coicop_1721,"Prendas de vestir, calzado y accesorios",coicop_clase,Suma de claves que empiezan con 1721
+coicop_1731,Enseres domésticos y mantenimiento de la vivienda,coicop_clase,Suma de claves que empiezan con 1731
+coicop_1734,Otros gastos,coicop_clase,Suma de claves que empiezan con 1734
+coicop_1741,Educación inicial,coicop_clase,Suma de claves que empiezan con 1741
+coicop_1811,Alimentos bebidas y tabaco,coicop_clase,Suma de claves que empiezan con 1811
+coicop_1812,Transporte público,coicop_clase,Suma de claves que empiezan con 1812
+coicop_T901,Clave T901 (sin nombre en el catalogo del INEGI),coicop_clase,Suma de claves que empiezan con T901
+coicop_T902,Clave T902 (sin nombre en el catalogo del INEGI),coicop_clase,Suma de claves que empiezan con T902
+coicop_T903,Clave T903 (sin nombre en el catalogo del INEGI),coicop_clase,Suma de claves que empiezan con T903
+coicop_T904,Clave T904 (sin nombre en el catalogo del INEGI),coicop_clase,Suma de claves que empiezan con T904
+coicop_T905,Clave T905 (sin nombre en el catalogo del INEGI),coicop_clase,Suma de claves que empiezan con T905
+coicop_T906,Clave T906 (sin nombre en el catalogo del INEGI),coicop_clase,Suma de claves que empiezan con T906
+coicop_T907,Clave T907 (sin nombre en el catalogo del INEGI),coicop_clase,Suma de claves que empiezan con T907
+coicop_T908,Clave T908 (sin nombre en el catalogo del INEGI),coicop_clase,Suma de claves que empiezan con T908
+coicop_T909,Clave T909 (sin nombre en el catalogo del INEGI),coicop_clase,Suma de claves que empiezan con T909
+coicop_T910,Clave T910 (sin nombre en el catalogo del INEGI),coicop_clase,Suma de claves que empiezan con T910
+coicop_T911,Clave T911 (sin nombre en el catalogo del INEGI),coicop_clase,Suma de claves que empiezan con T911
+coicop_T912,Clave T912 (sin nombre en el catalogo del INEGI),coicop_clase,Suma de claves que empiezan con T912
+coicop_T913,Clave T913 (sin nombre en el catalogo del INEGI),coicop_clase,Suma de claves que empiezan con T913
+coicop_T914,Clave T914 (sin nombre en el catalogo del INEGI),coicop_clase,Suma de claves que empiezan con T914
+coicop_T915,Clave T915 (sin nombre en el catalogo del INEGI),coicop_clase,Suma de claves que empiezan con T915
+coicop_T916,Clave T916 (sin nombre en el catalogo del INEGI),coicop_clase,Suma de claves que empiezan con T916
+coicop_01111,Cereales,coicop_subclase,Suma de claves que empiezan con 01111
+coicop_01112,Harina de cereales,coicop_subclase,Suma de claves que empiezan con 01112
+coicop_01113,Pan y productos de panadería,coicop_subclase,Suma de claves que empiezan con 01113
+coicop_01114,Cereales para el desayuno,coicop_subclase,Suma de claves que empiezan con 01114
+coicop_01115,"Macarrones, fideos, cuscús y productos de pastas similares",coicop_subclase,Suma de claves que empiezan con 01115
+coicop_01119,Otros cereales y productos de grano molido,coicop_subclase,Suma de claves que empiezan con 01119
+coicop_01121,Animales terrestres vivos,coicop_subclase,Suma de claves que empiezan con 01121
+coicop_01122,"Carne fresca, refrigerada o congelada",coicop_subclase,Suma de claves que empiezan con 01122
+coicop_01123,"Carne seca, salada o ahumada",coicop_subclase,Suma de claves que empiezan con 01123
+coicop_01124,"Vísceras, despojos, sangre y otras partes de animales, frescos, refrigerados o congelados, secos, salados, en salmuera o ahumados",coicop_subclase,Suma de claves que empiezan con 01124
+coicop_01125,"Preparaciones de carne, despojos, sangre y otras partes de animales",coicop_subclase,Suma de claves que empiezan con 01125
+coicop_01131,"Pescado fresco, refrigerado o congelado",coicop_subclase,Suma de claves que empiezan con 01131
+coicop_01132,"Pescado seco, salado, en salmuera o ahumado",coicop_subclase,Suma de claves que empiezan con 01132
+coicop_01133,Preparaciones de pescado,coicop_subclase,Suma de claves que empiezan con 01133
+coicop_01134,"Otros mariscos, vivos, frescos, refrigerados o congelados",coicop_subclase,Suma de claves que empiezan con 01134
+coicop_01135,"Otros mariscos secos, salados, en salmuera o ahumados",coicop_subclase,Suma de claves que empiezan con 01135
+coicop_01136,Otras preparaciones de mariscos,coicop_subclase,Suma de claves que empiezan con 01136
+coicop_01141,Leche cruda y entera,coicop_subclase,Suma de claves que empiezan con 01141
+coicop_01142,Leche desnatada,coicop_subclase,Suma de claves que empiezan con 01142
+coicop_01143,Otras leches y cremas,coicop_subclase,Suma de claves que empiezan con 01143
+coicop_01144,Leche no animal,coicop_subclase,Suma de claves que empiezan con 01144
+coicop_01145,Queso,coicop_subclase,Suma de claves que empiezan con 01145
+coicop_01146,Yogurt y productos similares,coicop_subclase,Suma de claves que empiezan con 01146
+coicop_01147,Postres y bebidas a base de leche,coicop_subclase,Suma de claves que empiezan con 01147
+coicop_01148,Huevos,coicop_subclase,Suma de claves que empiezan con 01148
+coicop_01149,Otros productos lácteos,coicop_subclase,Suma de claves que empiezan con 01149
+coicop_01151,Aceites vegetales,coicop_subclase,Suma de claves que empiezan con 01151
+coicop_01152,Mantequilla y otras grasas y aceites derivados de la leche,coicop_subclase,Suma de claves que empiezan con 01152
+coicop_01153,Margarina y preparaciones similares,coicop_subclase,Suma de claves que empiezan con 01153
+coicop_01159,Otros aceites y grasas animales,coicop_subclase,Suma de claves que empiezan con 01159
+coicop_01161,"Dátiles, higos y frutas tropicales frescos",coicop_subclase,Suma de claves que empiezan con 01161
+coicop_01162,Frutos cítricos frescos,coicop_subclase,Suma de claves que empiezan con 01162
+coicop_01163,"Frutas de hueso y frutas de pepita, frescas",coicop_subclase,Suma de claves que empiezan con 01163
+coicop_01164,Bayas frescas,coicop_subclase,Suma de claves que empiezan con 01164
+coicop_01165,Otras frutas frescas,coicop_subclase,Suma de claves que empiezan con 01165
+coicop_01166,Fruta congelada,coicop_subclase,Suma de claves que empiezan con 01166
+coicop_01167,Frutos secos o deshidratados,coicop_subclase,Suma de claves que empiezan con 01167
+coicop_01168,Nueces con cáscara o sin cáscara,coicop_subclase,Suma de claves que empiezan con 01168
+coicop_01169,Frutas y frutos secos molidos y otras preparaciones,coicop_subclase,Suma de claves que empiezan con 01169
+coicop_01171,"Hortalizas de hoja o de tallo, frescas o refrigeradas",coicop_subclase,Suma de claves que empiezan con 01171
+coicop_01172,"Hortalizas frutales, frescas o refrigeradas",coicop_subclase,Suma de claves que empiezan con 01172
+coicop_01173,"Legumbres verdes, frescas o refrigeradas",coicop_subclase,Suma de claves que empiezan con 01173
+coicop_01174,"Otras hortalizas, frescas o refrigeradas",coicop_subclase,Suma de claves que empiezan con 01174
+coicop_01175,Tubérculos y plátanos de cocción,coicop_subclase,Suma de claves que empiezan con 01175
+coicop_01176,Legumbres,coicop_subclase,Suma de claves que empiezan con 01176
+coicop_01177,"Otras hortalizas, tubérculos, plátanos y plátanos para cocinar, secos y deshidratados",coicop_subclase,Suma de claves que empiezan con 01177
+coicop_01178,"Hortalizas, tubérculos, plátanos y plátanos para cocinar, congelados",coicop_subclase,Suma de claves que empiezan con 01178
+coicop_01179,"Hortalizas, tubérculos, plátanos, plátanos de cocción y legumbres molidas y otras preparaciones",coicop_subclase,Suma de claves que empiezan con 01179
+coicop_01181,Azúcar de caña y remolacha,coicop_subclase,Suma de claves que empiezan con 01181
+coicop_01182,Otros azúcares y sustitutos de azúcar,coicop_subclase,Suma de claves que empiezan con 01182
+coicop_01183,"Confituras, jaleas de frutas, mermeladas, purés y pastas de frutas, miel de abeja",coicop_subclase,Suma de claves que empiezan con 01183
+coicop_01184,"Puré, mantequilla, crema y pastas de nueces o frutos secos",coicop_subclase,Suma de claves que empiezan con 01184
+coicop_01185,"Chocolate, cacao y productos alimenticios a base de cacao",coicop_subclase,Suma de claves que empiezan con 01185
+coicop_01186,"Hielo, helados, sorbetes y nieves",coicop_subclase,Suma de claves que empiezan con 01186
+coicop_01189,Otros productos de confitería y postres,coicop_subclase,Suma de claves que empiezan con 01189
+coicop_01191,Alimentos preparados,coicop_subclase,Suma de claves que empiezan con 01191
+coicop_01192,Alimentos para bebé,coicop_subclase,Suma de claves que empiezan con 01192
+coicop_01193,"Sal, condimentos y salsas",coicop_subclase,Suma de claves que empiezan con 01193
+coicop_01194,"Especias, hierbas culinarias y semillas",coicop_subclase,Suma de claves que empiezan con 01194
+coicop_01199,Otros productos alimenticios,coicop_subclase,Suma de claves que empiezan con 01199
+coicop_01210,Jugos de frutas y hortalizas,coicop_subclase,Suma de claves que empiezan con 01210
+coicop_01220,Café y sustitutos de café,coicop_subclase,Suma de claves que empiezan con 01220
+coicop_01230,"Té, yerba mate y otros productos vegetales para infusión",coicop_subclase,Suma de claves que empiezan con 01230
+coicop_01240,Bebidas de cacao,coicop_subclase,Suma de claves que empiezan con 01240
+coicop_01250,Agua,coicop_subclase,Suma de claves que empiezan con 01250
+coicop_01260,Refrescos,coicop_subclase,Suma de claves que empiezan con 01260
+coicop_01290,Otras bebidas no alcohólicas,coicop_subclase,Suma de claves que empiezan con 01290
+coicop_01300,Servicios de procesamiento de productos primarios para alimentos y bebidas no alcohólicas,coicop_subclase,Suma de claves que empiezan con 01300
+coicop_02110,Bebidas destiladas y licores,coicop_subclase,Suma de claves que empiezan con 02110
+coicop_02121,Vino de uva,coicop_subclase,Suma de claves que empiezan con 02121
+coicop_02130,Cerveza,coicop_subclase,Suma de claves que empiezan con 02130
+coicop_02190,Otras bebidas alcohólicas,coicop_subclase,Suma de claves que empiezan con 02190
+coicop_02301,Cigarrillos,coicop_subclase,Suma de claves que empiezan con 02301
+coicop_02400,Narcóticos,coicop_subclase,Suma de claves que empiezan con 02400
+coicop_03110,Materiales para confección de prendas de vestir,coicop_subclase,Suma de claves que empiezan con 03110
+coicop_03121,Prendas para hombres o niños,coicop_subclase,Suma de claves que empiezan con 03121
+coicop_03122,Prendas de vestir para mujeres o niñas,coicop_subclase,Suma de claves que empiezan con 03122
+coicop_03123,Prendas para bebés (de 0 a menos de 2 años),coicop_subclase,Suma de claves que empiezan con 03123
+coicop_03124,Uniformes escolares,coicop_subclase,Suma de claves que empiezan con 03124
+coicop_03131,Otras prendas de vestir,coicop_subclase,Suma de claves que empiezan con 03131
+coicop_03132,Accesorios de vestir,coicop_subclase,Suma de claves que empiezan con 03132
+coicop_03141,Limpieza de ropa,coicop_subclase,Suma de claves que empiezan con 03141
+coicop_03142,"Reparación, confección y alquiler de ropa",coicop_subclase,Suma de claves que empiezan con 03142
+coicop_03211,Calzado de caballero,coicop_subclase,Suma de claves que empiezan con 03211
+coicop_03212,Calzado de mujer,coicop_subclase,Suma de claves que empiezan con 03212
+coicop_03213,Calzado para lactantes y niños,coicop_subclase,Suma de claves que empiezan con 03213
+coicop_03220,"Limpieza, reparación y alquiler de calzado",coicop_subclase,Suma de claves que empiezan con 03220
+coicop_04110,Alquileres reales pagados por los inquilinos de la residencia principal,coicop_subclase,Suma de claves que empiezan con 04110
+coicop_04121,Alquileres reales pagados por los inquilinos por residencias secundarias,coicop_subclase,Suma de claves que empiezan con 04121
+coicop_04122,Alquiler de garajes y otros alquileres pagados por los inquilinos,coicop_subclase,Suma de claves que empiezan con 04122
+coicop_04311,Materiales para el mantenimiento y reparación de la vivienda,coicop_subclase,Suma de claves que empiezan con 04311
+coicop_04312,Equipo de seguridad,coicop_subclase,Suma de claves que empiezan con 04312
+coicop_04320,"Servicios para el mantenimiento, reparación y seguridad de la vivienda",coicop_subclase,Suma de claves que empiezan con 04320
+coicop_04411,Suministro de agua a través de sistemas de red,coicop_subclase,Suma de claves que empiezan con 04411
+coicop_04412,Suministro de agua mediante sistemas básicos,coicop_subclase,Suma de claves que empiezan con 04412
+coicop_04420,Recolección de desperdicios,coicop_subclase,Suma de claves que empiezan con 04420
+coicop_04431,Recolección de aguas residuales a través de sistemas de alcantarillado,coicop_subclase,Suma de claves que empiezan con 04431
+coicop_04432,Captación de aguas residuales mediante sistemas de saneamiento básico,coicop_subclase,Suma de claves que empiezan con 04432
+coicop_04441,Cargos de mantenimiento en edificios y conjuntos multifamiliares,coicop_subclase,Suma de claves que empiezan con 04441
+coicop_04449,Otros servicios relacionados con la vivienda,coicop_subclase,Suma de claves que empiezan con 04449
+coicop_04510,Electricidad,coicop_subclase,Suma de claves que empiezan con 04510
+coicop_04521,Gas natural a través de redes,coicop_subclase,Suma de claves que empiezan con 04521
+coicop_04522,Hidrocarburos licuados,coicop_subclase,Suma de claves que empiezan con 04522
+coicop_04530,Combustibles líquidos,coicop_subclase,Suma de claves que empiezan con 04530
+coicop_04541,"Carbón, briquetas de carbón y turba",coicop_subclase,Suma de claves que empiezan con 04541
+coicop_04542,Combustible de madera,coicop_subclase,Suma de claves que empiezan con 04542
+coicop_04543,Carbón vegetal,coicop_subclase,Suma de claves que empiezan con 04543
+coicop_04550,Otras energías para calefacción y refrigeración,coicop_subclase,Suma de claves que empiezan con 04550
+coicop_04626,Clave 04626 (sin nombre en el catalogo del INEGI),coicop_subclase,Suma de claves que empiezan con 04626
+coicop_05111,Muebles para el hogar,coicop_subclase,Suma de claves que empiezan con 05111
+coicop_05112,Muebles para jardín y para acampar,coicop_subclase,Suma de claves que empiezan con 05112
+coicop_05113,Equipo de iluminación,coicop_subclase,Suma de claves que empiezan con 05113
+coicop_05114,"Mobiliario, alfombras sueltas y tapetes",coicop_subclase,Suma de claves que empiezan con 05114
+coicop_05120,"Reparación, instalación y alquiler de muebles, mobiliario y alfombras sueltas",coicop_subclase,Suma de claves que empiezan con 05120
+coicop_05211,Textiles para decoración y cortinas,coicop_subclase,Suma de claves que empiezan con 05211
+coicop_05212,Ropa de cama,coicop_subclase,Suma de claves que empiezan con 05212
+coicop_05213,Blancos para baño y mantelería,coicop_subclase,Suma de claves que empiezan con 05213
+coicop_05219,Otros textiles para el hogar,coicop_subclase,Suma de claves que empiezan con 05219
+coicop_05220,"Servicios de reparación, alquiler y costura de textiles para el hogar",coicop_subclase,Suma de claves que empiezan con 05220
+coicop_05311,Grandes electrodomésticos de cocina,coicop_subclase,Suma de claves que empiezan con 05311
+coicop_05312,Grandes aparatos de lavandería,coicop_subclase,Suma de claves que empiezan con 05312
+coicop_05313,Calentadores y aparatos de aire acondicionado,coicop_subclase,Suma de claves que empiezan con 05313
+coicop_05314,Equipo de limpieza,coicop_subclase,Suma de claves que empiezan con 05314
+coicop_05319,Otros electrodomésticos grandes,coicop_subclase,Suma de claves que empiezan con 05319
+coicop_05321,Pequeños aparatos eléctricos para cocinar y procesar alimentos,coicop_subclase,Suma de claves que empiezan con 05321
+coicop_05322,Pequeños aparatos eléctricos para preparar bebidas,coicop_subclase,Suma de claves que empiezan con 05322
+coicop_05329,Otros electrodomésticos pequeños,coicop_subclase,Suma de claves que empiezan con 05329
+coicop_05330,"Reparación, instalación y alquiler de electrodomésticos",coicop_subclase,Suma de claves que empiezan con 05330
+coicop_05401,"Cristalería, artículos de vidrio, cerámica y loza",coicop_subclase,Suma de claves que empiezan con 05401
+coicop_05402,"Cubiertos, cubertería y platería",coicop_subclase,Suma de claves que empiezan con 05402
+coicop_05403,Utensilios y artículos de cocina no eléctricos,coicop_subclase,Suma de claves que empiezan con 05403
+coicop_05404,"Reparación y alquiler de cristalería, vajilla y utensilios domésticos",coicop_subclase,Suma de claves que empiezan con 05404
+coicop_05510,Herramientas y equipos motorizados,coicop_subclase,Suma de claves que empiezan con 05510
+coicop_05521,Herramientas no motorizadas,coicop_subclase,Suma de claves que empiezan con 05521
+coicop_05522,Accesorios diversos,coicop_subclase,Suma de claves que empiezan con 05522
+coicop_05530,Reparación y alquiler de herramientas y equipos motorizados y no motorizados,coicop_subclase,Suma de claves que empiezan con 05530
+coicop_05611,Productos de limpieza y mantenimiento,coicop_subclase,Suma de claves que empiezan con 05611
+coicop_05619,Otros artículos domésticos no duraderos,coicop_subclase,Suma de claves que empiezan con 05619
+coicop_05621,Servicios domésticos por personal remunerado,coicop_subclase,Suma de claves que empiezan con 05621
+coicop_05629,Otros servicios domésticos,coicop_subclase,Suma de claves que empiezan con 05629
+coicop_06111,"Medicamentos, vacunas y otras preparaciones farmacéuticas",coicop_subclase,Suma de claves que empiezan con 06111
+coicop_06112,Medicamentos a base de plantas y productos homeopáticos,coicop_subclase,Suma de claves que empiezan con 06112
+coicop_06121,Productos de diagnóstico médico,coicop_subclase,Suma de claves que empiezan con 06121
+coicop_06122,Dispositivos de prevención y protección,coicop_subclase,Suma de claves que empiezan con 06122
+coicop_06123,Dispositivos de tratamiento para uso personal,coicop_subclase,Suma de claves que empiezan con 06123
+coicop_06131,Productos de apoyo para la visión,coicop_subclase,Suma de claves que empiezan con 06131
+coicop_06132,Productos de apoyo para la audición y la comunicación,coicop_subclase,Suma de claves que empiezan con 06132
+coicop_06133,Productos de apoyo para la movilidad y la vida diaria,coicop_subclase,Suma de claves que empiezan con 06133
+coicop_06211,Servicios de inmunización,coicop_subclase,Suma de claves que empiezan con 06211
+coicop_06219,Otros servicios preventivos,coicop_subclase,Suma de claves que empiezan con 06219
+coicop_06221,Servicios dentales preventivos,coicop_subclase,Suma de claves que empiezan con 06221
+coicop_06229,Otros servicios dentales para pacientes ambulatorios,coicop_subclase,Suma de claves que empiezan con 06229
+coicop_06231,Servicios curativos y de rehabilitación para pacientes ambulatorios (excluidos los servicios dentales),coicop_subclase,Suma de claves que empiezan con 06231
+coicop_06232,Servicios de atención a largo plazo para pacientes ambulatorios,coicop_subclase,Suma de claves que empiezan con 06232
+coicop_06310,Servicios curativos y de rehabilitación para pacientes hospitalizados,coicop_subclase,Suma de claves que empiezan con 06310
+coicop_06320,Servicios de atención a largo plazo para pacientes hospitalizados,coicop_subclase,Suma de claves que empiezan con 06320
+coicop_06410,Servicios de diagnóstico por imágenes y servicios de laboratorio médico,coicop_subclase,Suma de claves que empiezan con 06410
+coicop_06420,Servicios de transporte de emergencia de pacientes y rescate de emergencia,coicop_subclase,Suma de claves que empiezan con 06420
+coicop_07111,Automóviles nuevos,coicop_subclase,Suma de claves que empiezan con 07111
+coicop_07112,Automóviles usados,coicop_subclase,Suma de claves que empiezan con 07112
+coicop_07120,Motocicletas,coicop_subclase,Suma de claves que empiezan con 07120
+coicop_07130,Bicicletas,coicop_subclase,Suma de claves que empiezan con 07130
+coicop_07211,Neumáticos,coicop_subclase,Suma de claves que empiezan con 07211
+coicop_07212,Partes para equipo de transporte personal,coicop_subclase,Suma de claves que empiezan con 07212
+coicop_07213,Accesorios para equipo de transporte personal,coicop_subclase,Suma de claves que empiezan con 07213
+coicop_07221,Diésel,coicop_subclase,Suma de claves que empiezan con 07221
+coicop_07222,Gasolina,coicop_subclase,Suma de claves que empiezan con 07222
+coicop_07223,Otros combustibles para equipos de transporte personal,coicop_subclase,Suma de claves que empiezan con 07223
+coicop_07224,Lubricantes,coicop_subclase,Suma de claves que empiezan con 07224
+coicop_07230,Mantenimiento y reparación de equipo de transporte personal,coicop_subclase,Suma de claves que empiezan con 07230
+coicop_07241,Servicios de estacionamiento,coicop_subclase,Suma de claves que empiezan con 07241
+coicop_07242,Instalaciones de peaje,coicop_subclase,Suma de claves que empiezan con 07242
+coicop_07243,"Clases de manejo, pruebas, licencias y pruebas de aptitud vial",coicop_subclase,Suma de claves que empiezan con 07243
+coicop_07244,Alquiler de equipo de transporte personal sin conductor,coicop_subclase,Suma de claves que empiezan con 07244
+coicop_07311,Transporte de pasajeros por tren,coicop_subclase,Suma de claves que empiezan con 07311
+coicop_07312,Transporte de pasajeros por tránsito rápido y tranvía,coicop_subclase,Suma de claves que empiezan con 07312
+coicop_07321,Transporte de pasajeros en autobús o autocar,coicop_subclase,Suma de claves que empiezan con 07321
+coicop_07322,Transporte de pasajeros en taxi y coche de alquiler con conductor,coicop_subclase,Suma de claves que empiezan con 07322
+coicop_07323,Transporte de pasajeros para estudiantes hacia y desde la escuela,coicop_subclase,Suma de claves que empiezan con 07323
+coicop_07329,Otro transporte de pasajeros por carretera,coicop_subclase,Suma de claves que empiezan con 07329
+coicop_07331,"Transporte de pasajeros por aire, nacional",coicop_subclase,Suma de claves que empiezan con 07331
+coicop_07332,"Transporte de pasajeros por aire, internacional",coicop_subclase,Suma de claves que empiezan con 07332
+coicop_07340,Transporte de pasajeros por mar y aguas navegables interiores,coicop_subclase,Suma de claves que empiezan con 07340
+coicop_07350,Transporte combinado de pasajeros,coicop_subclase,Suma de claves que empiezan con 07350
+coicop_07360,Otros servicios de transporte adquiridos,coicop_subclase,Suma de claves que empiezan con 07360
+coicop_07411,Servicios postales,coicop_subclase,Suma de claves que empiezan con 07411
+coicop_07412,Servicios de mensajería y paquetería,coicop_subclase,Suma de claves que empiezan con 07412
+coicop_07491,Servicios de mudanza y almacenamiento,coicop_subclase,Suma de claves que empiezan con 07491
+coicop_07492,Entrega de bienes,coicop_subclase,Suma de claves que empiezan con 07492
+coicop_08110,Equipo telefónico fijo,coicop_subclase,Suma de claves que empiezan con 08110
+coicop_08120,Equipo de telefonía móvil,coicop_subclase,Suma de claves que empiezan con 08120
+coicop_08131,"Computadoras, computadoras portátiles y tablets o laptop",coicop_subclase,Suma de claves que empiezan con 08131
+coicop_08132,Equipos periféricos y sus componentes consumibles,coicop_subclase,Suma de claves que empiezan con 08132
+coicop_08140,Clave 08140 (sin nombre en el catalogo del INEGI),coicop_subclase,Suma de claves que empiezan con 08140
+coicop_08150,Medios de grabación no grabados,coicop_subclase,Suma de claves que empiezan con 08150
+coicop_08191,Otro equipo de información y comunicación,coicop_subclase,Suma de claves que empiezan con 08191
+coicop_08192,Otros accesorios de información y comunicación,coicop_subclase,Suma de claves que empiezan con 08192
+coicop_08200,Software,coicop_subclase,Suma de claves que empiezan con 08200
+coicop_08310,Servicios de comunicaciones fijas,coicop_subclase,Suma de claves que empiezan con 08310
+coicop_08320,Servicios de comunicaciones móviles,coicop_subclase,Suma de claves que empiezan con 08320
+coicop_08330,Servicios de provisión de acceso a internet y servicios de almacenamiento en red,coicop_subclase,Suma de claves que empiezan con 08330
+coicop_08340,Servicios de telecomunicaciones agrupados,coicop_subclase,Suma de claves que empiezan con 08340
+coicop_08350,Reparación y alquiler de equipo de información y comunicación,coicop_subclase,Suma de claves que empiezan con 08350
+coicop_08392,"Suscripción a contenidos audiovisuales, servicios de trasmisión ( streaming) y alquiler de contenidos audiovisuales",coicop_subclase,Suma de claves que empiezan con 08392
+coicop_08399,Otros servicios de información y comunicación,coicop_subclase,Suma de claves que empiezan con 08399
+coicop_09111,Cámaras,coicop_subclase,Suma de claves que empiezan con 09111
+coicop_09112,Accesorios para equipos fotográficos y cinematográficos,coicop_subclase,Suma de claves que empiezan con 09112
+coicop_09123,"Barcos, yates, motores fuera de borda y otros equipos para deportes acuáticos",coicop_subclase,Suma de claves que empiezan con 09123
+coicop_09211,"Computadoras de videojuegos, consolas de juegos, aplicaciones y software de juegos",coicop_subclase,Suma de claves que empiezan con 09211
+coicop_09212,"Otros juegos, juguetes y pasatiempos",coicop_subclase,Suma de claves que empiezan con 09212
+coicop_09213,Artículos de celebración,coicop_subclase,Suma de claves que empiezan con 09213
+coicop_09221,Equipamiento deportivo,coicop_subclase,Suma de claves que empiezan con 09221
+coicop_09222,Equipo para acampar y recreación al aire libre,coicop_subclase,Suma de claves que empiezan con 09222
+coicop_09311,Productos de jardinería,coicop_subclase,Suma de claves que empiezan con 09311
+coicop_09312,"Plantas, semillas y flores",coicop_subclase,Suma de claves que empiezan con 09312
+coicop_09321,Compra de mascotas,coicop_subclase,Suma de claves que empiezan con 09321
+coicop_09322,Productos para mascotas y otros animales domésticos,coicop_subclase,Suma de claves que empiezan con 09322
+coicop_09431,Alquiler de software de juegos y suscripción a juegos en línea,coicop_subclase,Suma de claves que empiezan con 09431
+coicop_09450,Servicios veterinarios y de otro tipo para mascotas,coicop_subclase,Suma de claves que empiezan con 09450
+coicop_09461,Servicios recreativos y de esparcimiento,coicop_subclase,Suma de claves que empiezan con 09461
+coicop_09462,Servicios deportivos - práctica,coicop_subclase,Suma de claves que empiezan con 09462
+coicop_09463,Servicios deportivos - asistencia,coicop_subclase,Suma de claves que empiezan con 09463
+coicop_09470,Juegos de azar,coicop_subclase,Suma de claves que empiezan con 09470
+coicop_09510,Instrumentos musicales,coicop_subclase,Suma de claves que empiezan con 09510
+coicop_09520,Medios audiovisuales,coicop_subclase,Suma de claves que empiezan con 09520
+coicop_09610,"Cines, teatros y conciertos",coicop_subclase,Suma de claves que empiezan con 09610
+coicop_09620,"Museos, bibliotecas y sitios culturales",coicop_subclase,Suma de claves que empiezan con 09620
+coicop_09630,Servicios fotográficos,coicop_subclase,Suma de claves que empiezan con 09630
+coicop_09690,Otros servicios culturales,coicop_subclase,Suma de claves que empiezan con 09690
+coicop_09711,Libros educativos y de texto,coicop_subclase,Suma de claves que empiezan con 09711
+coicop_09719,Otros libros,coicop_subclase,Suma de claves que empiezan con 09719
+coicop_09721,Periódicos,coicop_subclase,Suma de claves que empiezan con 09721
+coicop_09722,Revistas y publicaciones periódicas,coicop_subclase,Suma de claves que empiezan con 09722
+coicop_09730,Material impreso diverso,coicop_subclase,Suma de claves que empiezan con 09730
+coicop_09740,Material de papelería y dibujo,coicop_subclase,Suma de claves que empiezan con 09740
+coicop_09800,Paquetes de vacaciones,coicop_subclase,Suma de claves que empiezan con 09800
+coicop_10101,Educación preescolar,coicop_subclase,Suma de claves que empiezan con 10101
+coicop_10102,Educación primaria,coicop_subclase,Suma de claves que empiezan con 10102
+coicop_10200,Educación secundaria,coicop_subclase,Suma de claves que empiezan con 10200
+coicop_10300,Educación postsecundaria no terciaria,coicop_subclase,Suma de claves que empiezan con 10300
+coicop_10401,Educación terciaria (universitaria),coicop_subclase,Suma de claves que empiezan con 10401
+coicop_10501,Tutorías,coicop_subclase,Suma de claves que empiezan con 10501
+coicop_10509,Otra educación no definida por nivel,coicop_subclase,Suma de claves que empiezan con 10509
+coicop_11111,"Restaurantes, cafés y similares - con servicio completo",coicop_subclase,Suma de claves que empiezan con 11111
+coicop_11112,"Restaurantes, cafés y similares con servicio limitado",coicop_subclase,Suma de claves que empiezan con 11112
+coicop_11201,"Hoteles, moteles, posadas y servicios de alojamiento similares",coicop_subclase,Suma de claves que empiezan con 11201
+coicop_11202,"Centros de vacaciones, campamentos , albergues juveniles y servicios de alojamiento",coicop_subclase,Suma de claves que empiezan con 11202
+coicop_11209,Otros servicios de alojamiento,coicop_subclase,Suma de claves que empiezan con 11209
+coicop_12110,Seguros de vida y accidentes,coicop_subclase,Suma de claves que empiezan con 12110
+coicop_12120,Seguros relacionados con la salud,coicop_subclase,Suma de claves que empiezan con 12120
+coicop_12130,Seguros relacionado con la vivienda,coicop_subclase,Suma de claves que empiezan con 12130
+coicop_12141,Seguros de transporte personal,coicop_subclase,Suma de claves que empiezan con 12141
+coicop_12142,Seguros de viaje,coicop_subclase,Suma de claves que empiezan con 12142
+coicop_12190,Otros seguros,coicop_subclase,Suma de claves que empiezan con 12190
+coicop_12210,Servicios de intermediación financiera medidos indirectamente,coicop_subclase,Suma de claves que empiezan con 12210
+coicop_12220,Cargos explícitos por corporaciones captadoras de depósitos,coicop_subclase,Suma de claves que empiezan con 12220
+coicop_12291,Tasas de remesas,coicop_subclase,Suma de claves que empiezan con 12291
+coicop_12299,Otros servicios financieros,coicop_subclase,Suma de claves que empiezan con 12299
+coicop_13111,Aparatos eléctricos para el cuidado personal,coicop_subclase,Suma de claves que empiezan con 13111
+coicop_13112,Reparación de aparatos eléctricos para el cuidado personal,coicop_subclase,Suma de claves que empiezan con 13112
+coicop_13120,"Otros aparatos, artículos y productos para el cuidado personal",coicop_subclase,Suma de claves que empiezan con 13120
+coicop_13131,Peluquería,coicop_subclase,Suma de claves que empiezan con 13131
+coicop_13132,Tratamientos de aseo personal,coicop_subclase,Suma de claves que empiezan con 13132
+coicop_13211,Joyas y relojes,coicop_subclase,Suma de claves que empiezan con 13211
+coicop_13212,Reparación y alquiler de joyas y relojes,coicop_subclase,Suma de claves que empiezan con 13212
+coicop_13220,Artículos devocionales y para celebraciones religiosas y rituales,coicop_subclase,Suma de claves que empiezan con 13220
+coicop_13291,"Artículos de viaje, artículos para bebés y otros efectos personales",coicop_subclase,Suma de claves que empiezan con 13291
+coicop_13292,Reparación o alquiler de otros efectos personales,coicop_subclase,Suma de claves que empiezan con 13292
+coicop_13301,Servicios de cuidado infantil,coicop_subclase,Suma de claves que empiezan con 13301
+coicop_13303,Servicios para mantener a las personas en sus hogares privados,coicop_subclase,Suma de claves que empiezan con 13303
+coicop_13309,Otros servicios de protección social,coicop_subclase,Suma de claves que empiezan con 13309
+coicop_13901,Prostitución,coicop_subclase,Suma de claves que empiezan con 13901
+coicop_13902,Servicios religiosos,coicop_subclase,Suma de claves que empiezan con 13902
+coicop_13909,Otros servicios,coicop_subclase,Suma de claves que empiezan con 13909
+coicop_17110,Artículos de limpieza y cuidados de la casa,coicop_subclase,Suma de claves que empiezan con 17110
+coicop_17161,Último recibo pagado,coicop_subclase,Suma de claves que empiezan con 17161
+coicop_17211,Prendas para niña (de 0 a menos de 2 años),coicop_subclase,Suma de claves que empiezan con 17211
+coicop_17212,Clave 17212 (sin nombre en el catalogo del INEGI),coicop_subclase,Suma de claves que empiezan con 17212
+coicop_17311,Enseres domésticos,coicop_subclase,Suma de claves que empiezan con 17311
+coicop_17312,Muebles,coicop_subclase,Suma de claves que empiezan con 17312
+coicop_17313,"Mantenimiento, reparación, remodelación y ampliación de la vivienda",coicop_subclase,Suma de claves que empiezan con 17313
+coicop_17341,Gastos diversos,coicop_subclase,Suma de claves que empiezan con 17341
+coicop_17411,Educación inicial,coicop_subclase,Suma de claves que empiezan con 17411
+coicop_18111,Alimentos bebidas y tabaco,coicop_subclase,Suma de claves que empiezan con 18111
+coicop_18112,Clave 18112 (sin nombre en el catalogo del INEGI),coicop_subclase,Suma de claves que empiezan con 18112
+coicop_18113,Clave 18113 (sin nombre en el catalogo del INEGI),coicop_subclase,Suma de claves que empiezan con 18113
+coicop_18114,Clave 18114 (sin nombre en el catalogo del INEGI),coicop_subclase,Suma de claves que empiezan con 18114
+coicop_18115,Clave 18115 (sin nombre en el catalogo del INEGI),coicop_subclase,Suma de claves que empiezan con 18115
+coicop_18116,Clave 18116 (sin nombre en el catalogo del INEGI),coicop_subclase,Suma de claves que empiezan con 18116
+coicop_18117,Clave 18117 (sin nombre en el catalogo del INEGI),coicop_subclase,Suma de claves que empiezan con 18117
+coicop_18121,Otro transporte,coicop_subclase,Suma de claves que empiezan con 18121
+coicop_111111,Desayunos,coicop_clave,Suma de claves que empiezan con 111111
+coicop_111112,Comidas,coicop_clave,Suma de claves que empiezan con 111112
+coicop_111113,Cenas,coicop_clave,Suma de claves que empiezan con 111113
+coicop_111114,Entrecomidas,coicop_clave,Suma de claves que empiezan con 111114
+coicop_111115,"Alimentos preparados en lugares con servicios recreativos, culturales, deportivos o espectáculos (cines, teatros y conciertos, centros nocturnos y espectáculos deportivos)",coicop_clave,Suma de claves que empiezan con 111115
+coicop_111116,Otros eventos fuera del hogar,coicop_clave,Suma de claves que empiezan con 111116
+coicop_111121,Barbacoa o birria,coicop_clave,Suma de claves que empiezan con 111121
+coicop_111122,Carnitas,coicop_clave,Suma de claves que empiezan con 111122
+coicop_111123,Hamburguesas y hot dogs,coicop_clave,Suma de claves que empiezan con 111123
+coicop_111124,Otros alimentos cocinados,coicop_clave,Suma de claves que empiezan con 111124
+coicop_111125,Pizzas preparadas,coicop_clave,Suma de claves que empiezan con 111125
+coicop_111126,Pollos rostizados,coicop_clave,Suma de claves que empiezan con 111126
+coicop_112011,"Servicios de alojamiento en complejos turísticos, hoteles y moteles",coicop_clave,Suma de claves que empiezan con 112011
+coicop_112012,"Servicios de alojamiento en posadas, pensiones y establecimientos similares",coicop_clave,Suma de claves que empiezan con 112012
+coicop_112013,Clave 112013 (sin nombre en el catalogo del INEGI),coicop_clave,Suma de claves que empiezan con 112013
+coicop_112020,"Centros de vacaciones, campamentos, albergues juveniles y servicios de alojamiento",coicop_clave,Suma de claves que empiezan con 112020
+coicop_112090,Otros servicios de alojamiento,coicop_clave,Suma de claves que empiezan con 112090

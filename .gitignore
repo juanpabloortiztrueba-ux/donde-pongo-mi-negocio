@@ -4,3 +4,8 @@ data/raw/
 __pycache__/
 *.zip
 .DS_Store
+.pytest_cache/
+.ruff_cache/
+*.pyc
+.ipynb_checkpoints/
+*.log.tmp

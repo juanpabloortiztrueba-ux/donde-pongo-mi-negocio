@@ -1,0 +1,10 @@
+{
+ "modelo_embeddings": "nomic-embed-text",
+ "prefijo_doc": "search_document: ",
+ "prefijo_consulta": "search_query: ",
+ "dim": 768,
+ "n_trozos": 872,
+ "n_archivos": 91,
+ "max_chars": 1500,
+ "creado": "2026-11-23T13:18:20"
+}

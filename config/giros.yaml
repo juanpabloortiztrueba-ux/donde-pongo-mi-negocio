@@ -1,0 +1,592 @@
+# Catalogo de giros del modelo "Donde pongo mi negocio".
+# Etapa Giros G. Se valida con: uv run python scripts/validar_giros.py
+#
+# Convenciones (ver docs/BITACORA.md, bloque "Giros G"):
+#  - scian: clases de 6 digitos (SCIAN 2023, el que usa el DENUE actual) que SON el giro (competencia).
+#  - scian_con_filtro (opcional): clases compartidas con otros giros; solo cuentan los
+#    establecimientos cuyo `nombre` cumple el regex (sin distinguir mayusculas). Sin filtro, ese
+#    giro seria identico a otro, porque el DENUE los clasifica en la misma clase.
+#  - complementarios: clases de 6 digitos que atraen a su cliente (no son competencia).
+#  - cliente_objetivo: peso por grupo de edad del Censo (0-14, 15-24, 25-59, 60+); suma 1.
+#    Los grupos son los de agebs_base (pob_0_14, pob_15_24, pob_25_59, pob_60_mas).
+#  - nse_objetivo: peso por nivel socioeconomico (bajo, medio, alto); suma 1. Es criterio del
+#    autor segun el tipo de gasto y el precio del giro, no un dato medido.
+#  - rubro_enigh: clave de rubro_clave en data/processed/enigh_gasto.parquet (validada).
+#    rubro_enigh_alt: otras claves utiles. rubro_enigh_nota: advertencia sobre la cobertura.
+#  - ticket_promedio_mxn: pesos por visita/compra (o por mes en servicios de cuota). No hay una
+#    fuente abierta unica por giro: todos van como supuesto en ticket_fuente. Hay que validarlos
+#    con precios reales antes de usarlos para algo mas que ordenar zonas.
+#  - radio_influencia_m: metros a la redonda donde un negocio capta clientes y compite; supuesto
+#    razonado (caminata de 5-10 min para consumo diario; auto/transporte para destino).
+#  - demanda_base (opcional): "residente" (default) o "diurna" si el cliente es la poblacion que
+#    trabaja o estudia en la zona.
+
+version: 1
+fecha: "2026-11-23"
+scian_version: "SCIAN 2023 (el del DENUE corte 05/2026, data/processed/scian.csv)"
+rangos_edad: ["0-14", "15-24", "25-59", "60+"]
+
+giros:
+
+  - clave: heladeria
+    nombres: [heladeria, heladerias, neveria, paleteria, helados, nieves]
+    scian: ["461170"]
+    scian_con_filtro:
+      - codigos: ["722515"]
+        nombre_regex: "\\bhelad|neveri|nieves|paleter"
+    complementarios: ["611111", "611121", "712131", "531113", "465212", "713120"]
+    cliente_objetivo: {"0-14": 0.30, "15-24": 0.30, "25-59": 0.35, "60+": 0.05}
+    nse_objetivo: {bajo: 0.25, medio: 0.50, alto: 0.25}
+    rubro_enigh: helados
+    rubro_enigh_alt: [ali_fuera_total]
+    rubro_enigh_nota: "helados de la ENIGH es consumo en casa y solo 2-7 % de hogares reporta gasto; sirve para ordenar deciles, no para dimensionar."
+    ticket_promedio_mxn: 70
+    ticket_fuente: "supuesto: una nieve o helado artesanal individual, 2026"
+    radio_influencia_m: 500
+    notas: "Complementarios: escuelas de preescolar y primaria privadas, zoologicos y jardines, salones de fiestas, jugueterias y casas de juegos. Estacional (calor)."
+
+  - clave: cafeteria
+    nombres: [cafeteria, cafe, cafeterias, cafe de especialidad, cafe de barrio]
+    scian: ["722515"]
+    complementarios: ["611311", "531114", "541510", "561432", "465312", "519211", "712111"]
+    cliente_objetivo: {"0-14": 0.02, "15-24": 0.33, "25-59": 0.55, "60+": 0.10}
+    nse_objetivo: {bajo: 0.10, medio: 0.45, alto: 0.45}
+    rubro_enigh: ali_fuera_total
+    rubro_enigh_alt: [cafe_bebidas]
+    rubro_enigh_nota: "cafe_bebidas de la ENIGH es cafe para preparar en casa; el consumo en cafeteria cae en ali_fuera_total (restaurantes y similares)."
+    ticket_promedio_mxn: 95
+    ticket_fuente: "supuesto: una bebida y un alimento ligero"
+    radio_influencia_m: 400
+    demanda_base: diurna
+    notas: "La clase 722515 mezcla cafeterias, neverias y refresquerias (por nombre, 26 % dicen 'cafe'). Complementarios: universidades, oficinas, despachos, cafes internet, librerias, bibliotecas y museos."
+
+  - clave: gimnasio
+    nombres: [gimnasio, gym, gimnasios, centro de acondicionamiento fisico, crossfit]
+    scian: ["713943"]
+    complementarios: ["611621", "713941", "465215", "621391", "464113", "611311", "531114"]
+    cliente_objetivo: {"0-14": 0.02, "15-24": 0.30, "25-59": 0.60, "60+": 0.08}
+    nse_objetivo: {bajo: 0.10, medio: 0.50, alto: 0.40}
+    rubro_enigh: gimnasio_deporte
+    rubro_enigh_alt: [coicop_0946]
+    ticket_promedio_mxn: 550
+    ticket_fuente: "supuesto: mensualidad de un gimnasio de barrio, 2026 (no es ticket por visita)"
+    radio_influencia_m: 1500
+    notas: "La clase 713944 (acondicionamiento fisico publico: deportivos de gobierno) no se cuenta como competencia directa por ser gratuita o casi; puede ser sustituto. Complementarios: escuelas de deporte, clubes, tiendas deportivas, nutriologos, suplementos."
+
+  - clave: farmacia
+    nombres: [farmacia, farmacias, botica, farmacia de similares]
+    scian: ["464111", "464112"]
+    complementarios: ["621111", "621113", "621115", "621211", "622111", "621511", "541941"]
+    cliente_objetivo: {"0-14": 0.10, "15-24": 0.10, "25-59": 0.45, "60+": 0.35}
+    nse_objetivo: {bajo: 0.35, medio: 0.45, alto: 0.20}
+    rubro_enigh: medic_prod
+    ticket_promedio_mxn: 190
+    ticket_fuente: "supuesto: medicamento de receta o patente mas un articulo de cuidado personal"
+    radio_influencia_m: 500
+    notas: "Mercado maduro y muy competido (cadenas y similares). Complementarios: consultorios medicos, dentales, hospitales, laboratorios y veterinarias."
+
+  - clave: papeleria
+    nombres: [papeleria, papelerias, libreria escolar, utiles escolares]
+    scian: ["465311"]
+    complementarios: ["611121", "611122", "611131", "611132", "611161", "611111", "611311", "561431"]
+    cliente_objetivo: {"0-14": 0.25, "15-24": 0.30, "25-59": 0.40, "60+": 0.05}
+    nse_objetivo: {bajo: 0.35, medio: 0.50, alto: 0.15}
+    rubro_enigh: papeleria
+    ticket_promedio_mxn: 60
+    ticket_fuente: "supuesto: copias, cuadernos y utiles sueltos; sube en temporada escolar"
+    radio_influencia_m: 400
+    notas: "Fuerte dependencia de escuelas cercanas (primaria a prepa). Complementarios: escuelas publicas y privadas y universidades, y fotocopiado."
+
+  - clave: lavanderia
+    nombres: [lavanderia, lavanderias, tintoreria, lavado de ropa, lavanderia de autoservicio]
+    scian: ["812210"]
+    complementarios: ["531112", "531111", "611311", "721312", "531210", "812110", "611312"]
+    cliente_objetivo: {"0-14": 0.02, "15-24": 0.30, "25-59": 0.60, "60+": 0.08}
+    nse_objetivo: {bajo: 0.20, medio: 0.55, alto: 0.25}
+    rubro_enigh: lavanderia_ropa
+    rubro_enigh_alt: [cuida_pers]
+    rubro_enigh_nota: "Solo 0.4 % de los hogares reporta gasto en lavanderia en la ENIGH (promedio cercano a 1 peso por trimestre): no sirve para dimensionar demanda. La demanda real se apoya en vivienda en renta, departamentos chicos, estudiantes y trabajadores."
+    ticket_promedio_mxn: 150
+    ticket_fuente: "supuesto: carga de ropa lavada y secada, o prendas de tintoreria"
+    radio_influencia_m: 800
+    notas: "Complementarios: viviendas en renta, departamentos amueblados, universidades y estacionamientos/oficinas. Alta demanda donde hay muchos departamentos sin lavadora."
+
+  - clave: veterinaria
+    nombres: [veterinaria, veterinarias, clinica veterinaria, consultorio veterinario]
+    scian: ["541941"]
+    complementarios: ["465911", "812990", "712131", "464111", "434112"]
+    cliente_objetivo: {"0-14": 0.05, "15-24": 0.15, "25-59": 0.65, "60+": 0.15}
+    nse_objetivo: {bajo: 0.15, medio: 0.50, alto: 0.35}
+    rubro_enigh: veterinaria_mascotas
+    rubro_enigh_alt: [coicop_0945, coicop_0932]
+    ticket_promedio_mxn: 450
+    ticket_fuente: "supuesto: consulta general mas alimento o vacuna"
+    radio_influencia_m: 1200
+    notas: "Complementarios: tiendas de mascotas, estetica canina (otros servicios personales), zoologicos/parques, farmacias y alimento para animales. La clase 541942 es sector publico y no cuenta como competencia."
+
+  - clave: taqueria
+    nombres: [taqueria, taquerias, tacos, taqueria de trompo, tacos al pastor]
+    scian: ["722514"]
+    complementarios: ["722412", "722411", "485114", "531114", "611311", "713120", "722515"]
+    cliente_objetivo: {"0-14": 0.08, "15-24": 0.30, "25-59": 0.52, "60+": 0.10}
+    nse_objetivo: {bajo: 0.35, medio: 0.50, alto: 0.15}
+    rubro_enigh: antojitos_tacos
+    rubro_enigh_alt: [ali_fuera_total, restaurante_comidas]
+    ticket_promedio_mxn: 110
+    ticket_fuente: "supuesto: 5-6 tacos y una bebida"
+    radio_influencia_m: 400
+    demanda_base: diurna
+    notas: "Mercado saturado en la ZMVM (722514 tiene decenas de miles de unidades). Complementarios: bares y antros (consumo nocturno), Metro, oficinas, universidades. Incluye tortas por la clasificacion del DENUE."
+
+  - clave: abarrotes
+    nombres: [abarrotes, tienda de abarrotes, miscelanea, tiendita, tienda de la esquina]
+    scian: ["461110", "462112"]
+    complementarios: ["461130", "311830", "611122", "611132"]
+    cliente_objetivo: {"0-14": 0.15, "15-24": 0.15, "25-59": 0.50, "60+": 0.20}
+    nse_objetivo: {bajo: 0.50, medio: 0.40, alto: 0.10}
+    rubro_enigh: ali_dentro
+    rubro_enigh_alt: [alimentos, bebidas]
+    ticket_promedio_mxn: 55
+    ticket_fuente: "supuesto: compra de reposicion diaria"
+    radio_influencia_m: 300
+    notas: "461110 y minisupers (462112). Es el giro mas numeroso del DENUE (117 mil unidades en la ZMVM, corte 05/2026). Se gana por densidad de hogares y falta de tiendas a 300 m, no por NSE alto."
+
+  - clave: barberia_estetica
+    nombres: [barberia estetica, barberia, estetica, salon de belleza, peluqueria, estilista, barber shop, salon de unas]
+    scian: ["812110"]
+    complementarios: ["465111", "463211", "611511", "722412", "531114", "611311"]
+    cliente_objetivo: {"0-14": 0.08, "15-24": 0.22, "25-59": 0.55, "60+": 0.15}
+    nse_objetivo: {bajo: 0.35, medio: 0.45, alto: 0.20}
+    rubro_enigh: peluqueria_estetica
+    rubro_enigh_alt: [cuida_pers]
+    ticket_promedio_mxn: 180
+    ticket_fuente: "supuesto: corte de cabello o servicio de unas"
+    radio_influencia_m: 600
+    notas: "812110 es la clase mas grande del DENUE de la ZMVM despues de abarrotes (59 mil unidades). Barberia y estetica comparten clase: el modelo no las distingue. Complementarios: perfumeria, ropa, escuelas de oficios (cosmetologia), bares."
+
+  - clave: consultorio_dental
+    nombres: [consultorio dental, dentista, odontologo, clinica dental, ortodoncia]
+    scian: ["621211"]
+    complementarios: ["464111", "621111", "621113", "621115", "531114", "622111", "611311"]
+    cliente_objetivo: {"0-14": 0.12, "15-24": 0.15, "25-59": 0.55, "60+": 0.18}
+    nse_objetivo: {bajo: 0.10, medio: 0.50, alto: 0.40}
+    rubro_enigh: dental
+    rubro_enigh_alt: [consulta_medica, coicop_0622]
+    ticket_promedio_mxn: 700
+    ticket_fuente: "supuesto: consulta con limpieza o resina simple"
+    radio_influencia_m: 1200
+    notas: "La clase 621212 (consultorios dentales publicos) no cuenta como competencia. Complementarios: farmacias, consultorios medicos, clinicas y hospitales. Mercado de destino: la gente cruza la colonia para ir con su dentista."
+
+  - clave: guarderia
+    nombres: [guarderia, estancia infantil, kinder, maternal, cendi, centro de cuidado infantil]
+    scian: ["624411"]
+    complementarios: ["531114", "611111", "611121", "621111", "621113", "464111", "465212"]
+    cliente_objetivo: {"0-14": 0.40, "15-24": 0.05, "25-59": 0.55, "60+": 0.00}
+    nse_objetivo: {bajo: 0.15, medio: 0.55, alto: 0.30}
+    rubro_enigh: coicop_1010
+    rubro_enigh_alt: [educacion]
+    rubro_enigh_nota: "La ENIGH no tiene un rubro de guarderia; coicop_1010 es educacion preescolar y primaria."
+    ticket_promedio_mxn: 3500
+    ticket_fuente: "supuesto: mensualidad de una guarderia privada de barrio (no es ticket por visita)"
+    radio_influencia_m: 1000
+    demanda_base: mixta
+    notas: "Demanda doble: familias con ninos de 0 a 4 anios (residente) y padres que trabajan cerca (diurna). El Censo no da el grupo 0-4; se aproxima con 0-14. Complementarios: oficinas, preescolares y pediatras. La 624412 (publica) no cuenta como competencia."
+
+  - clave: ferreteria
+    nombres: [ferreteria, tlapaleria, ferreteria y tlapaleria, materiales para construccion, tienda de pinturas]
+    scian: ["467111"]
+    complementarios: ["467113", "467114", "467115", "467112", "811121", "531112", "237113"]
+    cliente_objetivo: {"0-14": 0.02, "15-24": 0.08, "25-59": 0.65, "60+": 0.25}
+    nse_objetivo: {bajo: 0.45, medio: 0.45, alto: 0.10}
+    rubro_enigh: coicop_0431
+    rubro_enigh_alt: [coicop_0432, coicop_0552]
+    ticket_promedio_mxn: 180
+    ticket_fuente: "supuesto: tornillos, pintura, herramienta de mano"
+    radio_influencia_m: 800
+    notas: "Mas demanda en colonias populares con autoconstruccion y viviendas con mas de 20 anios. Complementarios: pinturas, vidrios, articulos de limpieza, pisos, talleres y viviendas en renta. 237113 es supervision de obra de agua y drenaje; no es un buen atractor y se quita si valida mal."
+
+  - clave: pasteleria
+    nombres: [pasteleria, pasteleria y reposteria, pasteles, reposteria, cupcakes, cafe y pasteles]
+    scian: []
+    scian_con_filtro:
+      - codigos: ["311812"]
+        nombre_regex: "pasteler|reposter|pastel|cupcake|brownie"
+    complementarios: ["531113", "722515", "465912", "611111", "461160", "466312"]
+    cliente_objetivo: {"0-14": 0.15, "15-24": 0.15, "25-59": 0.55, "60+": 0.15}
+    nse_objetivo: {bajo: 0.15, medio: 0.50, alto: 0.35}
+    rubro_enigh: pan_pasteles
+    ticket_promedio_mxn: 350
+    ticket_fuente: "supuesto: pastel chico o rebanadas y postres para una reunion"
+    radio_influencia_m: 800
+    notas: "En el DENUE la pasteleria comparte la clase 311812 (panificacion tradicional) con la panaderia; se separa por nombre (21 % de la clase dice 'pasteler' o 'pastel'). Es una aproximacion: una panaderia que vende pasteles queda en ambos giros. Complementarios: salones de fiestas, regalos, florerias, escuelas, dulces y materias primas de reposteria."
+
+  - clave: libreria
+    nombres: [libreria, librerias, tienda de libros, libreria y papeleria]
+    scian: ["465312"]
+    complementarios: ["611311", "611312", "611161", "722515", "519211", "712111", "531114"]
+    cliente_objetivo: {"0-14": 0.05, "15-24": 0.40, "25-59": 0.45, "60+": 0.10}
+    nse_objetivo: {bajo: 0.05, medio: 0.45, alto: 0.50}
+    rubro_enigh: libros_revistas
+    rubro_enigh_alt: [coicop_0971, coicop_0974]
+    ticket_promedio_mxn: 260
+    ticket_fuente: "supuesto: uno o dos libros"
+    radio_influencia_m: 1500
+    notas: "Giro de destino y baja densidad (solo 750 unidades en la ZMVM): la colonia no basta, pesa el flujo de universitarios. Complementarios: universidades, preparatorias, cafeterias, bibliotecas y museos. La 465313 (revistas y periodicos) es otro giro."
+
+  - clave: renta_bicicletas
+    nombres: [renta bicicletas, renta de bicicletas, alquiler de bicicletas, bicicletas, bicis, biciescuela, ciclovia]
+    scian: []
+    scian_con_filtro:
+      - codigos: ["532289"]
+        nombre_regex: "\\bbici|bike|bicicl"
+    complementarios: ["713998", "712131", "465213", "811493", "722515", "721112", "561510"]
+    cliente_objetivo: {"0-14": 0.15, "15-24": 0.30, "25-59": 0.50, "60+": 0.05}
+    nse_objetivo: {bajo: 0.10, medio: 0.45, alto: 0.45}
+    rubro_enigh: esparci
+    rubro_enigh_alt: [coicop_0946, coicop_0922]
+    rubro_enigh_nota: "No hay rubro de renta de bicicletas en la ENIGH; se usa esparcimiento como proxy de gasto discrecional."
+    ticket_promedio_mxn: 120
+    ticket_fuente: "supuesto: una hora o una vuelta de renta"
+    radio_influencia_m: 2000
+    notas: "GIRO RARO. La 532289 (alquiler de otros articulos personales) incluye por definicion el alquiler de bicicletas pero tambien instrumentos, muletas, etc.; se filtra por nombre ('bici' o 'bike'; 'cicl' se descarto porque atrapa cuadriciclos y ciclotaxis) y la muestra es minima (7 unidades en el DENUE actual y 9 en 11/2020). Se espera que el modelo diga que hay pocos datos. Complementarios: parques y jardines, ciclovias (no hay SCIAN), reparacion y venta de bicicletas, hoteles y agencias de viajes."
+
+  - clave: tortilleria
+    nombres: [tortilleria, tortillerias, tortilla de maiz, molino de nixtamal, tortilla]
+    scian: ["311830", "311813"]
+    complementarios: ["461110", "722514", "722513", "461121", "461130", "312112"]
+    cliente_objetivo: {"0-14": 0.15, "15-24": 0.15, "25-59": 0.50, "60+": 0.20}
+    nse_objetivo: {bajo: 0.55, medio: 0.35, alto: 0.10}
+    rubro_enigh: cereales
+    rubro_enigh_alt: [alimentos, ali_dentro]
+    rubro_enigh_nota: "La ENIGH junta la tortilla con los cereales (011131 tortillas de maiz, 011132 de harina); no hay rubro solo de tortilla."
+    ticket_promedio_mxn: 35
+    ticket_fuente: "supuesto: 1 a 2 kg de tortilla"
+    radio_influencia_m: 300
+    notas: "Compra diaria y muy local. 311830 incluye tortillerias y molinos de nixtamal; 311813 es tortilla de harina de trigo. Complementarios: abarrotes, taquerias, antojitos, carnicerias, fruterias."
+
+  - clave: fonda
+    nombres: [fonda, comida corrida, cocina economica, comedor, restaurante de comida casera]
+    scian: ["722511", "722519"]
+    complementarios: ["531114", "611311", "485114", "812410", "541510", "622111", "811111"]
+    cliente_objetivo: {"0-14": 0.05, "15-24": 0.20, "25-59": 0.65, "60+": 0.10}
+    nse_objetivo: {bajo: 0.40, medio: 0.45, alto: 0.15}
+    rubro_enigh: restaurante_comidas
+    rubro_enigh_alt: [ali_fuera_total]
+    ticket_promedio_mxn: 100
+    ticket_fuente: "supuesto: comida corrida de 4 tiempos"
+    radio_influencia_m: 400
+    demanda_base: diurna
+    notas: "Depende del trabajador de la zona (comida de mediodia), no del residente. Complementarios: oficinas, universidades, Metro, estacionamientos, talleres, hospitales. 722511 es restaurante a la carta o comida corrida; 722519 otros alimentos para consumo inmediato (incluye cocinas economicas)."
+
+  - clave: pizzeria
+    nombres: [pizzeria, pizzerias, pizza, pizzas a domicilio, pizza al horno de lena]
+    scian: []
+    scian_con_filtro:
+      - codigos: ["722517", "722518", "722511", "722513", "722519"]
+        nombre_regex: "pizz"
+    complementarios: ["611311", "531113", "713120", "512130", "722412", "611161", "611121"]
+    cliente_objetivo: {"0-14": 0.15, "15-24": 0.30, "25-59": 0.50, "60+": 0.05}
+    nse_objetivo: {bajo: 0.20, medio: 0.55, alto: 0.25}
+    rubro_enigh: comida_rapida
+    rubro_enigh_alt: [ali_fuera_total]
+    ticket_promedio_mxn: 220
+    ticket_fuente: "supuesto: pizza mediana para 2 personas o 2 rebanadas con bebida"
+    radio_influencia_m: 1000
+    notas: "722517 mezcla pizzas, hamburguesas, hot dogs y pollo rostizado (24 % dice 'pizz' en el nombre), asi que se filtra por nombre tambien en otras clases de restaurante. Reparto a domicilio: el radio es mayor que el de un restaurante. Complementarios: universidades, preparatorias, salones de fiestas, cines, bares."
+
+  - clave: optica
+    nombres: [optica, opticas, lentes, anteojos, optometrista]
+    scian: ["464121"]
+    complementarios: ["621320", "621113", "621111", "464111", "622111", "531114", "611311"]
+    cliente_objetivo: {"0-14": 0.08, "15-24": 0.15, "25-59": 0.50, "60+": 0.27}
+    nse_objetivo: {bajo: 0.15, medio: 0.50, alto: 0.35}
+    rubro_enigh: coicop_06131
+    rubro_enigh_alt: [coicop_0613]
+    rubro_enigh_nota: "Solo 3 % de hogares reporta gasto en productos de apoyo para la vision; el promedio es chico pero estable por decil."
+    ticket_promedio_mxn: 1500
+    ticket_fuente: "supuesto: armazon mas micas con graduacion"
+    radio_influencia_m: 1500
+    notas: "Giro de destino. Complementarios: optometria (621320), oftalmologia y medicina especializada, consultorios, hospitales y farmacias."
+
+  - clave: tienda_ropa
+    nombres: [tienda ropa, tienda de ropa, boutique, ropa, ropa de mujer, ropa de hombre, ropa casual]
+    scian: ["463211"]
+    complementarios: ["462210", "463310", "465111", "463215", "463213", "611311", "722515"]
+    cliente_objetivo: {"0-14": 0.05, "15-24": 0.30, "25-59": 0.55, "60+": 0.10}
+    nse_objetivo: {bajo: 0.25, medio: 0.50, alto: 0.25}
+    rubro_enigh: vestido
+    rubro_enigh_alt: [vesti_calz]
+    ticket_promedio_mxn: 450
+    ticket_fuente: "supuesto: una o dos prendas en tienda independiente"
+    radio_influencia_m: 1000
+    notas: "463211 excluye ropa de bebe, lenceria, disfraces y ropa de piel; esas tienen su clase (463212, 463213, ...). Se beneficia de aglomeracion (calles comerciales, plazas, Metro). Complementarios: tiendas departamentales, calzado, perfumeria, bisuteria."
+
+  - clave: zapateria
+    nombres: [zapateria, zapaterias, tienda de zapatos, calzado]
+    scian: ["463310"]
+    complementarios: ["463211", "462210", "811430", "611311", "611161", "465111"]
+    cliente_objetivo: {"0-14": 0.15, "15-24": 0.25, "25-59": 0.50, "60+": 0.10}
+    nse_objetivo: {bajo: 0.30, medio: 0.50, alto: 0.20}
+    rubro_enigh: calzado
+    rubro_enigh_alt: [vesti_calz]
+    ticket_promedio_mxn: 550
+    ticket_fuente: "supuesto: un par de zapatos o tenis de gama media"
+    radio_influencia_m: 1000
+    notas: "Se beneficia de aglomeracion con tiendas de ropa. Complementarios: ropa, tiendas departamentales, reparacion de calzado (811430) y escuelas (uniformes y zapato escolar)."
+
+  - clave: cerrajeria
+    nombres: [cerrajeria, cerrajero, llaves, duplicado de llaves]
+    scian: ["811491"]
+    complementarios: ["531112", "531111", "812410", "468111", "468112", "531210", "467114"]
+    cliente_objetivo: {"0-14": 0.00, "15-24": 0.10, "25-59": 0.70, "60+": 0.20}
+    nse_objetivo: {bajo: 0.35, medio: 0.45, alto: 0.20}
+    rubro_enigh: coicop_0432
+    rubro_enigh_alt: [coicop_0431]
+    rubro_enigh_nota: "coicop_0432 = servicios de mantenimiento, reparacion y seguridad de la vivienda; la cerrajeria no tiene rubro propio."
+    ticket_promedio_mxn: 250
+    ticket_fuente: "supuesto: duplicado de llave o apertura de chapa"
+    radio_influencia_m: 1500
+    notas: "Servicio de emergencia y de bajo volumen. Se beneficia de mucha vivienda en renta (rotacion de inquilinos), automoviles, inmobiliarias y estacionamientos."
+
+  - clave: taller_mecanico
+    nombres: [taller mecanico, mecanico, taller automotriz, mecanica automotriz, taller de autos]
+    scian: ["811111", "811112", "811119", "811115", "811114"]
+    complementarios: ["468213", "811191", "811121", "811192", "468420", "468411", "812410"]
+    cliente_objetivo: {"0-14": 0.00, "15-24": 0.05, "25-59": 0.75, "60+": 0.20}
+    nse_objetivo: {bajo: 0.30, medio: 0.50, alto: 0.20}
+    rubro_enigh: mantenim
+    rubro_enigh_alt: [refaccion, transporte]
+    ticket_promedio_mxn: 1800
+    ticket_fuente: "supuesto: afinacion o servicio mayor menor"
+    radio_influencia_m: 1500
+    notas: "Se mide mejor donde hay muchos automoviles (pct_viv_auto). Sin clase de refacciones nuevas utiles (468211 tiene 8 unidades en el DENUE ZMVM, probable error de clasificacion de INEGI). Complementarios: llantas, hojalateria, lavado, gasolinerias, estacionamientos."
+
+  - clave: purificadora
+    nombres: [purificadora, purificadora de agua, garrafon, agua purificada, agua embotellada]
+    scian: ["312112"]
+    complementarios: ["461213", "461110", "531112", "531111", "461190"]
+    cliente_objetivo: {"0-14": 0.15, "15-24": 0.15, "25-59": 0.50, "60+": 0.20}
+    nse_objetivo: {bajo: 0.40, medio: 0.45, alto: 0.15}
+    rubro_enigh: coicop_0125
+    rubro_enigh_alt: [bebidas]
+    rubro_enigh_nota: "coicop_0125 = agua embotellada (natural y mineral), 53 % de hogares con gasto; el garrafon de purificadora va aqui."
+    ticket_promedio_mxn: 40
+    ticket_fuente: "supuesto: un garrafon de 20 litros rellenado"
+    radio_influencia_m: 700
+    notas: "La clase 312112 (9 191 unidades) incluye purificadoras de barrio y plantas embotelladoras; no se distinguen. Mercado ligado a viviendas con agua de mala calidad o intermitente. Complementarios: tiendas de abarrotes, vivienda en renta, hielo y bebidas."
+
+  - clave: panaderia
+    nombres: [panaderia, panaderias, pan, pan dulce, bizcochos]
+    scian: ["311812"]
+    complementarios: ["461110", "722515", "461190", "461150", "611111", "611121", "465311"]
+    cliente_objetivo: {"0-14": 0.12, "15-24": 0.15, "25-59": 0.53, "60+": 0.20}
+    nse_objetivo: {bajo: 0.40, medio: 0.45, alto: 0.15}
+    rubro_enigh: pan_pasteles
+    rubro_enigh_alt: [cereales]
+    ticket_promedio_mxn: 60
+    ticket_fuente: "supuesto: una bolsa de pan dulce y bolillos"
+    radio_influencia_m: 400
+    notas: "311812 incluye panaderia y pasteleria (ver pasteleria). Compra diaria, de barrio. Complementarios: abarrotes, cafeterias, escuelas, lacteos."
+
+  - clave: tienda_mascotas
+    nombres: [tienda mascotas, tienda de mascotas, petshop, pet shop, alimento para mascotas, acuario, accesorios para mascotas]
+    scian: ["465911"]
+    complementarios: ["541941", "812990", "712131", "464111", "434112", "466312"]
+    cliente_objetivo: {"0-14": 0.05, "15-24": 0.15, "25-59": 0.65, "60+": 0.15}
+    nse_objetivo: {bajo: 0.10, medio: 0.50, alto: 0.40}
+    rubro_enigh: coicop_0932
+    rubro_enigh_alt: [veterinaria_mascotas]
+    ticket_promedio_mxn: 280
+    ticket_fuente: "supuesto: un costal chico de croquetas o accesorios"
+    radio_influencia_m: 1200
+    notas: "Complementarios: veterinarias (la mejor senal), esteticas caninas (812990 otros servicios personales), parques, alimento para animales. Poca densidad de dueños en colonias con vivienda muy chica."
+
+  - clave: escuela_idiomas
+    nombres: [escuela idiomas, escuela de idiomas, academia de ingles, ingles, clases de ingles, instituto de idiomas]
+    scian: ["611631"]
+    complementarios: ["611311", "611161", "611421", "531114", "561510", "611691", "541930"]
+    cliente_objetivo: {"0-14": 0.15, "15-24": 0.35, "25-59": 0.45, "60+": 0.05}
+    nse_objetivo: {bajo: 0.10, medio: 0.50, alto: 0.40}
+    rubro_enigh: coicop_1050
+    rubro_enigh_alt: [educacion, cursos_recreativos]
+    rubro_enigh_nota: "Solo 0.4 % de los hogares reporta educacion no definida por nivel (cursos): cobertura muy baja en la ENIGH."
+    ticket_promedio_mxn: 1200
+    ticket_fuente: "supuesto: mensualidad de un curso de ingles de barrio (no es ticket por visita)"
+    radio_influencia_m: 2000
+    demanda_base: mixta
+    notas: "Giro de destino que se alimenta de estudiantes y de oficinas. 611632 (idiomas publicos) no cuenta como competencia. Complementarios: universidades, preparatorias, profesores particulares, computacion, agencias de viajes."
+
+  - clave: spa
+    nombres: [spa, masajes, spa de unas, estetica y spa, sauna, temazcal]
+    scian: ["812120"]
+    scian_con_filtro:
+      - codigos: ["812110"]
+        nombre_regex: "\\bspa\\b|masaje|sauna|temazcal"
+    complementarios: ["721111", "721112", "713943", "465111", "531114", "722515"]
+    cliente_objetivo: {"0-14": 0.00, "15-24": 0.10, "25-59": 0.70, "60+": 0.20}
+    nse_objetivo: {bajo: 0.05, medio: 0.35, alto: 0.60}
+    rubro_enigh: cuida_pers
+    rubro_enigh_alt: [peluqueria_estetica, esparci]
+    rubro_enigh_nota: "No hay rubro de spa en la ENIGH; cuida_pers (cuidados personales) es el mas cercano pero incluye productos de aseo."
+    ticket_promedio_mxn: 800
+    ticket_fuente: "supuesto: masaje de una hora"
+    radio_influencia_m: 1500
+    notas: "812120 (banos publicos, vapor, sauna) mas los salones de belleza cuyo nombre dice spa o masaje (los masajes reductivos entran en 812110 segun el SCIAN). Es un servicio premium: pesa el NSE alto. Complementarios: hoteles, gimnasios, perfumeria, oficinas."
+
+  - clave: cafe_internet
+    nombres: [cafe internet, cibercafe, ciber, papeleria y copias, fotocopiado, centro de copiado, impresiones]
+    scian: ["561432", "561431"]
+    complementarios: ["465311", "611161", "611311", "611132", "611122", "561410", "541310"]
+    cliente_objetivo: {"0-14": 0.15, "15-24": 0.45, "25-59": 0.35, "60+": 0.05}
+    nse_objetivo: {bajo: 0.55, medio: 0.35, alto: 0.10}
+    rubro_enigh: papeleria
+    rubro_enigh_alt: [coicop_0833, comunica]
+    rubro_enigh_nota: "No hay rubro de ciber o copias en la ENIGH; papeleria (material impreso) es el mas cercano."
+    ticket_promedio_mxn: 35
+    ticket_fuente: "supuesto: hora de computadora o 10-20 copias e impresiones"
+    radio_influencia_m: 400
+    notas: "GIRO EN DECLIVE: 561432 + 561431 pasaron de 12 319 unidades en 11/2020 a 7 905 en 05/2026 (-36 %, DENUE); pesa el pct_viv_internet bajo. 561431 es fotocopiado, fax y afines. Complementarios: escuelas de todos los niveles, papelerias, tramites."
+
+  - clave: floreria
+    nombres: [floreria, florerias, flores, arreglos florales, ramos, florista]
+    scian: ["466312"]
+    complementarios: ["812310", "812322", "813210", "622111", "531113", "465912", "722515"]
+    cliente_objetivo: {"0-14": 0.02, "15-24": 0.10, "25-59": 0.65, "60+": 0.23}
+    nse_objetivo: {bajo: 0.15, medio: 0.50, alto: 0.35}
+    rubro_enigh: coicop_0931
+    rubro_enigh_alt: [esparci]
+    rubro_enigh_nota: "coicop_0931 = productos de jardineria, plantas y flores; solo 10 % de los hogares reporta gasto."
+    ticket_promedio_mxn: 450
+    ticket_fuente: "supuesto: ramo o arreglo mediano"
+    radio_influencia_m: 1000
+    notas: "466312 incluye plantas y flores naturales (viveros). Demanda ligada a eventos (14 de febrero, 10 de mayo, Dia de Muertos) y a la cercania con funerarias, panteones, hospitales, iglesias y salones de fiestas."
+
+  - clave: carniceria
+    nombres: [carniceria, carnicerias, polleria, carne, carniceria y polleria]
+    scian: ["461121", "461122"]
+    complementarios: ["461110", "461130", "461140", "311830", "722514", "461123"]
+    cliente_objetivo: {"0-14": 0.10, "15-24": 0.12, "25-59": 0.53, "60+": 0.25}
+    nse_objetivo: {bajo: 0.45, medio: 0.45, alto: 0.10}
+    rubro_enigh: carnes
+    rubro_enigh_alt: [ali_dentro]
+    ticket_promedio_mxn: 160
+    ticket_fuente: "supuesto: 1 kg de carne o pollo"
+    radio_influencia_m: 400
+    notas: "461121 carnes rojas y 461122 carne de aves (polleria). Las dos compiten por el mismo gasto en carnes. Complementarios: abarrotes, fruterias, tortillerias, taquerias, pescaderia."
+
+  - clave: fruteria
+    nombres: [fruteria, verduleria, fruteria y verduleria, frutas y verduras]
+    scian: ["461130"]
+    complementarios: ["461110", "311830", "461121", "461122", "722515", "462112", "461140"]
+    cliente_objetivo: {"0-14": 0.10, "15-24": 0.12, "25-59": 0.53, "60+": 0.25}
+    nse_objetivo: {bajo: 0.35, medio: 0.45, alto: 0.20}
+    rubro_enigh: frutas
+    rubro_enigh_alt: [verduras]
+    ticket_promedio_mxn: 90
+    ticket_fuente: "supuesto: fruta y verdura de la semana para un hogar"
+    radio_influencia_m: 400
+    notas: "461130 junta fruta y verdura frescas. Compite con mercados publicos y tianguis, que el DENUE capta mal (los puestos de tianguis suelen faltar). Complementarios: abarrotes, tortillerias, carnicerias, supermercados chicos."
+
+  - clave: comida_china
+    nombres: [comida china, restaurante chino, cocina china, wok, buffet chino]
+    scian: []
+    scian_con_filtro:
+      - codigos: ["722511", "722518", "722519", "722513", "722512", "722516"]
+        nombre_regex: "comida china|cocina china|china para llevar|restaurante chino|buffet chino|\\bwok\\b|cantones|dim sum|gran muralla|dragon"
+    complementarios: ["531114", "611311", "722515", "713120", "512130", "485114", "531113"]
+    cliente_objetivo: {"0-14": 0.10, "15-24": 0.20, "25-59": 0.60, "60+": 0.10}
+    nse_objetivo: {bajo: 0.20, medio: 0.55, alto: 0.25}
+    rubro_enigh: restaurante_comidas
+    rubro_enigh_alt: [ali_fuera_total]
+    ticket_promedio_mxn: 170
+    ticket_fuente: "supuesto: plato fuerte con arroz y bebida, o buffet por persona"
+    radio_influencia_m: 1000
+    notas: "El DENUE no tiene clase por tipo de cocina: se identifica por nombre (aproximado: se descartaron palabras sueltas como 'chino' o 'china' porque atrapan 'barbacoa el chino' o 'huaraches la china'; deja fuera a los que no dicen comida china en el nombre). Complementarios: oficinas, universidades, cines y centros de entretenimiento."
+
+  - clave: sushi
+    nombres: [sushi, comida japonesa, restaurante japones, ramen, sushi a domicilio]
+    scian: []
+    scian_con_filtro:
+      - codigos: ["722511", "722518", "722519", "722513", "722512", "722516", "722514"]
+        nombre_regex: "sushi|japon|ramen|teriyaki|sashimi|nigiri|hibachi"
+    complementarios: ["531114", "611311", "722515", "713120", "512130", "713943", "722412"]
+    cliente_objetivo: {"0-14": 0.05, "15-24": 0.25, "25-59": 0.65, "60+": 0.05}
+    nse_objetivo: {bajo: 0.05, medio: 0.45, alto: 0.50}
+    rubro_enigh: restaurante_comidas
+    rubro_enigh_alt: [ali_fuera_total]
+    ticket_promedio_mxn: 280
+    ticket_fuente: "supuesto: rollos y bebida por persona"
+    radio_influencia_m: 1500
+    notas: "Se identifica por nombre (el DENUE no distingue cocinas). Fuerte en NSE medio-alto y con reparto a domicilio, por eso el radio es amplio. Complementarios: oficinas, universidades, cines, gimnasios, bares."
+
+  - clave: bar
+    nombres: [bar, cantina, cerveceria, bar de cocteleria, pulqueria, bar de barrio, antro]
+    scian: ["722412"]
+    complementarios: ["722411", "722514", "713991", "611311", "531113", "485114", "512130"]
+    cliente_objetivo: {"0-14": 0.00, "15-24": 0.35, "25-59": 0.60, "60+": 0.05}
+    nse_objetivo: {bajo: 0.20, medio: 0.50, alto: 0.30}
+    rubro_enigh: ali_fuera_total
+    rubro_enigh_alt: [bebidas, coicop_0213]
+    rubro_enigh_nota: "La ENIGH registra la bebida alcoholica como consumo en casa (bebidas, coicop_0213 cerveza); el consumo en bar no se separa y cae en alimentos fuera del hogar."
+    ticket_promedio_mxn: 320
+    ticket_fuente: "supuesto: dos o tres bebidas por persona"
+    radio_influencia_m: 800
+    demanda_base: diurna
+    notas: "Giro regulado (licencias de alcohol por alcaldia y distancia a escuelas, que este modelo NO revisa: es una limitante a decir al usuario). Complementarios: antros, taquerias (consumo nocturno), billares, universidades, cines, Metro."
+
+  - clave: coworking
+    nombres: [coworking, espacio de trabajo compartido, oficinas compartidas, oficina virtual, renta de escritorios]
+    scian: []
+    scian_con_filtro:
+      - codigos: ["531114", "531210", "561410", "561490", "531119", "561110", "531115"]
+        nombre_regex: "cowork|co-work|co work|oficinas compartidas|oficinas virtuales|centro de negocios|business center|workspace"
+    complementarios: ["541510", "541110", "541211", "541330", "541310", "541910", "722515", "513210"]
+    cliente_objetivo: {"0-14": 0.00, "15-24": 0.15, "25-59": 0.80, "60+": 0.05}
+    nse_objetivo: {bajo: 0.05, medio: 0.40, alto: 0.55}
+    rubro_enigh: null
+    rubro_enigh_nota: "NO ENCONTRADO: la ENIGH mide gasto de hogares; el coworking lo paga el freelancer o la empresa. No hay rubro. La demanda se mide con poblacion diurna y establecimientos profesionales (SCIAN 54), no con gasto de hogar."
+    ticket_promedio_mxn: 2800
+    ticket_fuente: "supuesto: escritorio flexible por mes (no es ticket por visita)"
+    radio_influencia_m: 2000
+    demanda_base: diurna
+    notas: "GIRO RARO y mal clasificado: el DENUE lo reparte en varias clases de renta de oficinas; se encuentra solo por nombre (41 unidades en el DENUE actual, 25 en 11/2020). Complementarios: despachos de arquitectura, ingenieria, sistemas, investigacion de mercados, cafeterias. 541110 y 541211 son abogados y contadores: vea scian.csv para confirmar los codigos."
+
+  - clave: consultorio_medico
+    nombres: [consultorio medico, medico general, doctor, clinica, consultorio, medico especialista]
+    scian: ["621111", "621113", "621115"]
+    complementarios: ["464111", "464112", "621511", "621211", "622111", "621320", "531114"]
+    cliente_objetivo: {"0-14": 0.15, "15-24": 0.08, "25-59": 0.47, "60+": 0.30}
+    nse_objetivo: {bajo: 0.30, medio: 0.50, alto: 0.20}
+    rubro_enigh: consulta_medica
+    rubro_enigh_alt: [ambul_serv, salud]
+    ticket_promedio_mxn: 400
+    ticket_fuente: "supuesto: consulta general privada, sin medicamento"
+    radio_influencia_m: 1000
+    notas: "621111 medicina general privada, 621113 especialidades privadas, 621115 clinicas de consultorios privadas. Los consultorios adyacentes a farmacias (modelo de similares) son un patron comun. Complementarios: farmacias, laboratorios, hospitales, dentistas, optometria."
+
+  - clave: laboratorio_clinico
+    nombres: [laboratorio clinico, laboratorio de analisis clinicos, analisis clinicos, laboratorio medico, toma de muestras]
+    scian: ["621511"]
+    complementarios: ["621111", "621113", "621115", "622111", "464111", "621211", "621320"]
+    cliente_objetivo: {"0-14": 0.08, "15-24": 0.07, "25-59": 0.50, "60+": 0.35}
+    nse_objetivo: {bajo: 0.15, medio: 0.50, alto: 0.35}
+    rubro_enigh: coicop_0641
+    rubro_enigh_alt: [consulta_medica, ambul_serv]
+    ticket_promedio_mxn: 450
+    ticket_fuente: "supuesto: biometria hematica y quimica sanguinea"
+    radio_influencia_m: 2000
+    notas: "Giro de destino, depende de que haya medicos y hospitales cerca (la gente va con la orden). 621512 (publicos) no cuenta como competencia. coicop_0641 = diagnostico por imagenes y laboratorio."
+
+  - clave: tienda_celulares
+    nombres: [tienda celulares, tienda de celulares, celulares, venta de celulares, accesorios para celular, reparacion de celulares]
+    scian: ["466212"]
+    complementarios: ["811219", "811211", "466211", "465919", "611311", "485114", "462210"]
+    cliente_objetivo: {"0-14": 0.05, "15-24": 0.40, "25-59": 0.50, "60+": 0.05}
+    nse_objetivo: {bajo: 0.35, medio: 0.45, alto: 0.20}
+    rubro_enigh: coicop_0812
+    rubro_enigh_nota: "Solo 3 % de hogares reporta gasto en equipo de telefonia movil (se compra cada 2-3 anios): sirve para ordenar deciles, no para dimensionar."
+    rubro_enigh_alt: [comunica, coicop_0832]
+    ticket_promedio_mxn: 600
+    ticket_fuente: "supuesto: funda, mica, cargador o telefono economico (el promedio sube si vende equipos)"
+    radio_influencia_m: 1000
+    notas: "466212 es venta de telefonos y aparatos de comunicacion (incluye accesorios y reparacion informal). Se beneficia del flujo peatonal alto: Metro, plazas, calles comerciales y universidades."

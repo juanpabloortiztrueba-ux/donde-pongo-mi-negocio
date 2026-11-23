@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Modelo local que sugiere dónde poner un negocio en la ZM del Valle de México"
 requires-python = ">=3.12"
 dependencies = [
+    "cryptography>=50.0.2",
     "duckdb>=2.0.1",
     "folium>=1.0.0",
     "geopandas>=1.2.0",
@@ -26,6 +27,7 @@ dependencies = [
     "streamlit>=1.67.0",
     "streamlit-folium>=0.27.4",
     "tqdm>=4.70.1",
+    "xlrd>=2.0.2",
 ]
 
 ["uv_build>=0.12.17,<0.13.0"]

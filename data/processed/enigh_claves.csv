@@ -1,0 +1,1030 @@
+clave,nombre,division,grupo,clase,subclase
+011111,Arroz en grano,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Cereales
+011112,Maíz en grano,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Cereales
+011113,Otros cereales,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Cereales
+011121,Harina de maíz,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Harina de cereales
+011122,Harina de trigo,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Harina de cereales
+011131,Tortillas de maíz,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Pan y productos de panadería
+011132,Tortillas de harina de trigo,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Pan y productos de panadería
+011133,Pan,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Pan y productos de panadería
+011134,Pan de caja,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Pan y productos de panadería
+011135,Galletas dulces,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Pan y productos de panadería
+011136,Galletas saladas,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Pan y productos de panadería
+011137,Pan dulce a granel,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Pan y productos de panadería
+011138,Pan dulce empaquetado,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Pan y productos de panadería
+011139,"Pasteles y pastelillos en piezas o a granel, pastel casero",Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Pan y productos de panadería
+01113A,Pasteles y pastelillos empaquetados,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Pan y productos de panadería
+011140,Cereales para el desayuno,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Cereales para el desayuno
+011150,"Spaghetti, pastas italianas y pastas para sopa",Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,"Macarrones, fideos, cuscús y productos de pastas similares"
+011191,Botanas elaboradas con cereales,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Otros cereales y productos de grano molido
+011192,Tostadas,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Otros cereales y productos de grano molido
+011193,Masa de maíz,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Otros cereales y productos de grano molido
+011194,Otros productos de maíz para ser preparados,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Otros cereales y productos de grano molido
+011195,Otros productos de panadería,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Otros cereales y productos de grano molido
+011196,Otros productos elaborados con cereales,Alimentos y bebidas no alcohólicas,Alimentos,Cereales y productos a base de cereales,Otros cereales y productos de grano molido
+011210,Animales terrestres vivos,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales",Animales terrestres vivos
+011221,Bistec de res,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne fresca, refrigerada o congelada"
+011222,Chuleta y costilla de res,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne fresca, refrigerada o congelada"
+011223,Cortes especiales de res,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne fresca, refrigerada o congelada"
+011224,Molida de res,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne fresca, refrigerada o congelada"
+011225,Retazo de res,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne fresca, refrigerada o congelada"
+011226,Otros cortes de res,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne fresca, refrigerada o congelada"
+011227,Carne de ternera,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne fresca, refrigerada o congelada"
+011228,Costillas y chuleta de puerco,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne fresca, refrigerada o congelada"
+011229,Pierna de puerco,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne fresca, refrigerada o congelada"
+01122A,Pulpa de puerco,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne fresca, refrigerada o congelada"
+01122B,Lomo de puerco,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne fresca, refrigerada o congelada"
+01122C,"Milanesa, bistec o pecho de puerco",Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne fresca, refrigerada o congelada"
+01122D,"Carne de cordero y cabra fresca, refrigerada o congelada",Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne fresca, refrigerada o congelada"
+01122F,"Pollo entero o en piezas (excepto pierna, muslo y pechuga)",Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne fresca, refrigerada o congelada"
+01122G,Carne de otras aves,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne fresca, refrigerada o congelada"
+01122H,"Otras carnes comestibles frescas, refrigeradas o congeladas",Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne fresca, refrigerada o congelada"
+01122I,Insectos,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne fresca, refrigerada o congelada"
+011231,Jamón de puerco,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne seca, salada o ahumada"
+011232,Tocino de puerco,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne seca, salada o ahumada"
+011233,Chuleta y carne ahumada,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne seca, salada o ahumada"
+011234,Machaca y carne seca,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne seca, salada o ahumada"
+011235,"Mortadela, queso de puerco, salami y bolonia",Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Carne seca, salada o ahumada"
+011241,Vísceras de res,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Vísceras, despojos, sangre y otras partes de animales, frescos, refrigerados o congelados, secos, salados, en salmuera o ahumados"
+011242,Vísceras de puerco,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Vísceras, despojos, sangre y otras partes de animales, frescos, refrigerados o congelados, secos, salados, en salmuera o ahumados"
+011243,Vísceras de aves,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Vísceras, despojos, sangre y otras partes de animales, frescos, refrigerados o congelados, secos, salados, en salmuera o ahumados"
+011244,Vísceras de otros animales,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Vísceras, despojos, sangre y otras partes de animales, frescos, refrigerados o congelados, secos, salados, en salmuera o ahumados"
+011245,Otras piezas de pollo,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Vísceras, despojos, sangre y otras partes de animales, frescos, refrigerados o congelados, secos, salados, en salmuera o ahumados"
+011246,Carne de otras partes del puerco,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Vísceras, despojos, sangre y otras partes de animales, frescos, refrigerados o congelados, secos, salados, en salmuera o ahumados"
+011247,Espinazo de res,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Vísceras, despojos, sangre y otras partes de animales, frescos, refrigerados o congelados, secos, salados, en salmuera o ahumados"
+011251,Salchicha y salchichón de puerco,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Preparaciones de carne, despojos, sangre y otras partes de animales"
+011252,Chorizo de puerco,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Preparaciones de carne, despojos, sangre y otras partes de animales"
+011253,Otros embutidos y carnes procesadas,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Preparaciones de carne, despojos, sangre y otras partes de animales"
+011254,Carne adobada o enchilada,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Preparaciones de carne, despojos, sangre y otras partes de animales"
+011255,Nuggets de otras carnes,Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Preparaciones de carne, despojos, sangre y otras partes de animales"
+011256,"Otros preparados de carne fresca, refrigerada y congelada",Alimentos y bebidas no alcohólicas,Alimentos,"Animales vivos, carne y otras partes comestibles de animales","Preparaciones de carne, despojos, sangre y otras partes de animales"
+011310,"Pescado fresco, refrigerado o congelado",Alimentos y bebidas no alcohólicas,Alimentos,Pescados y otros mariscos,"Pescado fresco, refrigerado o congelado"
+011321,"Pescado ahumado, seco o salado",Alimentos y bebidas no alcohólicas,Alimentos,Pescados y otros mariscos,"Pescado seco, salado, en salmuera o ahumado"
+011322,Atún enlatado,Alimentos y bebidas no alcohólicas,Alimentos,Pescados y otros mariscos,"Pescado seco, salado, en salmuera o ahumado"
+011323,Sardina enlatada,Alimentos y bebidas no alcohólicas,Alimentos,Pescados y otros mariscos,"Pescado seco, salado, en salmuera o ahumado"
+011324,Otros pescados en conserva,Alimentos y bebidas no alcohólicas,Alimentos,Pescados y otros mariscos,"Pescado seco, salado, en salmuera o ahumado"
+011331,Filetes de pescado rebozados o empanizados,Alimentos y bebidas no alcohólicas,Alimentos,Pescados y otros mariscos,Preparaciones de pescado
+011332,Surimi y otras preparaciones de pescado,Alimentos y bebidas no alcohólicas,Alimentos,Pescados y otros mariscos,Preparaciones de pescado
+011341,Camarón fresco,Alimentos y bebidas no alcohólicas,Alimentos,Pescados y otros mariscos,"Otros mariscos, vivos, frescos, refrigerados o congelados"
+011342,Mariscos frescos,Alimentos y bebidas no alcohólicas,Alimentos,Pescados y otros mariscos,"Otros mariscos, vivos, frescos, refrigerados o congelados"
+011343,Camarón y otros mariscos congelados,Alimentos y bebidas no alcohólicas,Alimentos,Pescados y otros mariscos,"Otros mariscos, vivos, frescos, refrigerados o congelados"
+011351,"Mariscos ahumados, secos o salados",Alimentos y bebidas no alcohólicas,Alimentos,Pescados y otros mariscos,"Otros mariscos secos, salados, en salmuera o ahumados"
+011352,Mariscos en conserva,Alimentos y bebidas no alcohólicas,Alimentos,Pescados y otros mariscos,"Otros mariscos secos, salados, en salmuera o ahumados"
+011360,Otras preparaciones de mariscos,Alimentos y bebidas no alcohólicas,Alimentos,Pescados y otros mariscos,Otras preparaciones de mariscos
+011370,"Hígados, huevas y despojos de mariscos en todas sus formas",Alimentos y bebidas no alcohólicas,Alimentos,Pescados y otros mariscos,"Hígados, huevas y despojos de mariscos en todas sus formas"
+011411,Leche entera fresca,Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Leche cruda y entera
+011412,Leche no pasteurizada (leche bronca),Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Leche cruda y entera
+011420,Leche baja en grasa,Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Leche desnatada
+011432,Leche en polvo,Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Otras leches y cremas
+011433,Crema,Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Otras leches y cremas
+011441,Leche de soya,Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Leche no animal
+011442,Otras leches,Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Leche no animal
+011451,Queso fresco,Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Queso
+011452,Queso amarillo,Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Queso
+011454,Queso Oaxaca o asadero,Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Queso
+011455,Queso añejo y Cotija,Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Queso
+011456,Otros quesos,Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Queso
+011460,Yogurt y bebidas fermentadas a base de leche,Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Yogurt y productos similares
+011471,Bebidas a base de leche,Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Postres y bebidas a base de leche
+011472,"Cajeta, dulces de leche, jamoncillos y natillas",Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Postres y bebidas a base de leche
+011473,Otros productos de leche,Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Postres y bebidas a base de leche
+011481,Huevo de gallina,Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Huevos
+011482,Otros huevos,Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Huevos
+011490,Otros productos lácteos,Alimentos y bebidas no alcohólicas,Alimentos,"Leche, otros productos lácteos y huevos",Otros productos lácteos
+011511,Aceite de oliva,Alimentos y bebidas no alcohólicas,Alimentos,Aceites y grasas,Aceites vegetales
+011512,Otros aceites vegetales comestibles,Alimentos y bebidas no alcohólicas,Alimentos,Aceites y grasas,Aceites vegetales
+011520,Mantequilla,Alimentos y bebidas no alcohólicas,Alimentos,Aceites y grasas,Mantequilla y otras grasas y aceites derivados de la leche
+011530,Margarina,Alimentos y bebidas no alcohólicas,Alimentos,Aceites y grasas,Margarina y preparaciones similares
+011591,Manteca de puerco,Alimentos y bebidas no alcohólicas,Alimentos,Aceites y grasas,Otros aceites y grasas animales
+011592,Chicharrón,Alimentos y bebidas no alcohólicas,Alimentos,Aceites y grasas,Otros aceites y grasas animales
+011593,Otras grasas animales comestibles,Alimentos y bebidas no alcohólicas,Alimentos,Aceites y grasas,Otros aceites y grasas animales
+011611,Aguacate,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,"Dátiles, higos y frutas tropicales frescos"
+011612,Guayaba,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,"Dátiles, higos y frutas tropicales frescos"
+011613,Mango,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,"Dátiles, higos y frutas tropicales frescos"
+011614,Papaya,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,"Dátiles, higos y frutas tropicales frescos"
+011615,Piña,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,"Dátiles, higos y frutas tropicales frescos"
+011616,Otros plátanos,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,"Dátiles, higos y frutas tropicales frescos"
+011617,Otras frutas tropicales,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,"Dátiles, higos y frutas tropicales frescos"
+011621,Limón,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,Frutos cítricos frescos
+011622,Naranja,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,Frutos cítricos frescos
+011623,Toronja,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,Frutos cítricos frescos
+011624,Otros cítricos frescos,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,Frutos cítricos frescos
+011631,Chabacano y melocotón,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,"Frutas de hueso y frutas de pepita, frescas"
+011632,Durazno,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,"Frutas de hueso y frutas de pepita, frescas"
+011633,Manzana y perón,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,"Frutas de hueso y frutas de pepita, frescas"
+011634,Pera,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,"Frutas de hueso y frutas de pepita, frescas"
+011635,Otras frutas de hueso o pepita,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,"Frutas de hueso y frutas de pepita, frescas"
+011641,Fresas,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,Bayas frescas
+011642,Otras bayas,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,Bayas frescas
+011651,Melón,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,Otras frutas frescas
+011652,Sandía,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,Otras frutas frescas
+011653,Uva,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,Otras frutas frescas
+011654,Otras frutas frescas,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,Otras frutas frescas
+011660,Fruta congelada,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,Fruta congelada
+011670,Frutos secos o deshidratados,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,Frutos secos o deshidratados
+011680,Nueces y otros frutos secos,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,Nueces con cáscara o sin cáscara
+011691,Frutas en conserva,Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,Frutas y frutos secos molidos y otras preparaciones
+011692,"Frutas secas, confitadas o cristalizadas",Alimentos y bebidas no alcohólicas,Alimentos,Frutas y frutos secos,Frutas y frutos secos molidos y otras preparaciones
+011711,"Col, repollo y otras coles",Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas de hoja o de tallo, frescas o refrigeradas"
+011712,Lechuga,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas de hoja o de tallo, frescas o refrigeradas"
+011713,Otras hortalizas de hoja o tallo,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas de hoja o de tallo, frescas o refrigeradas"
+011721,Calabaza,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas frutales, frescas o refrigeradas"
+011722,Chayote,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas frutales, frescas o refrigeradas"
+011723,Chile jalapeño,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas frutales, frescas o refrigeradas"
+011724,Chile poblano,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas frutales, frescas o refrigeradas"
+011725,Chile serrano,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas frutales, frescas o refrigeradas"
+011726,Otros chiles frescos o refrigerados,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas frutales, frescas o refrigeradas"
+011727,Jitomate (tomate rojo),Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas frutales, frescas o refrigeradas"
+011728,Pepino,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas frutales, frescas o refrigeradas"
+011729,Tomate verde,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas frutales, frescas o refrigeradas"
+01172A,Otras hortalizas frutales,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas frutales, frescas o refrigeradas"
+011731,Chícharo,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Legumbres verdes, frescas o refrigeradas"
+011732,Ejote,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Legumbres verdes, frescas o refrigeradas"
+011733,"Otras legumbres verdes, frescas o refrigeradas",Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Legumbres verdes, frescas o refrigeradas"
+011741,Aceitunas,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Otras hortalizas, frescas o refrigeradas"
+011742,Ajo,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Otras hortalizas, frescas o refrigeradas"
+011743,Cebolla,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Otras hortalizas, frescas o refrigeradas"
+011744,"Champiñones, hongos y setas",Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Otras hortalizas, frescas o refrigeradas"
+011745,Elote,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Otras hortalizas, frescas o refrigeradas"
+011746,Nopal,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Otras hortalizas, frescas o refrigeradas"
+011747,Rábano,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Otras hortalizas, frescas o refrigeradas"
+011748,Zanahoria,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Otras hortalizas, frescas o refrigeradas"
+011749,Otras hortalizas de raíz,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Otras hortalizas, frescas o refrigeradas"
+011751,Papa,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres",Tubérculos y plátanos de cocción
+011752,Betabel,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres",Tubérculos y plátanos de cocción
+011753,Jícama,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres",Tubérculos y plátanos de cocción
+011754,Plátano macho y de Castilla,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres",Tubérculos y plátanos de cocción
+011755,Otros tubérculos,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres",Tubérculos y plátanos de cocción
+011761,Frijol en grano,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres",Legumbres
+011762,Lentejas,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres",Legumbres
+011763,Garbanzo,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres",Legumbres
+011764,Otras leguminosas y legumbres secas,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres",Legumbres
+011770,"Hortalizas, papas y tubérculos secos y deshidratados",Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Otras hortalizas, tubérculos, plátanos y plátanos para cocinar, secos y deshidratados"
+011781,Verduras congeladas,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas, tubérculos, plátanos y plátanos para cocinar, congelados"
+011782,Legumbres congeladas,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas, tubérculos, plátanos y plátanos para cocinar, congelados"
+011791,Harina para puré de papa,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas, tubérculos, plátanos, plátanos de cocción y legumbres molidas y otras preparaciones"
+011792,"Harina de otras hortalizas, tubérculos o legumbres",Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas, tubérculos, plátanos, plátanos de cocción y legumbres molidas y otras preparaciones"
+011793,Chiles secos o en polvo,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas, tubérculos, plátanos, plátanos de cocción y legumbres molidas y otras preparaciones"
+011794,"Chiles enlatados, envasados o encurtidos",Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas, tubérculos, plátanos, plátanos de cocción y legumbres molidas y otras preparaciones"
+011795,Papas congeladas,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas, tubérculos, plátanos, plátanos de cocción y legumbres molidas y otras preparaciones"
+011796,Papas fritas en bolsa o a granel,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas, tubérculos, plátanos, plátanos de cocción y legumbres molidas y otras preparaciones"
+011797,Frijol procesado,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas, tubérculos, plátanos, plátanos de cocción y legumbres molidas y otras preparaciones"
+011798,Otras verduras enlatadas o envasadas,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas, tubérculos, plátanos, plátanos de cocción y legumbres molidas y otras preparaciones"
+011799,"Otras legumbres y leguminosas secas, enlatadas o envasadas",Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas, tubérculos, plátanos, plátanos de cocción y legumbres molidas y otras preparaciones"
+01179A,Otras preparaciones vegetales,Alimentos y bebidas no alcohólicas,Alimentos,"Hortalizas, tubérculos, plátanos de cocción y legumbres","Hortalizas, tubérculos, plátanos, plátanos de cocción y legumbres molidas y otras preparaciones"
+011810,Azúcar,Alimentos y bebidas no alcohólicas,Alimentos,"Azúcar, productos para confitería y postres",Azúcar de caña y remolacha
+011820,Sustitutos de azúcar y otros azúcares,Alimentos y bebidas no alcohólicas,Alimentos,"Azúcar, productos para confitería y postres",Otros azúcares y sustitutos de azúcar
+011831,Miel de abeja,Alimentos y bebidas no alcohólicas,Alimentos,"Azúcar, productos para confitería y postres","Confituras, jaleas de frutas, mermeladas, purés y pastas de frutas, miel de abeja"
+011832,Otras mieles,Alimentos y bebidas no alcohólicas,Alimentos,"Azúcar, productos para confitería y postres","Confituras, jaleas de frutas, mermeladas, purés y pastas de frutas, miel de abeja"
+011833,Mermeladas y jaleas,Alimentos y bebidas no alcohólicas,Alimentos,"Azúcar, productos para confitería y postres","Confituras, jaleas de frutas, mermeladas, purés y pastas de frutas, miel de abeja"
+011834,Ate y dulces a base de frutas,Alimentos y bebidas no alcohólicas,Alimentos,"Azúcar, productos para confitería y postres","Confituras, jaleas de frutas, mermeladas, purés y pastas de frutas, miel de abeja"
+011841,Crema de cacahuate,Alimentos y bebidas no alcohólicas,Alimentos,"Azúcar, productos para confitería y postres","Puré, mantequilla, crema y pastas de nueces o frutos secos"
+011842,Otras mantequillas y cremas,Alimentos y bebidas no alcohólicas,Alimentos,"Azúcar, productos para confitería y postres","Puré, mantequilla, crema y pastas de nueces o frutos secos"
+011843,Purés o pastas de frutos secos,Alimentos y bebidas no alcohólicas,Alimentos,"Azúcar, productos para confitería y postres","Puré, mantequilla, crema y pastas de nueces o frutos secos"
+011851,Chocolate en barra o tableta,Alimentos y bebidas no alcohólicas,Alimentos,"Azúcar, productos para confitería y postres","Chocolate, cacao y productos alimenticios a base de cacao"
+011852,Cacao y chocolate en polvo para todos los usos,Alimentos y bebidas no alcohólicas,Alimentos,"Azúcar, productos para confitería y postres","Chocolate, cacao y productos alimenticios a base de cacao"
+011853,Otros chocolates,Alimentos y bebidas no alcohólicas,Alimentos,"Azúcar, productos para confitería y postres","Chocolate, cacao y productos alimenticios a base de cacao"
+011861,"Helados, nieves y paletas de hielo",Alimentos y bebidas no alcohólicas,Alimentos,"Azúcar, productos para confitería y postres","Hielo, helados, sorbetes y nieves"
+011862,Hielo,Alimentos y bebidas no alcohólicas,Alimentos,"Azúcar, productos para confitería y postres","Hielo, helados, sorbetes y nieves"
+011891,Dulces y golosinas,Alimentos y bebidas no alcohólicas,Alimentos,"Azúcar, productos para confitería y postres",Otros productos de confitería y postres
+011892,Gelatina preparada,Alimentos y bebidas no alcohólicas,Alimentos,"Azúcar, productos para confitería y postres",Otros productos de confitería y postres
+011893,Otros productos de repostería,Alimentos y bebidas no alcohólicas,Alimentos,"Azúcar, productos para confitería y postres",Otros productos de confitería y postres
+011911,Alimentos preparados para consumo inmediato,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,Alimentos preparados
+011912,Sopas instantáneas,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,Alimentos preparados
+011921,Fórmula de leche maternizada,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,Alimentos para bebé
+011922,Papillas para bebé,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,Alimentos para bebé
+011923,Cereales para bebé,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,Alimentos para bebé
+011924,Jugos de frutas y verduras de cualquier combinación para bebé,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,Alimentos para bebé
+011925,Otros alimentos para bebé,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,Alimentos para bebé
+011931,Salsa o puré de tomate y cátsup,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,"Sal, condimentos y salsas"
+011932,Salsa picante,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,"Sal, condimentos y salsas"
+011933,Mole en pasta o en polvo,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,"Sal, condimentos y salsas"
+011934,Mayonesa,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,"Sal, condimentos y salsas"
+011935,Mostaza,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,"Sal, condimentos y salsas"
+011936,Vinagre,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,"Sal, condimentos y salsas"
+011937,Sal,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,"Sal, condimentos y salsas"
+011938,Otros aderezos y salsas,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,"Sal, condimentos y salsas"
+011942,Cilantro,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,"Especias, hierbas culinarias y semillas"
+011943,Perejil y hierbabuena,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,"Especias, hierbas culinarias y semillas"
+011944,Epazote,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,"Especias, hierbas culinarias y semillas"
+011945,Otras hierbas culinarias (hierbas de olor),Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,"Especias, hierbas culinarias y semillas"
+011946,Semillas comestibles,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,"Especias, hierbas culinarias y semillas"
+011991,Levaduras y preparaciones para postres,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,Otros productos alimenticios
+011992,Gelatina en polvo,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,Otros productos alimenticios
+011993,Concentrados para caldo,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,Otros productos alimenticios
+011994,Complementos nutricionales,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,Otros productos alimenticios
+011995,Otros productos alimenticios,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,Otros productos alimenticios
+011996,Otros productos relacionados con la preparación de alimentos,Alimentos y bebidas no alcohólicas,Alimentos,Alimentos preparados y otros productos alimenticios,Otros productos alimenticios
+012100,Jugos de frutas o verduras envasados,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,Jugos de frutas y hortalizas,Jugos de frutas y hortalizas
+012201,Café soluble,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,Café y sustitutos de café,Café y sustitutos de café
+012202,Café en grano o molido,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,Café y sustitutos de café,Café y sustitutos de café
+012203,Preparaciones de bebidas a base de café,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,Café y sustitutos de café,Café y sustitutos de café
+012301,Bolsas de té,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,"Té, yerba mate y otros productos vegetales para infusión","Té, yerba mate y otros productos vegetales para infusión"
+012302,Flor y hojas para infusiones,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,"Té, yerba mate y otros productos vegetales para infusión","Té, yerba mate y otros productos vegetales para infusión"
+012400,Bebidas a base de cacao y chocolate,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,Bebidas de cacao,Bebidas de cacao
+012501,Agua natural embotellada,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,Agua,Agua
+012502,Agua mineral sin sabor,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,Agua,Agua
+012601,Refrescos sabor cola,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,Refrescos,Refrescos
+012602,Refrescos de otros sabores,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,Refrescos,Refrescos
+012603,Refrescos de dieta (light),Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,Refrescos,Refrescos
+012604,Jugos con gas,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,Refrescos,Refrescos
+012901,Aguas frescas naturales de frutas o verduras,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,Otras bebidas no alcohólicas,Otras bebidas no alcohólicas
+012902,Agua natural embotellada con sabor,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,Otras bebidas no alcohólicas,Otras bebidas no alcohólicas
+012903,Bebidas hidratantes e isotónicas,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,Otras bebidas no alcohólicas,Otras bebidas no alcohólicas
+012904,Bebidas energéticas,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,Otras bebidas no alcohólicas,Otras bebidas no alcohólicas
+012905,Concentrados y polvos para preparar bebidas,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,Otras bebidas no alcohólicas,Otras bebidas no alcohólicas
+012907,Otras bebidas no alcohólicas,Alimentos y bebidas no alcohólicas,Bebidas no alcohólicas,Otras bebidas no alcohólicas,Otras bebidas no alcohólicas
+013000,"Servicios de molienda, trituración y prensado de alimentos",Alimentos y bebidas no alcohólicas,Servicios de tratamiento de bienes primarios para alimentos y bebidas no alcohólicas,Servicios de procesamiento de productos primarios para alimentos y bebidas no alcohólicas,Servicios de procesamiento de productos primarios para alimentos y bebidas no alcohólicas
+021101,Coñac y brandy,"Bebidas alcohólicas, tabaco y estupefacientes",Bebidas alcohólicas,Bebidas destiladas y licores,Bebidas destiladas y licores
+021102,Ron,"Bebidas alcohólicas, tabaco y estupefacientes",Bebidas alcohólicas,Bebidas destiladas y licores,Bebidas destiladas y licores
+021103,Tequila,"Bebidas alcohólicas, tabaco y estupefacientes",Bebidas alcohólicas,Bebidas destiladas y licores,Bebidas destiladas y licores
+021104,Whisky,"Bebidas alcohólicas, tabaco y estupefacientes",Bebidas alcohólicas,Bebidas destiladas y licores,Bebidas destiladas y licores
+021105,Otras bebidas destiladas,"Bebidas alcohólicas, tabaco y estupefacientes",Bebidas alcohólicas,Bebidas destiladas y licores,Bebidas destiladas y licores
+021211,Vino de uva,"Bebidas alcohólicas, tabaco y estupefacientes",Bebidas alcohólicas,Vino,Vino de uva
+021212,Champagne,"Bebidas alcohólicas, tabaco y estupefacientes",Bebidas alcohólicas,Vino,Vino de uva
+021213,Aperitivos y bebidas a base de vino,"Bebidas alcohólicas, tabaco y estupefacientes",Bebidas alcohólicas,Vino,Vino de uva
+021220,Sidra,"Bebidas alcohólicas, tabaco y estupefacientes",Bebidas alcohólicas,Vino,Vino de otras fuentes
+021301,Cerveza,"Bebidas alcohólicas, tabaco y estupefacientes",Bebidas alcohólicas,Cerveza,Cerveza
+021302,Cerveza artesanal,"Bebidas alcohólicas, tabaco y estupefacientes",Bebidas alcohólicas,Cerveza,Cerveza
+021303,Cerveza light y sin alcohol,"Bebidas alcohólicas, tabaco y estupefacientes",Bebidas alcohólicas,Cerveza,Cerveza
+021901,Cervezas de sabor y cervezas preparadas,"Bebidas alcohólicas, tabaco y estupefacientes",Bebidas alcohólicas,Otras bebidas alcohólicas,Otras bebidas alcohólicas
+021902,Bebidas preparadas con alcohol,"Bebidas alcohólicas, tabaco y estupefacientes",Bebidas alcohólicas,Otras bebidas alcohólicas,Otras bebidas alcohólicas
+023010,Cigarrillos,"Bebidas alcohólicas, tabaco y estupefacientes",Tabaco,Tabaco,Cigarrillos
+023020,Puros,"Bebidas alcohólicas, tabaco y estupefacientes",Tabaco,Tabaco,Puros
+023090,Otros tabacos y productos de tabaco,"Bebidas alcohólicas, tabaco y estupefacientes",Tabaco,Tabaco,Otros tabacos y productos de tabaco
+024000,Narcóticos,"Bebidas alcohólicas, tabaco y estupefacientes",Narcóticos,Narcóticos,Narcóticos
+031100,"Telas de fibras naturales, sintéticas, artificiales y sus mezclas",Ropa y calzado,Ropa,Material para confección de prendas de vestir,Materiales para confección de prendas de vestir
+031211,Pantalones para hombre (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+031212,Camisa para hombre (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+031213,Playera para hombre (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+031214,Traje para hombre (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+031215,"Abrigo, chamarra, suéter y sudadera para hombre (de 17 años en adelante)",Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+031216,Pants para hombre (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+031217,Ropa interior para hombre (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+031218,"Calcetines, calcetas y tines para hombre (de 17 años en adelante)",Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+031219,Otras prendas de vestir para hombre (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+03121A,Pantalones para niño (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+03121B,Camisa para niño (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+03121C,Playera para niño (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+03121D,Traje para niño (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+03121E,Abrigo y chamarra para niño (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+03121F,Suéter y sudadera para niño (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+03121G,Pants para niño (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+03121H,Ropa interior para niño (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+03121I,"Calcetines, calcetas y tines para niño (de 2 a menos de 17 años)",Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+03121J,Otras prendas de vestir para niño (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para hombres o niños
+031221,Pantalones para mujer (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+031222,Blusa para mujer (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+031223,Playera para mujer (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+031224,Traje para mujer (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+031225,"Abrigo, chamarra, suéter y sudadera para mujer (de 17 años en adelante)",Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+031226,Vestido y falda para mujer (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+031227,Calcetas para mujer (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+031228,Medias y pantimedias para mujer (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+031229,Pants para mujer (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+03122A,Ropa interior para mujer (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+03122B,Ropa de maternidad,Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+03122C,Otras prendas de vestir para mujer (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+03122D,Pantalones para niña (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+03122E,Blusa para niña (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+03122F,Playera para niña (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+03122G,Traje para niña (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+03122H,Abrigo y chamarra para niña (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+03122I,Suéter y sudadera para niña (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+03122J,Vestido y falda para niña (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+03122K,Calcetas para niña (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+03122L,Medias y pantimedias para niña (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+03122M,Pants para niña (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+03122N,Ropa interior para niña (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+03122O,Otras prendas de vestir para niña (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas de vestir para mujeres o niñas
+031231,Pantalones para niño (de 0 a menos de 2 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para bebés (de 0 a menos de 2 años)
+031232,Camisa para niño (de 0 a menos de 2 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para bebés (de 0 a menos de 2 años)
+031235,Playera para niño (de 0 a menos de 2 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para bebés (de 0 a menos de 2 años)
+031236,Traje para niño (de 0 a menos de 2 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para bebés (de 0 a menos de 2 años)
+031237,Abrigo y chamarra para niño (de 0 a menos de 2 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para bebés (de 0 a menos de 2 años)
+031238,Suéter y sudadera para niño (de 0 a menos de 2 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para bebés (de 0 a menos de 2 años)
+031239,Pants para niño (de 0 a menos de 2 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para bebés (de 0 a menos de 2 años)
+03123A,Ropa interior para niño (de 0 a menos de 2 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para bebés (de 0 a menos de 2 años)
+03123B,"Calcetines, calcetas y tines para niño (de 0 a menos de 2 años)",Ropa y calzado,Ropa,Prendas de vestir,Prendas para bebés (de 0 a menos de 2 años)
+03123C,Otras prendas de vestir para niño (de 0 a menos de 2 años),Ropa y calzado,Ropa,Prendas de vestir,Prendas para bebés (de 0 a menos de 2 años)
+031241,Uniformes escolares para hombre (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Uniformes escolares
+031242,Uniformes escolares para niño (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Uniformes escolares
+031243,Uniformes escolares para mujer (de 17 años en adelante),Ropa y calzado,Ropa,Prendas de vestir,Uniformes escolares
+031244,Uniformes escolares para niña (de 2 a menos de 17 años),Ropa y calzado,Ropa,Prendas de vestir,Uniformes escolares
+031245,Uniformes escolares para bebés (de 0 a menos de 2 años),Ropa y calzado,Ropa,Prendas de vestir,Uniformes escolares
+031311,Cinturones,Ropa y calzado,Ropa,Otras prendas y complementos de vestir,Otras prendas de vestir
+031312,"Cachucha, gorra y sombrero",Ropa y calzado,Ropa,Otras prendas y complementos de vestir,Otras prendas de vestir
+031313,Corbata,Ropa y calzado,Ropa,Otras prendas y complementos de vestir,Otras prendas de vestir
+031314,"Delantal, batas, baberos y mandiles",Ropa y calzado,Ropa,Otras prendas y complementos de vestir,Otras prendas de vestir
+031315,Guantes de trabajo,Ropa y calzado,Ropa,Otras prendas y complementos de vestir,Otras prendas de vestir
+031316,Otros complementos de vestir,Ropa y calzado,Ropa,Otras prendas y complementos de vestir,Otras prendas de vestir
+031320,Artículos y accesorios de mercería,Ropa y calzado,Ropa,Otras prendas y complementos de vestir,Accesorios de vestir
+031411,Servicio de tintorería,Ropa y calzado,Ropa,"Limpieza, reparación, confección y alquiler de ropa",Limpieza de ropa
+031412,Servicio de lavandería,Ropa y calzado,Ropa,"Limpieza, reparación, confección y alquiler de ropa",Limpieza de ropa
+031420,"Reparación, confección y alquiler de ropa",Ropa y calzado,Ropa,"Limpieza, reparación, confección y alquiler de ropa","Reparación, confección y alquiler de ropa"
+032111,Zapatos para hombre (de 17 años en adelante),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de caballero
+032112,Tenis para hombre (de 17 años en adelante),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de caballero
+032113,Huaraches y sandalias de baño para hombre (de 17 años en adelante),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de caballero
+032114,Otro calzado para hombre (de 17 años en adelante),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de caballero
+032115,Zapatos para niño (de 13 a menos de 17 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de caballero
+032116,Tenis para niño (de 13 a menos de 17 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de caballero
+032117,Huaraches y sandalias de baño para niño (de 13 a menos de 17 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de caballero
+032118,Otro calzado para niño (de 13 a menos de 17 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de caballero
+032119,Accesorios para calzado para niño (de 13 a menos de 17 años) y hombre (de 17,Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de caballero
+032121,Zapatos y zapatillas para mujer (de 17 años en adelante),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de mujer
+032122,Tenis para mujer (de 17 años en adelante),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de mujer
+032123,Huaraches y sandalias de baño para mujer (de 17 años en adelante),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de mujer
+032124,Otro calzado para mujer (de 17 años en adelante),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de mujer
+032125,Zapatos y zapatillas para niña (de 13 a menos de 17 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de mujer
+032126,Tenis para niña (de 13 a menos de 17 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de mujer
+032127,Huaraches y sandalias de baño para niña (de 13 a menos de 17 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de mujer
+032128,Otro calzado para niña (de 13 a menos de 17 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de mujer
+032129,Accesorios para calzado para niña (de 13 a menos de 17 años) y mujer (de 17 años,Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado de mujer
+032131,Zapatos para niño (de 2 a menos de 13 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado para lactantes y niños
+032132,Tenis para niño (de 2 a menos de 13 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado para lactantes y niños
+032133,Huaraches y sandalias de baño para niño (de 2 a menos de 13 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado para lactantes y niños
+032134,Otro calzado para niño (de 2 a menos de 13 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado para lactantes y niños
+032135,Zapatos y zapatillas para niña (de 2 a menos de 13 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado para lactantes y niños
+032136,Tenis para niña (de 2 a menos de 13 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado para lactantes y niños
+032137,Huaraches y sandalias de baño para niña (de 2 a menos de 13 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado para lactantes y niños
+032138,Otro calzado para niña (de 2 a menos de 13 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado para lactantes y niños
+032139,Zapatos para niño (de 0 a menos de 2 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado para lactantes y niños
+03213A,Tenis para niño (de 0 a menos de 2 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado para lactantes y niños
+03213B,Huaraches y sandalias de baño para niño (de 0 a menos de 2 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado para lactantes y niños
+03213C,Otro calzado para niño (de 0 a menos de 2 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado para lactantes y niños
+03213D,Accesorios para calzado para bebés (de 0 a menos de 2 años) y niño y niña (de 2 a menos de 13 años),Ropa y calzado,Calzado,Calzado y otro tipo de calzado,Calzado para lactantes y niños
+032201,Reparación y alquiler de calzado,Ropa y calzado,Calzado,"Limpieza, reparación y alquiler de calzado","Limpieza, reparación y alquiler de calzado"
+032202,Limpieza de calzado,Ropa y calzado,Calzado,"Limpieza, reparación y alquiler de calzado","Limpieza, reparación y alquiler de calzado"
+041103,Alquiler o cuota pagada a otros hogares,"Vivienda, agua, electricidad, gas y otros combustibles",Alquileres reales de vivienda,Alquileres reales pagados por los inquilinos de la residencia,Alquileres reales pagados por los inquilinos de la residencia principal
+041104,Cuota de vivienda recibida como prestación del trabajo,"Vivienda, agua, electricidad, gas y otros combustibles",Alquileres reales de vivienda,Alquileres reales pagados por los inquilinos de la residencia,Alquileres reales pagados por los inquilinos de la residencia principal
+041105,Cuota de vivienda en otra situación,"Vivienda, agua, electricidad, gas y otros combustibles",Alquileres reales de vivienda,Alquileres reales pagados por los inquilinos de la residencia,Alquileres reales pagados por los inquilinos de la residencia principal
+041211,Alquiler de otras viviendas que no habita el hogar,"Vivienda, agua, electricidad, gas y otros combustibles",Alquileres reales de vivienda,Otros alquileres reales,Alquileres reales pagados por los inquilinos por residencias secundarias
+041212,Cuotas de mantenimiento por tiempo compartido,"Vivienda, agua, electricidad, gas y otros combustibles",Alquileres reales de vivienda,Otros alquileres reales,Alquileres reales pagados por los inquilinos por residencias secundarias
+041221,Alquiler de cochera o pensión para los automóviles de la vivienda,"Vivienda, agua, electricidad, gas y otros combustibles",Alquileres reales de vivienda,Otros alquileres reales,Alquiler de garajes y otros alquileres pagados por los inquilinos
+041222,Otros alquileres,"Vivienda, agua, electricidad, gas y otros combustibles",Alquileres reales de vivienda,Otros alquileres reales,Alquiler de garajes y otros alquileres pagados por los inquilinos
+043111,Materiales para el mantenimiento y reparación menor de la vivienda que habita el hogar,"Vivienda, agua, electricidad, gas y otros combustibles","Mantenimiento, reparación y seguridad de la vivienda",Materiales para el mantenimiento y reparación de la vivienda,Materiales para el mantenimiento y reparación de la vivienda
+043112,Materiales para el mantenimiento y reparación menor de la vivienda que no habita el hogar,"Vivienda, agua, electricidad, gas y otros combustibles","Mantenimiento, reparación y seguridad de la vivienda",Materiales para el mantenimiento y reparación de la vivienda,Materiales para el mantenimiento y reparación de la vivienda
+043121,Pequeños equipos de vigilancia y seguridad para la vivienda,"Vivienda, agua, electricidad, gas y otros combustibles","Mantenimiento, reparación y seguridad de la vivienda",Materiales para el mantenimiento y reparación de la vivienda,Equipo de seguridad
+043122,Otros equipos de seguridad y vigilancia para el hogar,"Vivienda, agua, electricidad, gas y otros combustibles","Mantenimiento, reparación y seguridad de la vivienda",Materiales para el mantenimiento y reparación de la vivienda,Equipo de seguridad
+043201,Servicios para el mantenimiento y reparación menor de la vivienda que habita el hogar,"Vivienda, agua, electricidad, gas y otros combustibles","Mantenimiento, reparación y seguridad de la vivienda","Servicios para el mantenimiento, reparación y seguridad de la vivienda","Servicios para el mantenimiento, reparación y seguridad de la vivienda"
+043202,Servicios para el mantenimiento y reparación menor de la vivienda que no habita el hogar,"Vivienda, agua, electricidad, gas y otros combustibles","Mantenimiento, reparación y seguridad de la vivienda","Servicios para el mantenimiento, reparación y seguridad de la vivienda","Servicios para el mantenimiento, reparación y seguridad de la vivienda"
+043203,Cuotas de vigilancia,"Vivienda, agua, electricidad, gas y otros combustibles","Mantenimiento, reparación y seguridad de la vivienda","Servicios para el mantenimiento, reparación y seguridad de la vivienda","Servicios para el mantenimiento, reparación y seguridad de la vivienda"
+043204,Otros servicios de seguridad,"Vivienda, agua, electricidad, gas y otros combustibles","Mantenimiento, reparación y seguridad de la vivienda","Servicios para el mantenimiento, reparación y seguridad de la vivienda","Servicios para el mantenimiento, reparación y seguridad de la vivienda"
+044110,Agua,"Vivienda, agua, electricidad, gas y otros combustibles",Suministro de agua y servicios diversos relacionados con la vivienda,Suministro de agua,Suministro de agua a través de sistemas de red
+044120,Pago por suministro de agua mediante pipa para la vivienda,"Vivienda, agua, electricidad, gas y otros combustibles",Suministro de agua y servicios diversos relacionados con la vivienda,Suministro de agua,Suministro de agua mediante sistemas básicos
+044200,Recolección de desperdicios,"Vivienda, agua, electricidad, gas y otros combustibles",Suministro de agua y servicios diversos relacionados con la vivienda,Recolección de desperdicios,Recolección de desperdicios
+044310,Recolección de aguas residuales a través del sistema de alcantarillado,"Vivienda, agua, electricidad, gas y otros combustibles",Suministro de agua y servicios diversos relacionados con la vivienda,Recolección de aguas residuales,Recolección de aguas residuales a través de sistemas de alcantarillado
+044320,"Servicios para vaciar, evacuar y limpiar los desechos de letrinas de pozo, fosas","Vivienda, agua, electricidad, gas y otros combustibles",Suministro de agua y servicios diversos relacionados con la vivienda,Recolección de aguas residuales,Captación de aguas residuales mediante sistemas de saneamiento básico
+044411,Gastos de mantenimiento en edificios multiocupacionales,"Vivienda, agua, electricidad, gas y otros combustibles",Suministro de agua y servicios diversos relacionados con la vivienda,Otros servicios relacionados con la vivienda,Cargos de mantenimiento en edificios y conjuntos multifamiliares
+044412,Gastos de mantenimiento en viviendas con régimen en condominio,"Vivienda, agua, electricidad, gas y otros combustibles",Suministro de agua y servicios diversos relacionados con la vivienda,Otros servicios relacionados con la vivienda,Cargos de mantenimiento en edificios y conjuntos multifamiliares
+044491,Servicio de jardinería,"Vivienda, agua, electricidad, gas y otros combustibles",Suministro de agua y servicios diversos relacionados con la vivienda,Otros servicios relacionados con la vivienda,Otros servicios relacionados con la vivienda
+044492,Otros servicios relativos a la vivienda,"Vivienda, agua, electricidad, gas y otros combustibles",Suministro de agua y servicios diversos relacionados con la vivienda,Otros servicios relacionados con la vivienda,Otros servicios relacionados con la vivienda
+045100,Energía eléctrica,"Vivienda, agua, electricidad, gas y otros combustibles",,Electricidad,Electricidad
+045210,Gas natural,"Vivienda, agua, electricidad, gas y otros combustibles",,Gas,Gas natural a través de redes
+045221,Gas LP por tubería,"Vivienda, agua, electricidad, gas y otros combustibles",,Gas,Hidrocarburos licuados
+045222,Gas LP en cilindro y estacionario,"Vivienda, agua, electricidad, gas y otros combustibles",,Gas,Hidrocarburos licuados
+045300,Combustibles líquidos,"Vivienda, agua, electricidad, gas y otros combustibles",,Combustibles líquidos,Combustibles líquidos
+045410,"Carbón, briquetas de carbón y turba","Vivienda, agua, electricidad, gas y otros combustibles",,Combustibles sólidos,"Carbón, briquetas de carbón y turba"
+045420,Combustibles de madera,"Vivienda, agua, electricidad, gas y otros combustibles",,Combustibles sólidos,Combustible de madera
+045430,Otros carbones vegetales,"Vivienda, agua, electricidad, gas y otros combustibles",,Combustibles sólidos,Carbón vegetal
+045490,Otros combustibles sólidos,"Vivienda, agua, electricidad, gas y otros combustibles",,Combustibles sólidos,Otros combustibles sólidos
+045502,Hielo usado para refrigeración,"Vivienda, agua, electricidad, gas y otros combustibles",,Otras energías para calefacción y refrigeración,Otras energías para calefacción y refrigeración
+051111,Colchones,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Muebles, mobiliario y alfombras sueltas","Muebles, mobiliario y alfombras sueltas",Muebles para el hogar
+051112,Comedores y antecomedores,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Muebles, mobiliario y alfombras sueltas","Muebles, mobiliario y alfombras sueltas",Muebles para el hogar
+051113,Muebles para cocina,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Muebles, mobiliario y alfombras sueltas","Muebles, mobiliario y alfombras sueltas",Muebles para el hogar
+051114,Recámaras,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Muebles, mobiliario y alfombras sueltas","Muebles, mobiliario y alfombras sueltas",Muebles para el hogar
+051115,Salas,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Muebles, mobiliario y alfombras sueltas","Muebles, mobiliario y alfombras sueltas",Muebles para el hogar
+051116,Muebles diversos para el hogar,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Muebles, mobiliario y alfombras sueltas","Muebles, mobiliario y alfombras sueltas",Muebles para el hogar
+051121,Muebles de jardín,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Muebles, mobiliario y alfombras sueltas","Muebles, mobiliario y alfombras sueltas",Muebles para jardín y para acampar
+051122,Muebles para acampar,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Muebles, mobiliario y alfombras sueltas","Muebles, mobiliario y alfombras sueltas",Muebles para jardín y para acampar
+051130,"Lámparas, candiles y otros equipos de iluminación","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Muebles, mobiliario y alfombras sueltas","Muebles, mobiliario y alfombras sueltas",Equipo de iluminación
+051141,Alfombras y tapetes,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Muebles, mobiliario y alfombras sueltas","Muebles, mobiliario y alfombras sueltas","Mobiliario, alfombras sueltas y tapetes"
+051142,Artículos decorativos para otros espacios,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Muebles, mobiliario y alfombras sueltas","Muebles, mobiliario y alfombras sueltas","Mobiliario, alfombras sueltas y tapetes"
+051143,Espejos,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Muebles, mobiliario y alfombras sueltas","Muebles, mobiliario y alfombras sueltas","Mobiliario, alfombras sueltas y tapetes"
+051144,Objetos de arte o colección,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Muebles, mobiliario y alfombras sueltas","Muebles, mobiliario y alfombras sueltas","Mobiliario, alfombras sueltas y tapetes"
+051145,Persianas,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Muebles, mobiliario y alfombras sueltas","Muebles, mobiliario y alfombras sueltas","Mobiliario, alfombras sueltas y tapetes"
+051201,"Reparación de muebles, mobiliario y alfombras sueltas","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Muebles, mobiliario y alfombras sueltas","Reparación , instalación y alquiler de muebles, mobiliario y alfombras sueltas","Reparación, instalación y alquiler de muebles, mobiliario y alfombras sueltas"
+051202,"Instalación de muebles, mobiliario y alfombras sueltas","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Muebles, mobiliario y alfombras sueltas","Reparación , instalación y alquiler de muebles, mobiliario y alfombras sueltas","Reparación, instalación y alquiler de muebles, mobiliario y alfombras sueltas"
+051203,"Alquiler de muebles, mobiliario y alfombras sueltas","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Muebles, mobiliario y alfombras sueltas","Reparación , instalación y alquiler de muebles, mobiliario y alfombras sueltas","Reparación, instalación y alquiler de muebles, mobiliario y alfombras sueltas"
+052111,Cortinas para el hogar,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Textiles para el hogar,Textiles para el hogar,Textiles para decoración y cortinas
+052112,Persianas de tela,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Textiles para el hogar,Textiles para el hogar,Textiles para decoración y cortinas
+052113,Textiles para decoración,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Textiles para el hogar,Textiles para el hogar,Textiles para decoración y cortinas
+052121,Sábanas y fundas para almohada,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Textiles para el hogar,Textiles para el hogar,Ropa de cama
+052122,Colchas y edredones,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Textiles para el hogar,Textiles para el hogar,Ropa de cama
+052123,Cobijas y mantas,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Textiles para el hogar,Textiles para el hogar,Ropa de cama
+052124,Otra ropa de cama,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Textiles para el hogar,Textiles para el hogar,Ropa de cama
+052131,Mantelería,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Textiles para el hogar,Textiles para el hogar,Blancos para baño y mantelería
+052132,Toallas,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Textiles para el hogar,Textiles para el hogar,Blancos para baño y mantelería
+052191,Tapetes de entrada y baño,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Textiles para el hogar,Textiles para el hogar,Otros textiles para el hogar
+052192,"Colchonetas, almohadas y cojines","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Textiles para el hogar,Textiles para el hogar,Otros textiles para el hogar
+052193,Otros textiles para el hogar,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Textiles para el hogar,Textiles para el hogar,Otros textiles para el hogar
+052200,"Servicios de reparación, alquiler y costura de textiles para el hogar","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Textiles para el hogar,"Servicios de reparación, alquiler y costura de textiles para el hogar","Servicios de reparación, alquiler y costura de textiles para el hogar"
+053111,Estufas,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,"GRANDES ELECTRODOMÉSTICOS, ELÉCTRICOS O NO Semestral",Grandes electrodomésticos de cocina
+053112,Horno de microondas,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,"GRANDES ELECTRODOMÉSTICOS, ELÉCTRICOS O NO Semestral",Grandes electrodomésticos de cocina
+053113,Horno eléctrico,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,"GRANDES ELECTRODOMÉSTICOS, ELÉCTRICOS O NO Semestral",Grandes electrodomésticos de cocina
+053114,Lavavajillas,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,"GRANDES ELECTRODOMÉSTICOS, ELÉCTRICOS O NO Semestral",Grandes electrodomésticos de cocina
+053115,Refrigerador,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,"GRANDES ELECTRODOMÉSTICOS, ELÉCTRICOS O NO Semestral",Grandes electrodomésticos de cocina
+053121,Lavadora,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,"GRANDES ELECTRODOMÉSTICOS, ELÉCTRICOS O NO Semestral",Grandes aparatos de lavandería
+053122,Secadora de ropa y centro de lavado,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,"GRANDES ELECTRODOMÉSTICOS, ELÉCTRICOS O NO Semestral",Grandes aparatos de lavandería
+053131,Aparatos de aire acondicionado,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,"GRANDES ELECTRODOMÉSTICOS, ELÉCTRICOS O NO Semestral",Calentadores y aparatos de aire acondicionado
+053132,Calefacciones y calefactores,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,"GRANDES ELECTRODOMÉSTICOS, ELÉCTRICOS O NO Semestral",Calentadores y aparatos de aire acondicionado
+053133,Calentadores de agua (boilers),"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,"GRANDES ELECTRODOMÉSTICOS, ELÉCTRICOS O NO Semestral",Calentadores y aparatos de aire acondicionado
+053134,Ventiladores de techo,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,"GRANDES ELECTRODOMÉSTICOS, ELÉCTRICOS O NO Semestral",Calentadores y aparatos de aire acondicionado
+053140,Aspiradora,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,"GRANDES ELECTRODOMÉSTICOS, ELÉCTRICOS O NO Semestral",Equipo de limpieza
+053190,Otros grandes aparatos para el hogar,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,"GRANDES ELECTRODOMÉSTICOS, ELÉCTRICOS O NO Semestral",Otros electrodomésticos grandes
+053211,Licuadoras,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,Electrodomésticos pequeños,Pequeños aparatos eléctricos para cocinar y procesar alimentos
+053212,Otros aparatos para cocinar y procesar alimentos,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,Electrodomésticos pequeños,Pequeños aparatos eléctricos para cocinar y procesar alimentos
+053213,Tostador,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,Electrodomésticos pequeños,Pequeños aparatos eléctricos para cocinar y procesar alimentos
+053214,"Planchas y parrillas eléctricas para carne, pescado, etcétera","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,Electrodomésticos pequeños,Pequeños aparatos eléctricos para cocinar y procesar alimentos
+053215,Electrodomésticos diversos,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,Electrodomésticos pequeños,Pequeños aparatos eléctricos para cocinar y procesar alimentos
+053221,Cafetera eléctrica,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,Electrodomésticos pequeños,Pequeños aparatos eléctricos para preparar bebidas
+053222,Otros electrodomésticos para preparar bebidas,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,Electrodomésticos pequeños,Pequeños aparatos eléctricos para preparar bebidas
+053291,Plancha eléctrica (ropa),"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,Electrodomésticos pequeños,Otros electrodomésticos pequeños
+053292,Ventiladores,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,Electrodomésticos pequeños,Otros electrodomésticos pequeños
+053293,Otros electrodomésticos pequeños,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,Electrodomésticos pequeños,Otros electrodomésticos pequeños
+053301,Reparación y alquiler de electrodomésticos pequeños,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,"Reparación , instalación y alquiler de electrodomésticos","Reparación, instalación y alquiler de electrodomésticos"
+053302,"Reparación y alquiler de grandes aparatos, eléctricos o no","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,"Reparación , instalación y alquiler de electrodomésticos","Reparación, instalación y alquiler de electrodomésticos"
+053303,Entrega e instalación de grandes aparatos para el hogar,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Electrodomésticos,"Reparación , instalación y alquiler de electrodomésticos","Reparación, instalación y alquiler de electrodomésticos"
+054011,Vajillas completas o por pieza,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Cristalería, vajillas y utensilios para el hogar","Cristalería, vajillas y utensilios para el hogar","Cristalería, artículos de vidrio, cerámica y loza"
+054012,"Artículos decorativos de cerámica, porcelana, loza y cristalería para mesa, cocina,","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Cristalería, vajillas y utensilios para el hogar","Cristalería, vajillas y utensilios para el hogar","Cristalería, artículos de vidrio, cerámica y loza"
+054013,"Otros artículos (no decorativos) de cerámica, porcelana, loza y cristalería para servir o guardar alimentos","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Cristalería, vajillas y utensilios para el hogar","Cristalería, vajillas y utensilios para el hogar","Cristalería, artículos de vidrio, cerámica y loza"
+054021,Cubiertos de mesa,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Cristalería, vajillas y utensilios para el hogar","Cristalería, vajillas y utensilios para el hogar","Cubiertos, cubertería y platería"
+054022,Cubiertos de cocina,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Cristalería, vajillas y utensilios para el hogar","Cristalería, vajillas y utensilios para el hogar","Cubiertos, cubertería y platería"
+054023,Platería,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Cristalería, vajillas y utensilios para el hogar","Cristalería, vajillas y utensilios para el hogar","Cubiertos, cubertería y platería"
+054031,Baterías de cocina,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Cristalería, vajillas y utensilios para el hogar","Cristalería, vajillas y utensilios para el hogar",Utensilios y artículos de cocina no eléctricos
+054032,Tijeras de cocina,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Cristalería, vajillas y utensilios para el hogar","Cristalería, vajillas y utensilios para el hogar",Utensilios y artículos de cocina no eléctricos
+054033,Manteles y mantelitos individuales de plástico,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Cristalería, vajillas y utensilios para el hogar","Cristalería, vajillas y utensilios para el hogar",Utensilios y artículos de cocina no eléctricos
+054034,"Otros utensilios de cocina no eléctricos, de metal, barro y madera","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Cristalería, vajillas y utensilios para el hogar","Cristalería, vajillas y utensilios para el hogar",Utensilios y artículos de cocina no eléctricos
+054035,Otros artículos de plástico para el hogar,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Cristalería, vajillas y utensilios para el hogar","Cristalería, vajillas y utensilios para el hogar",Utensilios y artículos de cocina no eléctricos
+054036,"Otros artículos para el hogar, de metal, barro, madera, vidrio, etcétera (no plástico)","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Cristalería, vajillas y utensilios para el hogar","Cristalería, vajillas y utensilios para el hogar",Utensilios y artículos de cocina no eléctricos
+054040,"Reparación y alquiler de cristalería, vajillas y utensilios para el hogar","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar","Cristalería, vajillas y utensilios para el hogar","Cristalería, vajillas y utensilios para el hogar","Reparación y alquiler de cristalería, vajilla y utensilios domésticos"
+055101,Herramientas y equipo con motor para el hogar,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Herramienta y equipo para casa y jardín,Herramientas y equipos motorizados,Herramientas y equipos motorizados
+055102,Herramientas y equipo con motor para jardín,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Herramienta y equipo para casa y jardín,Herramientas y equipos motorizados,Herramientas y equipos motorizados
+055211,Herramientas sin motor,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Herramienta y equipo para casa y jardín,Herramientas no motorizadas y accesorios diversos,Herramientas no motorizadas
+055212,Herramientas de jardín,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Herramienta y equipo para casa y jardín,Herramientas no motorizadas y accesorios diversos,Herramientas no motorizadas
+055221,Focos,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Herramienta y equipo para casa y jardín,Herramientas no motorizadas y accesorios diversos,Accesorios diversos
+055222,Pilas,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Herramienta y equipo para casa y jardín,Herramientas no motorizadas y accesorios diversos,Accesorios diversos
+055223,Accesorios diversos,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Herramienta y equipo para casa y jardín,Herramientas no motorizadas y accesorios diversos,Accesorios diversos
+055301,Reparación de herramientas sin motor y accesorios diversos,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Herramienta y equipo para casa y jardín,Reparación y alquiler de herramientas y equipos motorizados,Reparación y alquiler de herramientas y equipos motorizados y no motorizados
+055302,Reparación de herramientas y equipos con motor,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Herramienta y equipo para casa y jardín,Reparación y alquiler de herramientas y equipos motorizados,Reparación y alquiler de herramientas y equipos motorizados y no motorizados
+055303,Arrendamiento y alquiler de herramientas y equipos con motor,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Herramienta y equipo para casa y jardín,Reparación y alquiler de herramientas y equipos motorizados,Reparación y alquiler de herramientas y equipos motorizados y no motorizados
+056111,Artículos de limpieza para el calzado,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Productos de limpieza y mantenimiento
+056112,Blanqueadores,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Productos de limpieza y mantenimiento
+056113,Cera y aceite para muebles,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Productos de limpieza y mantenimiento
+056114,Recipientes de lámina,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Productos de limpieza y mantenimiento
+056115,Desodorantes ambientales,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Productos de limpieza y mantenimiento
+056116,Detergente para ropa y trastes,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Productos de limpieza y mantenimiento
+056117,Escobas,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Productos de limpieza y mantenimiento
+056118,"Fibras, estropajos y esponjas","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Productos de limpieza y mantenimiento
+056119,Jabón de barra,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Productos de limpieza y mantenimiento
+05611A,Jergas y trapos,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Productos de limpieza y mantenimiento
+05611B,Limpiadores multiusos,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Productos de limpieza y mantenimiento
+05611C,Suavizantes,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Productos de limpieza y mantenimiento
+05611D,"Trapeadores, recogedores y jaladores","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Productos de limpieza y mantenimiento
+05611E,Otros artículos de limpieza,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Productos de limpieza y mantenimiento
+056191,"Alfileres, agujas de coser, agujas de tejer y dedales","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Otros artículos domésticos no duraderos
+056192,Artículos para el hogar (no de plástico),"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Otros artículos domésticos no duraderos
+056193,Cerillos,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Otros artículos domésticos no duraderos
+056194,Cintas adhesivas y aislantes,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Otros artículos domésticos no duraderos
+056195,Insecticidas y plaguicidas,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Otros artículos domésticos no duraderos
+056196,"Platos, vasos y cubiertos desechables","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Otros artículos domésticos no duraderos
+056197,Servilletas de papel,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Otros artículos domésticos no duraderos
+056198,Servitoalla,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Otros artículos domésticos no duraderos
+056199,"Tuercas, tornillos y clavos","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Otros artículos domésticos no duraderos
+05619A,Velas,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Otros artículos domésticos no duraderos
+05619B,Otros artículos desechables,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Otros artículos domésticos no duraderos
+05619C,Otros productos de limpieza,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Artículos domésticos no duraderos,Otros artículos domésticos no duraderos
+056211,"Personas contratadas directamente, para realizar trabajo doméstico","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Servicios domésticos y para el hogar,Servicios domésticos por personal remunerado
+056212,"Personas contratadas por medio de una empresa, para realizar trabajo doméstico","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Servicios domésticos y para el hogar,Servicios domésticos por personal remunerado
+056291,Otros servicios de limpieza para el hogar,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Servicios domésticos y para el hogar,Otros servicios domésticos
+056292,Servicios de fumigación,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Servicios domésticos y para el hogar,Otros servicios domésticos
+056293,"Limpieza en seco, lavado y teñido de textiles para el hogar","Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Servicios domésticos y para el hogar,Otros servicios domésticos
+056294,Alquiler de mobiliario y decoración,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Servicios domésticos y para el hogar,Otros servicios domésticos
+056295,Otros servicios prestados por empresas,"Mobiliario, equipo doméstico y mantenimiento rutinario del hogar",Bienes y servicios para el mantenimiento rutinario del hogar,Servicios domésticos y para el hogar,Otros servicios domésticos
+061111,Analgésicos (para bajar la fiebre o el dolor),Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+061112,Antibióticos (para tratar infecciones),Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+061113,Anticonceptivos hormonales,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+061114,Antigripales,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+061115,Antiinflamatorios,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+061116,Expectorantes,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+061117,Insulina y medicamentos para el control de la diabetes,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+061118,Medicamentos antidiarreicos y para el malestar estomacal,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+061119,Medicamentos antihistamínicos (para tratar alergias),Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+06111A,Medicamentos dermatológicos,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+06111B,Medicamentos gineco-obstétricos,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+06111C,Medicamentos nefrológicos y urológicos,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+06111D,Medicamentos neurológicos,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+06111E,Medicamentos oftalmológicos,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+06111F,Medicamentos para el control de peso,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+06111G,Medicamentos para enfermedades inmunoalérgicas,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+06111H,Medicamentos para enfermedades psiquiátricas,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+06111I,Medicamentos para la presión arterial y cardiovasculares,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+06111J,Antisépticos,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+06111K,Otros medicamentos,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+06111L,Vitaminas y minerales,Salud,Medicamentos y productos sanitarios,Medicamentos,"Medicamentos, vacunas y otras preparaciones farmacéuticas"
+061120,Productos homeopáticos y naturistas,Salud,Medicamentos y productos sanitarios,Medicamentos,Medicamentos a base de plantas y productos homeopáticos
+061211,Pruebas de embarazo,Salud,Medicamentos y productos sanitarios,Productos médicos,Productos de diagnóstico médico
+061212,Otros productos para diagnóstico,Salud,Medicamentos y productos sanitarios,Productos médicos,Productos de diagnóstico médico
+061221,Preservativos,Salud,Medicamentos y productos sanitarios,Productos médicos,Dispositivos de prevención y protección
+061222,"Parches, inhaladores y chicles de nicotina",Salud,Medicamentos y productos sanitarios,Productos médicos,Dispositivos de prevención y protección
+061223,Otros dispositivos y productos de prevención y protección,Salud,Medicamentos y productos sanitarios,Productos médicos,Dispositivos de prevención y protección
+061230,Productos y dispositivos de tratamiento para uso personal,Salud,Medicamentos y productos sanitarios,Productos médicos,Dispositivos de tratamiento para uso personal
+061311,Anteojos y lentes de contacto,Salud,Medicamentos y productos sanitarios,Productos de apoyo,Productos de apoyo para la visión
+061312,Otros productos de apoyo para la visión,Salud,Medicamentos y productos sanitarios,Productos de apoyo,Productos de apoyo para la visión
+061320,Prótesis auditivas,Salud,Medicamentos y productos sanitarios,Productos de apoyo,Productos de apoyo para la audición y la comunicación
+061331,Aparatos ortopédicos,Salud,Medicamentos y productos sanitarios,Productos de apoyo,Productos de apoyo para la movilidad y la vida diaria
+061332,Calzado terapéutico,Salud,Medicamentos y productos sanitarios,Productos de apoyo,Productos de apoyo para la movilidad y la vida diaria
+061333,Dispositivos médicos de soporte (ortesis),Salud,Medicamentos y productos sanitarios,Productos de apoyo,Productos de apoyo para la movilidad y la vida diaria
+061334,Dispositivos y productos de asistencia,Salud,Medicamentos y productos sanitarios,Productos de apoyo,Productos de apoyo para la movilidad y la vida diaria
+061335,Prótesis,Salud,Medicamentos y productos sanitarios,Productos de apoyo,Productos de apoyo para la movilidad y la vida diaria
+061336,Sillas de ruedas (con y sin motor) y camas especiales,Salud,Medicamentos y productos sanitarios,Productos de apoyo,Productos de apoyo para la movilidad y la vida diaria
+061337,Vehículos para personas con discapacidad,Salud,Medicamentos y productos sanitarios,Productos de apoyo,Productos de apoyo para la movilidad y la vida diaria
+061338,Otros productos de apoyo,Salud,Medicamentos y productos sanitarios,Productos de apoyo,Productos de apoyo para la movilidad y la vida diaria
+061401,Reparación y mantenimiento de productos médicos y auxiliares,Salud,Medicamentos y productos sanitarios,"Reparación , alquiler y mantenimiento de productos médicos","Reparación, alquiler y mantenimiento de productos médicos y auxiliares"
+061402,Alquiler de productos médicos y auxiliares,Salud,Medicamentos y productos sanitarios,"Reparación , alquiler y mantenimiento de productos médicos","Reparación, alquiler y mantenimiento de productos médicos y auxiliares"
+062110,Servicios de inmunización y vacunación,Salud,Servicios de atención para pacientes ambulatorios,Servicios de atención preventiva,Servicios de inmunización
+062191,Consulta médica con especialistas,Salud,Servicios de atención para pacientes ambulatorios,Servicios de atención preventiva,Otros servicios preventivos
+062192,Consulta médica con especialistas durante el embarazo,Salud,Servicios de atención para pacientes ambulatorios,Servicios de atención preventiva,Otros servicios preventivos
+062193,Consulta médica general,Salud,Servicios de atención para pacientes ambulatorios,Servicios de atención preventiva,Otros servicios preventivos
+062194,Consulta médica general durante el embarazo,Salud,Servicios de atención para pacientes ambulatorios,Servicios de atención preventiva,Otros servicios preventivos
+062195,Consultas homeopáticas,Salud,Servicios de atención para pacientes ambulatorios,Servicios de atención preventiva,Otros servicios preventivos
+062196,Servicio de practicantes de medicina tradicional,Salud,Servicios de atención para pacientes ambulatorios,Servicios de atención preventiva,Otros servicios preventivos
+062197,Otros servicios médicos,Salud,Servicios de atención para pacientes ambulatorios,Servicios de atención preventiva,Otros servicios preventivos
+062198,Servicios de partera,Salud,Servicios de atención para pacientes ambulatorios,Servicios de atención preventiva,Otros servicios preventivos
+062210,Consultas dentales,Salud,Servicios de atención para pacientes ambulatorios,Servicios dentales para pacientes ambulatorios,Servicios dentales preventivos
+062291,Servicios de especialistas en ortodoncia,Salud,Servicios de atención para pacientes ambulatorios,Servicios dentales para pacientes ambulatorios,Otros servicios dentales para pacientes ambulatorios
+062292,Otros servicios dentales,Salud,Servicios de atención para pacientes ambulatorios,Servicios dentales para pacientes ambulatorios,Otros servicios dentales para pacientes ambulatorios
+062311,Servicios curativos,Salud,Servicios de atención para pacientes ambulatorios,Otros servicios de atención ambulatoria (excluidos los preventivos y dentales),Servicios curativos y de rehabilitación para pacientes ambulatorios (excluidos los servicios dentales)
+062312,Servicios de rehabilitación y terapia,Salud,Servicios de atención para pacientes ambulatorios,Otros servicios de atención ambulatoria (excluidos los preventivos y dentales),Servicios curativos y de rehabilitación para pacientes ambulatorios (excluidos los servicios dentales)
+062313,Baños termales y terapia de gimnasia correctiva,Salud,Servicios de atención para pacientes ambulatorios,Otros servicios de atención ambulatoria (excluidos los preventivos y dentales),Servicios curativos y de rehabilitación para pacientes ambulatorios (excluidos los servicios dentales)
+062321,Servicios de enfermeras independientes,Salud,Servicios de atención para pacientes ambulatorios,Otros servicios de atención ambulatoria (excluidos los preventivos y dentales),Servicios de atención a largo plazo para pacientes ambulatorios
+062322,Servicios de asistencia y cuidado personal,Salud,Servicios de atención para pacientes ambulatorios,Otros servicios de atención ambulatoria (excluidos los preventivos y dentales),Servicios de atención a largo plazo para pacientes ambulatorios
+062323,Centros de asistencia,Salud,Servicios de atención para pacientes ambulatorios,Otros servicios de atención ambulatoria (excluidos los preventivos y dentales),Servicios de atención a largo plazo para pacientes ambulatorios
+063101,Hospitalización general,Salud,Servicios de atención para pacientes hospitalizados,Servicios curativos y de rehabilitación para pacientes,Servicios curativos y de rehabilitación para pacientes hospitalizados
+063102,Intervenciones quirúrgicas,Salud,Servicios de atención para pacientes hospitalizados,Servicios curativos y de rehabilitación para pacientes,Servicios curativos y de rehabilitación para pacientes hospitalizados
+063103,Hospitalización durante el embarazo,Salud,Servicios de atención para pacientes hospitalizados,Servicios curativos y de rehabilitación para pacientes,Servicios curativos y de rehabilitación para pacientes hospitalizados
+063104,Hospitalización durante el parto,Salud,Servicios de atención para pacientes hospitalizados,Servicios curativos y de rehabilitación para pacientes,Servicios curativos y de rehabilitación para pacientes hospitalizados
+063105,Hospitalización general en hospitales especializados,Salud,Servicios de atención para pacientes hospitalizados,Servicios curativos y de rehabilitación para pacientes,Servicios curativos y de rehabilitación para pacientes hospitalizados
+063106,Intervenciones quirúrgicas en hospitales especializados,Salud,Servicios de atención para pacientes hospitalizados,Servicios curativos y de rehabilitación para pacientes,Servicios curativos y de rehabilitación para pacientes hospitalizados
+063200,Hospitalización general en hospitales de salud mental,Salud,Servicios de atención para pacientes hospitalizados,Servicios de atención a largo plazo para pacientes,Servicios de atención a largo plazo para pacientes hospitalizados
+064101,Servicios de laboratorio de análisis clínicos,Salud,Otros servicios de salud,Servicios de diagnóstico por imágenes y servicios de laboratorio médico,Servicios de diagnóstico por imágenes y servicios de laboratorio médico
+064102,Servicios de rayos X y estudios de gabinete,Salud,Otros servicios de salud,Servicios de diagnóstico por imágenes y servicios de laboratorio médico,Servicios de diagnóstico por imágenes y servicios de laboratorio médico
+064103,Servicios de laboratorio de análisis clínicos y ultrasonido durante el embarazo,Salud,Otros servicios de salud,Servicios de diagnóstico por imágenes y servicios de laboratorio médico,Servicios de diagnóstico por imágenes y servicios de laboratorio médico
+064201,Servicios paramédicos y de ambulancia para pacientes en general,Salud,Otros servicios de salud,Servicios de transporte de emergencia de pacientes y rescate,Servicios de transporte de emergencia de pacientes y rescate de emergencia
+064202,Servicios paramédicos y de ambulancia durante el embarazo,Salud,Otros servicios de salud,Servicios de transporte de emergencia de pacientes y rescate,Servicios de transporte de emergencia de pacientes y rescate de emergencia
+071110,Automóviles nuevos,Transporte,Compra de vehículos,Automóviles,Automóviles nuevos
+071120,Automóviles usados,Transporte,Compra de vehículos,Automóviles,Automóviles usados
+071200,Motocicletas nuevas o usadas,Transporte,Compra de vehículos,Motocicletas,Motocicletas
+071300,Bicicletas,Transporte,Compra de vehículos,Bicicletas,Bicicletas
+071401,Adquisición de vehículos de tracción animal (carretas),Transporte,Compra de vehículos,Vehículos de tracción animal,Vehículos de tracción animal
+071402,Compra de animales para tracción de los vehículos y equipo relacionado,Transporte,Compra de vehículos,Vehículos de tracción animal,Vehículos de tracción animal
+072110,Llantas o neumáticos,Transporte,Funcionamiento del equipo de transporte personal,Partes y accesorios para equipo de transporte personal,Neumáticos
+072121,Refacciones para vehículos particulares,Transporte,Funcionamiento del equipo de transporte personal,Partes y accesorios para equipo de transporte personal,Partes para equipo de transporte personal
+072122,Acumuladores o baterías para vehículos particulares,Transporte,Funcionamiento del equipo de transporte personal,Partes y accesorios para equipo de transporte personal,Partes para equipo de transporte personal
+072131,Accesorios para vehículos particulares,Transporte,Funcionamiento del equipo de transporte personal,Partes y accesorios para equipo de transporte personal,Accesorios para equipo de transporte personal
+072132,Equipo y complementos para vehículos particulares,Transporte,Funcionamiento del equipo de transporte personal,Partes y accesorios para equipo de transporte personal,Accesorios para equipo de transporte personal
+072133,Partes de vehículos particulares,Transporte,Funcionamiento del equipo de transporte personal,Partes y accesorios para equipo de transporte personal,Accesorios para equipo de transporte personal
+072134,Otros productos para la conservación y limpieza del automóvil,Transporte,Funcionamiento del equipo de transporte personal,Partes y accesorios para equipo de transporte personal,Accesorios para equipo de transporte personal
+072210,Diésel,Transporte,Funcionamiento del equipo de transporte personal,Combustibles y lubricantes para equipo de transporte personal,Diésel
+072221,"Gasolina magna, regular (bajo octanaje)",Transporte,Funcionamiento del equipo de transporte personal,Combustibles y lubricantes para equipo de transporte personal,Gasolina
+072222,Gasolina premium (alto octanaje),Transporte,Funcionamiento del equipo de transporte personal,Combustibles y lubricantes para equipo de transporte personal,Gasolina
+072230,Otros combustibles para vehículos particulares,Transporte,Funcionamiento del equipo de transporte personal,Combustibles y lubricantes para equipo de transporte personal,Otros combustibles para equipos de transporte personal
+072240,Lubricantes y aceites,Transporte,Funcionamiento del equipo de transporte personal,Combustibles y lubricantes para equipo de transporte personal,Lubricantes
+072301,"Servicios de afinación, instalación de partes y accesorios",Transporte,Funcionamiento del equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal
+072302,Lavado y engrasado de motor de vehículos particulares,Transporte,Funcionamiento del equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal
+072303,Lavado y encerado de carrocería de vehículos particulares,Transporte,Funcionamiento del equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal
+072304,Cambio de aceite y filtros,Transporte,Funcionamiento del equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal
+072305,"Alineación, balanceo y rotación de llantas",Transporte,Funcionamiento del equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal
+072306,Reparación de llantas,Transporte,Funcionamiento del equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal
+072307,Otros servicios de mantenimiento,Transporte,Funcionamiento del equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal
+072308,Ajuste de motor,Transporte,Funcionamiento del equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal
+072309,Otros servicios de reparación,Transporte,Funcionamiento del equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal,Mantenimiento y reparación de equipo de transporte personal
+072412,"Pago de pensión, estacionamiento y parquímetro",Transporte,Funcionamiento del equipo de transporte personal,Otros servicios relacionados con equipos de transporte,Servicios de estacionamiento
+072420,Cuotas de autopistas,Transporte,Funcionamiento del equipo de transporte personal,Otros servicios relacionados con equipos de transporte,Instalaciones de peaje
+072431,Lecciones de manejo (autoescuela),Transporte,Funcionamiento del equipo de transporte personal,Otros servicios relacionados con equipos de transporte,"Clases de manejo, pruebas, licencias y pruebas de aptitud vial"
+072432,Trámites para vehículos particulares,Transporte,Funcionamiento del equipo de transporte personal,Otros servicios relacionados con equipos de transporte,"Clases de manejo, pruebas, licencias y pruebas de aptitud vial"
+072440,Renta de vehículo particular (sin chofer),Transporte,Funcionamiento del equipo de transporte personal,Otros servicios relacionados con equipos de transporte,Alquiler de equipo de transporte personal sin conductor
+073111,Tren suburbano,Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por ferrocarril,Transporte de pasajeros por tren
+073112,Transporte de pasajeros en tren,Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por ferrocarril,Transporte de pasajeros por tren
+073121,Metro,Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por ferrocarril,Transporte de pasajeros por tránsito rápido y tranvía
+073122,Tren ligero,Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por ferrocarril,Transporte de pasajeros por tránsito rápido y tranvía
+073123,Trolebús,Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por ferrocarril,Transporte de pasajeros por tránsito rápido y tranvía
+073211,Autobús foráneo poco frecuente,Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por carretera,Transporte de pasajeros en autobús o autocar
+073212,Autobús foráneo cotidiano,Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por carretera,Transporte de pasajeros en autobús o autocar
+073213,Autobús urbano y suburbano,Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por carretera,Transporte de pasajeros en autobús o autocar
+073214,Metrobús,Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por carretera,Transporte de pasajeros en autobús o autocar
+073215,"Servicio de transporte colectivo, servicio de combi o servicio de microbús",Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por carretera,Transporte de pasajeros en autobús o autocar
+073221,Taxi,Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por carretera,Transporte de pasajeros en taxi y coche de alquiler con conductor
+073222,Renta de vehículo particular con chofer,Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por carretera,Transporte de pasajeros en taxi y coche de alquiler con conductor
+073230,Transporte escolar de cualquier nivel educativo,Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por carretera,Transporte de pasajeros para estudiantes hacia y desde la escuela
+073290,Otro transporte de pasajeros por carretera,Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por carretera,Otro transporte de pasajeros por carretera
+073310,Vuelos nacionales,Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por vía aérea,"Transporte de pasajeros por aire, nacional"
+073320,Vuelos internacionales,Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por vía aérea,"Transporte de pasajeros por aire, internacional"
+073401,Transporte de pasajeros por mar,Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por mar y aguas navegables interiores,Transporte de pasajeros por mar y aguas navegables interiores
+073402,"Transporte de pasajeros por aguas interiores (río, laguna, etcétera)",Transporte,Servicios de transporte de pasajeros,Transporte de pasajeros por mar y aguas navegables interiores,Transporte de pasajeros por mar y aguas navegables interiores
+073500,Transporte combinado de pasajeros (dos o más medios de transporte),Transporte,Servicios de transporte de pasajeros,Transporte combinado de pasajeros,Transporte combinado de pasajeros
+073600,"Funicular, teleférico y cablebús no turísticos",Transporte,Servicios de transporte de pasajeros,Otros servicios de transporte adquiridos,Otros servicios de transporte adquiridos
+074110,Servicio de envío de cartas y postales,Transporte,Servicios de transporte de mercancías,Servicios postales y de mensajería,Servicios postales
+074120,Servicios de mensajería y paquetería,Transporte,Servicios de transporte de mercancías,Servicios postales y de mensajería,Servicios de mensajería y paquetería
+074911,Servicio de mudanza,Transporte,Servicios de transporte de mercancías,Otro transporte de mercancías,Servicios de mudanza y almacenamiento
+074912,Servicio de almacenamiento,Transporte,Servicios de transporte de mercancías,Otro transporte de mercancías,Servicios de mudanza y almacenamiento
+074920,Pago por servicio de entrega a domicilio,Transporte,Servicios de transporte de mercancías,Otro transporte de mercancías,Entrega de bienes
+081100,Equipo telefónico fijo,Información y comunicación,Equipo de información y comunicación,Equipo telefónico fijo,Equipo telefónico fijo
+081200,Equipo telefónico móvil (teléfono celular),Información y comunicación,Equipo de información y comunicación,Equipo de telefonía móvil,Equipo de telefonía móvil
+081311,Computadoras de escritorio,Información y comunicación,Equipo de información y comunicación,Equipo de procesamiento de información,"Computadoras, computadoras portátiles y tablets o laptop"
+081312,Computadoras portátiles (laptop),Información y comunicación,Equipo de información y comunicación,Equipo de procesamiento de información,"Computadoras, computadoras portátiles y tablets o laptop"
+081313,Tablets,Información y comunicación,Equipo de información y comunicación,Equipo de procesamiento de información,"Computadoras, computadoras portátiles y tablets o laptop"
+081321,Accesorios para computadoras (hardware),Información y comunicación,Equipo de información y comunicación,Equipo de procesamiento de información,Equipos periféricos y sus componentes consumibles
+081322,Calculadoras,Información y comunicación,Equipo de información y comunicación,Equipo de procesamiento de información,Equipos periféricos y sus componentes consumibles
+081323,Tóner y cartuchos de tinta,Información y comunicación,Equipo de información y comunicación,Equipo de procesamiento de información,Equipos periféricos y sus componentes consumibles
+081324,"Impresoras, escáneres y multifuncionales",Información y comunicación,Equipo de información y comunicación,Equipo de procesamiento de información,Equipos periféricos y sus componentes consumibles
+081325,Otros accesorios,Información y comunicación,Equipo de información y comunicación,Equipo de procesamiento de información,Equipos periféricos y sus componentes consumibles
+081401,Antenas,Información y comunicación,Equipo de información y comunicación,"Equipo para la recepción, grabación y reproducción de sonido y video",
+081402,Auriculares y audífonos,Información y comunicación,Equipo de información y comunicación,"Equipo para la recepción, grabación y reproducción de sonido y video",
+081403,Autoestéreos,Información y comunicación,Equipo de información y comunicación,"Equipo para la recepción, grabación y reproducción de sonido y video",
+081404,Cajas de transmisión para streaming y decodificadores,Información y comunicación,Equipo de información y comunicación,"Equipo para la recepción, grabación y reproducción de sonido y video",
+081405,Capturadoras de video digitales,Información y comunicación,Equipo de información y comunicación,"Equipo para la recepción, grabación y reproducción de sonido y video",
+081406,"Otro equipo para la recepción, grabación y reproducción de imagen y sonido",Información y comunicación,Equipo de información y comunicación,"Equipo para la recepción, grabación y reproducción de sonido y video",
+081407,Receptores de radio,Información y comunicación,Equipo de información y comunicación,"Equipo para la recepción, grabación y reproducción de sonido y video",
+081408,"Reproductores de CD, DVD y Blu-ray",Información y comunicación,Equipo de información y comunicación,"Equipo para la recepción, grabación y reproducción de sonido y video",
+081409,Reproductores y grabadoras de videocasetes,Información y comunicación,Equipo de información y comunicación,"Equipo para la recepción, grabación y reproducción de sonido y video",
+08140A,Pantallas y televisiones,Información y comunicación,Equipo de información y comunicación,"Equipo para la recepción, grabación y reproducción de sonido y video",
+081501,Disco duro externo,Información y comunicación,Equipo de información y comunicación,Medios de grabación no grabados,Medios de grabación no grabados
+081502,CD (R grabables o RW regrabables) y casetes vírgenes,Información y comunicación,Equipo de información y comunicación,Medios de grabación no grabados,Medios de grabación no grabados
+081503,DVD y discos Blu-ray vírgenes (R grabables o RW regrabables),Información y comunicación,Equipo de información y comunicación,Medios de grabación no grabados,Medios de grabación no grabados
+081505,"Unidades de memoria (USB, Micro SD, tarjetas de memoria, etcétera)",Información y comunicación,Equipo de información y comunicación,Medios de grabación no grabados,Medios de grabación no grabados
+081910,Otro equipo de información y comunicación,Información y comunicación,Equipo de información y comunicación,Otros equipos y accesorios de información y comunicación,Otro equipo de información y comunicación
+081920,Otros accesorios de información y comunicación,Información y comunicación,Equipo de información y comunicación,Otros equipos y accesorios de información y comunicación,Otros accesorios de información y comunicación
+082001,Software,Información y comunicación,Software excluyendo juegos,Software,Software
+082002,Aplicaciones para cualquier dispositivo,Información y comunicación,Software excluyendo juegos,Software,Software
+082003,"Costo mensual para acceder a las aplicaciones (no música, películas o videojuegos)",Información y comunicación,Software excluyendo juegos,Software,Software
+083101,Larga distancia internacional,Información y comunicación,Servicios de información y comunicaciones,Servicios de comunicaciones fijas,Servicios de comunicaciones fijas
+083102,Llamadas locales de línea particular,Información y comunicación,Servicios de información y comunicaciones,Servicios de comunicaciones fijas,Servicios de comunicaciones fijas
+083103,Instalación y reinstalación de la línea de teléfono particular,Información y comunicación,Servicios de información y comunicaciones,Servicios de comunicaciones fijas,Servicios de comunicaciones fijas
+083104,Teléfono público,Información y comunicación,Servicios de información y comunicaciones,Servicios de comunicaciones fijas,Servicios de comunicaciones fijas
+083201,Servicio de recarga telefónica celular,Información y comunicación,Servicios de información y comunicaciones,Servicios de comunicaciones móviles,Servicios de comunicaciones móviles
+083202,Servicio de telefonía celular con plan,Información y comunicación,Servicios de información y comunicaciones,Servicios de comunicaciones móviles,Servicios de comunicaciones móviles
+083301,Servicios de acceso a internet,Información y comunicación,Servicios de información y comunicaciones,Servicios de provisión de acceso a internet y servicios de almacenamiento en red,Servicios de provisión de acceso a internet y servicios de almacenamiento en red
+083302,Servicios de acceso a internet público (cibercafé),Información y comunicación,Servicios de información y comunicaciones,Servicios de provisión de acceso a internet y servicios de almacenamiento en red,Servicios de provisión de acceso a internet y servicios de almacenamiento en red
+083303,"Servicios de almacenamiento en la nube, en la red o correo electrónico",Información y comunicación,Servicios de información y comunicaciones,Servicios de provisión de acceso a internet y servicios de almacenamiento en red,Servicios de provisión de acceso a internet y servicios de almacenamiento en red
+083401,Paquete de internet y teléfono fijo,Información y comunicación,Servicios de información y comunicaciones,Servicios de telecomunicaciones agrupados,Servicios de telecomunicaciones agrupados
+083402,Paquete de teléfono fijo y TV de paga,Información y comunicación,Servicios de información y comunicaciones,Servicios de telecomunicaciones agrupados,Servicios de telecomunicaciones agrupados
+083403,Paquete de internet y TV de paga,Información y comunicación,Servicios de información y comunicaciones,Servicios de telecomunicaciones agrupados,Servicios de telecomunicaciones agrupados
+083404,"Paquete de internet, teléfono fijo y TV de paga (triple play)",Información y comunicación,Servicios de información y comunicaciones,Servicios de telecomunicaciones agrupados,Servicios de telecomunicaciones agrupados
+083405,"Paquete de internet, teléfono fijo, TV de paga y teléfono móvil (cuádruple play)",Información y comunicación,Servicios de información y comunicaciones,Servicios de telecomunicaciones agrupados,Servicios de telecomunicaciones agrupados
+083501,Reparación de cualquier dispositivo,Información y comunicación,Servicios de información y comunicaciones,Reparación y alquiler de equipo de información y comunicación,Reparación y alquiler de equipo de información y comunicación
+083502,Alquiler de cualquier dispositivo,Información y comunicación,Servicios de información y comunicaciones,Reparación y alquiler de equipo de información y comunicación,Reparación y alquiler de equipo de información y comunicación
+083921,Servicio de streaming de video,Información y comunicación,Servicios de información y comunicaciones,Otros servicios de información y comunicación,"Suscripción a contenidos audiovisuales, servicios de trasmisión ( streaming) y alquiler de contenidos audiovisuales"
+083922,Servicio de streaming de audio,Información y comunicación,Servicios de información y comunicaciones,Otros servicios de información y comunicación,"Suscripción a contenidos audiovisuales, servicios de trasmisión ( streaming) y alquiler de contenidos audiovisuales"
+083923,"Alquiler y suscripción de CD, cintas de video, DVD, discos Blu-ray o software",Información y comunicación,Servicios de información y comunicaciones,Otros servicios de información y comunicación,"Suscripción a contenidos audiovisuales, servicios de trasmisión ( streaming) y alquiler de contenidos audiovisuales"
+083924,Suscripciones de televisión de cable y televisión de paga,Información y comunicación,Servicios de información y comunicaciones,Otros servicios de información y comunicación,"Suscripción a contenidos audiovisuales, servicios de trasmisión ( streaming) y alquiler de contenidos audiovisuales"
+083990,Otros servicios de información y comunicación,Información y comunicación,Servicios de información y comunicaciones,Otros servicios de información y comunicación,Otros servicios de información y comunicación
+091111,Cámaras fotográficas,"Recreación, deporte y cultura",Bienes recreativos duraderos,Equipos e instrumentos ópticos fotográficos y cinematográficos,Cámaras
+091112,Cámaras de cine y video,"Recreación, deporte y cultura",Bienes recreativos duraderos,Equipos e instrumentos ópticos fotográficos y cinematográficos,Cámaras
+091113,Dron,"Recreación, deporte y cultura",Bienes recreativos duraderos,Equipos e instrumentos ópticos fotográficos y cinematográficos,Cámaras
+091114,Otros artículos fotográficos y cinematográficos,"Recreación, deporte y cultura",Bienes recreativos duraderos,Equipos e instrumentos ópticos fotográficos y cinematográficos,Cámaras
+091121,Accesorios para cámaras fotográficas y de video,"Recreación, deporte y cultura",Bienes recreativos duraderos,Equipos e instrumentos ópticos fotográficos y cinematográficos,Accesorios para equipos fotográficos y cinematográficos
+091122,Insumos para fotografía y cinematográficos,"Recreación, deporte y cultura",Bienes recreativos duraderos,Equipos e instrumentos ópticos fotográficos y cinematográficos,Accesorios para equipos fotográficos y cinematográficos
+091130,Aparatos ópticos,"Recreación, deporte y cultura",Bienes recreativos duraderos,Equipos e instrumentos ópticos fotográficos y cinematográficos,Instrumentos ópticos
+091210,Casas rodantes y remolques,"Recreación, deporte y cultura",Bienes recreativos duraderos,Principales bienes duraderos para recreación,"Autocaravanas, caravanas y remolques"
+091220,Bienes duraderos para actividades recreativas de aire,"Recreación, deporte y cultura",Bienes recreativos duraderos,Principales bienes duraderos para recreación,"Aviones, ultraligeros, planeadores, alas delta y globos aerostáticos"
+091230,Bienes duraderos para actividades recreativas de agua,"Recreación, deporte y cultura",Bienes recreativos duraderos,Principales bienes duraderos para recreación,"Barcos, yates, motores fuera de borda y otros equipos para deportes acuáticos"
+091241,Adquisición de caballos y ponis para uso recreativo,"Recreación, deporte y cultura",Bienes recreativos duraderos,Principales bienes duraderos para recreación,"Caballos, ponis, camellos y dromedarios y accesorios"
+091242,Vehículos de tracción animal para uso recreativo,"Recreación, deporte y cultura",Bienes recreativos duraderos,Principales bienes duraderos para recreación,"Caballos, ponis, camellos y dromedarios y accesorios"
+091243,Equipo relacionado con los vehículos y los animales para uso recreativo,"Recreación, deporte y cultura",Bienes recreativos duraderos,Principales bienes duraderos para recreación,"Caballos, ponis, camellos y dromedarios y accesorios"
+091290,Otros bienes duraderos grandes para la recreación,"Recreación, deporte y cultura",Bienes recreativos duraderos,Principales bienes duraderos para recreación,Otros bienes duraderos grandes para la recreación
+092111,Accesorios para consolas de videojuegos,"Recreación, deporte y cultura",Otros bienes recreativos,"Juguetes, juegos y pasatiempos","Computadoras de videojuegos, consolas de juegos, aplicaciones y software de juegos"
+092112,"Cartuchos, discos y memorias para videojuegos","Recreación, deporte y cultura",Otros bienes recreativos,"Juguetes, juegos y pasatiempos","Computadoras de videojuegos, consolas de juegos, aplicaciones y software de juegos"
+092113,Compras digitales para juegos de dispositivos electrónicos,"Recreación, deporte y cultura",Otros bienes recreativos,"Juguetes, juegos y pasatiempos","Computadoras de videojuegos, consolas de juegos, aplicaciones y software de juegos"
+092114,Computadoras para videojuegos,"Recreación, deporte y cultura",Otros bienes recreativos,"Juguetes, juegos y pasatiempos","Computadoras de videojuegos, consolas de juegos, aplicaciones y software de juegos"
+092115,Consolas para videojuegos,"Recreación, deporte y cultura",Otros bienes recreativos,"Juguetes, juegos y pasatiempos","Computadoras de videojuegos, consolas de juegos, aplicaciones y software de juegos"
+092116,Juegos electrónicos,"Recreación, deporte y cultura",Otros bienes recreativos,"Juguetes, juegos y pasatiempos","Computadoras de videojuegos, consolas de juegos, aplicaciones y software de juegos"
+092117,Software y descargas de juegos para dispositivos electrónicos,"Recreación, deporte y cultura",Otros bienes recreativos,"Juguetes, juegos y pasatiempos","Computadoras de videojuegos, consolas de juegos, aplicaciones y software de juegos"
+092118,Tarjeta de prepago para juegos de dispositivos electrónicos,"Recreación, deporte y cultura",Otros bienes recreativos,"Juguetes, juegos y pasatiempos","Computadoras de videojuegos, consolas de juegos, aplicaciones y software de juegos"
+092121,Juguetes,"Recreación, deporte y cultura",Otros bienes recreativos,"Juguetes, juegos y pasatiempos","Otros juegos, juguetes y pasatiempos"
+092122,Juegos de mesa y pasatiempos,"Recreación, deporte y cultura",Otros bienes recreativos,"Juguetes, juegos y pasatiempos","Otros juegos, juguetes y pasatiempos"
+092131,"Artículos para fiestas, celebraciones y festividades","Recreación, deporte y cultura",Otros bienes recreativos,"Juguetes, juegos y pasatiempos",Artículos de celebración
+092211,Calzado para deporte,"Recreación, deporte y cultura",Otros bienes recreativos,"Equipo para deportes, campismo y recreación al aire libre",Equipamiento deportivo
+092212,Equipo para deportes,"Recreación, deporte y cultura",Otros bienes recreativos,"Equipo para deportes, campismo y recreación al aire libre",Equipamiento deportivo
+092213,Equipo de protección para deportes,"Recreación, deporte y cultura",Otros bienes recreativos,"Equipo para deportes, campismo y recreación al aire libre",Equipamiento deportivo
+092220,Equipo de campismo y recreación al aire libre,"Recreación, deporte y cultura",Otros bienes recreativos,"Equipo para deportes, campismo y recreación al aire libre",Equipo para acampar y recreación al aire libre
+093110,Artículos y productos de jardinería,"Recreación, deporte y cultura",Productos de jardín y mascotas,"Productos de jardinería, plantas y flores",Productos de jardinería
+093121,Plantas y flores naturales,"Recreación, deporte y cultura",Productos de jardín y mascotas,"Productos de jardinería, plantas y flores","Plantas, semillas y flores"
+093122,Plantas y flores artificiales,"Recreación, deporte y cultura",Productos de jardín y mascotas,"Productos de jardinería, plantas y flores","Plantas, semillas y flores"
+093123,Semillas,"Recreación, deporte y cultura",Productos de jardín y mascotas,"Productos de jardinería, plantas y flores","Plantas, semillas y flores"
+093210,Animales domésticos y mascotas,"Recreación, deporte y cultura",Productos de jardín y mascotas,Mascotas y productos relacionados,Compra de mascotas
+093221,Alimento para animales domésticos y mascotas,"Recreación, deporte y cultura",Productos de jardín y mascotas,Mascotas y productos relacionados,Productos para mascotas y otros animales domésticos
+093222,Productos y accesorios para animales domésticos y mascotas,"Recreación, deporte y cultura",Productos de jardín y mascotas,Mascotas y productos relacionados,Productos para mascotas y otros animales domésticos
+094100,"Alquiler y reparación de equipos e instrumentos ópticos, fotográficos y cinemato-","Recreación, deporte y cultura",Servicios recreativos,Alquiler y reparación de equipos e instrumentos ópticos,"Alquiler y reparación de equipos e instrumentos ópticos, fotográficos y cinemato-"
+094210,"Alquiler, mantenimiento y reparación de autocaravanas, caravanas; casas rodantes","Recreación, deporte y cultura",Servicios recreativos,"Alquiler, mantenimiento y reparación de bienes duraderos","Alquiler, mantenimiento y reparación de autocaravanas y caravanas"
+094220,"Alquiler, mantenimiento y reparación de otros bienes duraderos grandes para recreación","Recreación, deporte y cultura",Servicios recreativos,"Alquiler, mantenimiento y reparación de bienes duraderos","Alquiler, mantenimiento y reparación de otros bienes duraderos grandes para recreación"
+094311,Suscripción a juegos en línea,"Recreación, deporte y cultura",Servicios recreativos,"Alquiler y reparación de juegos, juguetes y pasatiempos",Alquiler de software de juegos y suscripción a juegos en línea
+094312,Alquiler de software de videojuegos,"Recreación, deporte y cultura",Servicios recreativos,"Alquiler y reparación de juegos, juguetes y pasatiempos",Alquiler de software de juegos y suscripción a juegos en línea
+094320,"Alquiler y reparación de juegos, juguetes y pasatiempos","Recreación, deporte y cultura",Servicios recreativos,"Alquiler y reparación de juegos, juguetes y pasatiempos","Alquiler y reparación de juegos, juguetes y pasatiempos"
+094400,"Alquiler y reparación de equipos para deporte, campismo y recreación al aire libre","Recreación, deporte y cultura",Servicios recreativos,"Alquiler y reparación de equipos para deporte, campismo y recreación al aire libre","Alquiler y reparación de equipos para deporte, campismo y recreación al aire libre"
+094501,Servicios de veterinaria para mascotas,"Recreación, deporte y cultura",Servicios recreativos,Veterinarios y otros servicios para mascotas,Servicios veterinarios y de otro tipo para mascotas
+094502,Otros servicios para mascotas,"Recreación, deporte y cultura",Servicios recreativos,Veterinarios y otros servicios para mascotas,Servicios veterinarios y de otro tipo para mascotas
+094611,Cursos de formación recreativa,"Recreación, deporte y cultura",Servicios recreativos,Servicios recreativos y deportivos,Servicios recreativos y de esparcimiento
+094612,Entradas a centros nocturnos,"Recreación, deporte y cultura",Servicios recreativos,Servicios recreativos y deportivos,Servicios recreativos y de esparcimiento
+094613,Ferias,"Recreación, deporte y cultura",Servicios recreativos,Servicios recreativos y deportivos,Servicios recreativos y de esparcimiento
+094615,Otros servicios recreativos,"Recreación, deporte y cultura",Servicios recreativos,Servicios recreativos y deportivos,Servicios recreativos y de esparcimiento
+094616,Parques de atracciones y juegos mecánicos,"Recreación, deporte y cultura",Servicios recreativos,Servicios recreativos y deportivos,Servicios recreativos y de esparcimiento
+094621,Alquiler de equipo y accesorios para servicios deportivos,"Recreación, deporte y cultura",Servicios recreativos,Servicios recreativos y deportivos,Servicios deportivos - práctica
+094622,Alquiler de espacios deportivos,"Recreación, deporte y cultura",Servicios recreativos,Servicios recreativos y deportivos,Servicios deportivos - práctica
+094623,Cursos de formación deportiva,"Recreación, deporte y cultura",Servicios recreativos,Servicios recreativos y deportivos,Servicios deportivos - práctica
+094624,"Clubes, asociaciones y centros sociales","Recreación, deporte y cultura",Servicios recreativos,Servicios recreativos y deportivos,Servicios deportivos - práctica
+094625,Otros servicios deportivos,"Recreación, deporte y cultura",Servicios recreativos,Servicios recreativos y deportivos,Servicios deportivos - práctica
+094630,Entradas y boletos a estadios deportivos,"Recreación, deporte y cultura",Servicios recreativos,Servicios recreativos y deportivos,Servicios deportivos - asistencia
+094700,Juegos de azar,"Recreación, deporte y cultura",Servicios recreativos,Juegos de azar,Juegos de azar
+095100,Instrumentos musicales,"Recreación, deporte y cultura",Bienes culturales,Instrumentos musicales,Instrumentos musicales
+095201,"CD, USB, Micro SD, casetes y discos de vinilo pregrabados con música","Recreación, deporte y cultura",Bienes culturales,Medios audiovisuales,Medios audiovisuales
+095202,"DVD, Blu-ray, USB, Micro SD, videocasetes pregrabados con video","Recreación, deporte y cultura",Bienes culturales,Medios audiovisuales,Medios audiovisuales
+095204,Descargas de audio (compra),"Recreación, deporte y cultura",Bienes culturales,Medios audiovisuales,Medios audiovisuales
+095205,Descargas de video (renta),"Recreación, deporte y cultura",Bienes culturales,Medios audiovisuales,Medios audiovisuales
+095206,Descargas de video (compra),"Recreación, deporte y cultura",Bienes culturales,Medios audiovisuales,Medios audiovisuales
+096101,Cines,"Recreación, deporte y cultura",Servicios culturales,"Cines, teatros y conciertos","Cines, teatros y conciertos"
+096102,Conciertos,"Recreación, deporte y cultura",Servicios culturales,"Cines, teatros y conciertos","Cines, teatros y conciertos"
+096103,Teatros,"Recreación, deporte y cultura",Servicios culturales,"Cines, teatros y conciertos","Cines, teatros y conciertos"
+096104,Circos,"Recreación, deporte y cultura",Servicios culturales,"Cines, teatros y conciertos","Cines, teatros y conciertos"
+096105,Payasos y actores para espectáculos privados,"Recreación, deporte y cultura",Servicios culturales,"Cines, teatros y conciertos","Cines, teatros y conciertos"
+096201,Museos,"Recreación, deporte y cultura",Servicios culturales,"Museos, bibliotecas y sitios culturales","Museos, bibliotecas y sitios culturales"
+096202,"Bibliotecas, zoológicos y parques nacionales","Recreación, deporte y cultura",Servicios culturales,"Museos, bibliotecas y sitios culturales","Museos, bibliotecas y sitios culturales"
+096300,Servicios fotográficos,"Recreación, deporte y cultura",Servicios culturales,Servicios fotográficos,Servicios fotográficos
+096901,Alquiler de accesorios y equipo para cultura,"Recreación, deporte y cultura",Servicios culturales,Otros servicios culturales,Otros servicios culturales
+096902,Alquiler y reparación de instrumentos musicales,"Recreación, deporte y cultura",Servicios culturales,Otros servicios culturales,Otros servicios culturales
+096903,Festividades locales,"Recreación, deporte y cultura",Servicios culturales,Otros servicios culturales,Otros servicios culturales
+096904,Cursos de formación cultural,"Recreación, deporte y cultura",Servicios culturales,Otros servicios culturales,Otros servicios culturales
+096905,Paquetes para fiestas,"Recreación, deporte y cultura",Servicios culturales,Otros servicios culturales,Otros servicios culturales
+096906,Salones de fiestas,"Recreación, deporte y cultura",Servicios culturales,Otros servicios culturales,Otros servicios culturales
+097111,Libros de texto,"Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Libros,Libros educativos y de texto
+097112,"CD, DVD, Blu-ray y unidades de memoria pregrabadas con libros educativos","Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Libros,Libros educativos y de texto
+097113,Descargas de libros educativos,"Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Libros,Libros educativos y de texto
+097191,Libros de ficción y otros libros,"Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Libros,Otros libros
+097192,Dispositivos pregrabados de libros de ficción y otros libros,"Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Libros,Otros libros
+097193,Descargas digitales de libros de ficción,"Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Libros,Otros libros
+097194,Descargas digitales de otros libros,"Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Libros,Otros libros
+097210,Periódicos con o sin suscripción,"Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Periódicos y publicaciones periódicas,Periódicos
+097220,Revistas y publicaciones periódicas con o sin suscripción,"Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Periódicos y publicaciones periódicas,Revistas y publicaciones periódicas
+097301,Material impreso diverso,"Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Material impreso diverso,Material impreso diverso
+097302,Mapas y globos terráqueos,"Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Material impreso diverso,Material impreso diverso
+097401,Cuadernos y libretas,"Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Material de papelería y dibujo,Material de papelería y dibujo
+097402,Carpetas,"Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Material de papelería y dibujo,Material de papelería y dibujo
+097403,"Plumas, bolígrafos y marcadores","Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Material de papelería y dibujo,Material de papelería y dibujo
+097404,"Lapiceros, lápices y corrector","Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Material de papelería y dibujo,Material de papelería y dibujo
+097405,"Perforadoras, tijeras, engrapadoras, grapas y broches","Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Material de papelería y dibujo,Material de papelería y dibujo
+097406,Material de dibujo y pintura,"Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Material de papelería y dibujo,Material de papelería y dibujo
+097407,Otros artículos de papelería,"Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Material de papelería y dibujo,Material de papelería y dibujo
+097408,Paquetes de útiles escolares,"Recreación, deporte y cultura","Periódicos, libros y artículos de papelería",Material de papelería y dibujo,Material de papelería y dibujo
+098001,Paquetes de viaje todo incluido,"Recreación, deporte y cultura",Paquetes de vacaciones,Paquetes de vacaciones,Paquetes de vacaciones
+098002,Paquetes de viaje con servicio de alojamiento y alimentos,"Recreación, deporte y cultura",Paquetes de vacaciones,Paquetes de vacaciones,Paquetes de vacaciones
+098003,Paquetes con servicio de alojamiento y transporte,"Recreación, deporte y cultura",Paquetes de vacaciones,Paquetes de vacaciones,Paquetes de vacaciones
+098004,Otros paquetes de vacaciones,"Recreación, deporte y cultura",Paquetes de vacaciones,Paquetes de vacaciones,Paquetes de vacaciones
+101011,Inscripción de jardín de niños y preescolar,Servicios educativos,Educación preescolar y primaria,Educación preescolar y primaria,Educación preescolar
+101012,Colegiaturas de jardín de niños y preescolar,Servicios educativos,Educación preescolar y primaria,Educación preescolar y primaria,Educación preescolar
+101013,Pago de imprevistos de jardín de niños y preescolar,Servicios educativos,Educación preescolar y primaria,Educación preescolar y primaria,Educación preescolar
+101014,Cuotas de padres y madres de familia de jardín de niños y preescolar,Servicios educativos,Educación preescolar y primaria,Educación preescolar y primaria,Educación preescolar
+101015,Educación especial para personas con discapacidad de jardín de niños y preescolar,Servicios educativos,Educación preescolar y primaria,Educación preescolar y primaria,Educación preescolar
+101021,Inscripción de educación primaria,Servicios educativos,Educación preescolar y primaria,Educación preescolar y primaria,Educación primaria
+101022,Colegiaturas de educación primaria,Servicios educativos,Educación preescolar y primaria,Educación preescolar y primaria,Educación primaria
+101023,Pago de imprevistos de educación primaria,Servicios educativos,Educación preescolar y primaria,Educación preescolar y primaria,Educación primaria
+101024,Cuotas de padres y madres de familia de educación primaria,Servicios educativos,Educación preescolar y primaria,Educación preescolar y primaria,Educación primaria
+101025,Educación especial para personas con discapacidad de educación primaria,Servicios educativos,Educación preescolar y primaria,Educación preescolar y primaria,Educación primaria
+102001,Inscripción de educación secundaria,Servicios educativos,Educación secundaria,Educación secundaria,Educación secundaria
+102002,Colegiaturas de educación secundaria,Servicios educativos,Educación secundaria,Educación secundaria,Educación secundaria
+102003,Pago de imprevistos de educación secundaria,Servicios educativos,Educación secundaria,Educación secundaria,Educación secundaria
+102004,Cuotas de padres y madres de familia de educación secundaria,Servicios educativos,Educación secundaria,Educación secundaria,Educación secundaria
+102005,Educación especial para personas con discapacidad de educación secundaria,Servicios educativos,Educación secundaria,Educación secundaria,Educación secundaria
+103001,Inscripción de bachillerato,Servicios educativos,Educación postsecundaria no terciaria,Educación postsecundaria no terciaria,Educación postsecundaria no terciaria
+103002,Colegiaturas de bachillerato,Servicios educativos,Educación postsecundaria no terciaria,Educación postsecundaria no terciaria,Educación postsecundaria no terciaria
+103003,Pago de imprevistos de bachillerato,Servicios educativos,Educación postsecundaria no terciaria,Educación postsecundaria no terciaria,Educación postsecundaria no terciaria
+103004,Cuotas de padres y madres de familia de bachillerato,Servicios educativos,Educación postsecundaria no terciaria,Educación postsecundaria no terciaria,Educación postsecundaria no terciaria
+103005,Educación especial para personas con discapacidad de bachillerato,Servicios educativos,Educación postsecundaria no terciaria,Educación postsecundaria no terciaria,Educación postsecundaria no terciaria
+104011,Inscripción de carrera técnica,Servicios educativos,Educación terciaria (universitaria),Educación terciaria (universitaria),Educación terciaria (universitaria)
+104012,Colegiaturas de carrera técnica,Servicios educativos,Educación terciaria (universitaria),Educación terciaria (universitaria),Educación terciaria (universitaria)
+104013,Pago de imprevistos de carrera técnica,Servicios educativos,Educación terciaria (universitaria),Educación terciaria (universitaria),Educación terciaria (universitaria)
+104014,Cuotas de padres y madres de familia de carrera técnica,Servicios educativos,Educación terciaria (universitaria),Educación terciaria (universitaria),Educación terciaria (universitaria)
+104015,Inscripción de educación superior,Servicios educativos,Educación terciaria (universitaria),Educación terciaria (universitaria),Educación terciaria (universitaria)
+104016,Colegiaturas de educación superior,Servicios educativos,Educación terciaria (universitaria),Educación terciaria (universitaria),Educación terciaria (universitaria)
+104017,Pago de imprevistos de educación superior,Servicios educativos,Educación terciaria (universitaria),Educación terciaria (universitaria),Educación terciaria (universitaria)
+104018,Inscripción de posgrado,Servicios educativos,Educación terciaria (universitaria),Educación terciaria (universitaria),Educación terciaria (universitaria)
+104019,Colegiaturas de posgrado,Servicios educativos,Educación terciaria (universitaria),Educación terciaria (universitaria),Educación terciaria (universitaria)
+10401A,Pago de imprevistos de posgrado,Servicios educativos,Educación terciaria (universitaria),Educación terciaria (universitaria),Educación terciaria (universitaria)
+105010,Tutorías,Servicios educativos,Educación no definida por nivel,Educación no definida por nivel,Tutorías
+105091,Inscripción de educación para el trabajo,Servicios educativos,Educación no definida por nivel,Educación no definida por nivel,Otra educación no definida por nivel
+105092,Colegiaturas de educación para el trabajo,Servicios educativos,Educación no definida por nivel,Educación no definida por nivel,Otra educación no definida por nivel
+105093,Pago de imprevistos de educación para el trabajo,Servicios educativos,Educación no definida por nivel,Educación no definida por nivel,Otra educación no definida por nivel
+111111,Desayunos,Restaurantes y servicios de alojamiento,Servicios de alimentos y bebidas,"Restaurantes , cafés y similares","Restaurantes, cafés y similares - con servicio completo"
+111112,Comidas,Restaurantes y servicios de alojamiento,Servicios de alimentos y bebidas,"Restaurantes , cafés y similares","Restaurantes, cafés y similares - con servicio completo"
+111113,Cenas,Restaurantes y servicios de alojamiento,Servicios de alimentos y bebidas,"Restaurantes , cafés y similares","Restaurantes, cafés y similares - con servicio completo"
+111114,Entrecomidas,Restaurantes y servicios de alojamiento,Servicios de alimentos y bebidas,"Restaurantes , cafés y similares","Restaurantes, cafés y similares - con servicio completo"
+111115,"Alimentos preparados en lugares con servicios recreativos, culturales, deportivos o espectáculos (cines, teatros y conciertos, centros nocturnos y espectáculos deportivos)",Restaurantes y servicios de alojamiento,Servicios de alimentos y bebidas,"Restaurantes , cafés y similares","Restaurantes, cafés y similares - con servicio completo"
+111116,Otros eventos fuera del hogar,Restaurantes y servicios de alojamiento,Servicios de alimentos y bebidas,"Restaurantes , cafés y similares","Restaurantes, cafés y similares - con servicio completo"
+111121,Barbacoa o birria,Restaurantes y servicios de alojamiento,Servicios de alimentos y bebidas,"Restaurantes , cafés y similares","Restaurantes, cafés y similares con servicio limitado"
+111122,Carnitas,Restaurantes y servicios de alojamiento,Servicios de alimentos y bebidas,"Restaurantes , cafés y similares","Restaurantes, cafés y similares con servicio limitado"
+111123,Hamburguesas y hot dogs,Restaurantes y servicios de alojamiento,Servicios de alimentos y bebidas,"Restaurantes , cafés y similares","Restaurantes, cafés y similares con servicio limitado"
+111124,Otros alimentos cocinados,Restaurantes y servicios de alojamiento,Servicios de alimentos y bebidas,"Restaurantes , cafés y similares","Restaurantes, cafés y similares con servicio limitado"
+111125,Pizzas preparadas,Restaurantes y servicios de alojamiento,Servicios de alimentos y bebidas,"Restaurantes , cafés y similares","Restaurantes, cafés y similares con servicio limitado"
+111126,Pollos rostizados,Restaurantes y servicios de alojamiento,Servicios de alimentos y bebidas,"Restaurantes , cafés y similares","Restaurantes, cafés y similares con servicio limitado"
+112011,"Servicios de alojamiento en complejos turísticos, hoteles y moteles",Restaurantes y servicios de alojamiento,Servicios de alojamiento,Servicios de alojamiento,"Hoteles, moteles, posadas y servicios de alojamiento similares"
+112012,"Servicios de alojamiento en posadas, pensiones y establecimientos similares",Restaurantes y servicios de alojamiento,Servicios de alojamiento,Servicios de alojamiento,"Hoteles, moteles, posadas y servicios de alojamiento similares"
+112014,Unidades de tiempo compartido,Restaurantes y servicios de alojamiento,Servicios de alojamiento,Servicios de alojamiento,"Hoteles, moteles, posadas y servicios de alojamiento similares"
+112020,"Centros de vacaciones, campamentos, albergues juveniles y servicios de alojamiento",Restaurantes y servicios de alojamiento,Servicios de alojamiento,Servicios de alojamiento,"Centros de vacaciones, campamentos , albergues juveniles y servicios de alojamiento"
+112030,"Pago por el servicio de alojamiento en internados, universidades y otros estableci-",Restaurantes y servicios de alojamiento,Servicios de alojamiento,Servicios de alojamiento,"Servicios de alojamiento de internados, universidades y otros establecimientos educativos"
+112090,Otros servicios de alojamiento,Restaurantes y servicios de alojamiento,Servicios de alojamiento,Servicios de alojamiento,Otros servicios de alojamiento
+121101,Seguros de vida,Seguros y servicios financieros,Seguros,Seguros de vida y accidentes,Seguros de vida y accidentes
+121102,Seguros de accidentes,Seguros y servicios financieros,Seguros,Seguros de vida y accidentes,Seguros de vida y accidentes
+121201,Seguro de gastos médicos,Seguros y servicios financieros,Seguros,Seguros relacionados con la salud,Seguros relacionados con la salud
+121202,Seguro médico voluntario (IMSS),Seguros y servicios financieros,Seguros,Seguros relacionados con la salud,Seguros relacionados con la salud
+121300,Seguros relacionados con la vivienda,Seguros y servicios financieros,Seguros,Seguros relacionados con la vivienda,Seguros relacionado con la vivienda
+121412,"Seguro de vehículos con motor, cobertura limitada",Seguros y servicios financieros,Seguros,Seguros relacionados con el transporte,Seguros de transporte personal
+121420,Seguros de viaje,Seguros y servicios financieros,Seguros,Seguros relacionados con el transporte,Seguros de viaje
+121900,Otros seguros,Seguros y servicios financieros,Seguros,Otros seguros,Otros seguros
+122100,"Pago del servicio (comisiones) por manejo financiero a prestamistas, casas de empeño, emisores de tarjetas de crédito, etcétera",Seguros y servicios financieros,Servicios financieros,Servicios de intermediación financiera medidos indirectamente,Servicios de intermediación financiera medidos indirectamente
+122200,Comisiones cobradas por los servicios financieros de bancos e instituciones de cajas de ahorro,Seguros y servicios financieros,Servicios financieros,Cargos explícitos por corporaciones de depósito,Cargos explícitos por corporaciones captadoras de depósitos
+122910,Comisiones por envío y recepción de remesas,Seguros y servicios financieros,Servicios financieros,Otros servicios financieros,Tasas de remesas
+122990,Otros servicios financieros,Seguros y servicios financieros,Servicios financieros,Otros servicios financieros,Otros servicios financieros
+131111,"Secadoras, planchas, tenazas y cepillos eléctricos de cabello","Cuidado personal, protección social y bienes diversos",Cuidado personal,Aparatos eléctricos para el cuidado personal,Aparatos eléctricos para el cuidado personal
+131112,Máquinas eléctricas de afeitar y para cortar cabello,"Cuidado personal, protección social y bienes diversos",Cuidado personal,Aparatos eléctricos para el cuidado personal,Aparatos eléctricos para el cuidado personal
+131113,Otros aparatos eléctricos para el cuidado personal,"Cuidado personal, protección social y bienes diversos",Cuidado personal,Aparatos eléctricos para el cuidado personal,Aparatos eléctricos para el cuidado personal
+131120,Reparación de aparatos eléctricos para el cuidado personal,"Cuidado personal, protección social y bienes diversos",Cuidado personal,Aparatos eléctricos para el cuidado personal,Reparación de aparatos eléctricos para el cuidado personal
+131201,Cepillos dentales,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+131202,Cepillos y peines para el cabello,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+131203,"Rastrillos para afeitar, cuchillas y navajas","Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+131204,Otros artículos no eléctricos para el cuidado personal,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+131205,Artículos de tocador para bebé,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+131206,"Champú, enjuague y tratamiento para el cabello","Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+131207,Crema para afeitar,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+131208,Jabón de tocador,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+131209,Jabón medicinal,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+13120A,"Pasta dental, enjuague, hilo dental y blanqueador dental","Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+13120B,Bronceadores y bloqueadores solares,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+13120C,"Cosméticos, polvo y maquillaje, lápiz labial, etcétera","Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+13120D,Crema para el cuerpo y para la cara,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+13120E,Desodorantes corporales y talco,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+13120F,Esmalte para uñas y quitaesmalte,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+13120G,"Gel, spray, crema para el cabello, etcétera","Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+13120H,Lociones y perfumes,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+13120I,Tintes y líquidos para permanente,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+13120J,Otros productos de belleza,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+13120K,Pañales desechables,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+13120L,Papel higiénico,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+13120M,Pañuelos desechables,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+13120N,Toallas sanitarias,"Cuidado personal, protección social y bienes diversos",Cuidado personal,"Otros aparatos, artículos y productos para el cuidado personal","Otros aparatos, artículos y productos para el cuidado personal"
+131311,Corte de cabello,"Cuidado personal, protección social y bienes diversos",Cuidado personal,Salones de peluquería y establecimientos de aseo personal,Peluquería
+131312,Servicio de permanentes y tintes,"Cuidado personal, protección social y bienes diversos",Cuidado personal,Salones de peluquería y establecimientos de aseo personal,Peluquería
+131313,Pedicura y manicura,"Cuidado personal, protección social y bienes diversos",Cuidado personal,Salones de peluquería y establecimientos de aseo personal,Peluquería
+131321,Baños y masajes,"Cuidado personal, protección social y bienes diversos",Cuidado personal,Salones de peluquería y establecimientos de aseo personal,Tratamientos de aseo personal
+131322,Tatuajes y piercings,"Cuidado personal, protección social y bienes diversos",Cuidado personal,Salones de peluquería y establecimientos de aseo personal,Tratamientos de aseo personal
+131323,Otros servicios cosméticos,"Cuidado personal, protección social y bienes diversos",Cuidado personal,Salones de peluquería y establecimientos de aseo personal,Tratamientos de aseo personal
+132111,Joyería de piedras y metales no preciosos,"Cuidado personal, protección social y bienes diversos",Efectos personales,Joyas y relojes,Joyas y relojes
+132112,Relojes de pulso,"Cuidado personal, protección social y bienes diversos",Efectos personales,Joyas y relojes,Joyas y relojes
+132113,Relojes de pared y de mesa,"Cuidado personal, protección social y bienes diversos",Efectos personales,Joyas y relojes,Joyas y relojes
+132120,Reparación y alquiler de joyas y relojes,"Cuidado personal, protección social y bienes diversos",Efectos personales,Joyas y relojes,Reparación y alquiler de joyas y relojes
+132200,Artículos devocionales y para celebraciones religiosas y rituales,"Cuidado personal, protección social y bienes diversos",Efectos personales,Artículos devocionales y para celebraciones religiosas y rituales,Artículos devocionales y para celebraciones religiosas y rituales
+132911,Bolsas,"Cuidado personal, protección social y bienes diversos",Efectos personales,Otros efectos personales,"Artículos de viaje, artículos para bebés y otros efectos personales"
+132912,Carteras y monederos,"Cuidado personal, protección social y bienes diversos",Efectos personales,Otros efectos personales,"Artículos de viaje, artículos para bebés y otros efectos personales"
+132913,Portafolios,"Cuidado personal, protección social y bienes diversos",Efectos personales,Otros efectos personales,"Artículos de viaje, artículos para bebés y otros efectos personales"
+132914,Mochilas y loncheras,"Cuidado personal, protección social y bienes diversos",Efectos personales,Otros efectos personales,"Artículos de viaje, artículos para bebés y otros efectos personales"
+132915,Maletas para viaje,"Cuidado personal, protección social y bienes diversos",Efectos personales,Otros efectos personales,"Artículos de viaje, artículos para bebés y otros efectos personales"
+132916,Artículos para bebé,"Cuidado personal, protección social y bienes diversos",Efectos personales,Otros efectos personales,"Artículos de viaje, artículos para bebés y otros efectos personales"
+132917,Paraguas,"Cuidado personal, protección social y bienes diversos",Efectos personales,Otros efectos personales,"Artículos de viaje, artículos para bebés y otros efectos personales"
+132918,Lentes de protección para el sol (lentes oscuros),"Cuidado personal, protección social y bienes diversos",Efectos personales,Otros efectos personales,"Artículos de viaje, artículos para bebés y otros efectos personales"
+132919,"Encendedores, cigarreras, pipas y ceniceros","Cuidado personal, protección social y bienes diversos",Efectos personales,Otros efectos personales,"Artículos de viaje, artículos para bebés y otros efectos personales"
+13291A,"Ataúdes, lápidas, urnas, etcétera","Cuidado personal, protección social y bienes diversos",Efectos personales,Otros efectos personales,"Artículos de viaje, artículos para bebés y otros efectos personales"
+13291B,Otros artículos y accesorios de objeto personal,"Cuidado personal, protección social y bienes diversos",Efectos personales,Otros efectos personales,"Artículos de viaje, artículos para bebés y otros efectos personales"
+132921,Reparación de otros artículos personales,"Cuidado personal, protección social y bienes diversos",Efectos personales,Otros efectos personales,Reparación o alquiler de otros efectos personales
+132922,Alquiler de otros artículos personales,"Cuidado personal, protección social y bienes diversos",Efectos personales,Otros efectos personales,Reparación o alquiler de otros efectos personales
+133011,Inscripción a guarderías,"Cuidado personal, protección social y bienes diversos",Protección social,Protección social,Servicios de cuidado infantil
+133012,Colegiaturas de guarderías,"Cuidado personal, protección social y bienes diversos",Protección social,Protección social,Servicios de cuidado infantil
+133013,Pago de imprevistos de guarderías,"Cuidado personal, protección social y bienes diversos",Protección social,Protección social,Servicios de cuidado infantil
+133014,Otros servicios de cuidado infantil,"Cuidado personal, protección social y bienes diversos",Protección social,Protección social,Servicios de cuidado infantil
+133021,Asilos y casas de retiro para personas adultas mayores,"Cuidado personal, protección social y bienes diversos",Protección social,Protección social,Residencias no médicas para ancianos y residencias para personas con discapacidad
+133022,Residencias no médicas para personas con discapacidad,"Cuidado personal, protección social y bienes diversos",Protección social,Protección social,Residencias no médicas para ancianos y residencias para personas con discapacidad
+133030,Ayuda para el mantenimiento del hogar de las personas adultas mayores y personas,"Cuidado personal, protección social y bienes diversos",Protección social,Protección social,Servicios para mantener a las personas en sus hogares privados
+133091,Consultas psicológicas y asesorías,"Cuidado personal, protección social y bienes diversos",Protección social,Protección social,Otros servicios de protección social
+133092,Otros servicios de protección social,"Cuidado personal, protección social y bienes diversos",Protección social,Protección social,Otros servicios de protección social
+139010,Servicios prestados por trabajadoras(es) sexuales y similares,"Cuidado personal, protección social y bienes diversos",Otros servicios,Otros servicios,Prostitución
+139020,Servicios religiosos,"Cuidado personal, protección social y bienes diversos",Otros servicios,Otros servicios,Servicios religiosos
+139091,Servicios profesionales,"Cuidado personal, protección social y bienes diversos",Otros servicios,Otros servicios,Otros servicios
+139092,Servicios funerarios,"Cuidado personal, protección social y bienes diversos",Otros servicios,Otros servicios,Otros servicios
+139093,Expedición de documentos del sector público,"Cuidado personal, protección social y bienes diversos",Otros servicios,Otros servicios,Otros servicios
+139094,"Servicio de fotocopiado, escaneado y enmicado","Cuidado personal, protección social y bienes diversos",Otros servicios,Otros servicios,Otros servicios
+139096,Otros servicios no especificados anteriormente,"Cuidado personal, protección social y bienes diversos",Otros servicios,Otros servicios,Otros servicios
+171101,Recipientes de plástico,Otros bienes y servicios del cuestionario de gastos del hogar,Otros bienes y servicios del Cuestionario de gastos del hogar,Limpieza y cuidados de la casa,Artículos de limpieza y cuidados de la casa
+171319,Gastos de internamiento en universidades y otros establecimientos educativos,Otros bienes y servicios del cuestionario de gastos del hogar,Otros bienes y servicios del Cuestionario de gastos del hogar,Gastos de alojamiento,"Gastos de alojamiento de internados, universidades y otros establecimientos educativos"
+171611,Impuesto predial,Otros bienes y servicios del cuestionario de gastos del hogar,Otros bienes y servicios del Cuestionario de gastos del hogar,Último recibo pagado,Último recibo pagado
+171612,"Tenencia vehicular, refrendo",Otros bienes y servicios del cuestionario de gastos del hogar,Otros bienes y servicios del Cuestionario de gastos del hogar,Último recibo pagado,Último recibo pagado
+171613,Alarmas para la casa,Otros bienes y servicios del cuestionario de gastos del hogar,Otros bienes y servicios del Cuestionario de gastos del hogar,Último recibo pagado,Último recibo pagado
+172111,Pantalones para niña (de 0 a menos de 2 años),Otros bienes y servicios del cuestionario de gastos del hogar,"Prendas de vestir, calzado y accesorios","Prendas de vestir, calzado y accesorios",Prendas para niña (de 0 a menos de 2 años)
+172112,Blusa para niña (de 0 a menos de 2 años),Otros bienes y servicios del cuestionario de gastos del hogar,"Prendas de vestir, calzado y accesorios","Prendas de vestir, calzado y accesorios",Prendas para niña (de 0 a menos de 2 años)
+172113,Vestido y falda para niña (de 0 a menos de 2 años),Otros bienes y servicios del cuestionario de gastos del hogar,"Prendas de vestir, calzado y accesorios","Prendas de vestir, calzado y accesorios",Prendas para niña (de 0 a menos de 2 años)
+172114,Playera para niña (de 0 a menos de 2 años),Otros bienes y servicios del cuestionario de gastos del hogar,"Prendas de vestir, calzado y accesorios","Prendas de vestir, calzado y accesorios",Prendas para niña (de 0 a menos de 2 años)
+172115,Traje para niña (de 0 a menos de 2 años),Otros bienes y servicios del cuestionario de gastos del hogar,"Prendas de vestir, calzado y accesorios","Prendas de vestir, calzado y accesorios",Prendas para niña (de 0 a menos de 2 años)
+172116,Abrigo y chamarra para niña (de 0 a menos de 2 años),Otros bienes y servicios del cuestionario de gastos del hogar,"Prendas de vestir, calzado y accesorios","Prendas de vestir, calzado y accesorios",Prendas para niña (de 0 a menos de 2 años)
+172117,Suéter y sudadera para niña (de 0 a menos de 2 años),Otros bienes y servicios del cuestionario de gastos del hogar,"Prendas de vestir, calzado y accesorios","Prendas de vestir, calzado y accesorios",Prendas para niña (de 0 a menos de 2 años)
+172118,Pants para niña (de 0 a menos de 2 años),Otros bienes y servicios del cuestionario de gastos del hogar,"Prendas de vestir, calzado y accesorios","Prendas de vestir, calzado y accesorios",Prendas para niña (de 0 a menos de 2 años)
+172119,Ropa interior para niña (de 0 a menos de 2 años),Otros bienes y servicios del cuestionario de gastos del hogar,"Prendas de vestir, calzado y accesorios","Prendas de vestir, calzado y accesorios",Prendas para niña (de 0 a menos de 2 años)
+17211A,Calcetas y tines para niña (de 0 a menos de 2 años),Otros bienes y servicios del cuestionario de gastos del hogar,"Prendas de vestir, calzado y accesorios","Prendas de vestir, calzado y accesorios",Prendas para niña (de 0 a menos de 2 años)
+17211B,Otras prendas de vestir para niña (de 0 a menos de 2 años),Otros bienes y servicios del cuestionario de gastos del hogar,"Prendas de vestir, calzado y accesorios","Prendas de vestir, calzado y accesorios",Prendas para niña (de 0 a menos de 2 años)
+172121,Zapatos y zapatillas para niña (de 0 a menos de 2 años),Otros bienes y servicios del cuestionario de gastos del hogar,"Prendas de vestir, calzado y accesorios","Prendas de vestir, calzado y accesorios",
+172122,Tenis para niña (de 0 a menos de 2 años),Otros bienes y servicios del cuestionario de gastos del hogar,"Prendas de vestir, calzado y accesorios","Prendas de vestir, calzado y accesorios",
+172123,Huaraches y sandalias de baño para niña (de 0 a menos de 2 años),Otros bienes y servicios del cuestionario de gastos del hogar,"Prendas de vestir, calzado y accesorios","Prendas de vestir, calzado y accesorios",
+172124,Otro calzado para niña (de 0 a menos de 2 años),Otros bienes y servicios del cuestionario de gastos del hogar,"Prendas de vestir, calzado y accesorios","Prendas de vestir, calzado y accesorios",
+173111,Tanque de gas e instalación,Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Enseres domésticos y mantenimiento de la vivienda,Enseres domésticos
+173112,Compra e instalación de paneles solares y planta de luz propia,Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Enseres domésticos y mantenimiento de la vivienda,Enseres domésticos
+173113,"Lavadero, tinaco y bomba de agua",Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Enseres domésticos y mantenimiento de la vivienda,Enseres domésticos
+173121,Muebles para baño,Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Enseres domésticos y mantenimiento de la vivienda,Muebles
+173133,"Materiales para ampliación, construcción y remodelación de la vivienda que habita el hogar",Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Enseres domésticos y mantenimiento de la vivienda,"Mantenimiento, reparación, remodelación y ampliación de la vivienda"
+173134,"Servicios para ampliación, construcción y remodelación de la vivienda que habita el hogar",Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Enseres domésticos y mantenimiento de la vivienda,"Mantenimiento, reparación, remodelación y ampliación de la vivienda"
+173135,"Materiales para ampliación, construcción y remodelación de la vivienda que no habita el hogar",Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Enseres domésticos y mantenimiento de la vivienda,"Mantenimiento, reparación, remodelación y ampliación de la vivienda"
+173136,"Servicios para ampliación, construcción y remodelación de la vivienda que no habita el hogar",Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Enseres domésticos y mantenimiento de la vivienda,"Mantenimiento, reparación, remodelación y ampliación de la vivienda"
+173411,Contribuciones para obras del servicio público local,Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Otros gastos,Gastos diversos
+173412,Indemnizaciones pagadas a terceros,Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Otros gastos,Gastos diversos
+173413,Pérdidas y robos en dinero (excluye negocios),Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Otros gastos,Gastos diversos
+173414,Otros gastos diversos no comprendidos en las categorías anteriores,Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Otros gastos,Gastos diversos
+173415,Otras gratificaciones (propinas),Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Otros gastos,Gastos diversos
+173416,Ayuda a parientes y personas ajenas al hogar,Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Otros gastos,Gastos diversos
+173417,"Contribuciones a instituciones benéficas en dinero, iglesias, cruz roja, etcétera",Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Otros gastos,Gastos diversos
+173511,"Depósitos en cuentas de ahorro, tandas, cajas de ahorro, etcétera",Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Erogaciones financieras y de capital,Erogaciones financieras y de capital
+173512,Préstamos a personas ajenas al hogar,Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Erogaciones financieras y de capital,Erogaciones financieras y de capital
+173513,Pagos a tarjeta de crédito bancaria o comercial (incluye intereses),Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Erogaciones financieras y de capital,Erogaciones financieras y de capital
+173514,Pago de deudas a la empresa donde trabajan y/o a otras personas o instituciones,Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Erogaciones financieras y de capital,Erogaciones financieras y de capital
+173515,Pago de intereses por préstamos recibidos,Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Erogaciones financieras y de capital,Erogaciones financieras y de capital
+173516,"Compra de monedas nacionales o extranjeras, metales preciosos, alhajas, obras",Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Erogaciones financieras y de capital,Erogaciones financieras y de capital
+173517,Seguro de vida capitalizable,Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Erogaciones financieras y de capital,Erogaciones financieras y de capital
+173518,"Herencias, dotes y legados",Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Erogaciones financieras y de capital,Erogaciones financieras y de capital
+173519,"Compra de casas, condominios, locales o terrenos que no habita el hogar",Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Erogaciones financieras y de capital,Erogaciones financieras y de capital
+173520,"Compra de terrenos, casas o condominios que habita el hogar",Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Erogaciones financieras y de capital,
+173521,Pago de hipotecas de bienes inmuebles,Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Erogaciones financieras y de capital,
+173522,Otras erogaciones no consideradas en las preguntas anteriores,Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Erogaciones financieras y de capital,
+173523,"Compra de maquinaria, equipo y animales destinados a la reproducción, utilizados",Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Erogaciones financieras y de capital,
+173524,Compra de valores,Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Erogaciones financieras y de capital,
+173525,"Compra de marcas, patentes y derechos de autor",Otros bienes y servicios del cuestionario de gastos del hogar,Enseres domésticos y mantenimiento de la vivienda,Erogaciones financieras y de capital,
+174111,Inscripción de educación inicial,Otros bienes y servicios del cuestionario de gastos del hogar,"Educación, cultura y recreación",Educación inicial,Educación inicial
+174112,Colegiaturas de educación inicial,Otros bienes y servicios del cuestionario de gastos del hogar,"Educación, cultura y recreación",Educación inicial,Educación inicial
+174113,Pago de imprevistos de educación inicial,Otros bienes y servicios del cuestionario de gastos del hogar,"Educación, cultura y recreación",Educación inicial,Educación inicial
+174114,Cuotas de padres y madres de familia de educación inicial,Otros bienes y servicios del cuestionario de gastos del hogar,"Educación, cultura y recreación",Educación inicial,Educación inicial
+174115,Cuotas de padres y madres de familia de guarderías,Otros bienes y servicios del cuestionario de gastos del hogar,"Educación, cultura y recreación",Educación inicial,Educación inicial
+181111,"Alimentos y/o bebidas en paquete, despensa de alimentos que otorgan otros hogares",Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,Alimentos bebidas y tabaco
+181112,Despensa de alimentos que otorgan organizaciones privadas o de gobierno,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,Alimentos bebidas y tabaco
+181113,"Trigo en grano, otros productos de trigo (excepto cereal)",Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,Alimentos bebidas y tabaco
+181114,Arrachera,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,Alimentos bebidas y tabaco
+181115,Milanesa de res,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,Alimentos bebidas y tabaco
+181116,Chamorro de res,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,Alimentos bebidas y tabaco
+181117,Cocido de res,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,Alimentos bebidas y tabaco
+181118,Pulpa de res en trozo,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,Alimentos bebidas y tabaco
+181119,Carne de otras partes de la res,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,Alimentos bebidas y tabaco
+181120,Codillo de puerco,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181121,Espaldilla de puerco,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181122,Molida de puerco,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181123,Chivo y cabrito,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181124,"Pierna, muslo o pechuga de pollo con hueso",Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181125,"Pierna, muslo o pechuga de pollo sin hueso",Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181126,"Chorizo de pollo, jamón de pollo, pavo y otras aves; nuggets de pollo y otras aves,",Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181127,Filete de pescado,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181128,"Anguilas, angulas, hueva de pescado, mantarraya, pejelagarto, etcétera",Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181129,Leche condensada,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181130,Leche evaporada,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181131,Queso Manchego,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181132,Queso Chihuahua,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181133,Manteca vegetal,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181134,Plátano verde y Tabasco,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181135,Lima,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181136,"Anona, chirimoya, guanábana",Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181137,Chicozapote y mamey,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181138,Ciruela y jobo,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181139,Pitahaya y tuna,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181140,Semillas envasadas,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181141,Brócoli,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181142,"Germinados de maíz, de soya, de trigo, de alfalfa",Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181143,Pimienta,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181144,Canela,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181145,Clavo,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181146,Anís (licor),Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181147,Licor o cremas de frutas,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181148,"Aguamiel, pulque, tlachique, tepache, tuba y bebidas fermentadas de maíz",Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181149,Rompope,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181150,Vodka,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181151,Jerez,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181152,Alimento para animales para uso del hogar,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181153,Filete de res,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181154,"Aguardiente, alcohol de caña, charanda, mezcal, sotol",Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181155,Cacao y chocolate líquido para todos los usos,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181156,Otros productos de arroz,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181157,Salmón y bacalao procesado,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181158,Hamburguesas de res para asar,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181159,"Aceite de bacalao, de tiburón, de tortuga, enjundia",Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181160,"Aceite de coco, soya",Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181161,Haba amarilla o verde en grano,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181162,Agua mineral con sabor,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181163,Camote,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181164,"Papas en conserva, encurtidas o en escabeche",Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181165,"Otras verduras, pápalo, flor de calabaza, chaya",Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181166,Otras leguminosas procesadas,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181167,Semillas procesadas,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181168,Otras especias,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181169,Molienda de nixtamal,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181170,Juegos de frutas o verduras naturales,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181171,Harina para waffles o hot cakes,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Alimentos bebidas y tabaco,
+181211,Otro transporte de pasajeros por agua,Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Transporte público,Otro transporte
+181212,"Pago por servicio de entrega a domicilio de alimentos, bebidas y tabaco",Otros bienes y servicios del cuadernillo de gastos diarios,Otros bienes y servicios del Cuadernillo de gastos diarios,Transporte público,Otro transporte

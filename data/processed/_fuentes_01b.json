@@ -1,0 +1,101 @@
+{
+ "scian_2013": {
+  "url": "https://www.inegi.org.mx/contenidos/app/clasificadores/scian/SCIAN_2013_estructura_productos.xlsx",
+  "archivo": "SCIAN_2013_estructura_productos.xlsx",
+  "descargado": "2026-11-23",
+  "corte": "SCIAN 2013",
+  "tam": 2348843,
+  "sha256": "fcbb80243b3f2245ffd899c538babc35cea3a96daacedcb814e54c4ff2ca70a0",
+  "notas": "catalogo oficial INEGI (estructura y productos)"
+ },
+ "denue_actual_09_0": {
+  "url": "https://www.inegi.org.mx/contenidos/masiva/denue/denue_09_csv.zip",
+  "archivo": "denue_09_csv.zip",
+  "descargado": "2026-11-23",
+  "corte": "05/2026",
+  "tam": 45439249,
+  "sha256": "ae608f30118f6313e9d537ea22918b2c9e9a3d3f19c2ddf5907f55dbb1642b19",
+  "notas": "DENUE 05/2026, entidad 09, parte 1 de 1"
+ },
+ "denue_actual_13_0": {
+  "url": "https://www.inegi.org.mx/contenidos/masiva/denue/denue_13_csv.zip",
+  "archivo": "denue_13_csv.zip",
+  "descargado": "2026-11-23",
+  "corte": "05/2026",
+  "tam": 15059273,
+  "sha256": "d0747958bc364177ea8d281047334cffd4d3505247f43967e08da2ca9c1d9ca5",
+  "notas": "DENUE 05/2026, entidad 13, parte 1 de 1"
+ },
+ "denue_actual_15_0": {
+  "url": "https://www.inegi.org.mx/contenidos/masiva/denue/denue_15_1_csv.zip",
+  "archivo": "denue_15_1_csv.zip",
+  "descargado": "2026-11-23",
+  "corte": "05/2026",
+  "tam": 50572588,
+  "sha256": "23021fc24a2046e1aa3ad8c21137ca57988ded26b6f293ec0c929f59dd2cb1ae",
+  "notas": "DENUE 05/2026, entidad 15, parte 1 de 2"
+ },
+ "denue_actual_15_1": {
+  "url": "https://www.inegi.org.mx/contenidos/masiva/denue/denue_15_2_csv.zip",
+  "archivo": "denue_15_2_csv.zip",
+  "descargado": "2026-11-23",
+  "corte": "05/2026",
+  "tam": 30236017,
+  "sha256": "ad53e5fb65f15b491e140a80e79b207b95eb0320e4a69822d5a3cefb7652bc20",
+  "notas": "DENUE 05/2026, entidad 15, parte 2 de 2"
+ },
+ "denue_hist_09_0": {
+  "url": "https://www.inegi.org.mx/contenidos/masiva/denue/2020_11/denue_09_1120_csv.zip",
+  "archivo": "denue_09_1120_csv.zip",
+  "descargado": "2026-11-23",
+  "corte": "11/2020",
+  "tam": 38088299,
+  "sha256": "64656b203239d136cbb57b012d7bf7929b2be2c2a59224a3fcc7629e15d9a3cf",
+  "notas": "DENUE 11/2020, entidad 09, parte 1 de 1"
+ },
+ "denue_hist_13_0": {
+  "url": "https://www.inegi.org.mx/contenidos/masiva/denue/2020_11/denue_13_1120_csv.zip",
+  "archivo": "denue_13_1120_csv.zip",
+  "descargado": "2026-11-23",
+  "corte": "11/2020",
+  "tam": 10907066,
+  "sha256": "1363284a8ad0a2c9b24883b923ab36fd5dfc82461ca70d1e278ff4b8e20e85fc",
+  "notas": "DENUE 11/2020, entidad 13, parte 1 de 1"
+ },
+ "denue_hist_15_0": {
+  "url": "https://www.inegi.org.mx/contenidos/masiva/denue/2020_11/denue_15_1_1120_csv.zip",
+  "archivo": "denue_15_1_1120_csv.zip",
+  "descargado": "2026-11-23",
+  "corte": "11/2020",
+  "tam": 44072893,
+  "sha256": "28e6ff84ca314599dc8927e3dddd92c51a190136609ecb0b21c96e5d35ea9170",
+  "notas": "DENUE 11/2020, entidad 15, parte 1 de 2"
+ },
+ "denue_hist_15_1": {
+  "url": "https://www.inegi.org.mx/contenidos/masiva/denue/2020_11/denue_15_2_1120_csv.zip",
+  "archivo": "denue_15_2_1120_csv.zip",
+  "descargado": "2026-11-23",
+  "corte": "11/2020",
+  "tam": 15468433,
+  "sha256": "7e339f58441f90e379bf7b12f7d5acb640cb20ea2a75b0d6d326192c361f4b42",
+  "notas": "DENUE 11/2020, entidad 15, parte 2 de 2"
+ },
+ "scian_2018": {
+  "url": "https://www.inegi.org.mx/contenidos/app/scian/scian_2018_categorias_y_productos.xlsx",
+  "archivo": "scian_2018_categorias_y_productos.xlsx",
+  "descargado": "2026-11-23",
+  "corte": "SCIAN 2018",
+  "tam": 2968145,
+  "sha256": "1bd3e01c931a65dfe6dae76fba677e6d840af88b67bec36e19fe6840d9e73031",
+  "notas": "catalogo oficial INEGI (estructura y productos)"
+ },
+ "scian": {
+  "url": "https://www.inegi.org.mx/contenidos/app/scian/scian_2023_categorias_y_productos.xlsx",
+  "archivo": "scian_2023_categorias_y_productos.xlsx",
+  "descargado": "2026-11-23",
+  "corte": "SCIAN 2023",
+  "tam": 5775982,
+  "sha256": "08ab321774db17c411ae499a78530a84acef05344765b81aa441f3da3e12511c",
+  "notas": "catalogo oficial INEGI (estructura y productos)"
+ }
+}

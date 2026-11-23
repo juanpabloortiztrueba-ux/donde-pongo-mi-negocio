@@ -1,0 +1,14 @@
+[03_entrenar 11:33:13] etiquetas: 235,000 filas, 75,713 positivas; 424,595 nuevos (5,430 empatados por nombre) (8 s)
+[03_entrenar 11:33:21] matriz hist: (235000, 101), tasa base 0.322 (15 s)
+[03_entrenar 11:33:30] pliegue 0: AUC 0.892, 491 iter, 9.2 s
+[03_entrenar 11:33:41] pliegue 1: AUC 0.894, 545 iter, 10.8 s
+[03_entrenar 11:33:50] pliegue 2: AUC 0.882, 500 iter, 9.8 s
+[03_entrenar 11:33:59] pliegue 3: AUC 0.891, 438 iter, 8.6 s
+[03_entrenar 11:34:10] pliegue 4: AUC 0.893, 559 iter, 10.5 s
+[03_entrenar 11:34:10] validacion: AUC global 0.891; AUC medio por giro modelo 0.789 vs densidad 0.526 vs competencia 0.652 (65 s)
+[03_entrenar 11:35:14] importancia lista (128 s)
+[03_entrenar 11:36:52] sobrevivencia: n=517,372, tasa 0.684, AUC oof 0.590
+[03_entrenar 11:37:16] modelos guardados (251 s)
+[03_entrenar 11:37:29] scores_giros: 235,000 filas
+[03_entrenar 11:37:29] listo en 264 s
+[03_entrenar 11:37:29] reporte: reports/validacion.md

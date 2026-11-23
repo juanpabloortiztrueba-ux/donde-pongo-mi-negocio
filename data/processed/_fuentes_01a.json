@@ -1,0 +1,58 @@
+{
+ "zm2015": {
+  "url": "https://conapo.segob.gob.mx/work/models/CONAPO/Datos_Abiertos/Delimitacion_ZM/ZM_2015.csv",
+  "archivo": "ZM_2015.csv",
+  "descargado": "2026-11-23",
+  "tam": 47751,
+  "sha256": "6f222bf24382ad7c9b3a68b093404b726a57ac50fe8b07ca3d567ee0878008bf"
+ },
+ "cpv09": {
+  "url": "https://www.inegi.org.mx/contenidos/programas/ccpv/2020/datosabiertos/ageb_manzana/ageb_mza_urbana_09_cpv2020_csv.zip",
+  "archivo": "ageb_mza_urbana_09_cpv2020_csv.zip",
+  "descargado": "2026-11-23",
+  "tam": 12990807,
+  "sha256": "1f5f123b8e9a50991d1847271b5a2bf321e813e924e5bcf958cab612311c765a"
+ },
+ "cpv13": {
+  "url": "https://www.inegi.org.mx/contenidos/programas/ccpv/2020/datosabiertos/ageb_manzana/ageb_mza_urbana_13_cpv2020_csv.zip",
+  "archivo": "ageb_mza_urbana_13_cpv2020_csv.zip",
+  "descargado": "2026-11-23",
+  "tam": 5878783,
+  "sha256": "de8ae32548254842207c01ed344ecfb4c2e4477649a0715f20821ad15bc87366"
+ },
+ "cpv15": {
+  "url": "https://www.inegi.org.mx/contenidos/programas/ccpv/2020/datosabiertos/ageb_manzana/ageb_mza_urbana_15_cpv2020_csv.zip",
+  "archivo": "ageb_mza_urbana_15_cpv2020_csv.zip",
+  "descargado": "2026-11-23",
+  "tam": 25353813,
+  "sha256": "1216da54c2b25e2eab4de6c16946f3f526f45ffdebcdddf3a230e30c790fecfd"
+ },
+ "imu2020": {
+  "url": "https://conapo.segob.gob.mx/work/models/CONAPO/Datos_Abiertos/Marginacion/IMU_2020.zip",
+  "archivo": "IMU_2020.zip",
+  "descargado": "2026-11-23",
+  "tam": 15955255,
+  "sha256": "17fdd6a31a57d4deb5519fe1e7bd58e7e52d115cf0474d6b59fbf9a52cde26b9"
+ },
+ "marco09": {
+  "url": "https://www.inegi.org.mx/contenidos/productos/prod_serv/contenidos/espanol/bvinegi/productos/geografia/marcogeo/889463807469/09_ciudaddemexico.zip",
+  "archivo": "09_ciudaddemexico.zip",
+  "descargado": "2026-11-23",
+  "tam": 83207305,
+  "sha256": "685b912f5458138a70726cff41aff828473e14264c43289d3b21f86a9df00320"
+ },
+ "marco13": {
+  "url": "https://www.inegi.org.mx/contenidos/productos/prod_serv/contenidos/espanol/bvinegi/productos/geografia/marcogeo/889463807469/13_hidalgo.zip",
+  "archivo": "13_hidalgo.zip",
+  "descargado": "2026-11-23",
+  "tam": 109969226,
+  "sha256": "682645be3b638a3e8036a51a440387b661792058b7edcc6c7daec92c0a4acea1"
+ },
+ "marco15": {
+  "url": "https://www.inegi.org.mx/contenidos/productos/prod_serv/contenidos/espanol/bvinegi/productos/geografia/marcogeo/889463807469/15_mexico.zip",
+  "archivo": "15_mexico.zip",
+  "descargado": "2026-11-23",
+  "tam": 226724467,
+  "sha256": "dc72ee585dc60f88dc3d7daa431b360cadbee70e0f13fe9ca0c13251795d96cf"
+ }
+}
