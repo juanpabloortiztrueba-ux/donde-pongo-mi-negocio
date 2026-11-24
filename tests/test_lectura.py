@@ -449,3 +449,27 @@ def test_depurar_devuelve_la_lectura_sin_la_clausula_repetida():
     t, quitadas = L.depurar(f"**Lectura:** {f1} {f2}", u)
     assert not quitadas and nom + " destaca" not in t and "mientras que" not in t
     assert t == f"**Lectura:** {f1} {L._nombre_bonito(otra['colonia'])} tiene un ingreso trimestral estimado por hogar de ${otra['ingreso_trim_mediano_estimado_mxn']:,}."
+
+
+def test_alto_porcentaje_de_ninos_pide_estar_sobre_la_referencia_de_la_zmvm():
+    # pregunta 25: Ajusco (16.5 %) y Pedregal de Santo Domingo (20.2 %) estan bajo el 20.7 % de la ZMVM; Carmen Serdan (21.6 %) no
+    r, u = _usadas("heladeria", municipio="Coyoacán")
+    z = {x["colonia"]: x for x in r["zonas"]}
+    assert z["AJUSCO"]["edad_clave_pct"] == 16.5 and z["CARMEN SERDÁN"]["edad_clave_pct"] == 21.6
+    assert z["AJUSCO"]["edad_clave_pct_zmvm"] == 20.7
+    falsa = "Ambas tienen un NSE estimado medio y una población con un alto porcentaje de niños de 0 a 14 años."
+    previa = "En Coyoacán, las colonias con mejor score para heladería son Ajusco y Pedregal de Santo Domingo."
+    ctx = L.Contexto(u, "¿Y en Coyoacán?")
+    assert not L.problemas(previa, ctx)["superlativos"]
+    assert "alto porcentaje" in " ".join(L.problemas(falsa, ctx)["superlativos"])      # «ambas» = Ajusco y Pedregal
+    assert _con("Ajusco tiene un alto porcentaje de niños de 0 a 14 años.", u)["superlativos"]
+    assert _con("Hay una alta proporción de población de 0 a 14 años en Pedregal de Santo Domingo.", u)["superlativos"]
+    assert not _con("Carmen Serdán tiene un alto porcentaje de niños de 0 a 14 años (21.6 %).", u)["superlativos"]
+    assert _con("Carmen Serdán y Ajusco tienen un alto porcentaje de niños de 0 a 14 años.", u)["superlativos"]
+    # «bajo» pide estar por debajo; un grupo que el top no compara no se puede juzgar
+    assert _con("Carmen Serdán tiene un bajo porcentaje de niños de 0 a 14 años.", u)["superlativos"]
+    assert not _con("Ajusco tiene un bajo porcentaje de niños de 0 a 14 años.", u)["superlativos"]
+    assert not _con("Ajusco tiene un alto porcentaje de adultos mayores.", u)["superlativos"]
+    # depurar quita la frase y deja la lectura armada por el codigo
+    t, quitadas = L.depurar("**Lectura:** " + previa + " " + falsa, u, "¿Y en Coyoacán?")
+    assert quitadas and "alto porcentaje" not in (t or "") and "Ajusco" in t

@@ -20,17 +20,17 @@ from fastapi import FastAPI
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 
-from app.api import base, contexto, explorar, preguntar
+from app.api import base, contexto, desglose, explorar, preguntar
 
 RAIZ = Path(__file__).resolve().parents[1]
 WEB_POR_DEFECTO = RAIZ / "web" / "dist"
 
 
 def crear_app(web: Path | str | None = None) -> FastAPI:
-    """App con los cuatro routers y el build web (con fallback a index.html para el ruteo del cliente)."""
+    """App con los cinco routers y el build web (con fallback a index.html para el ruteo del cliente)."""
     app = FastAPI(title="Donde pongo mi negocio", docs_url="/api/docs", openapi_url="/api/openapi.json")
     app.add_middleware(GZipMiddleware, minimum_size=1024)  # lo ya comprimido (geo) lleva Content-Encoding y no se repite
-    for modulo in (base, preguntar, explorar, contexto):
+    for modulo in (base, preguntar, desglose, explorar, contexto):
         app.include_router(modulo.router)
 
     raiz_web = Path(web).resolve() if web else WEB_POR_DEFECTO
@@ -91,7 +91,7 @@ def main(argv: list[str] | None = None) -> None:
     if not a.sin_navegador:
         threading.Timer(1.2, lambda: webbrowser.open(f"http://127.0.0.1:{a.puerto}")).start()
     def _calentar() -> None:  # en un hilo: el primer pedido de cada vista ya no paga la carga del motor
-        for modulo in (base, preguntar, contexto):
+        for modulo in (base, preguntar, desglose, contexto):
             try:
                 modulo.precalentar()
             except Exception:

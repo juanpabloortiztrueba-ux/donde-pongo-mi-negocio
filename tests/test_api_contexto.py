@@ -107,7 +107,9 @@ def test_modelo_importancia_en_espanol(cliente):
 def test_modelo_evaluacion_limites_y_preguntas(cliente):
     d = cliente.get("/api/modelo").json()
     ev = d["evaluacion"]
-    assert ev["preguntas"] >= 28 and len(ev["filas"]) == ev["preguntas"] and all(f["latencia_s"] > 0 for f in ev["filas"])
+    assert ev["preguntas"] >= 28 and len(ev["filas"]) == ev["preguntas"] and all(f["latencia_s"] > 0 for f in ev["filas"] if f["tipo"] != "fuera_de_tema")
+    # las fuera de tema contestan con texto fijo, sin LLM: su latencia es 0.0, no una medicion perdida
+    assert all(f["latencia_s"] is not None and f["latencia_s"] >= 0 for f in ev["filas"] if f["tipo"] == "fuera_de_tema")
     claves = {x["clave"] for x in d["limites"]}
     assert {"aparecio", "colonia", "decil", "sobrevivencia", "raros"} <= claves
     for x in d["limites"]:

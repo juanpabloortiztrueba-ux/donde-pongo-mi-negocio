@@ -7,6 +7,10 @@ Dueno: el constructor del grupo «preguntar».
                                    paso y regresa sus resultados ya armados para pintar (zonas, perfil, fuera de alcance).
                                    Despues, en un hilo de UNA sola cola (un LLM a la vez), agente.responder().
                                    rapido=true, o Ollama apagado: el texto sale de agente.plantilla(), sin LLM.
+                                   Fuera de tema («¿cómo me llamo?», «hola», deportes): sin herramientas ni LLM, texto fijo
+                                   (app/fuera_de_tema.py); regresa fuera_de_tema: true y tipo_fuera_de_tema: saludo|nombre|ajeno
+                                   (arriba y dentro de `datos`), datos.zonas = [] y sin mapa. Cada pregunta se anota en
+                                   data/historial/preguntas.jsonl (app/historial.py; `make historial` lo muestra).
     GET    /api/preguntas/{id}[?completo=1]  (completo=1 agrega `datos`, para reabrir el hilo guardado en el navegador)
                                    {estado: en_cola|pensando|listo|error|cancelada, posicion_en_cola, segundos, respuesta,
                                     herramientas:[{nombre,args,resultado}], latencia_s, modo, modelo, ...}
@@ -35,7 +39,8 @@ from fastapi import APIRouter, Query
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
-from app import agente
+from app import agente, historial as registro
+from app import fuera_de_tema as fuera
 from app import herramientas as H
 from app import motor
 from app.api import base
@@ -158,7 +163,7 @@ def armar_datos(usadas: list[dict]) -> dict:
         datos["sugerencias_como_leer"] = sg.get("como_leer")
         datos["sugerencias_filtros"] = sg.get("filtros")
     if macro:
-        datos["macro"] = {"linea": macro["linea"], "fuentes": macro.get("fuentes", [])}
+        datos["macro"] = {"linea": macro["linea"], "fuentes": agente.unir_fuentes(macro.get("fuentes", []))}
     if mun:
         datos["municipio"] = {"nombre": mun.get("municipio"), "ficha": mun.get("ficha", [])[:3], "fuentes": mun.get("fuentes", [])}
     # los textos que la vista pinta tal cual pasan por el mismo pulido es-MX que la respuesta de plantilla
@@ -195,6 +200,8 @@ class Trabajo:
     aviso: str | None = None
     error: str | None = None
     detalle: dict | None = None
+    fuera_de_tema: bool = False
+    tipo_fuera_de_tema: str | None = None   # saludo | nombre | ajeno
 
 
 _trabajos: dict[str, Trabajo] = {}
@@ -213,6 +220,21 @@ def _ejecutor() -> ThreadPoolExecutor:
         return _hilo
 
 
+def _datos_fuera_de_tema(tipo: str) -> dict:
+    """`datos` de una pregunta fuera de tema: sin giro, sin zonas (lista vacia), sin mapa ni resaltado."""
+    return {**armar_datos([]), "fuera_de_tema": True, "tipo_fuera_de_tema": tipo}
+
+
+def _registrar(t: Trabajo) -> None:
+    """Anota la pregunta en data/historial/preguntas.jsonl (si falla, la respuesta no se rompe)."""
+    try:
+        registro.registrar(t.pregunta, t.historial, t.modo or ("rapido" if t.rapido else "llm"), t.fuera_de_tema,
+                           t.herramientas if t.herramientas is not None else t.usadas, t.respuesta, t.latencia_s,
+                           t.tipo_fuera_de_tema, fecha=t.t_creado)
+    except Exception:
+        pass
+
+
 def _hay_modelo() -> bool:
     """Ollama prendido y con el modelo del agente descargado."""
     est = base.estado_ollama()
@@ -224,6 +246,7 @@ def _hay_modelo() -> bool:
 def _pulir_texto(texto: str) -> str:
     """Retoques es-MX al texto de agente.plantilla() sin tocar el agente: millares con coma, acentos que faltan, «48%» sin espacio
     (como las tarjetas) e identificadores internos con su nombre en español."""
+    texto = fuera.sin_funciones_internas(texto)   # red de seguridad: nada de perfil_giro, sugerir_giros(...) en lo que ve la persona
     texto = re.sub(r"(?<![\d.,])(\d{4,})(?= millones de dólares)", lambda m: f"{int(m.group(1)):,}", texto)
     for a, b in (("esta fuera de la Zona Metropolitana del Valle de Mexico", "está fuera de la Zona Metropolitana del Valle de México"),
                  ("Cafe_bebidas de la ENIGH", "El rubro «café y bebidas» de la ENIGH"),
@@ -250,7 +273,7 @@ def _correr(t: Trabajo) -> None:
     try:
         out = agente.responder(t.pregunta, t.historial)
         with _candado:
-            t.respuesta = out.get("respuesta") or ""
+            t.respuesta = fuera.sin_funciones_internas(out.get("respuesta") or "")
             t.herramientas = out.get("herramientas") or t.usadas
             t.latencia_s = out.get("latencia_s")
             t.modo = "plantilla" if out.get("modo") == "plantilla" else "llm"
@@ -267,6 +290,7 @@ def _correr(t: Trabajo) -> None:
             t.t_fin = time.time()
             if t.id in _cola:
                 _cola.remove(t.id)
+        _registrar(t)
 
 
 def _podar() -> None:
@@ -305,7 +329,8 @@ def _vista(t: Trabajo) -> dict:
             pos, seg = 0, (t.t_fin or ahora) - (t.t_inicio or t.t_creado)
         out = {"id": t.id, "estado": t.estado, "posicion_en_cola": pos, "segundos": round(seg, 1), "pregunta": t.pregunta,
                "respuesta": t.respuesta, "latencia_s": t.latencia_s, "modo": t.modo, "modelo": t.modelo, "aviso": t.aviso, "error": t.error,
-               "herramientas": t.herramientas if t.herramientas is not None else t.usadas, "detalle": t.detalle}
+               "herramientas": t.herramientas if t.herramientas is not None else t.usadas, "detalle": t.detalle,
+               "fuera_de_tema": t.fuera_de_tema, "tipo_fuera_de_tema": t.tipo_fuera_de_tema}
         out["fuentes"] = agente.fuentes_de(out["herramientas"])
     return _limpio(out)
 
@@ -319,6 +344,20 @@ def crear_pregunta(cuerpo: Pregunta):
         return _error(422, "La pregunta es muy larga (máximo 600 caracteres).")
     historial = _historial_limpio(cuerpo.historial)
     t0 = time.time()
+    ft = agente.fuera_de_tema(pregunta, historial or None)
+    if ft:      # sin herramientas ni LLM: texto fijo, sin zonas ni mapa
+        datos = _datos_fuera_de_tema(ft["tipo"])
+        t = Trabajo(id=uuid.uuid4().hex[:12], pregunta=pregunta, historial=historial, rapido=bool(cuerpo.rapido), usadas=[], datos=datos,
+                    fuera_de_tema=True, tipo_fuera_de_tema=ft["tipo"])
+        t.respuesta, t.herramientas = ft["texto"], []
+        t.modo = "rapido" if t.rapido else "plantilla"
+        t.latencia_s = round(time.time() - t0, 1)
+        t.estado, t.t_inicio, t.t_fin = "listo", t0, time.time()
+        with _candado:
+            _trabajos[t.id] = t
+            _podar()
+        _registrar(t)
+        return _limpio({**_vista(t), "datos": datos, "segundos_consulta": round(time.time() - t0, 1), "ollama": _hay_modelo()})
     try:
         with _candado_pre:
             plan = agente.pre_consulta(pregunta, historial or None)
@@ -339,6 +378,7 @@ def crear_pregunta(cuerpo: Pregunta):
         with _candado:
             _trabajos[t.id] = t
             _podar()
+        _registrar(t)
     else:
         with _candado:
             _trabajos[t.id] = t
@@ -363,11 +403,15 @@ def cancelar_pregunta(pid: str):
     t = _trabajos.get(pid)
     if not t:
         return _error(404, "Esa pregunta ya no está en el servidor.")
+    cancelada = False
     with _candado:
         if t.estado == "en_cola":
             t.estado, t.t_fin = "cancelada", time.time()
+            cancelada = True
             if t.id in _cola:
                 _cola.remove(t.id)
+    if cancelada:
+        _registrar(t)
     return _vista(t)
 
 

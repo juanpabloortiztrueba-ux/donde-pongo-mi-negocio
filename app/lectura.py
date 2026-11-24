@@ -312,8 +312,9 @@ def _empate_sin_decir(asignadas: list[dict], todas: list[dict], campo: str, d: i
     return [z["colonia"] for z in todas if id(z) not in ids and _valor(z, campo) == ext]
 
 
-def problemas_de_frase(frase: str, zonas: list[dict], filtros: dict | None = None) -> list[str]:
-    """Motivos por los que la frase contradice a los datos de las zonas (lista vacia = la frase vale)."""
+def problemas_de_frase(frase: str, zonas: list[dict], filtros: dict | None = None, previas: list[dict] | None = None) -> list[str]:
+    """Motivos por los que la frase contradice a los datos de las zonas (lista vacia = la frase vale). `previas`: las zonas que
+    nombraron las frases anteriores de la lectura (para «Ambas tienen...»)."""
     fn = ligera(frase)
     ms = menciones(fn, zonas)
     problemas: list[str] = []
@@ -361,6 +362,7 @@ def problemas_de_frase(frase: str, zonas: list[dict], filtros: dict | None = Non
                 problemas.append(f"{et} {nombre}: {', '.join(mal)} no está entre las primeras del top")
             elif (emp := _empate_sin_decir(asignadas, zonas, campo, d, fn)):
                 problemas.append(f"{et} {nombre}: empata con {', '.join(emp)} y la frase no lo dice")
+    problemas += problemas_de_nivel_de_edad(frase, zonas, previas)
     pedida = H.norm((filtros or {}).get("colonia", ""))
     if pedida:
         for m in re.finditer(rf"\ben\s+(?:la\s+|el\s+)?{re.escape(pedida)}\b", fn):
@@ -369,6 +371,43 @@ def problemas_de_frase(frase: str, zonas: list[dict], filtros: dict | None = Non
                         and not re.search(r"\bkm\b|\bcerca\b|\bfuera\b|\bvecin|\bal lado\b", fn[m.end():a]):
                     problemas.append(f"{z['colonia']} no está dentro de {(filtros or {})['colonia']} (queda a {z.get('dist_a_colonia_km')} km)")
     return list(dict.fromkeys(problemas))
+
+
+# «un alto porcentaje de niños», «una baja proporción de adultos mayores»: un adjetivo de nivel sin cifra; la unica vara que
+# trae la respuesta es la referencia de la ZMVM (`edad_clave_pct_zmvm`), asi que «alto» pide estar por encima y «bajo» por debajo
+_NIVEL_ALTO = r"alt[oa]s?|elevad[oa]s?|considerables?|importantes?|significativ[oa]s?|gran|grande"
+_NIVEL_BAJO = r"baj[oa]s?|reducid[oa]s?|poco"
+_MEDIDA = r"porcentajes?|proporcion(?:es)?|participacion|presencia|concentracion"
+NIVEL_DE_EDAD = re.compile(
+    rf"\b(?:(?P<a1>{_NIVEL_ALTO})|(?P<b1>{_NIVEL_BAJO}))\s+(?:{_MEDIDA})\s+de\b|"
+    rf"\b(?:{_MEDIDA})\s+(?:(?P<a2>{_NIVEL_ALTO})|(?P<b2>{_NIVEL_BAJO}))\s+de\b")
+
+
+def problemas_de_nivel_de_edad(frase: str, zonas: list[dict], previas: list[dict] | None = None) -> list[str]:
+    """«Alto porcentaje de niños de 0 a 14 años» solo vale si la zona esta por encima de la referencia de la ZMVM (y «bajo»,
+    por debajo). Sin zona nombrada en la frase se juzgan las que nombraron las frases anteriores (o las del top): con «ambas /
+    ambos / todas» tienen que cumplir todas; sin plural, basta con que cumpla una. Si el grupo de edad no es el que compara el
+    top, no se puede juzgar."""
+    fn = ligera(frase)
+    out: list[str] = []
+    for m in NIVEL_DE_EDAD.finditer(fn):
+        alto = bool(m.group("a1") or m.group("a2"))
+        grupo = grupo_de_edad(fn[m.end():m.end() + 60])
+        mias = list({id(z): z for _, _, z in menciones(fn, zonas)}.values())
+        todas_ = bool(re.search(r"\b(?:ambas|ambos|todas|todos|las dos|los dos)\b", fn[:m.start()]))
+        pool = mias or previas or zonas
+        pares = [(z, _valor(z, "edad_clave_pct"), _valor(z, "edad_clave_pct_zmvm")) for z in pool if z.get("edad_clave_grupo") == grupo]
+        pares = [(z, v, ref) for z, v, ref in pares if v is not None and ref is not None]
+        if not grupo or not pares:
+            continue
+        cumple = [(v > ref) if alto else (v < ref) for _, v, ref in pares]
+        malas = [z for (z, _, _), ok in zip(pares, cumple) if not ok]
+        if (mias and malas) or (not mias and (malas if todas_ and previas else not any(cumple))):
+            ref = pares[0][2]
+            detalle = ", ".join(f"{z['colonia']} {v} %" for z, v, _ in pares if (z in malas or not mias))
+            out.append(f"{'alto' if alto else 'bajo'} porcentaje de {pares[0][0].get('edad_clave_etiqueta', grupo)}: "
+                       f"{detalle} no está {'por encima' if alto else 'por debajo'} de la referencia de la ZMVM ({ref} %)")
+    return out
 
 
 def frases(texto: str) -> list[str]:
@@ -431,6 +470,7 @@ class Contexto:
         self.general = numeros_tipados([generales, filtros])
         self.por_giro = {g["giro"]: numeros_tipados({k: v for k, v in g.items() if k != "giro"}) for g in self.giros}
         self.todos = numeros_tipados([u["resultado"] for u in usadas])
+        self.mencionadas: dict[int, dict] = {}     # zonas que nombraron las frases ya revisadas, en orden
 
     # ---- cifras
     def _en(self, c: dict, tipo: str, conjunto: dict) -> bool:
@@ -596,9 +636,11 @@ def problemas(fr: str, ctx: Contexto) -> dict[str, list[str]]:
     Los superlativos de zona valen si vale contra alguna de las llamadas a recomendar_zonas."""
     sup = []
     if ctx.rzs:
-        probs = [problemas_de_frase(fr, r["zonas"], r.get("filtros")) for r in ctx.rzs]
+        previas = list(ctx.mencionadas.values())
+        probs = [problemas_de_frase(fr, r["zonas"], r.get("filtros"), previas) for r in ctx.rzs]
         if all(probs):
             sup += probs[0]
+        ctx.mencionadas.update({id(z): z for _, _, z in menciones(ligera(fr), ctx.zonas_todas)})
     sg_sup, sg_cif = ctx.giros_problemas(fr)
     return {"cifras": ctx.cifras(fr) + ctx.mezclas(fr) + sg_cif, "superlativos": sup + sg_sup}
 
@@ -785,6 +827,16 @@ def _distancia_una_letra(a: str, b: str) -> bool:
     return any(largo[:i] + largo[i + 1:] == corto for i in range(len(largo)))
 
 
+def _sigue_otro_nombre(frase: str, fin: int, escrito: str) -> bool:
+    """Tras el nombre viene una palabra con mayuscula inicial: podria ser una colonia mas larga («Guadalupe Victoria Norte»). Si
+    el nombre venia en MAYUSCULAS (copiado tal cual del renglon), solo cuenta otra palabra en MAYUSCULAS («SECCIÓN NORTE»): una
+    palabra normal («Miguel Hidalgo») ya no es parte del nombre."""
+    m = re.match(r"\s+([A-ZÁÉÍÓÚÑ]\w*)", frase[fin:])
+    if not m:
+        return False
+    return (m.group(1).isupper() and len(m.group(1)) > 1) if escrito.isupper() else True
+
+
 def normalizar_nombres(frase: str, zonas: list[dict]) -> str:
     """Escribe cada zona del top con su nombre bonito y acentuado («Fuentes de Aragón», «Del Valle Norte») cuando la frase lo
     escribe distinto: otra mayuscula o minuscula («del Valle Norte»), en singular («Fuente de Aragon») o con una letra de
@@ -802,7 +854,7 @@ def normalizar_nombres(frase: str, zonas: list[dict]) -> str:
         # solo cambian mayusculas o acentos: se escribe bonito y con los acentos que ya traia («Nápoles» no pierde su acento)
         destino = _con_acentos_de(_nombre_bonito(z["colonia"]), escrito) if ligera(escrito) == ligera(z["colonia"]) \
             else _nombre_bonito(z["colonia"])
-        if escrito != destino and not generica and not re.match(r"\s+[A-ZÁÉÍÓÚÑ]\w", frase[b:]):
+        if escrito != destino and not generica and not _sigue_otro_nombre(frase, b, escrito):
             cambios.append((a, b, destino))
     nombres = {H.norm(z["colonia"]) for z in zonas}
     toks = [(m.start(), m.end(), m.group()) for m in re.finditer(r"[a-z0-9]+", fn)]
@@ -971,3 +1023,31 @@ def depurar(lectura: str | None, usadas: list[dict], pregunta: str = "") -> tupl
         base = desde_giros(ctx.giros)
     nuevo = " ".join(([base] if base else []) + sueltas).strip()
     return ("**Lectura:** " + nuevo) if nuevo else None, quitadas
+
+
+# ---------------------------------------------------------------- niños: la zona con mayor porcentaje de 0 a 14 años
+PIDE_NINOS = re.compile(r"\bninos?\b|\bninas?\b|\binfantil\w*|\bhijos\b|\bpequenos\b|\bbebes?\b|\bchicos\b")
+
+
+def frase_edad_ninos(usadas: list[dict], pregunta: str) -> str | None:
+    """Si la pregunta habla de niños, infantil o familias con hijos y el top compara la edad de 0 a 14 años, una frase armada por el
+    codigo con la zona del top con el mayor porcentaje de 0 a 14 años y su cifra (varias zonas si empatan, hasta MAX_EMPATE).
+    None si la pregunta no lo pide, el top no compara esa edad o todo el top empata."""
+    if not PIDE_NINOS.search(H.norm(pregunta or "")):
+        return None
+    for u in usadas:
+        r = u["resultado"]
+        if u["nombre"] != "recomendar_zonas" or not isinstance(r, dict) or not r.get("encontrado"):
+            continue
+        edad = r.get("edad_clave") or {}
+        if edad.get("grupo") != "0-14":
+            continue
+        zs = _zonas_en_el_extremo(r, "edad_clave_pct", True)
+        if not zs:
+            continue
+        v = _valor(zs[0], "edad_clave_pct")
+        nombres = _lista_nombres([_nombre_bonito(z["colonia"]) for z in zs])
+        if len(zs) == 1:
+            return f"{nombres} tiene el mayor porcentaje de población de 0 a 14 años del top ({v} %)."
+        return f"{nombres} empatan con el mayor porcentaje de población de 0 a 14 años del top ({v} %)."
+    return None

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Download } from 'lucide-react'
 import { Toggle } from '../../kit'
 import {
-  Cabecera, Cargando, ErrorApi, Fuente, fijarQuery, fmtNum, fmtPct, href, ir, Kpi, Mapa, SelectorMunicipio, titulo, useApi, useTema,
+  Cabecera, Cargando, EnlaceZona, ErrorApi, Fuente, fijarQuery, fmtNum, fmtPct, Kpi, Mapa, SelectorMunicipio, titulo, useApi, useDesglose, useTema,
   type VistaProps,
 } from '../../comun'
 import { Cifra } from './Cifra'
@@ -14,6 +14,7 @@ type Orden = { col: 'municipio' | 'n_agebs' | 'poblacion' | 'valor' | 'mediana';
 
 export default function Explorar({ ruta }: VistaProps) {
   const { tema } = useTema()
+  const { abierto, abrir } = useDesglose()
   const vars = useApi<{ variables: VarMeta[]; grupos: string[]; fuente: string }>('/api/variables')
   const variable = ruta.query.variable || 'densidad'
   const municipio = ruta.query.municipio || null
@@ -78,7 +79,7 @@ export default function Explorar({ ruta }: VistaProps) {
     <div className="mc-cuerpo exp">
       <Cabecera seccion="Explorar la ZMVM" sub="mapa por AGEB"
         titulo={<>{nombreMun ? `${nombreMun}` : 'La ZMVM'}, AGEB por AGEB: <em>{m ? m.etiqueta.toLocaleLowerCase('es-MX') : 'la variable'}</em></>}>
-        Cada polígono es una AGEB (el barrio del Censo). Elige una variable, filtra por municipio y haz clic en una colonia para abrir su ficha.
+        Cada polígono es una AGEB (el barrio del Censo). Elige una variable, filtra por municipio y haz clic en una colonia para abrir su desglose.
       </Cabecera>
 
       {vars.error ? <ErrorApi error={vars.error} reintentar={vars.recargar} titulo="No pude leer la lista de variables" /> : (
@@ -129,8 +130,8 @@ export default function Explorar({ ruta }: VistaProps) {
               <Kpi valor={d.resumen.mediana} formato={fAgr} etiqueta="AGEB típica (mediana)" fuente={m.fuente} retraso={240} />
             </div>
             <p className="chico exp-extremos">
-              Más alto: <a href={href('zona', d.resumen.maximo.cvegeo)}>{titulo(d.resumen.maximo.colonia)}, {d.resumen.maximo.municipio}</a> ({d.resumen.maximo.valor != null ? fVal(d.resumen.maximo.valor) : 'NO ENCONTRADO'}).
-              Más bajo: <a href={href('zona', d.resumen.minimo.cvegeo)}>{titulo(d.resumen.minimo.colonia)}, {d.resumen.minimo.municipio}</a> ({d.resumen.minimo.valor != null ? fVal(d.resumen.minimo.valor) : 'NO ENCONTRADO'}).
+              Más alto: <EnlaceZona cvegeo={d.resumen.maximo.cvegeo} colonia={d.resumen.maximo.colonia} municipio={d.resumen.maximo.municipio}>{titulo(d.resumen.maximo.colonia)}, {d.resumen.maximo.municipio}</EnlaceZona> ({d.resumen.maximo.valor != null ? fVal(d.resumen.maximo.valor) : 'NO ENCONTRADO'}).
+              Más bajo: <EnlaceZona cvegeo={d.resumen.minimo.cvegeo} colonia={d.resumen.minimo.colonia} municipio={d.resumen.minimo.municipio}>{titulo(d.resumen.minimo.colonia)}, {d.resumen.minimo.municipio}</EnlaceZona> ({d.resumen.minimo.valor != null ? fVal(d.resumen.minimo.valor) : 'NO ENCONTRADO'}).
             </p>
           </>
         )}
@@ -138,8 +139,8 @@ export default function Explorar({ ruta }: VistaProps) {
 
       <section className="exp-mapa" aria-label="Mapa">
         <Mapa valores={d?.valores} dominio={dominio} etiqueta={etiquetaMapa} formatoValor={fVal} municipio={municipio} puntos={puntos} pasosLeyenda={pasos} radioPuntos={3}
-          onClic={(cv) => ir('zona', cv)} alto="clamp(440px, 72vh, 760px)" />
-        <p className="chico exp-mapa__pie">Haz clic en una colonia para abrir su ficha. Las AGEB sin dato salen en gris{ordinal ? '; cada color es un nivel de la escala.' : '; la escala va del percentil 2 al 98 para que unas cuantas AGEB extremas no la aplasten.'}</p>
+          seleccion={abierto?.cvegeo ?? null} volarASeleccion={false} onClic={(cv, p) => abrir(cv, { colonia: p.colonia, municipio: p.municipio })} alto="clamp(440px, 72vh, 760px)" />
+        <p className="chico exp-mapa__pie">Haz clic en una colonia para abrir su desglose, con el enlace a su ficha completa. Las AGEB sin dato salen en gris{ordinal ? '; cada color es un nivel de la escala.' : '; la escala va del percentil 2 al 98 para que unas cuantas AGEB extremas no la aplasten.'}</p>
         {m && <Fuente>{m.fuente}. Polígonos: Marco Geoestadístico 2020 INEGI.{estaciones && est.datos ? ` Estaciones: ${est.datos.fuente}.` : ''}</Fuente>}
       </section>
 

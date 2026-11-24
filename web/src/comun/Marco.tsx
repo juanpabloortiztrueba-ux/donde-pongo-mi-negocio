@@ -4,6 +4,7 @@ import { EstadoProvider, useEstado } from './estado'
 import { SECCIONES, TITULOS, href, useRuta, type VistaId, type VistaProps } from './ruta'
 import { useTema } from './tema'
 import { Cargando } from './Cargando'
+import { DesgloseProvider } from './Desglose'
 import './escopo.css'
 import './theme.css'
 import './comun.css'
@@ -92,5 +93,5 @@ function Contenido() {
 
 /** Marco de la app: barra lateral (o menú en el celular), estado de Ollama e internet, tema claro/oscuro y la vista de la ruta. */
 export function Marco() {
-  return <EstadoProvider><Contenido /></EstadoProvider>
+  return <EstadoProvider><DesgloseProvider><Contenido /></DesgloseProvider></EstadoProvider>
 }

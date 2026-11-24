@@ -2,8 +2,8 @@ import { useMemo, useState } from 'react'
 import { Download, Plus, X } from 'lucide-react'
 import { Toggle } from '../../kit'
 import {
-  Cabecera, Cargando, ErrorApi, Fuente, fijarQuery, fmtNum, fmtPct, fmtPesos, GraficaBarras, gradienteSecuencial, href, ir, Mapa, Pill,
-  SelectorGiro, SelectorMunicipio, titulo, useApi, useTema, type FilaBarra, type VistaProps,
+  Cabecera, Cargando, EnlaceZona, ErrorApi, Fuente, fijarQuery, fmtNum, fmtPct, fmtPesos, GraficaBarras, gradienteSecuencial, Mapa, Pill,
+  SelectorGiro, SelectorMunicipio, titulo, useApi, useDesglose, useTema, type FilaBarra, type VistaProps,
 } from '../../comun'
 import { Cifra } from './Cifra'
 import { descargarCsv, TONOS_GIRO, type CompararResp, type DenueResp, type GiroComparado, type ScoresResp, type SugerirResp } from './util'
@@ -20,6 +20,7 @@ function normalizar(texto: string | undefined): string[] {
 /** Un mapa pequeño: el score del giro por AGEB, sus 5 mejores zonas numeradas y, si se pide, los negocios de la competencia. */
 function MapaGiro({ clave, indice, giro, competencia }: { clave: string; indice: number; giro: GiroComparado | undefined; competencia: boolean }) {
   const { tema } = useTema()
+  const { abierto, abrir } = useDesglose()
   const sc = useApi<ScoresResp>(`/api/scores/${clave}?componentes=false`)
   const den = useApi<DenueResp>(competencia ? `/api/denue/${clave}?max=1500` : null)
   const valores = useMemo(() => sc.datos?.scores, [sc.datos])
@@ -37,7 +38,8 @@ function MapaGiro({ clave, indice, giro, competencia }: { clave: string; indice:
       </figcaption>
       {sc.error ? <ErrorApi error={sc.error} reintentar={sc.recargar} titulo="No pude cargar este mapa" /> : (
         <Mapa valores={valores} dominio={[0, 100]} formatoValor={fmt} resaltar={resaltar} puntos={puntos} sinLeyenda interruptorBase={false}
-          alto="clamp(300px, 46vh, 380px)" onClic={(cv) => ir('zona', cv, { giro: clave })} />
+          alto="clamp(300px, 46vh, 380px)" seleccion={abierto?.cvegeo ?? null} volarASeleccion={false}
+          onClic={(cv, p) => abrir(cv, { giro: clave, colonia: p.colonia, municipio: p.municipio })} />
       )}
     </figure>
   )
@@ -145,7 +147,7 @@ export default function Comparar({ ruta }: VistaProps) {
             </div>
             <div className="exp-leyenda" aria-label="Escala del score">
               <span>0</span><i style={{ background: gradienteSecuencial(tema) }} /><span>100</span>
-              <em>score del giro (percentil dentro de cada giro). Los números marcan las 5 mejores zonas de cada uno; haz clic en una colonia para abrir su ficha.</em>
+              <em>score del giro (percentil dentro de cada giro). Los números marcan las 5 mejores zonas de cada uno; haz clic en una colonia para abrir su desglose.</em>
             </div>
             <Fuente>modelo propio (models/scores_giros.parquet, score 0–100 relativo a cada giro){competencia ? `; competencia: ${fuentes?.negocios_denue ?? 'DENUE'}, muestra de hasta 1,500 negocios por giro` : ''}. Polígonos: Marco Geoestadístico 2020 INEGI.</Fuente>
           </section>
@@ -216,11 +218,11 @@ export default function Comparar({ ruta }: VistaProps) {
                     <ol>
                       {g.top.map((z) => (
                         <li key={z.ageb}>
-                          <a href={href('zona', z.ageb, { giro: g.clave })}>
+                          <EnlaceZona cvegeo={z.ageb} giro={g.clave} colonia={z.colonia} municipio={z.municipio}>
                             <span className="exp-top__n">{z.posicion}</span>
                             <span className="exp-top__t"><b>{titulo(z.colonia)}</b><small>{z.municipio} · prob. de apertura {fmtPct(z.prob_apertura_pct, 0)}</small></span>
                             <span className="exp-top__v">{fmtNum(z.score, 0)}</span>
-                          </a>
+                          </EnlaceZona>
                         </li>
                       ))}
                     </ol>

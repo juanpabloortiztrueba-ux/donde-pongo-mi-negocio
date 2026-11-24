@@ -2,7 +2,7 @@
 PY := uv run python
 PESADO := OMP_NUM_THREADS=6 nice -n 10
 
-.PHONY: setup datos features entrenar carpetas indexar app tablero tablero-red web evaluar pruebas todo
+.PHONY: setup datos features entrenar carpetas indexar app tablero tablero-red web evaluar pruebas historial todo
 
 setup:            ## ambiente de Python y modelos locales (~6 GB de Ollama)
 	uv sync
@@ -41,10 +41,13 @@ tablero-red:      ## tablero web visible en tu red local (cualquiera en tu Wi-Fi
 web:              ## reconstruye web/dist (necesita Node 20+; solo hace falta si cambias web/src)
 	cd web && npm ci && npm run build
 
-evaluar:          ## 28 preguntas al agente (~20 min; necesita Ollama) -> reports/evaluacion.md
+evaluar:          ## 31 preguntas al agente (~20 min; necesita Ollama) -> reports/evaluacion.md
 	nice -n 10 $(PY) eval/evaluar.py --rehacer
 
 pruebas:          ## pruebas sin LLM (~20 s)
 	uv run pytest -q
+
+historial:        ## ultimas 20 preguntas del tablero (data/historial/preguntas.jsonl); make historial ARGS="--todas" o ARGS="-n 50"
+	$(PY) scripts/historial.py $(ARGS)
 
 todo: setup datos features entrenar indexar pruebas evaluar

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { ArrowUpRight, Info } from 'lucide-react'
 import { Collapse } from '../../kit'
-import { fmtNum, fmtPct, fmtPesos, GraficaBarras, href, ir, Fuente, Mapa, Pill, titulo, useEstado } from '../../comun'
+import { EnlaceZona, fmtNum, fmtPct, fmtPesos, GraficaBarras, Fuente, Mapa, Pill, titulo, useDesglose, useEstado } from '../../comun'
 import { Cifra, num } from './Cifra'
 import { Dato } from './Dato'
 import type { DatosPregunta, ZonaTop } from './tipos'
@@ -25,7 +25,7 @@ function Tarjeta({ z, i, giro, corte }: { z: ZonaTop; i: number; giro: string; c
   const enColonia = z.dist_a_colonia_km != null ? (z.en_colonia_consultada ? 'Dentro de la colonia pedida' : `A ${fmtNum(z.dist_a_colonia_km, 1)} km de la colonia pedida`) : null
   return (
     <li className="pre-zona">
-      <a href={href('zona', z.ageb, { giro })} aria-label={`Abrir la ficha de ${titulo(z.colonia)}`}>
+      <EnlaceZona cvegeo={z.ageb} giro={giro} colonia={z.colonia} municipio={z.municipio} aria-label={`Ver el desglose de ${titulo(z.colonia)}`}>
         <div className="pre-zona__cab">
           <span className="pre-zona__n">{i + 1}</span>
           <div className="pre-zona__t">
@@ -47,13 +47,14 @@ function Tarjeta({ z, i, giro, corte }: { z: ZonaTop; i: number; giro: string; c
           <Dato valor={z.ingreso_trim_mediano_estimado_mxn} formato={pesosCompacto} etiqueta={`ingreso trimestral por hogar${z.nse_estimado ? `, NSE ${z.nse_estimado}` : ''}`} fuente="ENIGH 2024, estimado" retraso={r + 300} titulo="Ingreso trimestral mediano estimado por hogar (la ENIGH no representa colonias: es una estimación del proyecto)" />
           <Dato valor={z.edad_clave_pct} formato={(n) => fmtPct(n, 1)} etiqueta={`${z.edad_clave_etiqueta} (ZMVM ${num(z.edad_clave_pct_zmvm) != null ? fmtPct(num(z.edad_clave_pct_zmvm)!, 1) : 'NO ENCONTRADO'})`} fuente="Censo 2020 INEGI" retraso={r + 360} />
         </div>
-      </a>
+      </EnlaceZona>
     </li>
   )
 }
 
 export function Datos({ datos, conMapa, onVerMapa, cargandoMapa }: { datos: DatosPregunta; conMapa: boolean; onVerMapa: () => void; cargandoMapa: boolean }) {
   const [avisos, setAvisos] = useState(false)
+  const { abierto, abrir } = useDesglose()
   const k = useEstado().estado?.kpis
   const corte = datos.corte_denue ?? 'NO ENCONTRADO'
   const claveGiro = datos.giro?.clave ?? ''
@@ -62,7 +63,7 @@ export function Datos({ datos, conMapa, onVerMapa, cargandoMapa }: { datos: Dato
   const formato = useMemo(() => (v: number) => fmtNum(v), [])
   const filtros = Object.entries(datos.filtros ?? {})
   const sug = datos.sugerencias ?? []
-  const hayZonas = datos.zonas.length > 0
+  const hayZonas = datos.zonas.length > 0 && !datos.fuera_de_tema
   const sinGiro = !datos.giro && !hayZonas && !datos.fuera_de_alcance && !sug.length
 
   return (
@@ -115,8 +116,9 @@ export function Datos({ datos, conMapa, onVerMapa, cargandoMapa }: { datos: Dato
             {conMapa && datos.mapa && valores ? (
               <>
                 <Mapa valores={valores} dominio={[0, 100]} etiqueta={`Score de ${(datos.giro?.nombre ?? 'este giro').toLowerCase()} (0–100)`} formatoValor={formato}
-                  resaltar={resaltar} encuadrarResaltadas municipio={datos.mapa.municipio} alto={560} onClic={(cv) => ir('zona', cv, { giro: claveGiro })} />
-                <Fuente>modelo propio (score por giro, relativo dentro del giro); Censo 2020 INEGI; DENUE corte {corte}; ENIGH 2024. Los números marcan las {fmtNum(datos.zonas.length)} zonas de la lista; un clic abre su ficha.</Fuente>
+                  resaltar={resaltar} encuadrarResaltadas municipio={datos.mapa.municipio} alto={560} seleccion={abierto?.cvegeo ?? null} volarASeleccion={false}
+                  onClic={(cv, p) => abrir(cv, { giro: claveGiro, colonia: p.colonia, municipio: p.municipio })} />
+                <Fuente>modelo propio (score por giro, relativo dentro del giro); Censo 2020 INEGI; DENUE corte {corte}; ENIGH 2024. Los números marcan las {fmtNum(datos.zonas.length)} zonas de la lista; un clic en cualquier colonia del mapa, o en una tarjeta, abre su desglose.</Fuente>
               </>
             ) : (
               <div className="pre-mapa__cerrado">

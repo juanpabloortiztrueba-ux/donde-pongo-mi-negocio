@@ -16,7 +16,12 @@ export interface SugerenciaGiro {
   score_relativo_medio_top10: number | null; ticket_promedio_mxn: number | null
 }
 
+/** Qué clase de pregunta fuera de tema detectó el backend: un saludo, una pregunta por el nombre del agente o algo ajeno al negocio. */
+export type TipoFueraDeTema = 'saludo' | 'nombre' | 'ajeno'
+
 export interface DatosPregunta {
+  /** Si el backend lo marca aquí también, vale igual que en el resultado del trabajo. */
+  fuera_de_tema?: boolean
   giro: { clave: string; nombre: string } | null
   zonas: ZonaTop[]
   fuentes: string[]
@@ -46,6 +51,8 @@ export interface VistaTrabajo {
   id: string; estado: EstadoPregunta; posicion_en_cola: number; segundos: number; pregunta: string
   respuesta: string | null; latencia_s: number | null; modo: 'llm' | 'rapido' | 'plantilla' | null; modelo: string | null
   aviso: string | null; error: string | null; herramientas: Herramienta[]; fuentes?: string[]
+  /** true si la pregunta no es de negocios (saludo, nombre del agente, tema ajeno): solo hay texto, sin zonas ni mapa. false o ausente en las normales. */
+  fuera_de_tema?: boolean; tipo_fuera_de_tema?: TipoFueraDeTema | null
   detalle: { rondas?: number; herencia?: Record<string, string> | null; cortada?: boolean; metricas?: Record<string, number> } | null
 }
 export interface RespuestaCrear extends VistaTrabajo { datos: DatosPregunta; segundos_consulta: number; ollama: boolean }
@@ -73,6 +80,16 @@ export interface Turno {
   /** momento (Date.now()) en que llegó `segundos`, para seguir contando entre sondeos */
   t_seg?: number
   herramientas?: Herramienta[]
+  fuera_de_tema?: boolean
+  tipo_fuera_de_tema?: TipoFueraDeTema | null
+}
+
+/** Una respuesta fuera de tema muestra solo el texto: sin tarjetas, sin «Top 5», sin mapa ni resaltado. Lo dice el backend (`fuera_de_tema`)
+ *  o lo delata una lista de zonas vacía junto a un giro que sí se entendió (no es un fuera de alcance, un giro desconocido ni una sugerencia de giros). */
+export function esFueraDeTema(t: Pick<Turno, 'fuera_de_tema' | 'datos'>): boolean {
+  if (t.fuera_de_tema === true || t.datos?.fuera_de_tema === true) return true
+  const d = t.datos
+  return !!d && d.zonas.length === 0 && !d.giro && !d.fuera_de_alcance && !d.perfil_no_encontrado && !d.sugerencias?.length && !d.macro && !d.municipio && !d.perfil
 }
 
 // ---- Ficha

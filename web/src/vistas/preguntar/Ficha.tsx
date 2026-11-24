@@ -17,6 +17,8 @@ import './preguntar.css'
 const EJEMPLOS = ['Del Valle', 'Polanco', 'Roma Norte', 'Pedregal de Santo Domingo', 'Lindavista']
 const pesos = (n: number) => fmtPesos(n)
 const pesosC = (n: number) => fmtPesos(n, 0, true)
+/** Marca del eje Y en porcentaje con los decimales que pida la escala (0 %, 5 %, 10 % o 0.5 %, 1 %, 1.5 %): todas las marcas con la misma regla, sin redondeos desiguales. */
+const pctMarca = (n: number) => fmtPct(n, Math.abs(n * 10 - Math.round(n * 10)) < 1e-9 ? (Math.abs(n - Math.round(n)) < 1e-9 ? 0 : 1) : 2)
 
 export default function Ficha({ ruta }: VistaProps) {
   return ruta.param ? <FichaDe cv={ruta.param} giro={ruta.query.giro || null} /> : <Buscador giro={ruta.query.giro || null} />
@@ -234,7 +236,7 @@ function Contenido({ f, giro, volver }: { f: FichaZona; giro: string | null; vol
             <Dato valor={f.ingreso.ingreso_trim_mediano} formato={pesos} etiqueta="ingreso trimestral mediano por hogar" fuente="ENIGH 2024, estimado" retraso={80} grande />
             <div className="pre-est"><b>{f.ingreso.nse ? <Pill tono="azul">{`NSE ${f.ingreso.nse}`}</Pill> : <span className="pre-nd">NO ENCONTRADO</span>}</b><span>nivel socioeconómico</span><small>modelo propio</small></div>
           </div>
-          <GraficaLineas titulo="Probabilidad de cada decil: esta AGEB contra la ZMVM" alto={220} etiquetaX="Decil de ingreso (1 = el más bajo)" formatoY={(n) => fmtPct(n, 0)}
+          <GraficaLineas titulo="Probabilidad de cada decil: esta AGEB contra la ZMVM" alto={220} etiquetaX="Decil de ingreso (1 = el más bajo)" incluirCero formatoY={pctMarca}
             series={[
               { nombre: 'Esta AGEB', tono: 'naranja', puntos: f.ingreso.prob_deciles_pct.map((y, i) => ({ x: i + 1, y: y ?? 0 })) },
               { nombre: 'ZMVM', tono: 'azul', puntos: f.ingreso.prob_deciles_zmvm_pct.map((y, i) => ({ x: i + 1, y: y ?? 0 })) },

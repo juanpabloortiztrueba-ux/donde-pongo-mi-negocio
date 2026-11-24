@@ -14,7 +14,7 @@ Proyecto de la materia Herramientas Computacionales (Universidad Panamericana), 
 | Carpetas (RAG) | Metodología, una ficha por municipio, teoría de localización, explicación del modelo | `carpetas/`, `scripts/04_indexar.py`, `app/rag.py` |
 | Agente | `qwen3:8b` con herramientas en Python puro (sin LLM, probadas). Entiende colonias (`app/lugares.py`) y preguntas de seguimiento; el código arma los datos y el LLM solo escribe la «Lectura», que `app/lectura.py` revisa contra los datos | `app/herramientas.py`, `app/agente.py`, `app/lugares.py`, `app/lectura.py` |
 | Interfaz | Tablero web (mapa, chat, fichas, comparador, macro, modelo) y, de respaldo, chat con mapa en Streamlit | `app/servidor.py` + `web/`; `app/ui.py` |
-| Evaluación | 28 preguntas con checks automáticos (colonias, seguimientos, trampa fuera de alcance) | `eval/`, `reports/evaluacion.md` |
+| Evaluación | 31 preguntas con checks automáticos (colonias, seguimientos, trampa fuera de alcance, preguntas fuera de tema) | `eval/`, `reports/evaluacion.md` |
 
 La ZMVM son 76 municipios (16 alcaldías, 59 del Estado de México y Tizayuca), según la delimitación SEDATU-CONAPO-INEGI 2015 (`data/processed/zmvm_municipios.csv`).
 
@@ -59,9 +59,9 @@ uv run streamlit run app/ui.py
 
 ### Primer uso
 
-Escribe en el chat, por ejemplo: «quiero poner una heladería», «una farmacia en Iztapalapa», «una cafetería en la Roma», «¿y en Coyoacán?» (hereda el giro), «algo barato para una zona de nivel bajo» o «¿cómo está la inflación?». Cada respuesta tarda **unos 30 a 55 s** en una MacBook Air M4 de 16 GB (mediana 32.9 s, p90 46.8 s y máxima 55.7 s en la evaluación de 28 preguntas, `reports/evaluacion.md`; con la Mac muy cargada puede tardar más). Mientras el modelo está cargado usa ~6 GB de memoria; si la Mac anda justa, cierra otras apps (en la evaluación el swap subió de 3.3 a ~10.9 GB y volvió a 4.7 GB al descargar el modelo con `ollama stop qwen3:8b`). Si Ollama no está corriendo, la app responde con una plantilla armada directo de los datos (sin LLM) y lo avisa. En el tablero, el mapa pinta el score de la última recomendación sobre fondo liso (sin internet); el mapa base de OpenStreetMap es opcional. En la interfaz de Streamlit el mapa de la derecha cambia al giro y filtros de la última recomendación; ahí el mapa interactivo usa internet para el fondo y, sin internet, se activa «Mapa estático».
+Escribe en el chat, por ejemplo: «quiero poner una heladería», «una farmacia en Iztapalapa», «una cafetería en la Roma», «¿y en Coyoacán?» (hereda el giro), «algo barato para una zona de nivel bajo» o «¿cómo está la inflación?». Cada respuesta tarda **unos 30 a 75 s** en una MacBook Air M4 de 16 GB (mediana 39.8 s, p90 61.4 s y máxima 73.7 s en la evaluación de 31 preguntas del 2026-11-24, `reports/evaluacion.md`; con la Mac muy cargada puede tardar más). Mientras el modelo está cargado usa ~6 GB de memoria; si la Mac anda justa, cierra otras apps (en esa evaluación el swap subió de 4.9 a ~12.3 GB y volvió a 5.0 GB al descargar el modelo con `ollama stop qwen3:8b`). Si preguntas algo que no es de negocios («¿cómo me llamo?», «hola», deportes), contesta al instante con un texto fijo que dice para qué sirve, sin usar el modelo. Si Ollama no está corriendo, la app responde con una plantilla armada directo de los datos (sin LLM) y lo avisa. En el tablero, el mapa pinta el score de la última recomendación sobre fondo liso (sin internet); el mapa base de OpenStreetMap es opcional. En la interfaz de Streamlit el mapa de la derecha cambia al giro y filtros de la última recomendación; ahí el mapa interactivo usa internet para el fondo y, sin internet, se activa «Mapa estático».
 
-Para comprobar que todo funciona sin esperar la evaluación completa, corre 3 preguntas del evaluador (heladería, un negocio en Coyoacán y la trampa de Monterrey; ~5 min, necesita Ollama): `uv run python eval/evaluar.py --rehacer --ids 1,17,20`. El resumen final dirá «3/3 pasan; trampa ok» y `aprobado=False`: es normal, «aprobado» exige el 90 % de las 28 preguntas, la trampa y todas las de colonia y seguimiento. (Sin `--rehacer` solo recalifica las respuestas guardadas en el repo, sin llamar al modelo.)
+Para comprobar que todo funciona sin esperar la evaluación completa, corre 3 preguntas del evaluador (heladería, un negocio en Coyoacán y la trampa de Monterrey; ~5 min, necesita Ollama): `uv run python eval/evaluar.py --rehacer --ids 1,17,20`. El resumen final dirá «3/3 pasan; trampa ok» y `aprobado=False`: es normal, «aprobado» exige el 90 % de las 31 preguntas, la trampa, las tres fuera de tema y todas las de colonia y seguimiento. (Sin `--rehacer` solo recalifica las respuestas guardadas en el repo, sin llamar al modelo.)
 
 Desde la terminal, sin interfaz:
 
@@ -87,10 +87,14 @@ INEGI_TOKEN=...     # https://www.inegi.org.mx/app/desarrolladores/generatoken/U
 | Modelo y score | `make entrenar` | `$env:OMP_NUM_THREADS=6; uv run python scripts/03_entrenar.py` (al final encadena `03b_validar_score.py` y regenera los scores) | unos minutos más que el modelo solo (~5 min) |
 | Carpetas + índice | `make indexar` | `uv run python scripts/04_indexar.py` | ~1 min (Ollama encendido) |
 | Pruebas | `make pruebas` | `uv run pytest -q` | ~20 s (sin `.env` una prueba, la de tokens, sale «skipped»: es normal) |
-| Evaluación | `make evaluar` | `uv run python eval/evaluar.py --rehacer` | ~20 min (28 preguntas; necesita Ollama) |
+| Evaluación | `make evaluar` | `uv run python eval/evaluar.py --rehacer` | ~20 min (31 preguntas; necesita Ollama) |
+| Preguntas del tablero | `make historial` | `uv run python scripts/historial.py` | segundos |
 | Tablero | `make tablero` | `uv run python -m app.servidor` | segundos |
 | App de respaldo (Streamlit) | `make app` | `uv run streamlit run app/ui.py` | segundos |
 | Todo | `make todo` | los pasos anteriores en orden | ~1 h |
+
+`make historial` muestra las últimas 20 preguntas que llegaron al tablero (fecha, modo, latencia, pregunta y primeras líneas de la respuesta); `make historial ARGS="--todas"` las muestra todas.
+El servidor las guarda en `data/historial/preguntas.jsonl` (solo en tu Mac, fuera de git, sin tokens); no registra las del evaluador ni las de las pruebas.
 
 Para regenerar solo el score (por ejemplo, si cambian los datos): `OMP_NUM_THREADS=6 nice -n 10 uv run python scripts/03b_validar_score.py` y luego `uv run python scripts/03_entrenar.py --solo-scores`. El `03_entrenar.py` completo ya encadena ambos.
 

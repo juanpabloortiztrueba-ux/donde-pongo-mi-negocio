@@ -7,7 +7,7 @@ import { Datos } from './Datos'
 import { Markdown, sinFuentes } from './markdown'
 import { Herramientas } from './TablaResultado'
 import { borrarHilo, guardarHilo, leerHilo } from './historial'
-import type { DatosPregunta, Herramienta, RespuestaCrear, Turno, VistaTrabajo } from './tipos'
+import { esFueraDeTema, type DatosPregunta, type Herramienta, type RespuestaCrear, type Turno, type VistaTrabajo } from './tipos'
 import './preguntar.css'
 
 // Vista Preguntar: caja de pregunta, hilo con los datos que aparecen enseguida, el estado «Pensando» (honesto: segundos y lugar en la
@@ -27,6 +27,7 @@ const dormir = (ms: number, s: AbortSignal) => new Promise<void>((ok) => { const
 const desdeVista = (v: VistaTrabajo): Partial<Turno> => ({
   fase: v.estado, id: v.id, respuesta: v.respuesta, modo: v.modo, modelo: v.modelo, latencia_s: v.latencia_s, aviso: v.aviso, error: v.error,
   fuentes: v.fuentes, posicion: v.posicion_en_cola, segundos: v.segundos, t_seg: Date.now(), herramientas: v.herramientas,
+  ...(v.fuera_de_tema != null ? { fuera_de_tema: v.fuera_de_tema === true, tipo_fuera_de_tema: v.tipo_fuera_de_tema ?? null } : null),
 })
 
 function descargar(t: Turno) {
@@ -81,7 +82,7 @@ function ModoPill({ t }: { t: Turno }) {
   return null
 }
 
-function Respuesta({ t, cargarHerr }: { t: Turno; cargarHerr: () => void }) {
+function Respuesta({ t, cargarHerr, sinHerramientas = false }: { t: Turno; cargarHerr: () => void; sinHerramientas?: boolean }) {
   const [abierto, setAbierto] = useState(!!t.respuesta && t.fase === 'listo' && Date.now() - t.creada > 4000)
   const [herr, setHerr] = useState(false)
   useEffect(() => { const id = requestAnimationFrame(() => setAbierto(true)); return () => cancelAnimationFrame(id) }, [])
@@ -104,7 +105,7 @@ function Respuesta({ t, cargarHerr }: { t: Turno; cargarHerr: () => void }) {
       <div className="pre-acciones">
         <ModoPill t={t} />
         <button className="c-boton" onClick={() => descargar(t)}><Download size={15} />Descargar en Markdown</button>
-        <button className="c-boton" aria-expanded={herr} onClick={() => { setHerr((h) => !h); cargarHerr() }}>{herr ? 'Ocultar' : '¿Cómo llegó a esto?'}</button>
+        {!sinHerramientas && <button className="c-boton" aria-expanded={herr} onClick={() => { setHerr((h) => !h); cargarHerr() }}>{herr ? 'Ocultar' : '¿Cómo llegó a esto?'}</button>}
       </div>
       <Collapse open={herr}>
         <div className="pre-como">
@@ -121,7 +122,8 @@ function TurnoVista({ t, ultimo, mediana, total, onCancelar, parchar }: { t: Tur
   const [cargandoMapa, setCargandoMapa] = useState(false)
   const pedido = useRef(false)
   const conMapa = ultimo || verMapa
-  const faltaMapa = conMapa && !!t.datos?.zonas.length && !t.datos.mapa && !!t.id
+  const fuera = esFueraDeTema(t)
+  const faltaMapa = !fuera && conMapa && !!t.datos?.zonas.length && !t.datos.mapa && !!t.id
 
   // al reabrir el hilo guardado, el mapa (pesado) se vuelve a pedir al servidor
   useEffect(() => {
@@ -152,10 +154,10 @@ function TurnoVista({ t, ultimo, mediana, total, onCancelar, parchar }: { t: Tur
       )}
       {EN_CURSO.has(t.fase) && <Pensando t={t} mediana={mediana} total={total} onCancelar={onCancelar} />}
       {t.fase === 'falla' && <ErrorVista error={new Error(t.error ?? 'No pude contestar.')} titulo="No pude contestar esta pregunta" />}
-      {t.datos && <Datos datos={t.datos} conMapa={conMapa && !!t.datos.mapa} cargandoMapa={cargandoMapa} onVerMapa={() => { setVerMapa(true); if (!t.datos?.mapa) pedido.current = false }} />}
+      {t.datos && !fuera && <Datos datos={t.datos} conMapa={conMapa && !!t.datos.mapa} cargandoMapa={cargandoMapa} onVerMapa={() => { setVerMapa(true); if (!t.datos?.mapa) pedido.current = false }} />}
       {t.fase === 'cancelada' && <p className="chico pre-nota">Cancelaste esta pregunta antes de que el modelo la contestara.</p>}
       {t.fase === 'error' && <ErrorVista error={new Error(t.error ?? 'El modelo falló.')} titulo="El modelo no pudo contestar" />}
-      {t.fase === 'listo' && t.respuesta != null && <Respuesta t={t} cargarHerr={cargarHerr} />}
+      {t.fase === 'listo' && t.respuesta != null && <Respuesta t={t} cargarHerr={cargarHerr} sinHerramientas={fuera} />}
     </article>
   )
 }

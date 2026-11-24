@@ -3,6 +3,8 @@
     uv run python app/agente.py "quiero poner una heladeria"
 
 Flujo:
+0. Fuera de tema («¿cómo me llamo?», «hola», deportes...; app/fuera_de_tema.py): sin herramientas ni LLM, texto fijo.
+   Y una red de seguridad: si el modelo nombra funciones internas (perfil_giro, sugerir_giros(...)), esas frases se quitan.
 1. Pre-consulta deterministica (sin LLM): con reglas simples se llaman las herramientas obvias
    (perfil_giro, recomendar_zonas, contexto_macro, ficha_municipio, sugerir_giros) y sus resultados entran a la
    conversacion como llamadas ya hechas. Detecta colonias (app/lugares.py) y hereda giro, municipio, colonia y NSE
@@ -29,7 +31,7 @@ if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from app import herramientas as H  # noqa: E402
-from app import lectura as lectura_mod, lugares, rag  # noqa: E402
+from app import fuera_de_tema as fuera, lectura as lectura_mod, lugares, rag  # noqa: E402
 
 MODELO = "qwen3:8b"
 HOST = "http://localhost:11434"
@@ -253,8 +255,16 @@ def pre_consulta(pregunta: str, historial: list[dict] | None = None) -> list[tup
     """Herramientas obvias segun reglas simples; regresa [(nombre, argumentos)].
 
     historial: turnos anteriores [{role, content}] (como los guarda la UI). Si la pregunta no trae giro, municipio,
-    colonia o NSE, se heredan de los mensajes del usuario (p. ej. «¿y en Coyoacan?» despues de «heladeria»)."""
+    colonia o NSE, se heredan de los mensajes del usuario (p. ej. «¿y en Coyoacan?» despues de «heladeria»).
+    Una pregunta fuera de tema («¿cómo me llamo?», «hola», deportes) no llama ninguna herramienta: regresa []."""
+    if fuera.tipo_fuera_de_tema(pregunta, historial):
+        return []
     return _planear(pregunta, historial)[0]
+
+
+def fuera_de_tema(pregunta: str, historial: list[dict] | None = None) -> dict | None:
+    """{tipo: saludo|nombre|ajeno, subtipo, texto} si la pregunta no es de negocios (texto fijo, sin LLM); None si si lo es."""
+    return fuera.respuesta(pregunta, historial)
 
 
 # ---------------------------------------------------------------- vista compacta para el LLM
@@ -464,13 +474,19 @@ def riesgos(usadas: list[dict]) -> list[str]:
     return list(dict.fromkeys(out))[:5]
 
 
+def _con_punto(x: str) -> str:
+    """Todos los puntos de «Riesgos» terminan con punto final."""
+    x = x.rstrip()
+    return x if x.endswith((".", "!", "?")) else x + "."
+
+
 def _bloque_riesgos(usadas: list[dict]) -> list[str]:
     """«Riesgos»: los de `riesgos()`, sin el aviso de probabilidad baja que ya sale como «Ojo» bajo la lista de zonas."""
     ojos = {r["aviso_prob_baja"][0].upper() + r["aviso_prob_baja"][1:] for u in usadas for r in [u["resultado"]]
             if u["nombre"] == "recomendar_zonas" and isinstance(r, dict) and r.get("encontrado") and r.get("zonas")
             and r.get("aviso_prob_baja")}
     rs = [x for x in riesgos(usadas) if x not in ojos]
-    return ["**Riesgos:**\n" + "\n".join(f"- {x}" for x in rs)] if rs else []
+    return ["**Riesgos:**\n" + "\n".join(f"- {_con_punto(x)}" for x in rs)] if rs else []
 
 
 def _txt_herencia(her: dict) -> str:
@@ -564,6 +580,12 @@ def responder(pregunta: str, historial: list[dict] | None = None, modelo: str = 
     herencia (lo que se mantuvo de turnos anteriores), cortada (el modelo llego al tope de texto),
     metricas (tokens y segundos de Ollama: prompt, generacion y carga del modelo)}."""
     t0 = time.time()
+    ft = fuera_de_tema(pregunta, historial)
+    if ft:      # sin herramientas y sin LLM: texto fijo
+        return {"respuesta": ft["texto"], "herramientas": [], "latencia_s": round(time.time() - t0, 1), "rondas": 0,
+                "modo": "fuera_de_tema", "modelo": None, "herencia": None, "cortada": False, "texto_modelo": "", "lectura_quitada": [],
+                "fuera_de_tema": True, "tipo_fuera_de_tema": ft["tipo"],
+                "metricas": {"tokens_prompt": 0, "tokens_generados": 0, "s_prompt": 0.0, "s_generacion": 0.0, "s_carga": 0.0}}
     msgs = [{"role": "system", "content": SYSTEM}] + _historial_corto(historial) + [{"role": "user", "content": pregunta}]
     usadas: list[dict] = []
     herencia: dict = {}
@@ -622,14 +644,43 @@ PCT_ANTES = re.compile(r"(prob\.?\s+de\s+apertura|prob\.?\s+de\s+seguir\s+abiert
 SECCION_FUENTES = re.compile(r"\n+[*#_ ]*Fuentes?[*#_ ]*:?.*\Z", re.I | re.S)
 
 
+BIE_ID = re.compile(r"^(.*?) \(BIE, id (\d+)\)$")
+
+
+def unir_fuentes(fu: list[str]) -> list[str]:
+    """Sin repetir y en orden de aparicion. Una fuente que sale una vez sin detalle y otra con el detalle (id de serie) queda una
+    sola vez: «INEGI, Banco de Indicadores API» + «... (BIE, id 910406)» + «... (BIE, id 910408)» ->
+    «INEGI, Banco de Indicadores API (BIE, ids 910406 y 910408)»."""
+    fu = list(dict.fromkeys(f for f in fu if isinstance(f, str)))
+    ids: dict[str, list[str]] = {}
+    for f in fu:
+        m = BIE_ID.match(f)
+        if m:
+            ids.setdefault(m.group(1), []).append(m.group(2))
+    out: list[str] = []
+    for f in fu:
+        m = BIE_ID.match(f)
+        if m:
+            if m.group(1) in {x.split(" (BIE", 1)[0] for x in out if "(BIE" in x}:
+                continue
+            lista = ids[m.group(1)]
+            etiqueta = f"id {lista[0]}" if len(lista) == 1 else "ids " + ", ".join(lista[:-1]) + f" y {lista[-1]}"
+            out.append(f"{m.group(1)} (BIE, {etiqueta})")
+        elif any(g.startswith(f + " (") for g in fu if g != f):
+            continue            # la misma fuente ya sale con detalle
+        else:
+            out.append(f)
+    return out
+
+
 def fuentes_de(usadas: list[dict]) -> list[str]:
-    """Fuentes que regresaron las herramientas, sin repetir y en el orden en que aparecieron."""
+    """Fuentes que regresaron las herramientas, sin repetir y en el orden en que aparecieron (ver `unir_fuentes`)."""
     fu: list[str] = []
     for u in usadas:
         r = u["resultado"]
         if isinstance(r, dict):
             fu += [f for f in r.get("fuentes", []) if isinstance(f, str)]
-    return list(dict.fromkeys(fu))
+    return unir_fuentes(fu)
 
 
 def _aviso_colonia(usadas: list[dict]) -> str | None:
@@ -669,6 +720,18 @@ def _sin_ingreso_repetido(lect: str | None, usadas: list[dict], pregunta: str) -
     return ("**Lectura:** " + " ".join(quedan)) if quedan else None
 
 
+def _con_edad_de_ninos(lect: str | None, usadas: list[dict], pregunta: str) -> str | None:
+    """Pregunta de niños, infantil o familias con hijos y el top compara la edad de 0 a 14 años: la lectura nombra la zona con el
+    mayor porcentaje, con su cifra (la arma el codigo desde los renglones, no el modelo). Si la lectura ya la nombra, no se repite."""
+    frase = lectura_mod.frase_edad_ninos(usadas, pregunta)
+    if not frase:
+        return lect
+    cuerpo = re.sub(r"^\*\*Lectura:?\*\*:?\s*", "", lect or "")
+    if frase.rstrip(".") in cuerpo:
+        return lect
+    return "**Lectura:** " + (cuerpo + " " if cuerpo else "") + frase
+
+
 def cerrar_con_revision(texto: str, usadas: list[dict], cortada: bool = False,
                         herencia: dict | None = None, pregunta: str = "") -> tuple[str, list[str]]:
     """Arma la respuesta final: avisos, lectura del modelo, bloques de datos, riesgos y fuentes completas.
@@ -677,6 +740,9 @@ def cerrar_con_revision(texto: str, usadas: list[dict], cortada: bool = False,
     herramientas (cifras de cada zona, orden de los giros, riesgos, fuentes). Retoques: formato de cifras («63 %»),
     «FIX» y el renglon a medias si el modelo se quedo sin texto (num_predict)."""
     t = (texto or "").strip()
+    interno = fuera.menciona_funciones(t)
+    if interno:     # red de seguridad: el modelo no nombra funciones internas ni escribe llamadas tipo f(x=...)
+        t = fuera.sin_funciones_internas(t, reemplazo="").strip()
     if cortada and "\n" in t:  # no dejar una frase a medias
         t = t.rsplit("\n", 1)[0].rstrip()
     t = SECCION_FUENTES.sub("", t).rstrip()
@@ -686,9 +752,12 @@ def cerrar_con_revision(texto: str, usadas: list[dict], cortada: bool = False,
         datos = [x for x in b if x not in avisos]
         lect, quitadas = lectura_mod.depurar(_lectura(t), usadas, pregunta)
         lect = _sin_ingreso_repetido(lect, usadas, pregunta)
+        lect = _con_edad_de_ninos(lect, usadas, pregunta)
         partes = avisos + ([lect] if lect else []) + datos + _bloque_riesgos(usadas)
     else:
         quitadas = []
+        if interno and not t:       # no quedo nada util: texto fijo de tema ajeno (sin fuentes de herramientas que no aportaron)
+            return fuera.TEXTO_AJENO, []
         aviso = _aviso_colonia(usadas)
         if aviso and ("no encontrado" if aviso.startswith("NO ENCONTRADO") else "filtro por colonia") not in H.norm(t[:500]):
             t = f"> {aviso}\n\n{t}"
@@ -703,9 +772,14 @@ def cerrar_con_revision(texto: str, usadas: list[dict], cortada: bool = False,
     return out, quitadas
 
 
-def plantilla(usadas: list[dict], herencia: dict | None = None, pregunta: str = "") -> str:
+def plantilla(usadas: list[dict], herencia: dict | None = None, pregunta: str = "", historial: list[dict] | None = None) -> str:
     """Respuesta sin LLM con los resultados de las herramientas (respaldo): los mismos bloques de datos y los riesgos.
-    `pregunta` (opcional) activa las frases de «cómo influye» del contexto macro."""
+    `pregunta` (opcional) activa las frases de «cómo influye» del contexto macro. Sin herramientas y con una pregunta fuera de
+    tema («¿cómo me llamo?», «hola»), regresa el texto fijo de fuera de tema."""
+    if not usadas and pregunta:
+        ft = fuera_de_tema(pregunta, historial)
+        if ft:
+            return ft["texto"]
     partes = bloques(usadas, herencia, pregunta)
     if not partes:
         aviso = _aviso_colonia(usadas)

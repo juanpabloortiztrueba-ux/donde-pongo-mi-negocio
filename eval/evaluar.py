@@ -9,7 +9,10 @@ Salidas: reports/evaluacion.md, reports/evaluacion.json y reports/evaluacion_par
 Checks (contrato): AGEB y colonias del top existen en agebs_features; cada renglon de zona trae la colonia de SU AGEB
 y cifras de ESA zona; ninguna colonia nombrada sin origen en las herramientas; fuentes completas; latencia; sin tokens;
 y los de lo nuevo (colonia_respetada, seguimiento_mantiene_giro, ingreso_y_edad, macro_breve, formato).
-Aprobado: >= 90 % de las preguntas, la trampa, y todas las de colonia y de seguimiento.
+Aprobado: >= 90 % de las preguntas, la trampa, las tres fuera de tema y todas las de colonia y de seguimiento.
+Todas llevan el check `sin_funciones_internas` (ninguna respuesta nombra perfil_giro, recomendar_zonas... ni escribe f(x=...));
+las de tipo `fuera_de_tema` (nombre, saludo, tema ajeno) llevan `fuera_de_tema`: el texto fijo que dice que solo contesta sobre
+negocios en la ZMVM, sin AGEB ni funciones internas. Esas no usan el LLM.
 """
 from __future__ import annotations
 
@@ -27,7 +30,9 @@ sys.path.insert(0, str(RAIZ))
 
 import yaml  # noqa: E402
 
+from app import fuera_de_tema as fuera  # noqa: E402
 from app import herramientas as H  # noqa: E402
+from app import historial  # noqa: E402
 from app import lectura as lectura_mod  # noqa: E402
 from app import motor  # noqa: E402
 
@@ -59,6 +64,7 @@ GENERICOS_COLONIA = {"centro", "ciudad", "industrial", "residencial", "popular",
                      "independencia", "reforma", "hidalgo", "morelos", "juarez", "zaragoza"}
 PALABRAS_VACIAS = {"el", "la", "los", "las", "de", "del", "y", "en", "colonia", "colonias", "zona", "zonas", "unidad", "habitacional",
                    "barrio", "barrios", "pueblo", "ampliacion", "fraccionamiento", "norte", "sur", "oriente", "poniente"}
+SOLO_NEGOCIOS_RE = re.compile(r"solo contest\w+.{0,200}(?:Zona Metropolitana del Valle de M[eé]xico|ZMVM)", re.I | re.S)
 FUERA_RE = re.compile(r"fuera (?:de|del)|no (?:cubre|esta|está|incluye|tengo datos)|solo (?:cubre|abarca|trabaja)|únicamente|unicamente|alcance",
                       re.I)
 
@@ -80,12 +86,8 @@ def memoria() -> dict:
 
 
 def tokens_env() -> list[str]:
-    """Valores de .env (nunca se imprimen; solo se buscan)."""
-    try:
-        from dotenv import dotenv_values
-        return [v for v in dotenv_values(RAIZ / ".env").values() if v and len(v) >= 8]
-    except Exception:
-        return []
+    """Valores de .env (nunca se imprimen; solo se buscan). Es el mismo filtro que usa el registro de preguntas del tablero."""
+    return historial.tokens_env()
 
 
 numeros_de, cifras_citadas, coincide = lectura_mod.numeros_de, lectura_mod.cifras_citadas, lectura_mod.coincide
@@ -212,12 +214,20 @@ def calificar(q: dict, r: dict, feats, toks: list[str]) -> dict:
 
     # 2) fuentes: seccion de fuentes, una fuente real y TODAS las que regresaron las herramientas (completa, no cortada)
     low = H.norm(texto)
-    checks["fuentes"] = ("fuente" in low) and any(H.norm(k) in low or k in texto.lower() for k in FUENTES_CLAVE)
+    fuera_tema = q["tipo"] == "fuera_de_tema"      # texto fijo sin herramientas: no lleva fuentes ni cifras
     fu = []
     for u in usadas:
         if isinstance(u["resultado"], dict):
             fu += [f for f in u["resultado"].get("fuentes", []) if isinstance(f, str)]
-    checks["fuentes_completas"] = all(f in texto for f in dict.fromkeys(fu))
+    if not fuera_tema:
+        checks["fuentes"] = ("fuente" in low) and any(H.norm(k) in low or k in texto.lower() for k in FUENTES_CLAVE)
+        # las fuentes de una misma serie salen en una sola entrada con sus ids (agente.unir_fuentes); vale tambien el formato viejo
+        from app import agente
+        checks["fuentes_completas"] = (all(f in texto for f in dict.fromkeys(fu))
+                                       or all(f in texto for f in agente.unir_fuentes(fu)))
+
+    # 2b) nada de funciones internas (perfil_giro, recomendar_zonas, sugerir_giros(...)) en lo que ve la persona
+    checks["sin_funciones_internas"] = not fuera.menciona_funciones(texto)
 
     # 3) latencia
     checks["latencia"] = r["latencia_s"] <= LAT_MAX_S
@@ -245,6 +255,9 @@ def calificar(q: dict, r: dict, feats, toks: list[str]) -> dict:
             checks["municipio"] = bool(agebs) and all(a[:5] == q["municipio"] for a in agebs)
     elif tipo == "trampa":
         checks["trampa_fuera_de_alcance"] = (not agebs) and bool(FUERA_RE.search(texto))
+    elif tipo == "fuera_de_tema":
+        checks["fuera_de_tema"] = (bool(SOLO_NEGOCIOS_RE.search(texto)) and not agebs and not usadas
+                                   and not fuera.menciona_funciones(texto))
     else:
         checks["agebs_validas"] = existen and de_herr
 
@@ -449,7 +462,7 @@ def calificar(q: dict, r: dict, feats, toks: list[str]) -> dict:
     malas = [c["texto"] for c in cit if not coincide(c, nums)]
     frac = 1.0 if not cit else 1 - len(malas) / len(cit)
     det.update(cifras_citadas=len(cit), cifras_no_encontradas=malas, frac_cifras_ok=round(frac, 3))
-    checks["cifras"] = frac >= MIN_CIFRAS_OK and len(malas) <= MAX_CIFRAS_MAL and (tipo == "trampa" or len(cit) > 0)
+    checks["cifras"] = frac >= MIN_CIFRAS_OK and len(malas) <= MAX_CIFRAS_MAL and (tipo in ("trampa", "fuera_de_tema") or len(cit) > 0)
 
     return {"checks": checks, "detalle": det, "pasa": all(checks.values())}
 
@@ -515,6 +528,7 @@ def reporte(preguntas: list[dict]) -> dict:
     swaps = [f["mem_despues"].get("swap_mb") for f in filas if f["mem_despues"].get("swap_mb") is not None]
     libres = [f["mem_despues"].get("mem_libre_pct") for f in filas if f["mem_despues"].get("mem_libre_pct") is not None]
     trampa = [f for f in filas if f["tipo"] == "trampa"]
+    fuera_f = [f for f in filas if f["tipo"] == "fuera_de_tema"]
     n_ok = sum(f["pasa"] for f in filas)
     obligatorias = [f for f in filas if f["grupo"] in ("colonia", "seguimiento")]
     obligatorias_ok = all(f["pasa"] for f in obligatorias)
@@ -522,8 +536,9 @@ def reporte(preguntas: list[dict]) -> dict:
            "total_en_yaml": len(preguntas),
            "pasan": n_ok, "trampa_pasa": bool(trampa) and trampa[0]["pasa"],
            "colonia_y_seguimiento_pasan": f"{sum(f['pasa'] for f in obligatorias)}/{len(obligatorias)}",
+           "fuera_de_tema_pasan": f"{sum(f['pasa'] for f in fuera_f)}/{len(fuera_f)}",
            "aprobado": (len(filas) == len(preguntas) and n_ok >= MIN_APROBADO * len(preguntas) and bool(trampa)
-                        and trampa[0]["pasa"] and obligatorias_ok),
+                        and trampa[0]["pasa"] and obligatorias_ok and bool(fuera_f) and all(f["pasa"] for f in fuera_f)),
            "latencia_mediana_s": round(statistics.median(lat), 1) if lat else None,
            "latencia_p90_s": round(sorted(lat)[int(0.9 * (len(lat) - 1))], 1) if lat else None,
            "latencia_max_s": max(lat) if lat else None,
@@ -546,9 +561,9 @@ def md(res: dict) -> str:
     L = [f"# Evaluación del agente ({res['fecha']})", "",
          f"Modelo: {res['modelo']}. Preguntas: {res['preguntas']} de {n} (`eval/preguntas.yaml`). Script: `eval/evaluar.py`.", "",
          f"**Resultado: {res['pasan']}/{res['preguntas']} pasan; trampa {'pasa' if res['trampa_pasa'] else 'NO pasa'}; "
-         f"colonia y seguimiento {res['colonia_y_seguimiento_pasan']} → "
+         f"fuera de tema {res['fuera_de_tema_pasan']}; colonia y seguimiento {res['colonia_y_seguimiento_pasan']} → "
          f"{'APROBADO' if res['aprobado'] else 'NO APROBADO'}** (criterio: ≥ {int(100 * MIN_APROBADO)} % de las preguntas, la trampa, "
-         "y todas las de colonia y de seguimiento).", "",
+         "las tres fuera de tema y todas las de colonia y de seguimiento).", "",
          f"- Latencia: mediana {res['latencia_mediana_s']} s, p90 {res['latencia_p90_s']} s, máxima {res['latencia_max_s']} s "
          f"(meta: mediana ≤ {res['criterios']['mediana_objetivo_s']} s y máxima ≤ {res['criterios']['latencia_max_s']} s: "
          f"{'cumplida' if res['latencia_meta_ok'] else 'NO cumplida'}; una respuesta de más de {res['criterios']['latencia_max_s']} s falla).",
@@ -566,7 +581,7 @@ def md(res: dict) -> str:
          "- `cifras_por_zona`: las cifras de cada renglón coinciden con las de la zona a la que se atribuyen (no con las de otra).",
          "- `lectura_cifras_de_su_zona`: en la «Lectura» del modelo, cada frase que nombra una zona solo usa cifras de esa zona (si un nombre está dentro de otro más largo, «Granada» en «Ampliación Granada», manda la coincidencia más larga) y cada cifra se compara solo con el campo que nombra («prob. de apertura», «gasto potencial», «ingreso», «competidores», «edad clave») o, sin magnitud, con los campos del renglón de la zona; no con cualquier número del resultado.",
          "- `lectura_cifras_de_su_zona` (a partir de la evaluación final): además, cada cifra tiene que salir de alguna herramienta y ser de su tipo (un % solo se compara con campos en %, los pesos con pesos); las de `perfil_giro`, `contexto_macro` y `ficha_municipio` valen en cualquier frase; la viabilidad de un giro de `sugerir_giros` solo vale con ese giro; y a un giro sin `recomendar_zonas` no se le atribuyen zonas ni gasto potencial.",
-         "- `lectura_superlativos`: «mayor», «menor», «lidera(n)», «destaca», «mejor(es)»... junto con una magnitud (prob. de apertura, gasto, ingreso, competidores, edad, score u «oportunidad / mejor opción») solo valen si la zona nombrada es de las primeras del top en esa magnitud (`app/lectura.py`); sin magnitud escrita se deduce de la cifra que sigue («lidera con un 12.5 %»); el giro que «lidera» es el 1 de `sugerir_giros`; y «En <colonia pedida>, la colonia Z» solo si Z está dentro de la colonia.",
+         "- `lectura_superlativos`: «mayor», «menor», «lidera(n)», «destaca», «mejor(es)»... junto con una magnitud (prob. de apertura, gasto, ingreso, competidores, edad, score u «oportunidad / mejor opción») solo valen si la zona nombrada es de las primeras del top en esa magnitud (`app/lectura.py`); sin magnitud escrita se deduce de la cifra que sigue («lidera con un 12.5 %»); el giro que «lidera» es el 1 de `sugerir_giros`; y «En <colonia pedida>, la colonia Z» solo si Z está dentro de la colonia; un adjetivo de nivel sin cifra («alto porcentaje de niños de 0 a 14 años») solo vale si la zona está por encima de la referencia de la ZMVM que trae la respuesta («bajo», por debajo), y con «ambas» valen todas las zonas ya nombradas.",
          "- `avisos_del_giro`: los avisos «giro raro», el del rubro ENIGH sustituto y el del rubro ENIGH amplio («el gasto potencial usa el rubro ENIGH ... completo; sirve para ordenar zonas dentro del giro, no para comparar entre giros») de `recomendar_zonas` aparecen en la respuesta (en los riesgos).",
          "- `referencia_edad`: la edad clave del giro en la ZMVM va en su propia línea («Referencia: en la ZMVM, 20.7 % de la población tiene de 0 a 14 años (Censo 2020).»), no dentro del encabezado del top.",
          "- `sinonimo_dicho`: si la pregunta usó otro nombre del giro («nevería»), una línea dice con qué giro del catálogo se quedó («Tomé «nevería» como heladería...»).",
@@ -585,6 +600,8 @@ def md(res: dict) -> str:
          "de redondeo según los decimales escritos («0.43 millones» = 430,000; una fracción de la herramienta puede citarse como %). No se verifican enteros ≤ 10 "
          "(enumeraciones, deciles), años ni fechas.",
          "- `trampa_fuera_de_alcance`: dice que está fuera de alcance y no da ninguna AGEB.",
+         "- `fuera_de_tema` (preguntas de nombre, saludo o tema ajeno: «¿Cómo me llamo?», «hola», «¿Quién ganó el último mundial?»): el texto fijo dice que solo contesta sobre negocios en la Zona Metropolitana del Valle de México, no da ninguna AGEB, no llama herramientas (no usa el LLM) y no menciona funciones internas. Estas preguntas no llevan `fuentes` ni `cifras`.",
+         "- `sin_funciones_internas` (todas las preguntas): la respuesta no nombra `perfil_giro`, `recomendar_zonas`, `ficha_zona`, `sugerir_giros`, `buscar_carpetas`, `contexto_macro` ni `ficha_municipio` y no escribe llamadas tipo `f(x=...)`.",
          "- `aviso_prob_baja`: si `recomendar_zonas` avisa que la prob. de apertura es baja en todo el top, la respuesta lo dice y aclara que el score es relativo al giro.",
          "- `score_relativo_dicho`: con zonas recomendadas, la respuesta dice que el score es relativo dentro del giro.",
          "- `sin_giros_inventados`: sin `sugerir_giros`, la respuesta no habla de «viabilidad» ni lista «giros que conviene».",

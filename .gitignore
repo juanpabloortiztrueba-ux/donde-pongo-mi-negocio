@@ -10,3 +10,4 @@ __pycache__/
 .ipynb_checkpoints/
 *.log.tmp
 web/node_modules/
+data/historial/

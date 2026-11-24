@@ -1,6 +1,6 @@
-# 28 preguntas de evaluacion del agente: las 20 del contrato (etapa Agente H) y 8 nuevas (2026-11-23, ids 21-28)
+# 31 preguntas de evaluacion del agente: las 20 del contrato (etapa Agente H), 8 nuevas (2026-11-23, ids 21-28) y 3 fuera de tema (2026-11-24, ids 29-31)
 # que cubren los fallos de docs/REVISION_CRITICA_2026-11-23.md. Las corre eval/evaluar.py.
-# tipo: giro (top de colonias), sugerir (sin giro), macro, trampa (fuera de alcance).
+# tipo: giro (top de colonias), sugerir (sin giro), macro, trampa (fuera de alcance), fuera_de_tema (nombre, saludo, tema ajeno: sin LLM).
 # giro: clave esperada en recomendar_zonas; municipio: cvegeo_mun al que deben pertenecer las AGEB citadas;
 # nse: filtro esperado en recomendar_zonas.
 # colonia: {regex, muns}: la colonia pedida; regex sobre el nombre normalizado de nom_colonia en agebs_features y
@@ -53,3 +53,6 @@ preguntas:
     pregunta: "¿Y una veterinaria?"
   - {id: 27, tipo: giro, giro: heladeria, municipio: "09003", pregunta: "Quiero una heladería en Coyoacán para niños, ¿cuánto ganan ahí y qué porcentaje de la gente es menor de 14 años?"}
   - {id: 28, tipo: giro, giro: taqueria, pregunta: "Quiero abrir una taquería, ¿cómo influyen la inflación y la tasa de Banxico?"}
+  - {id: 29, tipo: fuera_de_tema, pregunta: "¿Cómo me llamo?"}
+  - {id: 30, tipo: fuera_de_tema, pregunta: "hola"}
+  - {id: 31, tipo: fuera_de_tema, pregunta: "¿Quién ganó el último mundial?"}
