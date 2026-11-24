@@ -106,6 +106,20 @@ def _json(ruta: Path) -> dict:
         return {}
 
 
+def _auc_medio_giro() -> tuple[float | None, int]:
+    """AUC medio del modelo DENTRO de cada giro (models/metricas_giro.csv), sin los giros con menos de 30 AGEB con apertura
+    (el mismo corte que usa la vista «El modelo»). Devuelve (promedio, giros que entran)."""
+    import csv
+
+    try:
+        with (RAIZ / "models" / "metricas_giro.csv").open(encoding="utf-8", newline="") as f:
+            filas = list(csv.DictReader(f))
+        vals = [float(r["auc_modelo"]) for r in filas if r.get("auc_modelo") not in (None, "") and int(float(r.get("agebs_con_apertura") or 0)) >= 30]
+    except Exception:
+        return None, 0
+    return (sum(vals) / len(vals), len(vals)) if vals else (None, 0)
+
+
 @lru_cache(maxsize=1)
 def kpis() -> dict:
     """Cifras que salen de archivos del repo; lo que falta se queda en None (nada escrito a mano)."""
@@ -124,6 +138,7 @@ def kpis() -> dict:
     except Exception:
         n_mun = None
     n_giros = len(_giros_yaml()) or None
+    auc_giro, n_auc_giro = _auc_medio_giro()
     return {
         "agebs": filas("agebs_base.parquet"),
         "municipios": n_mun,
@@ -131,6 +146,8 @@ def kpis() -> dict:
         "negocios_denue_hist": filas("denue_hist.parquet"),
         "giros": n_giros,
         "auc_global": (meta.get("validacion") or {}).get("auc_oof_global"),
+        "auc_medio_giro": auc_giro,
+        "auc_medio_giro_n": n_auc_giro,
         "evaluacion": {
             "pasan": ev.get("pasan"), "total": ev.get("preguntas"), "aprobado": ev.get("aprobado"),
             "trampa_pasa": ev.get("trampa_pasa"), "fecha": ev.get("fecha"),
@@ -163,8 +180,9 @@ def cortes() -> dict:
 def estado() -> dict:
     return {"ollama": estado_ollama(), "internet": hay_internet(), "cortes": cortes(), "kpis": kpis(),
             "fuentes": {"agebs": "Censo 2020 INEGI", "negocios_denue": f"DENUE corte {cortes()['denue_actual'] or 'NO ENCONTRADO'}",
-                        "municipios": "SEDATU-CONAPO-INEGI, delimitacion de zonas metropolitanas 2015",
-                        "auc_global": "modelo propio (validacion por municipio)", "giros": "config/giros.yaml (supuestos del proyecto)"}}
+                        "municipios": "SEDATU-CONAPO-INEGI, delimitación de zonas metropolitanas 2015",
+                        "auc_global": "modelo propio (validación por municipio)",
+                        "auc_medio_giro": "modelo propio (models/metricas_giro.csv): promedio del AUC dentro de cada giro, validación por municipio", "giros": "config/giros.yaml (supuestos del proyecto)"}}
 
 
 # ---------------------------------------------------------------- catalogos

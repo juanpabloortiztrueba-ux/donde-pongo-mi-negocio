@@ -52,6 +52,15 @@ def test_pregunta_rapida_real(cliente):
     assert cliente.get(f"/api/preguntas/{j['id']}?completo=1").json()["datos"]["giro"]["clave"] == "heladeria"
 
 
+def test_rapido_trae_ingreso_y_como_influye_como_la_plantilla(cliente):
+    # el modo rapido pasa la pregunta a la plantilla: mismos bloques que fuera del tablero
+    j = cliente.post("/api/preguntas", json={"pregunta": "Quiero una heladería en Coyoacán, ¿cuánto ganan ahí?", "rapido": True}).json()
+    assert "Ingreso en" in j["respuesta"]
+    j = cliente.post("/api/preguntas", json={"pregunta": "Quiero abrir una taquería, ¿cómo influyen la inflación y la tasa de Banxico?",
+                                             "rapido": True}).json()
+    assert "Cómo influye" in j["respuesta"]
+
+
 def test_fuera_de_alcance(cliente):
     j = cliente.post("/api/preguntas", json={"pregunta": "Quiero abrir una taquería en Monterrey", "rapido": True}).json()
     d = j["datos"]

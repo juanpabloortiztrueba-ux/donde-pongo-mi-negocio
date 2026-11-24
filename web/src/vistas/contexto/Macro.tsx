@@ -194,7 +194,7 @@ export default function Macro(_: VistaProps) {
       </Seccion>
 
       <Seccion kicker="De dónde salen">
-        <p className="ctx-par">Las series se bajan de Banxico (SIE) y de INEGI (BIE) con <code>scripts/01d_macro_series.py</code> y se guardan en <code>data/processed/macro_series.parquet</code>. Tasa objetivo, TIIE y tipo de cambio son diarias; aquí se muestran por mes (promedio, y para la tasa objetivo el valor al cierre de cada mes). Los últimos valores salen de <code>data/processed/macro.json</code>, consultado el {fecha(d?.meta.generado)}.</p>
+        <p className="ctx-par">Las series se bajan de Banxico (SIE) y de INEGI (BIE) con <code>scripts/01d_macro_series.py</code> y se guardan en <code>data/processed/macro_series.parquet</code>. Tasa objetivo, TIIE y tipo de cambio son diarias; aquí se muestran por mes (promedio, y para la tasa objetivo el valor al cierre de cada mes). Los últimos valores salen de <code>data/processed/macro.json</code> (consultado el {fecha(d?.meta.generado)}), o de <code>macro_series.parquet</code> cuando esa serie trae un dato más nuevo de la misma serie.</p>
         <Fuente>{d?.fuente ?? 'Banco de México (SIE) e INEGI (BIE)'}. Series: {(d?.series ?? []).filter((s) => !s.clave.includes('indice')).map((s) => `${s.nombre} (${s.id_serie})`).join(', ')}.</Fuente>
       </Seccion>
     </div>

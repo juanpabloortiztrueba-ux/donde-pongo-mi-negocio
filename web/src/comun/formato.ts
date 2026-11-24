@@ -46,8 +46,14 @@ const ACENTOS: Record<string, string> = {
   union: 'Unión', revolucion: 'Revolución', constitucion: 'Constitución', cooperacion: 'Cooperación', politecnico: 'Politécnico', lazaro: 'Lázaro',
   cardenas: 'Cárdenas', pantitlan: 'Pantitlán', vazquez: 'Vázquez', gomez: 'Gómez', ramon: 'Ramón', agricola: 'Agrícola', habitacion: 'Habitación',
   penon: 'Peñón', tepeyac: 'Tepeyac', republica: 'República', petroleo: 'Petróleo', electricistas: 'Electricistas', miguel: 'Miguel', ciudad: 'Ciudad',
+  // nombres frecuentes en los primeros 10 lugares de los 40 giros (revisados contra models/scores_giros.parquet)
+  mixcoatl: 'Mixcóatl', quetzalcoatl: 'Quetzalcóatl', agustin: 'Agustín', alamos: 'Álamos', rio: 'Río', olimpica: 'Olímpica', muzquiz: 'Múzquiz',
+  pavon: 'Pavón', baez: 'Báez', evolucion: 'Evolución', capulin: 'Capulín', anahuac: 'Anáhuac', asis: 'Asís', jesus: 'Jesús', simon: 'Simón',
+  barbara: 'Bárbara', martin: 'Martín', dario: 'Darío', lucia: 'Lucía', frio: 'Frío', tequisistlan: 'Tequisistlán', hipodromo: 'Hipódromo', ctm: 'CTM',
 }
 function palabra(p: string, i: number, mayus: boolean): string {
+  // «IX-A»: cada parte por separado; una letra sola queda en mayúscula (es una inicial o un sufijo de sección)
+  if (p.includes('-')) return p.split('-').map((x) => (x.length === 1 ? x.toUpperCase() : palabra(x, i, mayus))).join('-')
   const bajo = p.toLowerCase()
   if (ROMANO.test(p) && p.length > 1) return p.toUpperCase()  // «I», «V» o «X» sueltas se dejan como vienen (podrían ser iniciales)
   if (ACENTOS[bajo] && (mayus || p === ACENTOS[bajo].normalize('NFD').replace(/[\u0300-\u036f]/g, '') || p === p[0].toUpperCase() + p.slice(1).toLowerCase())) return ACENTOS[bajo]

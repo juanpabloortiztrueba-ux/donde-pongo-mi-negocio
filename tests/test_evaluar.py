@@ -14,7 +14,8 @@ def _respuesta(zonas, extra="", fuentes=None, avisos=()):
     lineas = [f"{i}. **{z['colonia']}**, {z['municipio']} (AGEB {z['ageb']}): score {z['score']}/100 (relativo al giro). {z['resumen_texto']}."
               for i, z in enumerate(zonas, 1)]
     riesgos = ("\n\n**Riesgos:**\n" + "\n".join(f"- {a[0].upper() + a[1:]}" for a in avisos)) if avisos else ""
-    return "\n".join(lineas) + extra + riesgos + "\n\n**Fuentes:** " + "; ".join(fuentes or []) + "."
+    ref = "Referencia: en la ZMVM, 20.7 % de la población tiene de 0 a 14 años (Censo 2020).\n\n"
+    return ref + "\n".join(lineas) + extra + riesgos + "\n\n**Fuentes:** " + "; ".join(fuentes or []) + "."
 
 
 def _caso(texto, res, q=None, extra_tools=()):
@@ -270,3 +271,56 @@ def test_orden_de_sugerir_se_revisa_en_la_lectura():
     assert not cal(f"{n[2]} va antes que {n[0]}.")["orden_sugerir"]
     c = cal(f"{n[2]} lidera con mayor viabilidad ({g[0]['viabilidad_pct']} %).")
     assert not c["lectura_superlativos"] and not c["lectura_cifras_de_su_zona"]
+
+
+# --- pulido final: los checks nuevos del evaluador
+def test_referencia_de_edad_va_en_su_linea():
+    res = H.recomendar_zonas("heladeria")
+    ok = _ok(res)
+    assert ok["checks"]["referencia_edad"]
+    mezclada = _respuesta(res["zonas"], "", res["fuentes"], res.get("avisos", ())).replace(
+        "Referencia: en la ZMVM, 20.7 % de la población tiene de 0 a 14 años (Censo 2020).", "(score 0-100 relativo al giro; 0 a 14 años en la ZMVM: 20.7 %)")
+    assert not _caso(mezclada, res)["checks"]["referencia_edad"]
+
+
+def test_ageb_casi_vacia_sin_aviso_en_su_renglon_falla():
+    res = H.recomendar_zonas("ferreteria")
+    zonas = [dict(z) for z in res["zonas"]]
+    sin = _caso(_respuesta(zonas, "", res["fuentes"], res.get("avisos", ())), res, {"id": 13, "tipo": "giro", "giro": "ferreteria", "pregunta": "¿dónde abro una ferretería?"})
+    assert not sin["checks"]["aviso_ageb_vacia"] and sin["detalle"]["agebs_casi_vacias"]
+    for z in zonas:
+        if z.get("aviso_ageb_poco_poblada"):
+            z["resumen_texto"] += f". **Ojo:** {z['aviso_ageb_poco_poblada']}"
+    con = _caso(_respuesta(zonas, "", res["fuentes"], res.get("avisos", ())), res, {"id": 13, "tipo": "giro", "giro": "ferreteria", "pregunta": "¿dónde abro una ferretería?"})
+    assert con["checks"]["aviso_ageb_vacia"] and con["checks"]["cifras_por_zona"]
+
+
+def test_sinonimo_e_ingreso_del_municipio_se_exigen():
+    res = H.recomendar_zonas("heladeria", municipio="Coyoacán")
+    perfil = {"nombre": "perfil_giro", "args": {}, "resultado": H.perfil_giro("quiero una nevería en Coyoacán, ¿cuánto ganan?")}
+    ficha = {"nombre": "ficha_municipio", "args": {}, "resultado": H.ficha_municipio("Coyoacán")}
+    q = {"id": 1, "tipo": "giro", "giro": "heladeria", "pregunta": "quiero una nevería en Coyoacán, ¿cuánto ganan?"}
+    pesos = H._pesos_txt(ficha["resultado"]["ingreso_trim_mediano_est_hogar_mxn"])
+    sin = _caso(_respuesta(res["zonas"], "", res["fuentes"] + ficha["resultado"]["fuentes"], res.get("avisos", ())), res, q, [perfil, ficha])
+    assert not sin["checks"]["sinonimo_dicho"] and not sin["checks"]["ingreso_municipio"]
+    extra = f"\n\nTomé «nevería» como heladería, el giro más cercano del catálogo.\n\nIngreso en Coyoacán: {pesos} por hogar al trimestre."
+    con = _caso(_respuesta(res["zonas"], extra, res["fuentes"] + ficha["resultado"]["fuentes"], res.get("avisos", ())), res, q, [perfil, ficha])
+    assert con["checks"]["sinonimo_dicho"] and con["checks"]["ingreso_municipio"]
+
+
+def test_mercado_en_minuscula_no_es_la_colonia_mercado():
+    # «la captura del mercado» usa el sustantivo comun; la colonia MERCADO del catalogo solo cuenta si se escribe como nombre
+    res = H.recomendar_zonas("cafeteria")
+    assert "mercado" in ev.nombres_colonia_conocidos(motor.cargar_features())
+    assert _ok(res, "\nLa captura del mercado es alta en el top.")["checks"]["colonias_con_origen"]
+    c = _ok(res, "\nTambien podrias mirar la colonia Mercado o MERCADO.")
+    assert not c["checks"]["colonias_con_origen"] and "mercado" in c["detalle"]["colonias_sin_origen"]
+
+
+def test_lectura_con_captura_y_cifra_de_edad_falla():
+    res = H.recomendar_zonas("cafeteria")
+    z = res["zonas"][1]
+    lectura = f"**Lectura:** {z['colonia']} muestra una alta captura del mercado con {z['edad_clave_pct']} % de la edad clave.\n\n"
+    c = _caso(lectura + _respuesta(res["zonas"], "", res["fuentes"]), res, {"id": 2, "tipo": "giro", "giro": "cafeteria", "pregunta": "¿Dónde abro una cafetería de especialidad?"})
+    assert not c["checks"]["lectura_cifras_de_su_zona"]
+    assert c["checks"]["colonias_con_origen"]

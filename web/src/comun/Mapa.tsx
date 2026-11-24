@@ -25,6 +25,11 @@ export interface MapaProps {
   nombresCategorias?: string[]
   /** Lista de cvegeo que se marca con números 1, 2, 3… (en ese orden) y contorno fuerte. */
   resaltar?: string[]
+  /** Encuadra (fitBounds con padding) las AGEB de `resaltar` cada vez que cambia esa lista, para que los números no se amontonen a la escala de toda la ZMVM.
+   *  Tiene prioridad sobre el encuadre del municipio; una `seleccion` con vuelo la supera. Por defecto false. */
+  encuadrarResaltadas?: boolean
+  /** Acercamiento máximo al encuadrar `resaltar` (por defecto 14.5). */
+  zoomMaxResaltadas?: number
   /** Un cvegeo seleccionado (contorno fuerte) y al que el mapa puede volar. */
   seleccion?: string | null
   /** Vuela a la `seleccion` cuando cambia (por defecto true). */
@@ -87,7 +92,7 @@ function posTip(x: number, y: number, el: HTMLElement | null): CSSProperties {
 
 export function Mapa({
   valores, dominio = [0, 100], etiqueta, formatoValor = (v) => new Intl.NumberFormat('es-MX', { maximumFractionDigits: 1 }).format(v),
-  categorias, nombresCategorias, resaltar, seleccion, pasosLeyenda, zoomMaxSeleccion = 15.5, radioPuntos = 4, volarASeleccion = true, municipio = null, puntos, onClic, alto = 560, interruptorBase = true, sinLeyenda,
+  categorias, nombresCategorias, resaltar, encuadrarResaltadas = false, zoomMaxResaltadas = 14.5, seleccion, pasosLeyenda, zoomMaxSeleccion = 15.5, radioPuntos = 4, volarASeleccion = true, municipio = null, puntos, onClic, alto = 560, interruptorBase = true, sinLeyenda,
 }: MapaProps) {
   const { tema } = useTema()
   const { estado } = useEstado()
@@ -306,10 +311,23 @@ export function Mapa({
     ultimoEncuadre.current = { mun: municipio, geo, capas: hayCapas, sel: seleccion }
     if (!cambioMun) return
     if (cambioSel && seleccion && volarASeleccion && geo.features.some((x) => x.properties.cvegeo === seleccion)) return
+    if (encuadrarResaltadas && resaltar?.length) return  // lo encuadra el efecto de las resaltadas
     const fs = municipio ? geo.features.filter((f) => String(f.properties.cvegeo).startsWith(municipio)) : geo.features
     const b = unir(fs.map(cajaDe)); if (!b) return
     m.fitBounds([[b[0], b[1]], [b[2], b[3]]], { padding: 14, duration: 700, maxZoom: 14 })
   }, [municipio, geo, hayCapas, seleccion, volarASeleccion])
+
+  // encuadrar las AGEB resaltadas (el top de la respuesta): una sola animación, con padding para que los números no queden en el borde
+  const llaveResaltadas = resaltar?.join(',') ?? ''
+  useEffect(() => {
+    const m = mapa.current
+    if (!m || !geo || !hayCapas || !encuadrarResaltadas || !llaveResaltadas) return
+    if (seleccion && volarASeleccion) return
+    const por = new Set(llaveResaltadas.split(','))
+    const b = unir(geo.features.filter((f) => por.has(String(f.properties.cvegeo))).map(cajaDe)); if (!b) return
+    m.fitBounds([[b[0], b[1]], [b[2], b[3]]], { padding: { top: 56, bottom: sinLeyenda ? 56 : 108, left: 56, right: 56 }, duration: 700, maxZoom: zoomMaxResaltadas })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [llaveResaltadas, encuadrarResaltadas, zoomMaxResaltadas, sinLeyenda, geo, hayCapas])
 
   // volar a la selección
   useEffect(() => {

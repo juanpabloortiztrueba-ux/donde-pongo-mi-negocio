@@ -57,6 +57,8 @@ export interface Estado {
   kpis: {
     agebs: number | null; municipios: number | null; negocios_denue: number | null; negocios_denue_hist: number | null
     giros: number | null; auc_global: number | null
+    /** promedio del AUC del modelo dentro de cada giro (models/metricas_giro.csv) y cuántos giros entran */
+    auc_medio_giro?: number | null; auc_medio_giro_n?: number | null
     evaluacion: { pasan: number | null; total: number | null; aprobado: boolean | null; trampa_pasa: boolean | null; fecha: string | null; latencia_mediana_s: number | null }
   }
   fuentes: Record<string, string>

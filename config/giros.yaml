@@ -20,6 +20,12 @@
 #    razonado (caminata de 5-10 min para consumo diario; auto/transporte para destino).
 #  - demanda_base (opcional): "residente" (default) o "diurna" si el cliente es la poblacion que
 #    trabaja o estudia en la zona.
+#  - insumos: los 2-4 insumos que mas pesan en el costo del giro (criterio del proyecto, no dato
+#    medido). contexto_macro los nombra en «como influye» junto a la inflacion y la tasa real.
+#  - rubro_enigh_tipo (opcional): "amplio" si el gasto potencial usa todo un rubro grande de la
+#    ENIGH, o "sustituto" si usa un rubro cercano que no es el del giro; rubro_enigh_etiqueta es
+#    su nombre legible. recomendar_zonas avisa que el gasto sirve para ordenar zonas dentro del
+#    giro y no para comparar entre giros.
 
 version: 1
 fecha: "2026-11-23"
@@ -30,6 +36,7 @@ giros:
 
   - clave: heladeria
     nombres: [heladeria, heladerias, neveria, paleteria, helados, nieves]
+    insumos: [leche, azúcar, fruta, electricidad]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["461170"]
     scian_con_filtro:
       - codigos: ["722515"]
@@ -38,8 +45,10 @@ giros:
     cliente_objetivo: {"0-14": 0.30, "15-24": 0.30, "25-59": 0.35, "60+": 0.05}
     nse_objetivo: {bajo: 0.25, medio: 0.50, alto: 0.25}
     rubro_enigh: helados
+    rubro_enigh_tipo: sustituto   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "helados, nieves y paletas de hielo (consumo en casa)"
     rubro_enigh_alt: [ali_fuera_total]
-    rubro_enigh_nota: "helados de la ENIGH es consumo en casa y solo 2-7 % de hogares reporta gasto; sirve para ordenar deciles, no para dimensionar."
+    rubro_enigh_nota: "El rubro de helados de la ENIGH es consumo en casa y solo 2-7 % de hogares reporta gasto; sirve para ordenar deciles, no para dimensionar."
     ticket_promedio_mxn: 70
     ticket_fuente: "supuesto: una nieve o helado artesanal individual, 2026"
     radio_influencia_m: 500
@@ -47,13 +56,16 @@ giros:
 
   - clave: cafeteria
     nombres: [cafeteria, cafe, cafeterias, cafe de especialidad, cafe de barrio]
+    insumos: [café, leche, azúcar]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["722515"]
     complementarios: ["611311", "531114", "541510", "561432", "465312", "519211", "712111"]
     cliente_objetivo: {"0-14": 0.02, "15-24": 0.33, "25-59": 0.55, "60+": 0.10}
     nse_objetivo: {bajo: 0.10, medio: 0.45, alto: 0.45}
     rubro_enigh: ali_fuera_total
+    rubro_enigh_tipo: amplio   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "alimentos y bebidas consumidos fuera del hogar"
     rubro_enigh_alt: [cafe_bebidas]
-    rubro_enigh_nota: "cafe_bebidas de la ENIGH es café para preparar en casa; el consumo en cafetería cae en ali_fuera_total (restaurantes y similares)."
+    rubro_enigh_nota: "El rubro de café y bebidas de la ENIGH es café para preparar en casa; el consumo en cafetería cae en alimentos y bebidas fuera del hogar (restaurantes y similares)."
     ticket_promedio_mxn: 95
     ticket_fuente: "supuesto: una bebida y un alimento ligero"
     radio_influencia_m: 400
@@ -62,6 +74,7 @@ giros:
 
   - clave: gimnasio
     nombres: [gimnasio, gym, gimnasios, centro de acondicionamiento fisico, crossfit]
+    insumos: [renta del local, electricidad, mantenimiento de equipo]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["713943"]
     complementarios: ["611621", "713941", "465215", "621391", "464113", "611311", "531114"]
     cliente_objetivo: {"0-14": 0.02, "15-24": 0.30, "25-59": 0.60, "60+": 0.08}
@@ -75,6 +88,7 @@ giros:
 
   - clave: farmacia
     nombres: [farmacia, farmacias, botica, farmacia de similares]
+    insumos: [medicamentos, productos de higiene personal]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["464111", "464112"]
     complementarios: ["621111", "621113", "621115", "621211", "622111", "621511", "541941"]
     cliente_objetivo: {"0-14": 0.10, "15-24": 0.10, "25-59": 0.45, "60+": 0.35}
@@ -87,6 +101,7 @@ giros:
 
   - clave: papeleria
     nombres: [papeleria, papelerias, libreria escolar, utiles escolares]
+    insumos: [papel, cuadernos, útiles escolares]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["465311"]
     complementarios: ["611121", "611122", "611131", "611132", "611161", "611111", "611311", "561431"]
     cliente_objetivo: {"0-14": 0.25, "15-24": 0.30, "25-59": 0.40, "60+": 0.05}
@@ -99,6 +114,7 @@ giros:
 
   - clave: lavanderia
     nombres: [lavanderia, lavanderias, tintoreria, lavado de ropa, lavanderia de autoservicio]
+    insumos: [agua, gas, detergente, electricidad]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["812210"]
     complementarios: ["531112", "531111", "611311", "721312", "531210", "812110", "611312"]
     cliente_objetivo: {"0-14": 0.02, "15-24": 0.30, "25-59": 0.60, "60+": 0.08}
@@ -114,6 +130,7 @@ giros:
 
   - clave: veterinaria
     nombres: [veterinaria, veterinarias, clinica veterinaria, consultorio veterinario]
+    insumos: [medicamentos veterinarios, vacunas, alimento para mascotas]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["541941"]
     complementarios: ["465911", "812990", "712131", "464111", "434112"]
     cliente_objetivo: {"0-14": 0.05, "15-24": 0.15, "25-59": 0.65, "60+": 0.15}
@@ -127,6 +144,7 @@ giros:
 
   - clave: taqueria
     nombres: [taqueria, taquerias, tacos, taqueria de trompo, tacos al pastor]
+    insumos: [carne, tortilla, gas]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["722514"]
     complementarios: ["722412", "722411", "485114", "531114", "611311", "713120", "722515"]
     cliente_objetivo: {"0-14": 0.08, "15-24": 0.30, "25-59": 0.52, "60+": 0.10}
@@ -141,11 +159,14 @@ giros:
 
   - clave: abarrotes
     nombres: [abarrotes, tienda de abarrotes, miscelanea, tiendita, tienda de la esquina]
+    insumos: [mercancía envasada, bebidas, lácteos]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["461110", "462112"]
     complementarios: ["461130", "311830", "611122", "611132"]
     cliente_objetivo: {"0-14": 0.15, "15-24": 0.15, "25-59": 0.50, "60+": 0.20}
     nse_objetivo: {bajo: 0.50, medio: 0.40, alto: 0.10}
     rubro_enigh: ali_dentro
+    rubro_enigh_tipo: amplio   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "alimentos dentro del hogar"
     rubro_enigh_alt: [alimentos, bebidas]
     ticket_promedio_mxn: 55
     ticket_fuente: "supuesto: compra de reposicion diaria"
@@ -154,6 +175,7 @@ giros:
 
   - clave: barberia_estetica
     nombres: [barberia estetica, barberia, estetica, salon de belleza, peluqueria, estilista, barber shop, salon de unas]
+    insumos: [productos para el cabello, navajas y tijeras, electricidad]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["812110"]
     complementarios: ["465111", "463211", "611511", "722412", "531114", "611311"]
     cliente_objetivo: {"0-14": 0.08, "15-24": 0.22, "25-59": 0.55, "60+": 0.15}
@@ -167,6 +189,7 @@ giros:
 
   - clave: consultorio_dental
     nombres: [consultorio dental, dentista, odontologo, clinica dental, ortodoncia]
+    insumos: [material dental, anestésicos, equipo dental]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["621211"]
     complementarios: ["464111", "621111", "621113", "621115", "531114", "622111", "611311"]
     cliente_objetivo: {"0-14": 0.12, "15-24": 0.15, "25-59": 0.55, "60+": 0.18}
@@ -180,13 +203,16 @@ giros:
 
   - clave: guarderia
     nombres: [guarderia, estancia infantil, kinder, maternal, cendi, centro de cuidado infantil]
+    insumos: [alimentos, material didáctico, sueldos del personal]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["624411"]
     complementarios: ["531114", "611111", "611121", "621111", "621113", "464111", "465212"]
     cliente_objetivo: {"0-14": 0.40, "15-24": 0.05, "25-59": 0.55, "60+": 0.00}
     nse_objetivo: {bajo: 0.15, medio: 0.55, alto: 0.30}
     rubro_enigh: coicop_1010
+    rubro_enigh_tipo: sustituto   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "educación preescolar y primaria"
     rubro_enigh_alt: [educacion]
-    rubro_enigh_nota: "La ENIGH no tiene un rubro de guardería; coicop_1010 es educación preescolar y primaria."
+    rubro_enigh_nota: "La ENIGH no tiene un rubro de guardería; el rubro más cercano (COICOP 1010) es educación preescolar y primaria."
     ticket_promedio_mxn: 3500
     ticket_fuente: "supuesto: mensualidad de una guardería privada de barrio (no es ticket por visita)"
     radio_influencia_m: 1000
@@ -195,11 +221,14 @@ giros:
 
   - clave: ferreteria
     nombres: [ferreteria, tlapaleria, ferreteria y tlapaleria, materiales para construccion, tienda de pinturas]
+    insumos: [herramientas, cemento y varilla, tubería y material eléctrico]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["467111"]
     complementarios: ["467113", "467114", "467115", "467112", "811121", "531112", "237113"]
     cliente_objetivo: {"0-14": 0.02, "15-24": 0.08, "25-59": 0.65, "60+": 0.25}
     nse_objetivo: {bajo: 0.45, medio: 0.45, alto: 0.10}
     rubro_enigh: coicop_0431
+    rubro_enigh_tipo: amplio   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "materiales para el mantenimiento y reparación de la vivienda"
     rubro_enigh_alt: [coicop_0432, coicop_0552]
     ticket_promedio_mxn: 180
     ticket_fuente: "supuesto: tornillos, pintura, herramienta de mano"
@@ -208,6 +237,7 @@ giros:
 
   - clave: pasteleria
     nombres: [pasteleria, pasteleria y reposteria, pasteles, reposteria, cupcakes, cafe y pasteles]
+    insumos: [harina, huevo, mantequilla, azúcar]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: []
     scian_con_filtro:
       - codigos: ["311812"]
@@ -223,6 +253,7 @@ giros:
 
   - clave: libreria
     nombres: [libreria, librerias, tienda de libros, libreria y papeleria]
+    insumos: [libros, papel]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["465312"]
     complementarios: ["611311", "611312", "611161", "722515", "519211", "712111", "531114"]
     cliente_objetivo: {"0-14": 0.05, "15-24": 0.40, "25-59": 0.45, "60+": 0.10}
@@ -236,6 +267,7 @@ giros:
 
   - clave: renta_bicicletas
     nombres: [renta bicicletas, renta de bicicletas, alquiler de bicicletas, bicicletas, bicis, biciescuela, ciclovia]
+    insumos: [bicicletas, refacciones, mantenimiento]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: []
     scian_con_filtro:
       - codigos: ["532289"]
@@ -244,6 +276,8 @@ giros:
     cliente_objetivo: {"0-14": 0.15, "15-24": 0.30, "25-59": 0.50, "60+": 0.05}
     nse_objetivo: {bajo: 0.10, medio: 0.45, alto: 0.45}
     rubro_enigh: esparci
+    rubro_enigh_tipo: sustituto   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "esparcimiento"
     rubro_enigh_alt: [coicop_0946, coicop_0922]
     rubro_enigh_nota: "No hay rubro de renta de bicicletas en la ENIGH; se usa esparcimiento como proxy de gasto discrecional."
     gasto_proxy: "todo el gasto en esparcimiento, no solo renta de bicicletas"   # se anota junto a la cifra de gasto potencial
@@ -254,11 +288,14 @@ giros:
 
   - clave: tortilleria
     nombres: [tortilleria, tortillerias, tortilla de maiz, molino de nixtamal, tortilla]
+    insumos: [maíz, harina de maíz, gas]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["311830", "311813"]
     complementarios: ["461110", "722514", "722513", "461121", "461130", "312112"]
     cliente_objetivo: {"0-14": 0.15, "15-24": 0.15, "25-59": 0.50, "60+": 0.20}
     nse_objetivo: {bajo: 0.55, medio: 0.35, alto: 0.10}
     rubro_enigh: cereales
+    rubro_enigh_tipo: amplio   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "cereales"
     rubro_enigh_alt: [alimentos, ali_dentro]
     rubro_enigh_nota: "La ENIGH junta la tortilla con los cereales (011131 tortillas de maíz, 011132 de harina); no hay rubro solo de tortilla."
     ticket_promedio_mxn: 35
@@ -268,11 +305,14 @@ giros:
 
   - clave: fonda
     nombres: [fonda, comida corrida, cocina economica, comedor, restaurante de comida casera]
+    insumos: [carne, verduras, aceite, gas]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["722511", "722519"]
     complementarios: ["531114", "611311", "485114", "812410", "541510", "622111", "811111"]
     cliente_objetivo: {"0-14": 0.05, "15-24": 0.20, "25-59": 0.65, "60+": 0.10}
     nse_objetivo: {bajo: 0.40, medio: 0.45, alto: 0.15}
     rubro_enigh: restaurante_comidas
+    rubro_enigh_tipo: amplio   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "desayunos, comidas y cenas fuera del hogar"
     rubro_enigh_alt: [ali_fuera_total]
     ticket_promedio_mxn: 100
     ticket_fuente: "supuesto: comida corrida de 4 tiempos"
@@ -282,6 +322,7 @@ giros:
 
   - clave: pizzeria
     nombres: [pizzeria, pizzerias, pizza, pizzas a domicilio, pizza al horno de lena]
+    insumos: [harina, queso, jitomate, gas]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: []
     scian_con_filtro:
       - codigos: ["722517", "722518", "722511", "722513", "722519"]
@@ -290,6 +331,8 @@ giros:
     cliente_objetivo: {"0-14": 0.15, "15-24": 0.30, "25-59": 0.50, "60+": 0.05}
     nse_objetivo: {bajo: 0.20, medio: 0.55, alto: 0.25}
     rubro_enigh: comida_rapida
+    rubro_enigh_tipo: amplio   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "comida rápida (hamburguesas, pizzas, pollos rostizados)"
     rubro_enigh_alt: [ali_fuera_total]
     ticket_promedio_mxn: 220
     ticket_fuente: "supuesto: pizza mediana para 2 personas o 2 rebanadas con bebida"
@@ -298,6 +341,7 @@ giros:
 
   - clave: optica
     nombres: [optica, opticas, lentes, anteojos, optometrista]
+    insumos: [armazones, micas y lentes, equipo de optometría]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["464121"]
     complementarios: ["621320", "621113", "621111", "464111", "622111", "531114", "611311"]
     cliente_objetivo: {"0-14": 0.08, "15-24": 0.15, "25-59": 0.50, "60+": 0.27}
@@ -312,11 +356,14 @@ giros:
 
   - clave: tienda_ropa
     nombres: [tienda ropa, tienda de ropa, boutique, ropa, ropa de mujer, ropa de hombre, ropa casual]
+    insumos: [prendas al mayoreo, telas, mercancía importada]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["463211"]
     complementarios: ["462210", "463310", "465111", "463215", "463213", "611311", "722515"]
     cliente_objetivo: {"0-14": 0.05, "15-24": 0.30, "25-59": 0.55, "60+": 0.10}
     nse_objetivo: {bajo: 0.25, medio: 0.50, alto: 0.25}
     rubro_enigh: vestido
+    rubro_enigh_tipo: amplio   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "vestido"
     rubro_enigh_alt: [vesti_calz]
     ticket_promedio_mxn: 450
     ticket_fuente: "supuesto: una o dos prendas en tienda independiente"
@@ -325,6 +372,7 @@ giros:
 
   - clave: zapateria
     nombres: [zapateria, zapaterias, tienda de zapatos, calzado]
+    insumos: [calzado al mayoreo, piel, suelas]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["463310"]
     complementarios: ["463211", "462210", "811430", "611311", "611161", "465111"]
     cliente_objetivo: {"0-14": 0.15, "15-24": 0.25, "25-59": 0.50, "60+": 0.10}
@@ -338,13 +386,16 @@ giros:
 
   - clave: cerrajeria
     nombres: [cerrajeria, cerrajero, llaves, duplicado de llaves]
+    insumos: [cerraduras, llaves, herramientas]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["811491"]
     complementarios: ["531112", "531111", "812410", "468111", "468112", "531210", "467114"]
     cliente_objetivo: {"0-14": 0.00, "15-24": 0.10, "25-59": 0.70, "60+": 0.20}
     nse_objetivo: {bajo: 0.35, medio: 0.45, alto: 0.20}
     rubro_enigh: coicop_0432
+    rubro_enigh_tipo: sustituto   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "mantenimiento, reparación y seguridad de la vivienda"
     rubro_enigh_alt: [coicop_0431]
-    rubro_enigh_nota: "coicop_0432 = servicios de mantenimiento, reparación y seguridad de la vivienda; la cerrajería no tiene rubro propio."
+    rubro_enigh_nota: "El rubro más cercano (COICOP 0432) es servicios de mantenimiento, reparación y seguridad de la vivienda; la cerrajería no tiene rubro propio."
     ticket_promedio_mxn: 250
     ticket_fuente: "supuesto: duplicado de llave o apertura de chapa"
     radio_influencia_m: 1500
@@ -352,6 +403,7 @@ giros:
 
   - clave: taller_mecanico
     nombres: [taller mecanico, mecanico, taller automotriz, mecanica automotriz, taller de autos]
+    insumos: [refacciones, aceite y lubricantes, herramientas]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["811111", "811112", "811119", "811115", "811114"]
     complementarios: ["468213", "811191", "811121", "811192", "468420", "468411", "812410"]
     cliente_objetivo: {"0-14": 0.00, "15-24": 0.05, "25-59": 0.75, "60+": 0.20}
@@ -365,13 +417,16 @@ giros:
 
   - clave: purificadora
     nombres: [purificadora, purificadora de agua, garrafon, agua purificada, agua embotellada]
+    insumos: [agua, garrafones, filtros, electricidad]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["312112"]
     complementarios: ["461213", "461110", "531112", "531111", "461190"]
     cliente_objetivo: {"0-14": 0.15, "15-24": 0.15, "25-59": 0.50, "60+": 0.20}
     nse_objetivo: {bajo: 0.40, medio: 0.45, alto: 0.15}
     rubro_enigh: coicop_0125
+    rubro_enigh_tipo: sustituto   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "agua (incluye el agua embotellada)"
     rubro_enigh_alt: [bebidas]
-    rubro_enigh_nota: "coicop_0125 = agua embotellada (natural y mineral), 53 % de hogares con gasto; el garrafón de purificadora va aquí."
+    rubro_enigh_nota: "El rubro más cercano (COICOP 0125) es agua embotellada (natural y mineral), 53 % de hogares con gasto; el garrafón de purificadora va aquí."
     ticket_promedio_mxn: 40
     ticket_fuente: "supuesto: un garrafón de 20 litros rellenado"
     radio_influencia_m: 700
@@ -379,6 +434,7 @@ giros:
 
   - clave: panaderia
     nombres: [panaderia, panaderias, pan, pan dulce, bizcochos]
+    insumos: [harina, azúcar, levadura, gas]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["311812"]
     complementarios: ["461110", "722515", "461190", "461150", "611111", "611121", "465311"]
     cliente_objetivo: {"0-14": 0.12, "15-24": 0.15, "25-59": 0.53, "60+": 0.20}
@@ -392,6 +448,7 @@ giros:
 
   - clave: tienda_mascotas
     nombres: [tienda mascotas, tienda de mascotas, petshop, pet shop, alimento para mascotas, acuario, accesorios para mascotas]
+    insumos: [alimento para mascotas, accesorios, medicamentos veterinarios]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["465911"]
     complementarios: ["541941", "812990", "712131", "464111", "434112", "466312"]
     cliente_objetivo: {"0-14": 0.05, "15-24": 0.15, "25-59": 0.65, "60+": 0.15}
@@ -405,11 +462,14 @@ giros:
 
   - clave: escuela_idiomas
     nombres: [escuela idiomas, escuela de idiomas, academia de ingles, ingles, clases de ingles, instituto de idiomas]
+    insumos: [material didáctico, sueldos de profesores, renta del local]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["611631"]
     complementarios: ["611311", "611161", "611421", "531114", "561510", "611691", "541930"]
     cliente_objetivo: {"0-14": 0.15, "15-24": 0.35, "25-59": 0.45, "60+": 0.05}
     nse_objetivo: {bajo: 0.10, medio: 0.50, alto: 0.40}
     rubro_enigh: coicop_1050
+    rubro_enigh_tipo: sustituto   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "educación no definida por nivel"
     rubro_enigh_alt: [educacion, cursos_recreativos]
     rubro_enigh_nota: "Solo 0.4 % de los hogares reporta educación no definida por nivel (cursos): cobertura muy baja en la ENIGH."
     ticket_promedio_mxn: 1200
@@ -420,6 +480,7 @@ giros:
 
   - clave: spa
     nombres: [spa, masajes, spa de unas, estetica y spa, sauna, temazcal]
+    insumos: [aceites y cosméticos, toallas, agua y electricidad]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["812120"]
     scian_con_filtro:
       - codigos: ["812110"]
@@ -428,8 +489,10 @@ giros:
     cliente_objetivo: {"0-14": 0.00, "15-24": 0.10, "25-59": 0.70, "60+": 0.20}
     nse_objetivo: {bajo: 0.05, medio: 0.35, alto: 0.60}
     rubro_enigh: cuida_pers
+    rubro_enigh_tipo: sustituto   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "cuidados personales"
     rubro_enigh_alt: [peluqueria_estetica, esparci]
-    rubro_enigh_nota: "No hay rubro de spa en la ENIGH; cuida_pers (cuidados personales) es el más cercano pero incluye productos de aseo."
+    rubro_enigh_nota: "No hay rubro de spa en la ENIGH; el rubro de cuidados personales es el más cercano pero incluye productos de aseo."
     ticket_promedio_mxn: 800
     ticket_fuente: "supuesto: masaje de una hora"
     radio_influencia_m: 1500
@@ -437,11 +500,14 @@ giros:
 
   - clave: cafe_internet
     nombres: [cafe internet, cibercafe, ciber, papeleria y copias, fotocopiado, centro de copiado, impresiones]
+    insumos: [papel, tinta, electricidad, internet]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["561432", "561431"]
     complementarios: ["465311", "611161", "611311", "611132", "611122", "561410", "541310"]
     cliente_objetivo: {"0-14": 0.15, "15-24": 0.45, "25-59": 0.35, "60+": 0.05}
     nse_objetivo: {bajo: 0.55, medio: 0.35, alto: 0.10}
     rubro_enigh: papeleria
+    rubro_enigh_tipo: sustituto   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "papelería, cuadernos y material impreso"
     rubro_enigh_alt: [coicop_0833, comunica]
     rubro_enigh_nota: "No hay rubro de ciber o copias en la ENIGH; papelería (material impreso) es el más cercano."
     ticket_promedio_mxn: 35
@@ -451,13 +517,16 @@ giros:
 
   - clave: floreria
     nombres: [floreria, florerias, flores, arreglos florales, ramos, florista]
+    insumos: [flores, follaje, refrigeración]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["466312"]
     complementarios: ["812310", "812322", "813210", "622111", "531113", "465912", "722515"]
     cliente_objetivo: {"0-14": 0.02, "15-24": 0.10, "25-59": 0.65, "60+": 0.23}
     nse_objetivo: {bajo: 0.15, medio: 0.50, alto: 0.35}
     rubro_enigh: coicop_0931
+    rubro_enigh_tipo: sustituto   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "productos de jardinería, plantas y flores"
     rubro_enigh_alt: [esparci]
-    rubro_enigh_nota: "coicop_0931 = productos de jardinería, plantas y flores; solo 10 % de los hogares reporta gasto."
+    rubro_enigh_nota: "El rubro más cercano (COICOP 0931) es productos de jardinería, plantas y flores; solo 10 % de los hogares reporta gasto."
     ticket_promedio_mxn: 450
     ticket_fuente: "supuesto: ramo o arreglo mediano"
     radio_influencia_m: 1000
@@ -465,6 +534,7 @@ giros:
 
   - clave: carniceria
     nombres: [carniceria, carnicerias, polleria, carne, carniceria y polleria]
+    insumos: [carne de res, cerdo y pollo, refrigeración]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["461121", "461122"]
     complementarios: ["461110", "461130", "461140", "311830", "722514", "461123"]
     cliente_objetivo: {"0-14": 0.10, "15-24": 0.12, "25-59": 0.53, "60+": 0.25}
@@ -478,6 +548,7 @@ giros:
 
   - clave: fruteria
     nombres: [fruteria, verduleria, fruteria y verduleria, frutas y verduras]
+    insumos: [fruta, verdura, transporte]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["461130"]
     complementarios: ["461110", "311830", "461121", "461122", "722515", "462112", "461140"]
     cliente_objetivo: {"0-14": 0.10, "15-24": 0.12, "25-59": 0.53, "60+": 0.25}
@@ -491,6 +562,7 @@ giros:
 
   - clave: comida_china
     nombres: [comida china, restaurante chino, cocina china, wok, buffet chino]
+    insumos: [arroz, pollo, aceite, gas]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: []
     scian_con_filtro:
       - codigos: ["722511", "722518", "722519", "722513", "722512", "722516"]
@@ -499,6 +571,8 @@ giros:
     cliente_objetivo: {"0-14": 0.10, "15-24": 0.20, "25-59": 0.60, "60+": 0.10}
     nse_objetivo: {bajo: 0.20, medio: 0.55, alto: 0.25}
     rubro_enigh: restaurante_comidas
+    rubro_enigh_tipo: amplio   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "desayunos, comidas y cenas fuera del hogar"
     rubro_enigh_alt: [ali_fuera_total]
     ticket_promedio_mxn: 170
     ticket_fuente: "supuesto: plato fuerte con arroz y bebida, o buffet por persona"
@@ -507,6 +581,7 @@ giros:
 
   - clave: sushi
     nombres: [sushi, comida japonesa, restaurante japones, ramen, sushi a domicilio]
+    insumos: [pescado, arroz, alga nori]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: []
     scian_con_filtro:
       - codigos: ["722511", "722518", "722519", "722513", "722512", "722516", "722514"]
@@ -515,6 +590,8 @@ giros:
     cliente_objetivo: {"0-14": 0.05, "15-24": 0.25, "25-59": 0.65, "60+": 0.05}
     nse_objetivo: {bajo: 0.05, medio: 0.45, alto: 0.50}
     rubro_enigh: restaurante_comidas
+    rubro_enigh_tipo: amplio   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "desayunos, comidas y cenas fuera del hogar"
     rubro_enigh_alt: [ali_fuera_total]
     ticket_promedio_mxn: 280
     ticket_fuente: "supuesto: rollos y bebida por persona"
@@ -523,13 +600,16 @@ giros:
 
   - clave: bar
     nombres: [bar, cantina, cerveceria, bar de cocteleria, pulqueria, bar de barrio, antro]
+    insumos: [cerveza y licores, hielo, botanas]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["722412"]
     complementarios: ["722411", "722514", "713991", "611311", "531113", "485114", "512130"]
     cliente_objetivo: {"0-14": 0.00, "15-24": 0.35, "25-59": 0.60, "60+": 0.05}
     nse_objetivo: {bajo: 0.20, medio: 0.50, alto: 0.30}
     rubro_enigh: ali_fuera_total
+    rubro_enigh_tipo: amplio   # amplio = todo un rubro grande de la ENIGH; sustituto = rubro cercano, no el del giro
+    rubro_enigh_etiqueta: "alimentos y bebidas consumidos fuera del hogar"
     rubro_enigh_alt: [bebidas, coicop_0213]
-    rubro_enigh_nota: "La ENIGH registra la bebida alcohólica como consumo en casa (bebidas, coicop_0213 cerveza); el consumo en bar no se separa y cae en alimentos fuera del hogar."
+    rubro_enigh_nota: "La ENIGH registra la bebida alcohólica como consumo en casa (bebidas, COICOP 0213 cerveza); el consumo en bar no se separa y cae en alimentos fuera del hogar."
     ticket_promedio_mxn: 320
     ticket_fuente: "supuesto: dos o tres bebidas por persona"
     radio_influencia_m: 800
@@ -538,6 +618,7 @@ giros:
 
   - clave: coworking
     nombres: [coworking, espacio de trabajo compartido, oficinas compartidas, oficina virtual, renta de escritorios]
+    insumos: [renta del local, internet, electricidad]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: []
     scian_con_filtro:
       - codigos: ["531114", "531210", "561410", "561490", "531119", "561110", "531115"]
@@ -555,6 +636,7 @@ giros:
 
   - clave: consultorio_medico
     nombres: [consultorio medico, medico general, doctor, clinica, consultorio, medico especialista]
+    insumos: [material de curación, instrumental, renta del consultorio]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["621111", "621113", "621115"]
     complementarios: ["464111", "464112", "621511", "621211", "622111", "621320", "531114"]
     cliente_objetivo: {"0-14": 0.15, "15-24": 0.08, "25-59": 0.47, "60+": 0.30}
@@ -568,6 +650,7 @@ giros:
 
   - clave: laboratorio_clinico
     nombres: [laboratorio clinico, laboratorio de analisis clinicos, analisis clinicos, laboratorio medico, toma de muestras]
+    insumos: [reactivos, material desechable, equipo importado]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["621511"]
     complementarios: ["621111", "621113", "621115", "622111", "464111", "621211", "621320"]
     cliente_objetivo: {"0-14": 0.08, "15-24": 0.07, "25-59": 0.50, "60+": 0.35}
@@ -581,6 +664,7 @@ giros:
 
   - clave: tienda_celulares
     nombres: [tienda celulares, tienda de celulares, celulares, venta de celulares, accesorios para celular, reparacion de celulares]
+    insumos: [teléfonos y accesorios, equipo importado]   # criterio del proyecto (no es dato medido); los nombra contexto_macro en «cómo influye»
     scian: ["466212"]
     complementarios: ["811219", "811211", "466211", "465919", "611311", "485114", "462210"]
     cliente_objetivo: {"0-14": 0.05, "15-24": 0.40, "25-59": 0.50, "60+": 0.05}

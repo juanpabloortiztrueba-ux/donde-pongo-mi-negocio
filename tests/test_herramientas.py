@@ -211,3 +211,129 @@ def test_lugares_buscar_y_resolver():
     assert not lugares.resolver("Narnia Central")["ok"]
     det = lugares.detectar("heladeria en la colonia Narnia Central")
     assert det and not det[0]["encontrada"] and det[0]["origen"] == "explicita"
+
+
+# =============================================================== pulido final del nucleo (N8 a N12)
+def test_n8_ficha_del_municipio_trae_el_ingreso_estimado_con_su_fuente():
+    f = motor.cargar_features()
+    d = f[(f["cve_ent"].astype(str) + f["cve_mun"].astype(str)) == "09003"].sort_values("ing_trim_mediano_est")
+    acum = d["hogares"].cumsum()
+    esperado = float(d["ing_trim_mediano_est"][acum >= d["hogares"].sum() / 2].iloc[0])       # mediana ponderada por hogares
+    r = h.ficha_municipio("Coyoacán")
+    assert r["ingreso_trim_mediano_est_hogar_mxn"] == round(esperado, -2) and 40_000 < esperado < 200_000
+    assert r["decil_tipico"] == 8
+    assert r["ingreso_linea"] == (f"Ingreso trimestral mediano estimado por hogar en Coyoacán: ${round(esperado, -2):,.0f} "
+                                  "(decil típico 8; estimación del proyecto con ENIGH 2024 y Censo 2020).")
+    assert "ponderada por hogares" in r["metodo_ingreso"] and any("ENIGH 2024" in x for x in r["fuentes"])
+    assert h.ficha_municipio("Iztapalapa")["ingreso_trim_mediano_est_hogar_mxn"] < r["ingreso_trim_mediano_est_hogar_mxn"]
+
+
+def test_n8_la_pregunta_de_ingreso_se_reconoce():
+    for q in ("¿cuánto ganan ahí?", "¿Qué tan ricos son en Polanco?", "¿cuál es el nivel socioeconómico?", "Quiero saber el ingreso de la gente"):
+        assert h.pide_ingreso(q), q
+    for q in ("quiero poner una heladería", "¿qué porcentaje es menor de 14 años?", "¿dónde abro una cafetería?",
+              "¿cuánto pagar de sueldo a un empleado?", "¿qué salario le doy a mi cajero?"):
+        assert not h.pide_ingreso(q), q
+    assert h.pide_ingreso("¿qué sueldo tiene la gente de Coyoacán?")
+    # «ingreso» del negocio no es el ingreso de la gente
+    for q in ("¿Cuánto ingreso necesito para abrir?", "¿qué ingresos tendría mi negocio?"):
+        assert not h.pide_ingreso(q), q
+    for q in ("¿qué ingresos tiene la gente donde pondría mi negocio?", "¿cuál es el ingreso de los hogares en Coyoacán?",
+              "¿qué nivel de ingresos hay para mi negocio?"):
+        assert h.pide_ingreso(q), q
+
+
+def test_n9_giros_de_rubro_amplio_o_sustituto_lo_dicen():
+    g = motor.giros()
+    marcados = {k for k, v in g.items() if v.get("rubro_enigh_tipo")}
+    assert {"cafeteria", "abarrotes", "fonda", "bar", "guarderia", "renta_bicicletas", "heladeria"} <= marcados
+    assert all(g[k].get("rubro_enigh_etiqueta") for k in marcados) and not (marcados & {"farmacia", "papeleria", "optica"})
+    a = h.aviso_rubro_amplio("cafeteria")
+    assert a == ("el gasto potencial usa el rubro ENIGH alimentos y bebidas consumidos fuera del hogar completo; "
+                 "sirve para ordenar zonas dentro del giro, no para comparar entre giros")
+    assert "como sustituto del giro" in h.aviso_rubro_amplio("guarderia") and h.aviso_rubro_amplio("farmacia") is None
+    r = h.recomendar_zonas("cafeteria")
+    assert r["aviso_rubro_amplio"] == a and a in r["avisos"]
+    assert "aviso_rubro_amplio" not in h.recomendar_zonas("farmacia") and h.perfil_giro("quiero una cafetería")["aviso_rubro_amplio"] == a
+
+
+def test_n10_ageb_casi_vacia_lleva_aviso():
+    assert h._aviso_ageb_vacia(20, 4) == "AGEB con 20 habitantes: el gasto viene del radio de influencia, no de quienes viven en la AGEB"
+    assert h._aviso_ageb_vacia(199, 100).startswith("AGEB con 199 habitantes")
+    assert h._aviso_ageb_vacia(900, 45) == "AGEB con 45 hogares: el gasto viene del radio de influencia, no de quienes viven en la AGEB"
+    assert h._aviso_ageb_vacia(200, 50) is None and h._aviso_ageb_vacia(349, 183) is None and h._aviso_ageb_vacia(None, None) is None
+    # ferreteria: el 4 del top es una AGEB con 20 habitantes y 4 hogares (el orden del score no se toca)
+    zs = h.recomendar_zonas("ferreteria")["zonas"]
+    vacia = [z for z in zs if z["poblacion_ageb_2020"] == 20]
+    assert len(vacia) == 1 and vacia[0]["hogares_ageb_2020"] == 4
+    assert vacia[0]["aviso_ageb_poco_poblada"].startswith("AGEB con 20 habitantes")
+    assert all("aviso_ageb_poco_poblada" not in z for z in zs if z["poblacion_ageb_2020"] >= 200)
+
+
+def test_n11_formato_es_mx_y_fechas_de_series_mensuales():
+    m = h.contexto_macro()
+    assert h._txt_indicador("remesas", m["indicadores"]["remesas"]) == f"remesas {m['indicadores']['remesas']['valor']:,} millones de dólares al mes (2026-09, serie SE27803)"
+    assert "5,362" in h._txt_indicador("remesas", m["indicadores"]["remesas"])
+    assert m["indicadores"]["remesas"]["fecha"] == "2026-09" and m["indicadores"]["inpc_general_var_anual"]["fecha"] == "2026-10"
+    assert h._fmt_valor(5362) == "5,362" and h._fmt_valor(6.25) == "6.25" and h._fmt_valor(1234567) == "1,234,567"
+    assert h._fecha_txt("2026-09-01", True) == "2026-09" and h._fecha_txt("2026-11-23", False) == "2026-11-23"
+    texto = " ".join(h._txt_indicador(k, v) for k, v in m["indicadores"].items())
+    assert "-01," not in texto and "2026-09-01" not in texto
+
+
+def test_n11_usa_el_dato_mas_nuevo_de_macro_series(tmp_path, monkeypatch):
+    import pandas as pd
+    macro = {"_meta": {"generado": "2026-11-23"},
+             "tipo_cambio_fix": {"valor": 19.0228, "unidad": "MXN por USD", "fecha": "2026-11-20", "id_serie": "SF43718", "fuente": "Banco de Mexico"},
+             "tasa_objetivo": {"valor": 6.25, "unidad": "% anual", "fecha": "2026-11-23", "id_serie": "SF61745", "fuente": "Banco de Mexico"},
+             "remesas": {"valor": 5362.19, "unidad": "millones de USD (mensual)", "fecha": "2026-09-01", "id_serie": "SE27803",
+                         "fuente": "Banco de Mexico", "variacion_anual_pct": 1.55}}
+    (tmp_path / "macro.json").write_text(json.dumps(macro), encoding="utf-8")
+    ser = pd.DataFrame([
+        {"serie": "tipo_cambio_fix", "fecha": pd.Timestamp("2026-11-20"), "valor": 19.0228, "unidad": "MXN por USD", "fuente": "x", "id_serie": "SF43718"},
+        {"serie": "tipo_cambio_fix", "fecha": pd.Timestamp("2026-11-23"), "valor": 19.1648, "unidad": "MXN por USD", "fuente": "x", "id_serie": "SF43718"},
+        {"serie": "tasa_objetivo", "fecha": pd.Timestamp("2026-11-23"), "valor": 6.25, "unidad": "% anual", "fuente": "x", "id_serie": "SF61745"},
+        {"serie": "remesas", "fecha": pd.Timestamp("2026-10-01"), "valor": 5100.0, "unidad": "millones de USD (mensual)", "fuente": "x", "id_serie": "OTRA"},
+    ])
+    ser.to_parquet(tmp_path / "macro_series.parquet")
+    monkeypatch.setattr(h, "PROC", tmp_path)
+    ind = h.contexto_macro()["indicadores"]
+    assert ind["tipo_cambio_fix"]["valor"] == 19.16 and ind["tipo_cambio_fix"]["fecha"] == "2026-11-23"     # el mas nuevo de la misma serie
+    assert ind["tasa_objetivo"]["valor"] == 6.25 and ind["tasa_objetivo"]["fecha"] == "2026-11-23"
+    assert ind["remesas"]["valor"] == 5362 and ind["remesas"]["fecha"] == "2026-09"                         # otra serie (otro id): se queda macro.json
+    assert "19.16 pesos por dólar (2026-11-23" in h._txt_indicador("tipo_cambio_fix", ind["tipo_cambio_fix"])
+    (tmp_path / "macro_series.parquet").unlink()                                                            # sin parquet: como antes
+    assert h.contexto_macro()["indicadores"]["tipo_cambio_fix"]["valor"] == 19.02
+
+
+def test_n12_todos_los_giros_traen_insumos_y_como_influye_los_nombra():
+    g = motor.giros()
+    assert len(g) == 40 and all(isinstance(v.get("insumos"), list) and 2 <= len(v["insumos"]) <= 4 for v in g.values())
+    assert g["taqueria"]["insumos"] == ["carne", "tortilla", "gas"] and g["cafeteria"]["insumos"][:2] == ["café", "leche"]
+    m = h.contexto_macro("taqueria")
+    ins = m["como_influye"]["insumos_del_giro"]
+    assert "carne, tortilla y gas" in ins and "taquería" in ins
+    t, i = m["indicadores"]["tasa_objetivo"]["valor"], m["indicadores"]["inpc_general_var_anual"]["valor"]
+    assert m["tasa_real_aproximada"]["valor"] == round(t - i, 2) and m["tasa_real_aproximada"]["unidad"] == "puntos porcentuales"
+    tr = m["como_influye"]["tasa_real"]
+    assert f"{t:g} %" in tr and f"{i:g} %" in tr and f"{round(t - i, 2):g} puntos porcentuales" in tr and "tasa objetivo menos inflación anual" in tr
+    assert "por encima de la inflación" in tr
+    # un giro de comida cita la aproximacion agropecuaria de contexto_macro; uno que no es de comida no
+    assert "agropecuarios del INPC" in ins and "agropecuarios" not in h.contexto_macro("optica")["como_influye"]["insumos_del_giro"]
+    assert "armazones" in h.contexto_macro("optica")["como_influye"]["insumos_del_giro"]
+    assert "tasa_real" in h.contexto_macro()["como_influye"] and "insumos_del_giro" not in h.contexto_macro()["como_influye"]
+
+
+def test_n12_mas_preguntas_piden_el_mecanismo_sin_cifras_inventadas():
+    for q in ("¿Cómo está la economía para abrir un negocio?", "¿Es buen momento para abrir una taquería?", "¿Me afecta la inflación?",
+              "¿afectan las tasas?", "¿Cómo influye el dólar?"):
+        assert h.pide_como_influye(q), q
+    for q in ("quiero poner una heladería", "¿cómo está la inflación?", "¿dónde abro una cafetería?",
+              "¿Me afecta la competencia en Coyoacán?", "¿afecta el tráfico a mi local?",
+              "¿Cómo me afecta la competencia en Coyoacán?", "¿Qué impacto de la competencia hay?"):
+        assert not h.pide_como_influye(q), q
+    # las cifras de como_influye salen de los indicadores (sirven para el chequeo de cifras)
+    from app import lectura
+    m = h.contexto_macro("taqueria")
+    nums = lectura.numeros_de(m)
+    assert all(lectura.coincide(c, nums) for c in lectura.cifras_citadas(m["como_influye"]["tasa_real"], ""))

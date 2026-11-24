@@ -232,8 +232,9 @@ def _pulir_texto(texto: str) -> str:
     return re.sub(r"(\d) %", r"\1%", texto)
 
 
-def _texto_plantilla(usadas: list[dict]) -> str:
-    texto = _pulir_texto(agente.plantilla(usadas))
+def _texto_plantilla(usadas: list[dict], pregunta: str = "", herencia: dict | None = None) -> str:
+    """Respuesta sin LLM. Con la pregunta trae lo mismo que fuera del tablero («Ingreso en X», «Cómo influye»)."""
+    texto = _pulir_texto(agente.plantilla(usadas, herencia, pregunta))
     fu = agente.fuentes_de(usadas)
     if fu and "**Fuentes:**" not in texto:
         texto += "\n\n**Fuentes:** " + "; ".join(fu) + "."
@@ -328,7 +329,7 @@ def crear_pregunta(cuerpo: Pregunta):
     t = Trabajo(id=uuid.uuid4().hex[:12], pregunta=pregunta, historial=historial, rapido=bool(cuerpo.rapido), usadas=usadas, datos=datos)
     ollama = _hay_modelo()
     if t.rapido or not ollama:
-        t.respuesta = _texto_plantilla(usadas)
+        t.respuesta = _texto_plantilla(usadas, t.pregunta)
         t.herramientas = usadas
         t.modo = "rapido" if t.rapido else "plantilla"
         t.latencia_s = round(time.time() - t0, 1)

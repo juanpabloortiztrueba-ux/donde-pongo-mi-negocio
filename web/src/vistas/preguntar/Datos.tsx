@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { ArrowUpRight, Info } from 'lucide-react'
 import { Collapse } from '../../kit'
-import { fmtNum, fmtPct, fmtPesos, GraficaBarras, href, ir, Fuente, Mapa, Pill, titulo } from '../../comun'
+import { fmtNum, fmtPct, fmtPesos, GraficaBarras, href, ir, Fuente, Mapa, Pill, titulo, useEstado } from '../../comun'
 import { Cifra, num } from './Cifra'
 import { Dato } from './Dato'
 import type { DatosPregunta, ZonaTop } from './tipos'
@@ -54,6 +54,7 @@ function Tarjeta({ z, i, giro, corte }: { z: ZonaTop; i: number; giro: string; c
 
 export function Datos({ datos, conMapa, onVerMapa, cargandoMapa }: { datos: DatosPregunta; conMapa: boolean; onVerMapa: () => void; cargandoMapa: boolean }) {
   const [avisos, setAvisos] = useState(false)
+  const k = useEstado().estado?.kpis
   const corte = datos.corte_denue ?? 'NO ENCONTRADO'
   const claveGiro = datos.giro?.clave ?? ''
   const valores = useMemo(() => datos.mapa?.valores, [datos.mapa])
@@ -70,7 +71,7 @@ export function Datos({ datos, conMapa, onVerMapa, cargandoMapa }: { datos: Dato
         <div className="pre-fuera">
           <Pill tono="rojo">Fuera de alcance</Pill>
           <p>{datos.fuera_de_alcance.motivo}</p>
-          <p className="chico">El modelo solo cubre las 5,875 AGEB urbanas de los 76 municipios de la ZMVM. Por eso no te doy colonias de ese lugar.</p>
+          <p className="chico">El modelo solo cubre las {k?.agebs != null ? fmtNum(k.agebs) : '…'} AGEB urbanas de los {k?.municipios != null ? fmtNum(k.municipios) : '…'} municipios de la ZMVM. Por eso no te doy colonias de ese lugar.</p>
           <Fuente>delimitación de zonas metropolitanas 2015 (SEDATU-CONAPO-INEGI); Censo 2020 INEGI</Fuente>
         </div>
       )}
@@ -114,7 +115,7 @@ export function Datos({ datos, conMapa, onVerMapa, cargandoMapa }: { datos: Dato
             {conMapa && datos.mapa && valores ? (
               <>
                 <Mapa valores={valores} dominio={[0, 100]} etiqueta={`Score de ${(datos.giro?.nombre ?? 'este giro').toLowerCase()} (0–100)`} formatoValor={formato}
-                  resaltar={resaltar} municipio={datos.mapa.municipio} alto={560} onClic={(cv) => ir('zona', cv, { giro: claveGiro })} />
+                  resaltar={resaltar} encuadrarResaltadas municipio={datos.mapa.municipio} alto={560} onClic={(cv) => ir('zona', cv, { giro: claveGiro })} />
                 <Fuente>modelo propio (score por giro, relativo dentro del giro); Censo 2020 INEGI; DENUE corte {corte}; ENIGH 2024. Los números marcan las {fmtNum(datos.zonas.length)} zonas de la lista; un clic abre su ficha.</Fuente>
               </>
             ) : (

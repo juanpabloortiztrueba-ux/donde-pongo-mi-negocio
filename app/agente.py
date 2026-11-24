@@ -54,13 +54,17 @@ Para preguntas de economía (macro) responde con los indicadores, su fecha y su 
 # Cuando el sistema ya muestra los datos (zonas, giros, macro, ficha), el modelo solo escribe la lectura y los riesgos.
 REGLA_COMPLEMENTO = """
 IMPORTANTE: el sistema ya muestra solo, junto a tu texto, el aviso de colonia, el top de zonas con sus cifras, los giros, el contexto económico, la ficha del municipio, los riesgos y las fuentes. NO los repitas ni escribas renglones por zona. Escribe SOLO una sección:
-**Lectura:** 2 a 4 frases (máximo 80 palabras) que contesten directamente lo que preguntó la persona (por ejemplo cuánto ganan o qué porcentaje es de cierta edad, usando las cifras de las zonas) y que digan qué distingue a las primeras zonas o giros. Apóyate en `destacados` y copia 2 o 3 cifras exactas de los resultados, cada una junto al nombre de su zona y con su nombre exacto («gasto potencial», «ingreso trimestral estimado por hogar», «prob. de apertura»): no uses la cifra de una zona para otra ni confundas una magnitud con otra. Máximo 2 zonas por frase. Di «mayor», «menor», «lidera», «mejor» o «destaca» SOLO para la zona que `destacados` marca con esa magnitud, y «la mejor opción» solo para la zona 1 del top (la 2.ª, 3.ª... no es «la mayor»); no digas qué grupo «lidera» con un porcentaje sin compararlo con las demás zonas; si una zona queda a km de la colonia pedida, no digas que está «en» ella. No escribas claves AGEB ni negritas dentro de la lectura. Empieza con «**Lectura:**»."""
+**Lectura:** 2 a 4 frases (máximo 80 palabras) que contesten directamente lo que preguntó la persona (por ejemplo cuánto ganan o qué porcentaje es de cierta edad, usando las cifras de las zonas) y que digan qué distingue a las primeras zonas o giros. Apóyate en `destacados` y copia 2 o 3 cifras exactas de los resultados, cada una junto al nombre de su zona y con su nombre exacto («gasto potencial», «ingreso trimestral estimado por hogar», «prob. de apertura»): no uses la cifra de una zona para otra ni confundas una magnitud con otra. Máximo 2 zonas por frase. Di «mayor», «menor», «lidera», «mejor» o «destaca» SOLO para la zona que `destacados` marca con esa magnitud (si trae `empatan`, nombra todas esas zonas: «A y B empatan con...»), y «la mejor opción» solo para la zona 1 del top (la 2.ª, 3.ª... no es «la mayor»); no digas qué grupo «lidera» con un porcentaje sin compararlo con las demás zonas; si una zona queda a km de la colonia pedida, no digas que está «en» ella. No escribas claves AGEB ni negritas dentro de la lectura. Empieza con «**Lectura:**»."""
 REGLA_SUGERIR = """
 Esta vez se llamó sugerir_giros (la persona no trae giro): la lectura compara los giros de la lista (el sistema ya los muestra en su orden, por viabilidad) y recuerda que el score de las colonias es relativo dentro de cada giro. Nombra los giros en el orden de la lista; «lidera» o «mayor viabilidad» es solo el giro 1, con SU viabilidad. Las zonas y su gasto potencial son del giro de recomendar_zonas: no se las atribuyas a otro giro de la lista."""
 REGLA_PROB_BAJA = """
 Esta vez recomendar_zonas trae "aviso_prob_baja": la probabilidad de apertura es baja en todo el top (el sistema ya lo avisa). En tu lectura di que el score alto es relativo al giro, no prueba de que el giro sea viable. No hables de «viabilidad» ni listes otros giros: aquí no se llamó sugerir_giros."""
 REGLA_COMO = """
-La persona pregunta CÓMO influye o afecta algo (el contexto macro trae `como_influye`): en tu lectura explica el mecanismo con esas frases (costo de los insumos, crédito, margen, precio) y no agregues cifras que no estén en los resultados. No te limites a repetir los indicadores."""
+La persona pregunta CÓMO influye o afecta algo (el contexto macro trae `como_influye`): en tu lectura explica el mecanismo con esas frases (los insumos del giro, la tasa real aproximada frente a la inflación, crédito, margen, precio) y no agregues cifras que no estén en los resultados ni recomendaciones que no salgan de ellas. No te limites a repetir los indicadores. La tasa objetivo es la tasa de política de Banxico, no la tasa a la que el negocio pide prestado (esa es la TIIE más un margen): no la presentes como el costo del crédito del negocio. Explica solo lo que aplica al giro de la pregunta. Si la pregunta no pide zonas, no nombres colonias: el sistema ya muestra el top."""
+REGLA_INGRESO = """
+La persona pregunta por el INGRESO de la gente: el sistema ya muestra el ingreso trimestral mediano estimado por hogar del municipio ({ingreso}). Contesta primero con esa cifra, dilo como estimación del proyecto, y luego compara 1 o 2 zonas con su ingreso trimestral estimado. No uses otra cifra de ingreso del municipio."""
+REGLA_AGEB_VACIA = """
+Alguna zona trae `aviso` (AGEB con muy pocos habitantes: el gasto viene del radio de influencia, no de quienes viven ahí). Si la nombras como «la mejor opción» o por su score, repite ese aviso en la misma frase."""
 REGLA_HERENCIA = """
 Esta pregunta continúa la conversación (el sistema ya dice qué se mantiene: {que}). Contesta solo lo nuevo que pide la persona."""
 
@@ -85,9 +89,20 @@ def system_para(usadas: list[dict], herencia: dict | None = None, pregunta: str 
         extra += REGLA_COMPLEMENTO
     if pregunta and H.pide_como_influye(pregunta) and (_usada(usadas, "contexto_macro") or {}).get("como_influye"):
         extra += REGLA_COMO
+    ing = (_usada(usadas, "ficha_municipio") or {}).get("ingreso_linea")
+    if pregunta and ing and H.pide_ingreso(pregunta):
+        extra += REGLA_INGRESO.format(ingreso=_ingreso_txt(_usada(usadas, "ficha_municipio")))
+    if zonas and any(z.get("aviso_ageb_poco_poblada") for z in zonas.get("zonas", [])):
+        extra += REGLA_AGEB_VACIA
     if herencia:
         extra += REGLA_HERENCIA.format(que=", ".join(f"{k} = {v}" for k, v in herencia.items()))
     return SYSTEM + extra
+
+
+def _ingreso_txt(ficha: dict) -> str:
+    """«$110,800 por hogar al trimestre, decil típico 8» del ingreso estimado del municipio (ficha_municipio)."""
+    dec = f", decil típico {ficha['decil_tipico']}" if ficha.get("decil_tipico") is not None else ""
+    return f"{H._pesos_txt(ficha['ingreso_trim_mediano_est_hogar_mxn'])} por hogar al trimestre{dec}"
 
 
 def _f(nombre: str, desc: str, props: dict, req: list[str]) -> dict:
@@ -145,7 +160,8 @@ def _extrae(pregunta: str) -> dict:
     cols = [] if fuera else lugares.detectar(pregunta, muns, frase, cve)
     return {"n": n, "giro": giro, "perfil": perfil, "muns": muns, "mun": muns[0] if len(muns) == 1 else None, "fuera": fuera,
             "colonia": cols[0] if cols else None, "nse": nse, "barato": bool(BARATO.search(n)),
-            "macro": bool(MACRO.search(n)), "generico": bool(NEGOCIO_GENERICO.search(n))}
+            "macro": bool(MACRO.search(n)), "generico": bool(NEGOCIO_GENERICO.search(n)),
+            "pide_como": H.pide_como_influye(pregunta)}
 
 
 def _heredar(cur: dict, historial: list[dict] | None) -> tuple[dict, dict]:
@@ -206,7 +222,7 @@ def _planear(pregunta: str, historial: list[dict] | None = None) -> tuple[list[t
             plan.append(("recomendar_zonas", {"giro": giro, "municipio": cur["fuera"][0].title()}))
         plan.append(("buscar_carpetas", {"pregunta": pregunta, "k": 2}))
         return plan, her
-    macro = cur["macro"]
+    macro = cur["macro"] or cur["pide_como"]   # «¿cómo está la economía?», «¿es buen momento?», «¿afecta...?» piden el contexto macro
     # municipio para la ficha: el explicito, o el de la colonia si cae en uno solo
     mun_ficha = mun
     if not mun_ficha and ef["colonia"] and ef["colonia"].get("encontrada"):
@@ -242,20 +258,22 @@ def pre_consulta(pregunta: str, historial: list[dict] | None = None) -> list[tup
 
 
 # ---------------------------------------------------------------- vista compacta para el LLM
-def para_llm(nombre: str, r, con_mecanismo: bool = False) -> dict:
+def para_llm(nombre: str, r, con_mecanismo: bool = False, con_ingreso: bool = False) -> dict:
     """Lo que de verdad necesita el modelo de cada resultado (menos tokens = menos latencia). El resultado
     completo se queda en `herramientas` para la UI, el tablero y el evaluador."""
     if not isinstance(r, dict):
         return r
     if nombre == "perfil_giro" and r.get("encontrado"):
         keep = ("encontrado", "giro", "coincidencia", "cliente_objetivo_edades", "nse_objetivo", "ticket_promedio_mxn",
-                "ticket_fuente", "radio_influencia_m", "aviso_rubro", "aviso_modelo", "validacion_modelo", "fuentes")
+                "ticket_fuente", "radio_influencia_m", "aviso_rubro", "aviso_rubro_amplio", "aviso_modelo", "validacion_modelo", "fuentes")
         return {k: r[k] for k in keep if k in r}
     if nombre == "recomendar_zonas" and r.get("encontrado"):
-        out = {k: r[k] for k in ("giro", "filtros", "aviso_colonia", "aviso_prob_baja", "edad_clave", "destacados") if r.get(k)}
+        out = {k: r[k] for k in ("giro", "filtros", "aviso_colonia", "aviso_prob_baja", "aviso_rubro_amplio", "edad_clave", "destacados") if r.get(k)}
         zonas = []
         for z in r["zonas"]:
             zz = {"colonia": z["colonia"], "municipio": z["municipio"], "ageb": z["ageb"], "score": z["score"], "datos": z["resumen_texto"]}
+            if z.get("aviso_ageb_poco_poblada"):
+                zz["aviso"] = z["aviso_ageb_poco_poblada"]
             if "dist_a_colonia_km" in z:
                 zz["dist_a_colonia_km"], zz["en_colonia_consultada"] = z["dist_a_colonia_km"], z["en_colonia_consultada"]
             zonas.append(zz)
@@ -267,7 +285,9 @@ def para_llm(nombre: str, r, con_mecanismo: bool = False) -> dict:
         extra = {"como_influye": r["como_influye"]} if con_mecanismo and r.get("como_influye") else {}
         return {"giro": r["giro"], "linea": r["linea"], **extra, "fuentes": r.get("fuentes", [])}
     if nombre == "ficha_municipio" and r.get("encontrado"):
-        return {"municipio": r["municipio"], "ficha": r["ficha"], "fuentes": r.get("fuentes", [])}
+        extra = {"ingreso_municipio": r["ingreso_linea"], "ingreso_trim_mediano_est_hogar_mxn": r["ingreso_trim_mediano_est_hogar_mxn"]} \
+            if con_ingreso and r.get("ingreso_linea") else {}
+        return {"municipio": r["municipio"], "ficha": r["ficha"], **extra, "fuentes": r.get("fuentes", [])}
     if nombre == "sugerir_giros" and r.get("encontrado"):
         return {k: v for k, v in r.items() if k not in ("metodo",)}
     return r
@@ -313,8 +333,9 @@ def _renglon_zona(i: int, z: dict, r: dict) -> str:
     if "dist_a_colonia_km" in z:
         col = (r.get("filtros") or {}).get("colonia", "la colonia pedida")
         cerca = f" Dentro de {col}." if z["en_colonia_consultada"] else f" A {z['dist_a_colonia_km']} km de {col}."
+    aviso = f" **Ojo:** {z['aviso_ageb_poco_poblada']}." if z.get("aviso_ageb_poco_poblada") else ""
     return (f"{i}. **{z['colonia']}**, {z['municipio']} (AGEB {z['ageb']}): score {z['score']}/100. "
-            f"{z['resumen_texto']}.{cerca}")
+            f"{z['resumen_texto']}.{cerca}{aviso}")
 
 
 _ACENTOS_SINONIMO = {"miscelanea": "miscelánea", "cafe": "café", "ingles": "inglés", "clinica": "clínica", "mecanico": "mecánico",
@@ -329,8 +350,9 @@ def _acentuar(texto: str) -> str:
     return " ".join(_ACENTOS_SINONIMO.get(w, w) for w in t.split())
 
 
-def giro_visible(usadas: list[dict], clave: str) -> str:
-    """Nombre del giro para encabezados: «heladería (nevería)» si la persona pidió por un sinónimo."""
+def sinonimo_usado(usadas: list[dict], clave: str) -> str | None:
+    """La palabra de la pregunta que se resolvio al giro `clave` con otro nombre («nevería» → heladería), con acentos; None si
+    la persona uso el nombre del giro (o una palabra que es parte de el)."""
     nombre = H.nombre_giro(clave)
     for u in usadas:
         r = u["resultado"]
@@ -338,17 +360,47 @@ def giro_visible(usadas: list[dict], clave: str) -> str:
             c = H._singular(H.norm(r["coincidencia"]))
             propios = {H._singular(H.norm(x)) for x in (nombre, clave.replace("_", " "))}
             if c and len(c.split()) <= 3 and not any(c in x or x in c for x in propios):
-                return f"{nombre} ({_acentuar(str(r['coincidencia']))})"
-    return nombre
+                return _acentuar(str(r["coincidencia"]))
+    return None
+
+
+def giro_visible(usadas: list[dict], clave: str) -> str:
+    """Nombre del giro para encabezados: «heladería (nevería)» si la persona pidió por un sinónimo."""
+    nombre = H.nombre_giro(clave)
+    sin = sinonimo_usado(usadas, clave)
+    return f"{nombre} ({sin})" if sin else nombre
+
+
+def _nota_sinonimo(usadas: list[dict]) -> str | None:
+    """Una linea que dice con que giro del catalogo se quedo la respuesta cuando la pregunta uso otro nombre
+    («Tomé «nevería» como heladería, el giro más cercano del catálogo»)."""
+    for u in usadas:
+        r = u["resultado"]
+        if u["nombre"] == "recomendar_zonas" and isinstance(r, dict) and r.get("encontrado") and r.get("giro"):
+            sin = sinonimo_usado(usadas, r["giro"])
+            if sin:
+                return f"Tomé «{sin}» como {H.nombre_giro(r['giro'])}, el giro más cercano del catálogo."
+    return None
+
+
+def _frase_edad(edad: dict) -> str:
+    """«en la ZMVM, 20.7 % de la población tiene de 0 a 14 años (Censo 2020)»: la referencia de la edad clave del giro."""
+    et = str(edad["etiqueta"])
+    tiene = et if et.startswith("60") else f"de {et}"
+    return f"Referencia: en la ZMVM, {edad['pct_zmvm']} % de la población tiene {tiene} (Censo 2020)."
 
 
 def _bloque_zonas(r: dict, giro_txt: str | None = None) -> list[str]:
+    """Encabezado (score relativo al giro), la referencia de edad en su propia linea y el top de zonas."""
     edad = r.get("edad_clave")
-    cab = (f"**Top {len(r['zonas'])} para {giro_txt or H.nombre_giro(r['giro'])}** (score 0-100 relativo al giro"
-           + (f"; {edad['etiqueta']} en la ZMVM: {edad['pct_zmvm']} %" if edad else "") + ")")
-    out = [cab] + [_renglon_zona(i, z, r) for i, z in enumerate(r["zonas"], 1)]
+    out = [f"**Top {len(r['zonas'])} para {giro_txt or H.nombre_giro(r['giro'])}** (score 0-100 relativo al giro)"]
+    if edad and edad.get("pct_zmvm") is not None:
+        out.append("")
+        out.append(_frase_edad(edad))
+        out.append("")
+    out += [_renglon_zona(i, z, r) for i, z in enumerate(r["zonas"], 1)]
     if r.get("aviso_prob_baja"):
-        out.append(f"**Ojo:** {r['aviso_prob_baja']}.")
+        out += ["", f"**Ojo:** {r['aviso_prob_baja']}."]    # linea en blanco: si no, Markdown lo funde con el ultimo renglon
     return ["\n".join(out)]
 
 
@@ -381,8 +433,10 @@ def _bloque_macro(r: dict, con_mecanismo: bool = False) -> list[str]:
 
 def _prioridad_aviso(a: str, r: dict) -> int:
     """0 = lo que dice que el modelo o el gasto no son confiables (probabilidad baja, giro raro, rubro ENIGH sustituto o
-    sin rubro); 1 = el resto de los avisos."""
-    return 0 if (a == r.get("aviso_prob_baja") or a.startswith(("giro raro", "sin rubro ENIGH")) or a == r.get("rubro_enigh_nota")) else 1
+    sin rubro); 1 = que el gasto usa un rubro amplio (ordena zonas, no compara giros); 2 = el resto de los avisos."""
+    if a == r.get("aviso_prob_baja") or a.startswith(("giro raro", "sin rubro ENIGH")) or a == r.get("rubro_enigh_nota"):
+        return 0
+    return 1 if a == r.get("aviso_rubro_amplio") else 2
 
 
 def riesgos(usadas: list[dict]) -> list[str]:
@@ -396,7 +450,7 @@ def riesgos(usadas: list[dict]) -> list[str]:
             rubro = (H.motor.giros().get(r.get("giro"), {}) or {}).get("rubro_enigh_nota")
             if r.get("aviso_prob_baja") and r["aviso_prob_baja"] not in avisos:
                 avisos.insert(0, r["aviso_prob_baja"])
-            ctx = {"aviso_prob_baja": r.get("aviso_prob_baja"), "rubro_enigh_nota": rubro}
+            ctx = {"aviso_prob_baja": r.get("aviso_prob_baja"), "rubro_enigh_nota": rubro, "aviso_rubro_amplio": r.get("aviso_rubro_amplio")}
             avisos = sorted(avisos, key=lambda a: _prioridad_aviso(a, ctx))   # estable: conserva el orden dentro de cada grupo
             out += [a[0].upper() + a[1:] for a in avisos]
             break
@@ -411,7 +465,11 @@ def riesgos(usadas: list[dict]) -> list[str]:
 
 
 def _bloque_riesgos(usadas: list[dict]) -> list[str]:
-    rs = riesgos(usadas)
+    """«Riesgos»: los de `riesgos()`, sin el aviso de probabilidad baja que ya sale como «Ojo» bajo la lista de zonas."""
+    ojos = {r["aviso_prob_baja"][0].upper() + r["aviso_prob_baja"][1:] for u in usadas for r in [u["resultado"]]
+            if u["nombre"] == "recomendar_zonas" and isinstance(r, dict) and r.get("encontrado") and r.get("zonas")
+            and r.get("aviso_prob_baja")}
+    rs = [x for x in riesgos(usadas) if x not in ojos]
     return ["**Riesgos:**\n" + "\n".join(f"- {x}" for x in rs)] if rs else []
 
 
@@ -430,6 +488,25 @@ def _txt_herencia(her: dict) -> str:
     return "Sigo con " + ", ".join(partes) + " (de tu pregunta anterior)."
 
 
+PIDE_PORCENTAJE = re.compile(r"\bporcentaje\b|\bproporcion\b|\bque tanto\b|\bcuanta gente\b|\bcuantos\b|\bcuantas\b|\bque parte\b")
+EDAD_EN_FICHA = {"0-14": r"0-14 años ([\d.]+) %", "15-24": r"15-24 ([\d.]+) %", "25-59": r"25-59 ([\d.]+) %", "60+": r"60 o más ([\d.]+) %"}
+EDAD_TEXTO = {"0-14": "de 0 a 14 años", "15-24": "de 15 a 24 años", "25-59": "de 25 a 59 años", "60+": "de 60 años o más"}
+
+
+def _edad_del_municipio(ficha: dict, pregunta: str) -> str | None:
+    """Si la pregunta pide el porcentaje de un grupo de edad («¿qué porcentaje de la gente es menor de 14 años?»), la frase con
+    la cifra del municipio (de la línea «Edad» de ficha_municipio); None si no lo pide o la ficha no trae el dato."""
+    q = lectura_mod.ligera(pregunta or "")
+    grupo = lectura_mod.grupo_de_edad(q)
+    if not grupo or not PIDE_PORCENTAJE.search(q):
+        return None
+    linea = next((x for x in ficha.get("ficha", []) if x.startswith("Edad:")), "")
+    m = re.search(EDAD_EN_FICHA[grupo], linea)
+    if not m:
+        return None
+    return f"En {ficha['municipio']}, {m.group(1)} % de la población tiene {EDAD_TEXTO[grupo]} (Censo 2020)."
+
+
 def bloques(usadas: list[dict], herencia: dict | None = None, pregunta: str = "") -> list[str]:
     """Secciones de datos de la respuesta, armadas con lo que regresaron las herramientas (sin LLM)."""
     out: list[str] = []
@@ -438,6 +515,22 @@ def bloques(usadas: list[dict], herencia: dict | None = None, pregunta: str = ""
         out.append(f"> {aviso}")
     if herencia:
         out.append(_txt_herencia(herencia))
+    sin = _nota_sinonimo(usadas)
+    if sin:
+        out.append(sin)
+    ficha_ing = next((u["resultado"] for u in usadas if u["nombre"] == "ficha_municipio" and isinstance(u["resultado"], dict)
+                      and u["resultado"].get("ingreso_linea")), None)
+    directo = bool(ficha_ing and H.pide_ingreso(pregunta))
+    fm = next((u["resultado"] for u in usadas if u["nombre"] == "ficha_municipio" and isinstance(u["resultado"], dict)
+               and u["resultado"].get("encontrado") and u["resultado"].get("ficha")), None)
+    edad_mun = _edad_del_municipio(fm, pregunta) if fm else None
+    if directo:   # «¿cuánto ganan ahí?»: la respuesta directa va antes de las zonas
+        out.append(f"**Ingreso en {ficha_ing['municipio']}:** el ingreso trimestral mediano estimado por hogar es de "
+                   f"{H._pesos_txt(ficha_ing['ingreso_trim_mediano_est_hogar_mxn'])}"
+                   + (f" (decil típico {ficha_ing['decil_tipico']})" if ficha_ing.get("decil_tipico") is not None else "")
+                   + f"; {H.F_INGRESO_MUN.split(' (')[0]}." + (f" {edad_mun}" if edad_mun else ""))
+    elif edad_mun:   # «¿qué porcentaje de la gente es menor de 14 años?» sin pedir ingreso
+        out.append(f"**Edad en {fm['municipio']}:** {edad_mun}")
     vistos = set()
     for nombre, fn in (("sugerir_giros", _bloque_giros), ("recomendar_zonas", _bloque_zonas),
                        ("contexto_macro", _bloque_macro), ("ficha_municipio", None)):
@@ -451,7 +544,8 @@ def bloques(usadas: list[dict], herencia: dict | None = None, pregunta: str = ""
             vistos.add(clave)
             if nombre == "ficha_municipio":
                 if r.get("encontrado") and r.get("ficha"):
-                    out.append(f"**Sobre {r['municipio']}:** " + " ".join(r["ficha"][:3]))
+                    ing = f" {r['ingreso_linea']}" if r.get("ingreso_linea") and not directo else ""   # directo: ya salio arriba
+                    out.append(f"**Sobre {r['municipio']}:** " + " ".join(r["ficha"][:3]) + ing)
             elif nombre == "recomendar_zonas":
                 if r.get("encontrado") and r.get("zonas"):
                     out += fn(r, giro_visible(usadas, r["giro"]))
@@ -473,12 +567,12 @@ def responder(pregunta: str, historial: list[dict] | None = None, modelo: str = 
     msgs = [{"role": "system", "content": SYSTEM}] + _historial_corto(historial) + [{"role": "user", "content": pregunta}]
     usadas: list[dict] = []
     herencia: dict = {}
-    pide_como = H.pide_como_influye(pregunta)
+    pide_como, pide_ing = H.pide_como_influye(pregunta), H.pide_ingreso(pregunta)
 
     def correr(nombre, args):
         res = H.ejecutar(nombre, args)
         usadas.append({"nombre": nombre, "args": args, "resultado": res})
-        return {"role": "tool", "content": H.a_json(para_llm(nombre, res, pide_como)), "tool_name": nombre}
+        return {"role": "tool", "content": H.a_json(para_llm(nombre, res, pide_como, pide_ing)), "tool_name": nombre}
 
     if pre:
         plan, herencia = _planear(pregunta, historial)
@@ -563,6 +657,18 @@ def cerrar(texto: str, usadas: list[dict], cortada: bool = False, herencia: dict
     return cerrar_con_revision(texto, usadas, cortada, herencia, pregunta)[0]
 
 
+def _sin_ingreso_repetido(lect: str | None, usadas: list[dict], pregunta: str) -> str | None:
+    """Si la respuesta ya abre con «Ingreso en X: $110,800...» (la pregunta pide el ingreso), la lectura no vuelve a decir ese
+    ingreso del municipio: se quitan sus frases con esa cifra."""
+    ficha = _usada(usadas, "ficha_municipio")
+    if not (lect and ficha and ficha.get("ingreso_linea") and H.pide_ingreso(pregunta)):
+        return lect
+    pesos = H._pesos_txt(ficha["ingreso_trim_mediano_est_hogar_mxn"])
+    cuerpo = re.sub(r"^\*\*Lectura:?\*\*:?\s*", "", lect)
+    quedan = [f for f in lectura_mod.frases(cuerpo) if pesos not in f]
+    return ("**Lectura:** " + " ".join(quedan)) if quedan else None
+
+
 def cerrar_con_revision(texto: str, usadas: list[dict], cortada: bool = False,
                         herencia: dict | None = None, pregunta: str = "") -> tuple[str, list[str]]:
     """Arma la respuesta final: avisos, lectura del modelo, bloques de datos, riesgos y fuentes completas.
@@ -576,9 +682,10 @@ def cerrar_con_revision(texto: str, usadas: list[dict], cortada: bool = False,
     t = SECCION_FUENTES.sub("", t).rstrip()
     b = bloques(usadas, herencia, pregunta)
     if b:
-        avisos = [x for x in b if x.startswith(("> ", "Sigo con"))]
+        avisos = [x for x in b if x.startswith(("> ", "Sigo con", "Tomé «"))]
         datos = [x for x in b if x not in avisos]
         lect, quitadas = lectura_mod.depurar(_lectura(t), usadas, pregunta)
+        lect = _sin_ingreso_repetido(lect, usadas, pregunta)
         partes = avisos + ([lect] if lect else []) + datos + _bloque_riesgos(usadas)
     else:
         quitadas = []

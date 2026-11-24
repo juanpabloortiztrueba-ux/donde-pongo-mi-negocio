@@ -1,1 +1,0 @@
-import{j as o}from"./index-D4nTlLoA.js";function r({on:s,className:e,...a}){return o.jsx("span",{...a,className:`ss-toggle${e?` ${e}`:""}`,"data-on":s||void 0,role:"switch","aria-checked":s,children:o.jsx("span",{className:"ss-toggle__knob"})})}export{r as T};

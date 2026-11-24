@@ -24,6 +24,14 @@ def test_estado(cliente, monkeypatch):
     assert k["agebs"] == 5875 and k["municipios"] == 76 and k["giros"] == 40
     assert k["negocios_denue"] > 1_000_000
     assert 0.5 < k["auc_global"] < 1
+    # AUC medio dentro de cada giro: sale de models/metricas_giro.csv, sin los giros con menos de 30 AGEB con apertura
+    import csv, pathlib
+    filas = list(csv.DictReader((pathlib.Path(__file__).resolve().parents[1] / "models" / "metricas_giro.csv").open(encoding="utf-8")))
+    esperados = [float(r["auc_modelo"]) for r in filas if int(float(r["agebs_con_apertura"])) >= 30]
+    assert k["auc_medio_giro_n"] == len(esperados)
+    assert k["auc_medio_giro"] == pytest.approx(sum(esperados) / len(esperados))
+    assert k["auc_medio_giro"] < k["auc_global"]  # el global mezcla giros y es la cifra más favorable
+    assert "metricas_giro.csv" in d["fuentes"]["auc_medio_giro"]
     assert d["cortes"]["denue_actual"] == "05/2026" and d["cortes"]["denue_hist"] == "11/2020"
     import json, pathlib
     ev = json.loads((pathlib.Path(__file__).resolve().parents[1] / "reports" / "evaluacion.json").read_text())

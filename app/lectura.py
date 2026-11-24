@@ -144,10 +144,29 @@ MAGNITUDES = (
     ("gasto potencial", "gasto_potencial_trim_mxn", re.compile(r"\bgasto\b")),
     ("ingreso", "ingreso_trim_mediano_estimado_mxn", re.compile(r"\bingresos?\b")),
     ("competidores", "competidores_ponderados", re.compile(r"\bcompetidores\b|\bcompetencia\b|\bcompetidoras\b")),
-    ("edad clave", "edad_clave_pct", re.compile(r"\bedad\b|\bedades\b|\b\d+ a \d+ anos\b|\b60 o mas\b|\bmenores de \d+|\bmayores de \d+|"
-                                                r"\bninos\b|\bninas\b|\bjovenes\b|\badultos mayores\b|\bpoblacion infantil\b")),
+    ("edad clave", "edad_clave_pct", re.compile(
+        r"\bedad\b|\bedades\b|\b\d{1,2}\s+(?:a\s+)?\d{1,2}\s+anos\b|\b(?:0|15|25)\s+(?:a\s+)?(?:14|24|59)\b|\b60\s+(?:o mas|anos o mas|\+)|"
+        r"\bmenores de \d+|\bmayores de \d+|\bninos\b|\bninas\b|\bjovenes\b|\badolescentes\b|\badultos\b|\binfantil\b|"
+        r"\btercera edad\b|\bporcentaje de [a-z0-9 ]{0,40}\banos\b")),
     ("score", "score", re.compile(r"\bscore\b|\bpuntaje\b")),
 )
+# grupo de edad del Censo que nombra una frase (texto ligero: «0-14» queda «0 14»); el 60+ va primero («adultos mayores»)
+GRUPOS_EDAD = (
+    ("60+", re.compile(r"\badultos mayores\b|\b60\s+(?:o mas|anos o mas|\+)|\btercera edad\b|\bmayor(?:es)? de 6[05]\b|\badultos de 60")),
+    ("0-14", re.compile(r"\bmenor(?:es)? de 1[45]\b|\bninos\b|\bninas\b|\b0\s+(?:a\s+)?14\b|\binfantil\b|\bpoblacion infantil\b")),
+    ("15-24", re.compile(r"\bjovenes\b|\b15\s+(?:a\s+)?24\b|\badolescentes\b")),
+    ("25-59", re.compile(r"\badultos\b|\b25\s+(?:a\s+)?59\b")),
+)
+
+
+def grupo_de_edad(trozo: str) -> str | None:
+    """Grupo de edad (0-14, 15-24, 25-59, 60+) que nombra el trozo de texto ligero, o None."""
+    for grupo, rx in GRUPOS_EDAD:
+        if rx.search(trozo):
+            return grupo
+    return None
+
+
 # palabras que, con «mejor / lidera», hablan del score en general (la oportunidad, la mejor opcion)
 GENERICO_FUERTE = re.compile(r"\bopcion(?:es)?\b|\boportunidad(?:es)?\b|(?<!gasto )\bpotencial\b|\blugar(?:es)?\b|\bubicacion(?:es)?\b|\bsitios?\b")
 GENERICO_DEBIL = re.compile(r"\bcolonias?\b|\bzonas?\b|\bareas?\b")
@@ -161,7 +180,8 @@ SUPERLATIVOS = (
     (re.compile(rf"(?<!adultos )(?<!personas )(?<!gente )\b(?:mayor(?:es)?{_NO_EDAD}|mas alt[oa]s?|maxim[oa]s?|lidera(?:n)?|liderea(?:n)?|"
                 r"destaca(?:n)?|destacad[oa]s?|encabeza(?:n)?|sobresale(?:n)?|mejor(?:es)?)\b"), +1),
 )
-GENERICO_OK = re.compile(r"mejor|lider")        # con estas, «la oportunidad / la mejor opcion» se compara con el score
+SALTA_COMA = re.compile(r"(?:destaca|sobresale)(?:n)?\s*,\s*(?:con|por|gracias a|al tener)\b")
+GENERICO_OK = re.compile(r"mejor|lider|mayor|mas alt")   # con estas, «la oportunidad / la mejor opcion / el mayor potencial» se compara con el score
 GENERICO_DEBIL_OK = re.compile(r"mejor")        # con esta, tambien «las mejores colonias / zonas»
 ARTICULOS = {"de", "del", "la", "las", "los", "el", "y", "en"}
 ANAFORA = re.compile(r"^\W*(?:por (?:otro|otra) (?:lado|parte)|ambos|ambas|ademas|además|tambien|también|asi|así|sin embargo|"
@@ -275,6 +295,23 @@ def _viola(zs: list[dict], todas: list[dict], campo: str, d: int) -> list[str] |
     return [z["colonia"] for z, v in zip(zs, mias) if ((v < corte) if d > 0 else (v > corte))]
 
 
+DICE_EMPATE = re.compile(r"\bempat|\bigual|\btambien\b|\bcompart|\bjunto con\b|\bambas?\b|\bambos\b|\bmismo\b|\bcoincid")
+
+
+def _empate_sin_decir(asignadas: list[dict], todas: list[dict], campo: str, d: int, fn: str) -> list[str]:
+    """Nombres de las zonas que empatan en el extremo de `campo` con las que la frase presenta como las unicas («CENTRO tiene
+    la menor competencia con 0.0» cuando Caracoles y otra zona tambien tienen 0.0) y que la frase no nombra ni dice que empatan."""
+    vals = [v for v in (_valor(z, campo) for z in todas) if v is not None]
+    mias = [_valor(z, campo) for z in asignadas]
+    if not vals or any(v is None for v in mias) or DICE_EMPATE.search(fn):
+        return []
+    ext = max(vals) if d > 0 else min(vals)
+    if any(v != ext for v in mias):
+        return []                       # esa zona no es el extremo: lo dice la otra regla
+    ids = {id(z) for z in asignadas}
+    return [z["colonia"] for z in todas if id(z) not in ids and _valor(z, campo) == ext]
+
+
 def problemas_de_frase(frase: str, zonas: list[dict], filtros: dict | None = None) -> list[str]:
     """Motivos por los que la frase contradice a los datos de las zonas (lista vacia = la frase vale)."""
     fn = ligera(frase)
@@ -282,15 +319,27 @@ def problemas_de_frase(frase: str, zonas: list[dict], filtros: dict | None = Non
     problemas: list[str] = []
     pares = _pares_superlativo(fn)
     pos_todos = sorted(m.start() for rx, _ in SUPERLATIVOS for m in rx.finditer(fn))
+    pos_pares = {q["pos"] for q in pares}
     for par in pares:
         p, d = par["pos"], par["dir"]
         previo = max([x for x in pos_todos if x < p], default=-1)
+        # «La colonia X destaca por tener el mayor porcentaje de...»: «destaca» no trae magnitud propia y la zona va antes
+        # de el; un superlativo vecino sin magnitud (sin coma de por medio) no corta la busqueda de la zona
+        # (con coma tambien: «X destaca, con el mayor porcentaje de...» / «destaca por / gracias a / al tener»)
+        while previo >= 0 and previo not in pos_pares and ("," not in fn[previo:p] or SALTA_COMA.match(fn[previo:p])):
+            previo = max([x for x in pos_todos if x < previo], default=-1)
         siguiente = min([x for x in pos_todos if x > p], default=len(fn) + 1)
         asignadas = [z for a, b, z in ms if previo < a <= p] or [z for a, b, z in ms if p < a < siguiente]
         asignadas = list({id(z): z for z in asignadas}.values())
         if not asignadas:
             continue
         et = "mayor" if d > 0 else "menor"
+        if par["campo"] == "edad_clave_pct":
+            # el top solo compara la edad clave del giro: «mayor porcentaje de adultos mayores» en una heladeria no se puede juzgar
+            g_frase, g_top = grupo_de_edad(fn[p:p + 90]), asignadas[0].get("edad_clave_grupo")
+            if g_frase and g_top and g_frase != g_top:
+                problemas.append(f"{et} edad: el top solo compara {asignadas[0].get('edad_clave_etiqueta', g_top)}, no {g_frase}")
+                continue
         if par["campo"]:
             campos = [(par["campo"], par["nombre"], None)]
             # la magnitud escrita es de otro tipo que una cifra («lidera con ingreso y 16.5 % de menores»): tambien se juzga esa cifra
@@ -310,6 +359,8 @@ def problemas_de_frase(frase: str, zonas: list[dict], filtros: dict | None = Non
             mal = _viola(asignadas, zonas, campo, d)
             if mal:
                 problemas.append(f"{et} {nombre}: {', '.join(mal)} no está entre las primeras del top")
+            elif (emp := _empate_sin_decir(asignadas, zonas, campo, d, fn)):
+                problemas.append(f"{et} {nombre}: empata con {', '.join(emp)} y la frase no lo dice")
     pedida = H.norm((filtros or {}).get("colonia", ""))
     if pedida:
         for m in re.finditer(rf"\ben\s+(?:la\s+|el\s+)?{re.escape(pedida)}\b", fn):
@@ -411,8 +462,8 @@ class Contexto:
                     out.append(f"{c['texto']} es de {H.nombre_giro(otro)}, no de {H.nombre_giro(propios[0])}")
                     continue
             campo = _campo_de_cifra(ligera(fr), pos, len(c["texto"])) if pos >= 0 else None
-            validos = _campos_de_tipo(tipo) + (("edad_clave_pct_zmvm", "poblacion_ageb_2020", "residentes_objetivo_en_radio",
-                                                "empleos_en_radio") if tipo == "num" else ())
+            validos = _campos_de_tipo(tipo) + (("edad_clave_pct_zmvm", "poblacion_ageb_2020", "hogares_ageb_2020",
+                                                "residentes_objetivo_en_radio", "empleos_en_radio") if tipo == "num" else ())
             campos = (campo,) if campo and campo in validos else validos
             ok = False
             for z in pool:
@@ -431,6 +482,32 @@ class Contexto:
             else:
                 zn = ", ".join(sorted({z["colonia"] for z in pool}))[:60]
                 out.append(f"{c['texto']} no es {campo or 'del renglón'} de {zn}")
+        return out
+
+    # ---- una magnitud con la cifra de otra
+    def mezclas(self, fr: str) -> list[str]:
+        """«Anzures muestra una alta captura con 62.9 % de la edad clave»: la frase habla de una magnitud (captura, apertura,
+        competencia, ingreso, gasto, score) y la cifra que le pone es de otra («de la edad clave»). Solo cuenta si entre la
+        magnitud y la cifra no hay coma, «y», «pero» ni otra cifra: ahi la cifra ya es de otra idea."""
+        fl = ligera(fr)
+        out = []
+        for m in CIFRA_RE.finditer(fl):
+            despues = fl[m.end():m.end() + 26]
+            dm = re.match(r"\s*(?:%|por ciento)?\s*(?:de|en)\s+(?:la\s+|el\s+)?", despues)
+            if not dm:
+                continue
+            campo_b = next((c for c, rx in KW_CAMPO if rx.match(despues[dm.end():])), None)
+            if campo_b is None:
+                continue
+            antes = fl[:m.start()]
+            corte = list(re.finditer(r"[.;,]|\b(?:y|e|pero|mientras|ademas|aunque|tambien)\b", antes))
+            seg = antes[corte[-1].end():] if corte else antes
+            if CIFRA_RE.search(seg):
+                continue
+            for campo_a, rx in MAGNITUD_DE_FRASE:
+                if campo_a != campo_b and rx.search(seg):
+                    out.append(f"{m.group(0).strip()} es {NOMBRE_CAMPO.get(campo_b, campo_b)}, no {NOMBRE_CAMPO.get(campo_a, campo_a)}")
+                    break
         return out
 
     # ---- giros
@@ -483,9 +560,24 @@ KW_CAMPO = (("prob_apertura_pct", re.compile(r"apertura|probabilidad")),
             ("decil_estimado", re.compile(r"\bdecil\b")))
 
 
+# magnitudes que una frase puede nombrar antes de una cifra (para `Contexto.mezclas`) y como se llaman en el aviso
+MAGNITUD_DE_FRASE = (("captura_huff_pct", re.compile(r"\bcaptura\b")),
+                     ("prob_apertura_pct", re.compile(r"\bapertura\b|\bprobabilidad\b")),
+                     ("competidores_ponderados", re.compile(r"\bcompetidores\b|\bcompetencia\b")),
+                     ("ingreso_trim_mediano_estimado_mxn", re.compile(r"\bingresos?\b")),
+                     ("gasto_potencial_trim_mxn", re.compile(r"\bgasto\b")),
+                     ("score", re.compile(r"\bscore\b|\bpuntaje\b")))
+NOMBRE_CAMPO = {"captura_huff_pct": "la captura", "prob_apertura_pct": "la probabilidad de apertura", "edad_clave_pct": "la edad clave",
+                "competidores_ponderados": "la competencia", "ingreso_trim_mediano_estimado_mxn": "el ingreso",
+                "gasto_potencial_trim_mxn": "el gasto potencial", "score": "el score", "decil_estimado": "el decil"}
+
+
 def _campo_de_cifra(fl: str, pos: int, largo: int) -> str | None:
     """Que magnitud nombra la frase (ligera) junto a una cifra: la palabra que sigue («67.2 % de la edad clave») o la ultima antes."""
     despues = fl[pos + largo:pos + largo + 26]
+    habita = re.match(r"\s*(habitantes|hogares)\b", despues)    # «AGEB con 20 habitantes» (aviso de una AGEB casi vacia)
+    if habita:
+        return "poblacion_ageb_2020" if habita.group(1) == "habitantes" else "hogares_ageb_2020"
     for campo, rx in KW_CAMPO:
         if campo in ("edad_clave_pct", "prob_apertura_pct", "captura_huff_pct") \
                 and re.match(r"\s*(?:%|por ciento)?\s*(?:de|en)\s+(?:la\s+|el\s+)?", despues) and rx.search(despues):
@@ -508,7 +600,7 @@ def problemas(fr: str, ctx: Contexto) -> dict[str, list[str]]:
         if all(probs):
             sup += probs[0]
     sg_sup, sg_cif = ctx.giros_problemas(fr)
-    return {"cifras": ctx.cifras(fr) + sg_cif, "superlativos": sup + sg_sup}
+    return {"cifras": ctx.cifras(fr) + ctx.mezclas(fr) + sg_cif, "superlativos": sup + sg_sup}
 
 
 def orden_de_giros(texto: str, claves: list[str]) -> bool:
@@ -522,12 +614,53 @@ def orden_de_giros(texto: str, claves: list[str]) -> bool:
 
 
 # ---------------------------------------------------------------- lectura armada por el codigo
+# acentos de los nombres de colonia (la base del DENUE los trae en mayusculas y sin acento); misma tabla que
+# web/src/comun/formato.ts::ACENTOS, para que el chat y las tarjetas escriban igual
+ACENTOS = {
+    "juarez": "Juárez", "aragon": "Aragón", "seccion": "Sección", "ampliacion": "Ampliación", "jimenez": "Jiménez", "cantu": "Cantú",
+    "gonzalez": "González", "hernandez": "Hernández", "martinez": "Martínez", "perez": "Pérez", "rodriguez": "Rodríguez",
+    "ramirez": "Ramírez", "sanchez": "Sánchez", "lopez": "López", "garcia": "García", "gutierrez": "Gutiérrez", "fernandez": "Fernández",
+    "alvarez": "Álvarez", "alvaro": "Álvaro", "obregon": "Obregón", "tlahuac": "Tláhuac", "coyoacan": "Coyoacán", "atizapan": "Atizapán",
+    "cuautitlan": "Cuautitlán", "chimalhuacan": "Chimalhuacán", "nezahualcoyotl": "Nezahualcóyotl", "tecamac": "Tecámac",
+    "jardin": "Jardín", "mexico": "México", "maria": "María", "jose": "José", "sebastian": "Sebastián", "andres": "Andrés",
+    "periferico": "Periférico", "union": "Unión", "revolucion": "Revolución", "constitucion": "Constitución", "cooperacion": "Cooperación",
+    "politecnico": "Politécnico", "lazaro": "Lázaro", "cardenas": "Cárdenas", "pantitlan": "Pantitlán", "vazquez": "Vázquez",
+    "gomez": "Gómez", "ramon": "Ramón", "agricola": "Agrícola", "habitacion": "Habitación", "penon": "Peñón", "republica": "República",
+    "petroleo": "Petróleo", "mixcoatl": "Mixcóatl", "quetzalcoatl": "Quetzalcóatl", "agustin": "Agustín", "alamos": "Álamos", "rio": "Río",
+    "olimpica": "Olímpica", "muzquiz": "Múzquiz", "pavon": "Pavón", "baez": "Báez", "evolucion": "Evolución", "capulin": "Capulín",
+    "anahuac": "Anáhuac", "asis": "Asís", "jesus": "Jesús", "simon": "Simón", "barbara": "Bárbara", "martin": "Martín", "dario": "Darío",
+    "lucia": "Lucía", "frio": "Frío", "tequisistlan": "Tequisistlán", "hipodromo": "Hipódromo", "ctm": "CTM",
+}
+_ROMANOS = {"i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi", "xii"}
+
+
+def _palabra_bonita(p: str, i: int) -> str:
+    if "-" in p:                       # «IX-A»: cada parte por separado; una letra sola queda en mayuscula
+        return "-".join(x.upper() if len(x) == 1 else _palabra_bonita(x, i) for x in p.split("-"))
+    bajo = p.lower()
+    if bajo in _ROMANOS:
+        return p.upper()
+    if bajo in ACENTOS:
+        return ACENTOS[bajo]
+    return bajo if i and bajo in ARTICULOS else p.capitalize()
+
+
 def _nombre_bonito(colonia: str) -> str:
-    romanos = {"i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi", "xii"}
-    pal = str(colonia).split()
-    return " ".join(p.capitalize() if i == 0 and p.lower() not in romanos else
-                    p.lower() if p.lower() in ARTICULOS and i else p.upper() if p.lower() in romanos else p.capitalize()
-                    for i, p in enumerate(pal))
+    """«DEL VALLE NORTE» -> «Del Valle Norte»; «FUENTES DE ARAGON» -> «Fuentes de Aragón»; «POLANCO IV SECCION» -> «Polanco IV Sección»."""
+    return " ".join(_palabra_bonita(p, i) for i, p in enumerate(str(colonia).split()))
+
+
+def _con_acentos_de(bonito: str, escrito: str) -> str:
+    """`bonito` conserva los acentos que ya traia `escrito` (misma longitud y mismas letras sin acento) y que la tabla no conoce."""
+    if len(bonito) != len(escrito) or ligera(bonito) != ligera(escrito):
+        return bonito
+    def acentuada(c: str) -> bool:
+        return len(unicodedata.normalize("NFD", c)) > 1
+
+    out = []
+    for b, w in zip(bonito, escrito):
+        out.append((w.upper() if b.isupper() else w.lower()) if acentuada(w) and not acentuada(b) else b)
+    return "".join(out)
 
 
 def _hay_destacado(r: dict, campo: str, minimo: float | None = None) -> bool:
@@ -538,27 +671,67 @@ def _hay_destacado(r: dict, campo: str, minimo: float | None = None) -> bool:
     return minimo is None or max(vals) >= minimo
 
 
-def desde_destacados(r: dict) -> str:
-    """Lectura corta armada por el codigo con `destacados` (cuando el modelo no dejo ninguna frase valida). Omite un
-    destacado si todo el top empata en esa magnitud o si el mayor es una probabilidad de apertura baja."""
-    d = r.get("destacados") or {}
+MAX_EMPATE = 3     # si mas de 3 zonas empatan en el extremo, el empate no distingue a nadie y no se dice
+
+# (clave de destacados, campo de la zona, el extremo es el mayor, valor minimo del mayor, frase de una zona, frase de un empate)
+DESTACADOS_TEXTO = (
+    ("mayor_prob_apertura", "prob_apertura_pct", True, 100 * H.PROB_BAJA,
+     "tiene la mayor probabilidad de apertura ({v} %)", "empatan con la mayor probabilidad de apertura ({v} %)"),
+    ("mayor_gasto_potencial", "gasto_potencial_trim_mxn", True, None,
+     "tiene el mayor gasto potencial ({v} por trimestre)", "empatan con el mayor gasto potencial ({v} por trimestre)"),
+    ("menor_competencia", "competidores_ponderados", False, None,
+     "tiene la menor competencia ({v} competidores ponderados)", "empatan con la menor competencia ({v} competidores ponderados)"),
+)
+
+
+def _zonas_en_el_extremo(r: dict, campo: str, mayor: bool) -> list[dict]:
+    """Las zonas del top que tienen el valor extremo de `campo` (varias si empatan, en el orden del top). Vacio si todo el
+    top empata, si falta el dato o si empatan mas de MAX_EMPATE zonas."""
+    zs = [(z, _valor(z, campo)) for z in r.get("zonas", [])]
+    zs = [(z, v) for z, v in zs if v is not None]
+    if len(zs) < 2 or max(v for _, v in zs) == min(v for _, v in zs):
+        return []
+    ext = max(v for _, v in zs) if mayor else min(v for _, v in zs)
+    top = [z for z, v in zs if v == ext]
+    return top if len(top) <= MAX_EMPATE else []
+
+
+def partes_destacados(r: dict) -> list[dict]:
+    """[{zonas, campo, texto}] de lo que la lectura armada por el codigo dice: una zona con la mayor probabilidad de apertura,
+    el mayor gasto o la menor competencia, o varias zonas que empatan en ese extremo (se nombran todas). Omite la magnitud si
+    todo el top empata o si el mayor es una probabilidad de apertura baja."""
     partes = []
-    for clave, plantilla, campo, minimo in (
-            ("mayor_prob_apertura", "tiene la mayor probabilidad de apertura ({v} %)", "prob_apertura_pct", 100 * H.PROB_BAJA),
-            ("mayor_gasto_potencial", "tiene el mayor gasto potencial ({v} por trimestre)", "gasto_potencial_trim_mxn", None),
-            ("menor_competencia", "tiene la menor competencia ({v} competidores ponderados)", "competidores_ponderados", None)):
-        x = d.get(clave)
-        if not x or not _hay_destacado(r, campo, minimo):
+    for _, campo, mayor, minimo, uno, empate in DESTACADOS_TEXTO:
+        if not _hay_destacado(r, campo, minimo):
             continue
-        v = [val for k, val in x.items() if k not in ("colonia", "ageb")][0]
-        v = H._pesos_txt(v) if clave == "mayor_gasto_potencial" else v
-        partes.append((_nombre_bonito(x["colonia"]), plantilla.format(v=v)))
-    if not partes:
+        zs = _zonas_en_el_extremo(r, campo, mayor)
+        if not zs:
+            continue
+        v = _valor(zs[0], campo)
+        v = int(v) if campo == "prob_apertura_pct" else v
+        v = H._pesos_txt(v) if campo == "gasto_potencial_trim_mxn" else v
+        partes.append({"zonas": zs, "campo": campo, "texto": (uno if len(zs) == 1 else empate).format(v=v)})
+    return partes
+
+
+def _lista_nombres(nombres: list[str]) -> str:
+    return nombres[0] if len(nombres) == 1 else ", ".join(nombres[:-1]) + " y " + nombres[-1]
+
+
+def desde_destacados(r: dict) -> str:
+    """Lectura corta armada por el codigo con los extremos del top (cuando el modelo no dejo ninguna frase valida). Omite un
+    destacado si todo el top empata en esa magnitud o si el mayor es una probabilidad de apertura baja; si 2 o 3 zonas
+    empatan en el extremo las nombra todas («A, B y C empatan con la menor competencia (0.0 competidores ponderados)»)."""
+    por_grupo: dict[tuple, list[str]] = {}
+    for parte in partes_destacados(r):
+        nombres = tuple(_nombre_bonito(z["colonia"]) for z in parte["zonas"])
+        txt = parte["texto"]
+        if por_grupo.get(nombres):       # la misma zona (o el mismo empate) en otra magnitud: «... y la menor competencia»
+            txt = txt.replace("tiene ", "", 1) if len(nombres) == 1 else txt.replace("empatan ", "", 1)
+        por_grupo.setdefault(nombres, []).append(txt)
+    if not por_grupo:
         return ""
-    por_zona: dict[str, list[str]] = {}
-    for zona, txt in partes:
-        por_zona.setdefault(zona, []).append(txt.replace("tiene ", "", 1) if por_zona.get(zona) else txt)
-    frases_ = [f"{zona} " + " y ".join(txts) for zona, txts in por_zona.items()]
+    frases_ = [f"{_lista_nombres(list(nombres))} " + " y ".join(txts) for nombres, txts in por_grupo.items()]
     giro = f" de {H.nombre_giro(r['giro'])}" if r.get("giro") else ""
     return f"Entre las zonas del top{giro}, " + "; ".join(frases_) + "."
 
@@ -570,13 +743,22 @@ def desde_giros(g: list[dict]) -> str:
     return f"Por viabilidad, {H.nombre_giro(g[0]['giro'])} encabeza la lista ({g[0]['viabilidad_pct']} %)."
 
 
+NEGRITAS = re.compile(r"\*\*(.+?)\*\*")
+
+
+def _sin_negritas(cuerpo: str) -> tuple[str, bool]:
+    """La lectura no lleva negritas (las pone el codigo en los titulos de bloque): se quitan las que el modelo agrega."""
+    limpio = NEGRITAS.sub(r"\1", cuerpo)
+    return limpio, limpio != cuerpo
+
+
 INTERPRETA = re.compile(r",?\s*(?:lo que|que)\s+(?:refleja|indica|sugiere|implica|sostiene|muestra|significa|apunta)\b[^.;]*(?=[.;]|$)", re.I)
 
 
 def _depurar_macro(lectura: str, ctx: Contexto) -> tuple[str | None, list[str]]:
     """Pregunta de economia sin zonas: se quitan las frases con cifras que no salen de contexto_macro y las interpretaciones
     sin respaldo («lo que refleja una moderada expectativa de gasto»): la herramienta da el valor, la fecha y la serie, no el juicio."""
-    cuerpo = re.sub(r"^\*\*Lectura:?\*\*:?\s*", "", lectura)
+    cuerpo, sin_neg = _sin_negritas(re.sub(r"^\*\*Lectura:?\*\*:?\s*", "", lectura))
     buenas, quitadas = [], []
     for fr in frases(cuerpo):
         mal = ctx.cifras(fr)
@@ -589,43 +771,202 @@ def _depurar_macro(lectura: str, ctx: Contexto) -> tuple[str | None, list[str]]:
             limpia = limpia if limpia.endswith((".", ";")) else limpia + "."
         buenas.append(limpia)
     if not quitadas:
-        return lectura, []
+        return (("**Lectura:** " + " ".join(buenas)) if sin_neg and buenas else lectura), []
     return ("**Lectura:** " + " ".join(buenas)) if buenas else None, quitadas
+
+
+def _distancia_una_letra(a: str, b: str) -> bool:
+    """a y b difieren exactamente en una letra (cambiada, sobrante o faltante)."""
+    if a == b or abs(len(a) - len(b)) > 1:
+        return False
+    if len(a) == len(b):
+        return sum(x != y for x, y in zip(a, b)) == 1
+    corto, largo = sorted((a, b), key=len)
+    return any(largo[:i] + largo[i + 1:] == corto for i in range(len(largo)))
+
+
+def normalizar_nombres(frase: str, zonas: list[dict]) -> str:
+    """Escribe cada zona del top con su nombre bonito y acentuado («Fuentes de Aragón», «Del Valle Norte») cuando la frase lo
+    escribe distinto: otra mayuscula o minuscula («del Valle Norte»), en singular («Fuente de Aragon») o con una letra de
+    diferencia. Si la frase solo cambia mayusculas o acentos, conserva los acentos que ya traia («Ampliación Nápoles»). El
+    nombre exacto del renglon, que viene en MAYUSCULAS («FUENTES DE ARAGON», «POLANCO I SECCIÓN»), tambien se escribe bonito:
+    en la prosa no se mezclan nombres en mayusculas con nombres acentuados. No toca un nombre seguido de una palabra con
+    mayuscula (podria ser otra colonia mas larga)."""
+    fn = ligera(frase)
+    cambios: list[tuple[int, int, str]] = []
+    cubiertos: list[tuple[int, int]] = []
+    for a, b, z in menciones(fn, zonas):
+        cubiertos.append((a, b))
+        generica = len(_tokens_nombre(z["colonia"])) == 1 and frase[a].islower()    # «el centro de la ciudad» no es la colonia CENTRO
+        escrito = frase[a:b]
+        # solo cambian mayusculas o acentos: se escribe bonito y con los acentos que ya traia («Nápoles» no pierde su acento)
+        destino = _con_acentos_de(_nombre_bonito(z["colonia"]), escrito) if ligera(escrito) == ligera(z["colonia"]) \
+            else _nombre_bonito(z["colonia"])
+        if escrito != destino and not generica and not re.match(r"\s+[A-ZÁÉÍÓÚÑ]\w", frase[b:]):
+            cambios.append((a, b, destino))
+    nombres = {H.norm(z["colonia"]) for z in zonas}
+    toks = [(m.start(), m.end(), m.group()) for m in re.finditer(r"[a-z0-9]+", fn)]
+    for z in zonas:                       # una letra de diferencia («Pedregal de Santo Domingu»)
+        nom = H.norm(z["colonia"])
+        n = len(nom.split())
+        if n < 1 or (n < 2 and len(nom) < 8) or len(nom) < 6:
+            continue
+        for i in range(len(toks) - n + 1):
+            ventana = toks[i:i + n]
+            if any(fn[ventana[k][1]:ventana[k + 1][0]].strip() for k in range(n - 1)):
+                continue                   # una coma o un punto de por medio: no es un solo nombre
+            cand = " ".join(t for _, _, t in ventana)
+            a, b = ventana[0][0], ventana[-1][1]
+            if cand in nombres or not _distancia_una_letra(cand, nom) or any(a < y and x < b for x, y in cubiertos):
+                continue
+            if not re.match(r"\s+[A-ZÁÉÍÓÚÑ]\w", frase[b:]):
+                cambios.append((a, b, _nombre_bonito(z["colonia"])))
+                cubiertos.append((a, b))
+    for a, b, exacto in sorted(cambios, reverse=True):
+        frase = frase[:a] + exacto + frase[b:]
+    return frase
+
+
+MEJOR_OPCION = re.compile(r"\bla mejor\b|\bmejor(?:es)?\s+(?:opcion(?:es)?|zonas?|colonias?|ubicacion(?:es)?|lugar(?:es)?|sitios?|alternativas?)\b|"
+                          r"\b(?:opcion|lugar|zona|colonia) ideal\b")
+AVISO_YA_DICHO = re.compile(r"\bhabitantes\b|\bhogares\b|\bradio de influencia\b")
+
+
+def con_aviso_de_ageb_vacia(frase: str, zonas: list[dict]) -> str:
+    """Si la frase llama «la mejor opcion» a una zona con aviso (AGEB con menos de 200 habitantes o 50 hogares) y no lo dice,
+    le agrega el aviso: la zona sigue en la lectura, pero nunca sin el dato de que casi nadie vive ahi."""
+    fn = ligera(frase)
+    if not MEJOR_OPCION.search(fn) or AVISO_YA_DICHO.search(fn):
+        return frase
+    for _, _, z in menciones(fn, zonas):
+        if z.get("aviso_ageb_poco_poblada"):
+            return frase.rstrip().rstrip(".;") + f" ({z['aviso_ageb_poco_poblada']})."
+    return frase
+
+
+def _repite_la_base(frase: str, zonas: list[dict], cubiertos: set) -> bool:
+    """La frase solo dice (zona, magnitud) que la lectura armada por el codigo ya dijo: no se repite."""
+    fn = ligera(frase)
+    zs = {z["ageb"] for _, _, z in menciones(fn, zonas)}
+    campos = {campo for _, campo, rx in MAGNITUDES if rx.search(fn)}
+    return bool(zs and campos) and all((a, c) in cubiertos for a in zs for c in campos)
+
+
+CONCORDANCIA = re.compile(r"\b([Ee])l (mayor|menor) (competencia|probabilidad|captura|viabilidad|poblaci[oó]n|densidad|escolaridad)\b")
+SEPARA_CLAUSULAS = re.compile(r",\s*(?:mientras que|en cambio|a diferencia de)\s+", re.I)
+PIDE_ZONAS = re.compile(r"\bdonde\b|\bzonas?\b|\bcolonias?\b|\bubicacion\b|\blugar(?:es)?\b|\bmunicipio\b|\balcaldia\b|\bagebs?\b")
+
+
+def corregir_concordancia(frase: str) -> str:
+    """«el menor competencia» -> «la menor competencia» (el modelo falla el genero con los sustantivos femeninos)."""
+    return CONCORDANCIA.sub(lambda m: ("L" if m.group(1) == "E" else "l") + f"a {m.group(2)} {m.group(3)}", frase)
+
+
+def clausulas(frase: str) -> list[str]:
+    """La frase partida en «..., mientras que ...»: cada trozo como frase suelta (mayuscula inicial y punto final)."""
+    partes = SEPARA_CLAUSULAS.split(frase.strip())
+    if len(partes) < 2:
+        return [frase]
+    out = []
+    for t in partes:
+        t = t.strip().rstrip(".;").strip()
+        if t:
+            out.append(t[0].upper() + t[1:] + ".")
+    return out
+
+
+def sin_repetir(frases_: list[str], zonas: list[dict]) -> list[str]:
+    """Quita la frase (o la cláusula «..., mientras que ...») que solo repite lo que otra ya dijo de la misma zona y las mismas
+    magnitudes («Ampliación Nápoles tiene la mayor probabilidad y el mayor gasto» y, dos frases despues, «Ampliación Nápoles
+    destaca por su gasto y su probabilidad»). Solo juzga trozos que nombran una sola zona y al menos una magnitud."""
+    dichos: set[tuple[str, str]] = set()
+    out: list[str] = []
+    for fr in frases_:
+        trozos = SEPARA_CLAUSULAS.split(fr.strip())
+        quedan = []
+        for t in trozos:
+            fn = ligera(t)
+            zs = {z["ageb"] for _, _, z in menciones(fn, zonas)}
+            campos = {campo for _, campo, rx in MAGNITUDES if rx.search(fn)}
+            pares = {(a, c) for a in zs for c in campos} if len(zs) == 1 else set()
+            if pares and pares <= dichos:
+                continue
+            dichos |= pares
+            quedan.append(t.strip())
+        if len(quedan) == len(trozos):
+            out.append(fr)
+        elif quedan:
+            texto = ", mientras que ".join(q.rstrip(".;").strip() for q in quedan)
+            out.append(texto[0].upper() + texto[1:] + ".")
+    return out
 
 
 def depurar(lectura: str | None, usadas: list[dict], pregunta: str = "") -> tuple[str | None, list[str]]:
     """(lectura revisada, frases quitadas). `lectura` empieza con «**Lectura:**»; con varias llamadas a recomendar_zonas
     cada frase se revisa contra las zonas de todas (basta con que valga contra una). Ademas de los superlativos se
     revisan las cifras (de ninguna herramienta, de otra zona, de otro giro) y los giros de sugerir_giros (el que lidera es
-    el 1, se nombran en el orden de la herramienta)."""
+    el 1, se nombran en el orden de la herramienta). Una frase con «..., mientras que ...» que falla se parte: se
+    conservan las cláusulas que valen. En una pregunta de «cómo influye la inflación...» que no pide zonas, la lectura no
+    habla de zonas. Tambien se quita lo que repite lo que ya se dijo de la misma zona."""
     ctx = Contexto(usadas, pregunta)
     if lectura and not (ctx.rzs or ctx.giros) and any(u["nombre"] == "contexto_macro" for u in usadas):
         return _depurar_macro(lectura, ctx)
     if not lectura or not (ctx.rzs or ctx.giros):
         return lectura, []
-    cuerpo = re.sub(r"^\*\*Lectura:?\*\*:?\s*", "", lectura)
+    cuerpo, retocada = _sin_negritas(re.sub(r"^\*\*Lectura:?\*\*:?\s*", "", lectura))
+    q_norm = H.norm(pregunta or "")
+    macro_puro = bool(pregunta and H.pide_como_influye(pregunta) and not PIDE_ZONAS.search(q_norm)
+                      and any(u["nombre"] == "contexto_macro" and isinstance(u["resultado"], dict) and u["resultado"].get("como_influye")
+                              for u in usadas))
     buenas, quitadas = [], []
     vistos: list[str] = []      # giros ya nombrados en la lectura, en el orden de la herramienta
-    for fr in frases(cuerpo):
+    # (retocada: negritas quitadas, nombres de zona reescritos o aviso de AGEB casi vacia agregado)
+
+    def revisar(fr0: str) -> tuple[str | None, list[str]]:
+        fr = corregir_concordancia(normalizar_nombres(fr0, ctx.zonas_todas))
         malos = problemas(fr, ctx)
         motivo = malos["cifras"] + malos["superlativos"]
+        if macro_puro and menciones(ligera(fr), ctx.zonas_todas):
+            motivo = motivo + ["la pregunta es de economía y la frase habla de zonas"]
+        nuevos: list[str] = []
         if not motivo and ctx.giros_claves:   # un giro nuevo no puede ir antes de uno de mejor lugar ya nombrado
             nuevos = [c for c in dict.fromkeys(c for _, _, c in giros_en(ligera(fr))) if c in ctx.giros_claves and c not in vistos]
             rangos = [ctx.giros_claves.index(c) for c in nuevos]
             previos = [ctx.giros_claves.index(c) for c in vistos]
             if rangos != sorted(rangos) or (previos and rangos and min(rangos) < max(previos)):
                 motivo = ["los giros se nombran fuera del orden de sugerir_giros"]
-            else:
-                vistos += nuevos
         if motivo:
-            quitadas.append(f"{fr[:70]}… ({'; '.join(motivo[:2])})")
+            return None, motivo
+        vistos.extend(nuevos)
+        return con_aviso_de_ageb_vacia(fr, ctx.zonas_todas), []
+
+    for fr0 in frases(cuerpo):
+        fr, motivo = revisar(fr0)
+        if fr is None and len(clausulas(fr0)) > 1:      # se salva lo que valga de cada clausula
+            for cl in clausulas(fr0):
+                fr_c, motivo_c = revisar(cl)
+                if fr_c is None:
+                    quitadas.append(f"{cl[:70]}… ({'; '.join(motivo_c[:2])})")
+                else:
+                    buenas.append(fr_c)
+                    retocada = True
+            continue
+        if fr is None:
+            quitadas.append(f"{fr0[:70]}… ({'; '.join(motivo[:2])})")
         else:
+            retocada = retocada or fr != fr0
             buenas.append(fr)
+    antes = list(buenas)
+    buenas = sin_repetir(buenas, ctx.zonas_todas)
+    retocada = retocada or buenas != antes
     if not quitadas:
-        return lectura, []
+        return (("**Lectura:** " + " ".join(buenas)) if retocada and buenas else lectura), []
+    if macro_puro:      # la lectura es del mecanismo: no se le agregan zonas armadas por el codigo
+        return (("**Lectura:** " + " ".join(buenas)) if buenas else None), quitadas
     # lo que queda no puede depender de lo que se quito («Ambas son opciones...», «Por otro lado...»)
-    sueltas = [f for f in buenas if not ANAFORA.match(f)][:2]
     base = desde_destacados(ctx.rzs[0]) if ctx.rzs else ""
+    cubiertos = {(z["ageb"], p["campo"]) for p in (partes_destacados(ctx.rzs[0]) if ctx.rzs else []) for z in p["zonas"]}
+    sueltas = [f for f in buenas if not ANAFORA.match(f) and not _repite_la_base(f, ctx.zonas_todas, cubiertos)][:2]
     if not base and not sueltas and ctx.giros:
         base = desde_giros(ctx.giros)
     nuevo = " ".join(([base] if base else []) + sueltas).strip()

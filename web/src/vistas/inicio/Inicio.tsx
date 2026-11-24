@@ -45,11 +45,17 @@ export default function Inicio(_: VistaProps) {
             <Kpi valor={k?.municipios} etiqueta="municipios y alcaldías" fuente="SEDATU-CONAPO-INEGI, ZM 2015" retraso={80} />
             <Kpi valor={k?.negocios_denue} etiqueta="negocios en el DENUE" fuente={`DENUE corte ${c?.denue_actual ?? '—'}`} retraso={160} tono="accent" />
             <Kpi valor={k?.giros} etiqueta="giros modelados" fuente="config/giros.yaml (supuestos del proyecto)" retraso={240} />
-            <Kpi valor={k?.auc_global} formato={(n) => fmtNum(n, 3)} etiqueta="AUC del modelo de aperturas" fuente="modelo propio, validación por municipio" retraso={320} />
+            <Kpi valor={k?.auc_medio_giro} formato={(n) => fmtNum(n, 3)} etiqueta={`AUC medio dentro de cada giro${k?.auc_medio_giro_n != null ? ` (${fmtNum(k.auc_medio_giro_n)} giros)` : ''}`} fuente="modelo propio (models/metricas_giro.csv), validación por municipio" retraso={320} />
             <Kpi valor={ev?.pasan} formato={(n) => `${fmtNum(n)}/${fmtNum(ev?.total)}`} etiqueta="preguntas que pasa la evaluación" fuente={`modelo propio, evaluación del ${ev?.fecha?.slice(0, 10) ?? '—'}`} retraso={400} />
           </div>
         )}
-        {k?.auc_global != null && <p className="chico ini-nota">El AUC mide qué tan bien separa las zonas donde sí abrió un negocio de las que no ({fmtPct(k.auc_global, 1, true)} de probabilidad de ordenar bien un par), siempre en municipios que el modelo no vio al entrenar.</p>}
+        {k?.auc_medio_giro != null && (
+          <p className="chico ini-nota">
+            El AUC mide qué tan bien el modelo de aperturas pone por encima una zona donde sí abrió un negocio del giro frente a una donde no ({fmtPct(k.auc_medio_giro, 1, true)} de probabilidad de ordenar bien un par, en promedio por giro), siempre en municipios que no vio al entrenar.
+            {k.auc_global != null && <> El AUC global, {fmtNum(k.auc_global, 3)}, es más alto porque mezcla giros y parte se explica por cuántos negocios de cada giro hay; por eso la cifra de arriba es la que importa.</>}{' '}
+            <a href={href('modelo')}>El score que ordena las colonias no es este modelo</a>: el modelo es solo uno de sus términos, junto con demanda, población, flujo y complementarios.
+          </p>
+        )}
       </section>
 
       <section aria-label="Vistas del tablero">

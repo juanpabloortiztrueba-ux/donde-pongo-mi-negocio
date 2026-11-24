@@ -195,6 +195,12 @@ CAMPOS_RENGLON = ("score", "prob_apertura_pct", "gasto_potencial_trim_mxn", "com
                   "ingreso_trim_mediano_estimado_mxn", "edad_clave_pct", "decil_estimado", "dist_a_colonia_km")
 
 
+def _escrita_como_nombre(nombre: str, texto: str) -> bool:
+    """Alguna aparicion de `nombre` (normalizado, una palabra) en el texto empieza con mayuscula o esta toda en mayusculas."""
+    fl = lectura_mod.ligera(texto)
+    return any(texto[m.start()].isupper() for m in re.finditer(rf"\b{re.escape(nombre)}\b", fl))
+
+
 def calificar(q: dict, r: dict, feats, toks: list[str]) -> dict:
     texto = r["respuesta"] or ""
     usadas = r["herramientas"]
@@ -300,6 +306,9 @@ def calificar(q: dict, r: dict, feats, toks: list[str]) -> dict:
     for nombre in nombres_colonia_conocidos(feats):
         sin_art = re.sub(r"^(?:el|la|los|las)\s+", "", nombre)
         if f" {nombre} " in " " + low + " " and f" {nombre} " not in tool_low and f" {sin_art} " not in tool_low:
+            # una colonia de una sola palabra («Mercado») escrita en minuscula es el sustantivo comun («la captura del mercado»)
+            if len(nombre.split()) == 1 and not _escrita_como_nombre(nombre, texto):
+                continue
             sospechosas.append(nombre)
     for m in re.finditer(r"(?m)^\s*\d+[.)]\s+\*\*([^*]+)\*\*", texto):
         nm = H.norm(m.group(1))
@@ -375,7 +384,8 @@ def calificar(q: dict, r: dict, feats, toks: list[str]) -> dict:
         rr = u["resultado"]
         if u["nombre"] == "recomendar_zonas" and isinstance(rr, dict) and rr.get("encontrado"):
             rubro = motor.giros().get(rr["giro"], {}).get("rubro_enigh_nota")
-            clave_av += [a for a in rr.get("avisos", []) if a.startswith("giro raro") or (rubro and a == rubro)]
+            clave_av += [a for a in rr.get("avisos", []) if a.startswith("giro raro") or (rubro and a == rubro)
+                         or a == rr.get("aviso_rubro_amplio")]
     if clave_av:
         clave_av = list(dict.fromkeys(clave_av))
         det["avisos_del_giro"] = clave_av
@@ -402,6 +412,25 @@ def calificar(q: dict, r: dict, feats, toks: list[str]) -> dict:
         det["zonas_con_ingreso_y_edad"] = f"{ok_ie}/{len(bloques)}"
         checks["ingreso_y_edad"] = ok_ie >= max(1, MIN_ZONAS_INGRESO_EDAD * len(bloques))
 
+    # 5d2) pulido final: la referencia de edad va en su linea (no mezclada con el encabezado), el sinonimo del giro se dice,
+    # una AGEB casi vacia lleva su aviso en el renglon y la pregunta de ingreso se contesta con la cifra del municipio
+    if rz and tipo in ("giro", "sugerir"):
+        from app import agente
+        if any(r_.get("edad_clave") for r_ in rz):
+            checks["referencia_edad"] = bool(re.search(r"(?m)^Referencia: en la ZMVM, [\d.,]+ % de la población tiene", texto)) \
+                and not re.search(r"relativo al giro;", texto)
+        sinonimos = [agente.sinonimo_usado(usadas, r_["giro"]) for r_ in rz]
+        if any(sinonimos):
+            checks["sinonimo_dicho"] = "Tomé «" in texto
+        vacias = {a: zt[a][0]["aviso_ageb_poco_poblada"] for a in bloques if zt[a][0].get("aviso_ageb_poco_poblada")}
+        if vacias:
+            det["agebs_casi_vacias"] = sorted(vacias)
+            checks["aviso_ageb_vacia"] = all(av in bloques[a] for a, av in vacias.items())
+    fm = [u["resultado"] for u in usadas if u["nombre"] == "ficha_municipio" and isinstance(u["resultado"], dict)
+          and u["resultado"].get("ingreso_linea")]
+    if fm and H.pide_ingreso(q["pregunta"]):
+        checks["ingreso_municipio"] = H._pesos_txt(fm[0]["ingreso_trim_mediano_est_hogar_mxn"]) in texto
+
     # 5e) macro breve: una linea de Banxico/INEGI con cifras reales de contexto_macro, sin extenderse
     mg = [u["resultado"] for u in usadas if u["nombre"] == "contexto_macro" and isinstance(u["resultado"], dict) and u["resultado"].get("linea")]
     if mg and tipo in ("giro", "sugerir"):
@@ -411,7 +440,7 @@ def calificar(q: dict, r: dict, feats, toks: list[str]) -> dict:
         mayor = max((len(p) for p in parrafos), default=0)
         det["macro_cifras_citadas"], det["macro_parrafo_chars"] = len(cit), mayor
         checks["macro_breve"] = len(cit) >= 2 and mayor <= MACRO_BREVE_MAX_CHARS and bool(re.search(r"banxico|inegi", texto, re.I))
-        if PIDE_COMO_RE.search(q["pregunta"]):   # «¿cómo influye...?» pide el mecanismo, no solo dos cifras
+        if PIDE_COMO_RE.search(q["pregunta"]) or H.pide_como_influye(q["pregunta"]):   # «¿cómo influye...?» pide el mecanismo, no solo dos cifras
             checks["macro_mecanismo"] = len(MECANISMO_RE.findall(re.sub(r"\*\*Fuentes.*", "", texto, flags=re.S))) >= 2
 
     # 6) cifras
@@ -538,7 +567,11 @@ def md(res: dict) -> str:
          "- `lectura_cifras_de_su_zona`: en la «Lectura» del modelo, cada frase que nombra una zona solo usa cifras de esa zona (si un nombre está dentro de otro más largo, «Granada» en «Ampliación Granada», manda la coincidencia más larga) y cada cifra se compara solo con el campo que nombra («prob. de apertura», «gasto potencial», «ingreso», «competidores», «edad clave») o, sin magnitud, con los campos del renglón de la zona; no con cualquier número del resultado.",
          "- `lectura_cifras_de_su_zona` (a partir de la evaluación final): además, cada cifra tiene que salir de alguna herramienta y ser de su tipo (un % solo se compara con campos en %, los pesos con pesos); las de `perfil_giro`, `contexto_macro` y `ficha_municipio` valen en cualquier frase; la viabilidad de un giro de `sugerir_giros` solo vale con ese giro; y a un giro sin `recomendar_zonas` no se le atribuyen zonas ni gasto potencial.",
          "- `lectura_superlativos`: «mayor», «menor», «lidera(n)», «destaca», «mejor(es)»... junto con una magnitud (prob. de apertura, gasto, ingreso, competidores, edad, score u «oportunidad / mejor opción») solo valen si la zona nombrada es de las primeras del top en esa magnitud (`app/lectura.py`); sin magnitud escrita se deduce de la cifra que sigue («lidera con un 12.5 %»); el giro que «lidera» es el 1 de `sugerir_giros`; y «En <colonia pedida>, la colonia Z» solo si Z está dentro de la colonia.",
-         "- `avisos_del_giro`: los avisos «giro raro» y el del rubro ENIGH sustituto de `recomendar_zonas` aparecen en la respuesta (en los riesgos).",
+         "- `avisos_del_giro`: los avisos «giro raro», el del rubro ENIGH sustituto y el del rubro ENIGH amplio («el gasto potencial usa el rubro ENIGH ... completo; sirve para ordenar zonas dentro del giro, no para comparar entre giros») de `recomendar_zonas` aparecen en la respuesta (en los riesgos).",
+         "- `referencia_edad`: la edad clave del giro en la ZMVM va en su propia línea («Referencia: en la ZMVM, 20.7 % de la población tiene de 0 a 14 años (Censo 2020).»), no dentro del encabezado del top.",
+         "- `sinonimo_dicho`: si la pregunta usó otro nombre del giro («nevería»), una línea dice con qué giro del catálogo se quedó («Tomé «nevería» como heladería...»).",
+         "- `aviso_ageb_vacia`: una zona del top con menos de 200 habitantes o menos de 50 hogares lleva en su renglón el aviso de que el gasto viene del radio de influencia.",
+         "- `ingreso_municipio`: si la pregunta pide el ingreso («¿cuánto ganan?») y hay ficha del municipio, la respuesta trae el ingreso trimestral mediano estimado por hogar del municipio.",
          "- `macro_mecanismo` (pregunta «¿cómo influye...?»): la respuesta explica el mecanismo (costo, insumos, crédito, financiamiento, margen, precio).",
          "- `colonias_con_origen`: ninguna colonia del catálogo de `agebs_features`, renglón de lista en negritas ni nombre escrito como «colonia X» / «fraccionamiento X» aparece sin salir de las herramientas, de la pregunta o del historial.",
          "- `municipio`, `giro`, `nse`, `macro_usada`: se usó la herramienta con el giro/filtro esperado y las AGEB son del municipio pedido.",

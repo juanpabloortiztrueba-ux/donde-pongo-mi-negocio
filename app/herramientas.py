@@ -197,6 +197,8 @@ def perfil_giro(texto: str) -> dict:
            "notas": g.get("notas")}
     if g.get("rubro_enigh_nota"):
         out["aviso_rubro"] = g["rubro_enigh_nota"]
+    if aviso_rubro_amplio(clave):
+        out["aviso_rubro_amplio"] = aviso_rubro_amplio(clave)
     m = _metricas()
     if clave in m.index:
         r = m.loc[clave]
@@ -290,6 +292,21 @@ def _resumen(z: dict) -> str:
             f"{z['edad_clave_etiqueta']}: {edad}")
 
 
+UMBRAL_HABITANTES_AGEB = 200   # una AGEB del top con menos habitantes o menos hogares que esto lleva aviso
+UMBRAL_HOGARES_AGEB = 50
+
+
+def _aviso_ageb_vacia(pob, hogares) -> str | None:
+    """Aviso de una AGEB casi vacia: el score mide el radio de influencia, asi que el gasto no sale de quienes viven en ella."""
+    if isinstance(pob, (int, float)) and pob < UMBRAL_HABITANTES_AGEB:
+        cuanto = f"{pob:,} habitantes"
+    elif isinstance(hogares, (int, float)) and hogares < UMBRAL_HOGARES_AGEB:
+        cuanto = f"{hogares:,} hogares"
+    else:
+        return None
+    return f"AGEB con {cuanto}: el gasto viene del radio de influencia, no de quienes viven en la AGEB"
+
+
 def _zona(r, clave: str) -> dict:
     g = motor.giros()[clave]
     grupo = edad_clave(clave)
@@ -316,8 +333,11 @@ def _zona(r, clave: str) -> dict:
          "edad_clave_grupo": grupo, "edad_clave_etiqueta": EDAD_ETIQUETA[grupo],
          "edad_clave_pct": NO if edad_pct is None else edad_pct,
          "edad_clave_pct_zmvm": _r(_pct_edad_zmvm(grupo), 1),
-         "poblacion_ageb_2020": _r(pob),
+         "poblacion_ageb_2020": _r(pob), "hogares_ageb_2020": _r(r["hogares"]) if pd.notna(r["hogares"]) else None,
          "radio_m": g["radio_influencia_m"]}
+    aviso_ageb = _aviso_ageb_vacia(z["poblacion_ageb_2020"], z["hogares_ageb_2020"])
+    if aviso_ageb:
+        z["aviso_ageb_poco_poblada"] = aviso_ageb
     if "dist_colonia_km" in r.index and pd.notna(r["dist_colonia_km"]):
         z["dist_a_colonia_km"] = _r(r["dist_colonia_km"], 1)
         z["en_colonia_consultada"] = bool(r["en_colonia"])
@@ -359,6 +379,18 @@ def _n_agebs_base(clave: str, m) -> str:
     return f"el {_r(pct)} % de las AGEB"
 
 
+def aviso_rubro_amplio(clave: str) -> str | None:
+    """Aviso de los giros cuyo gasto potencial usa un rubro ENIGH amplio o sustituto (config/giros.yaml: rubro_enigh_tipo):
+    el gasto ordena zonas dentro del giro, pero no es comparable con el de otro giro (otro rubro, otro tamano)."""
+    g = motor.giros().get(clave, {})
+    tipo, etiqueta = g.get("rubro_enigh_tipo"), g.get("rubro_enigh_etiqueta")
+    if not (tipo and etiqueta and g.get("rubro_enigh")):
+        return None
+    uso = "completo" if tipo == "amplio" else "como sustituto del giro"
+    return (f"el gasto potencial usa el rubro ENIGH {etiqueta} {uso}; sirve para ordenar zonas dentro del giro, "
+            "no para comparar entre giros")
+
+
 def _destacados(zonas: list[dict]) -> dict:
     """Lo que distingue a las zonas del top, ya calculado (el agente lo cita en la lectura sin buscar en cada renglon)."""
     def mejor(clave, mayor=True):
@@ -375,6 +407,9 @@ def _destacados(zonas: list[dict]) -> dict:
         z = mejor(clave, mayor)
         if z:
             out[nombre] = {"colonia": z["colonia"], "ageb": z["ageb"], etiqueta: z[clave]}
+            empatan = [w["colonia"] for w in zonas if w.get(clave) == z[clave]]
+            if 1 < len(empatan) < len(zonas):    # varias zonas con el mismo valor extremo (si son todas, no distingue a nadie)
+                out[nombre]["empatan"] = empatan
     ing = [z["ingreso_trim_mediano_estimado_mxn"] for z in zonas if isinstance(z.get("ingreso_trim_mediano_estimado_mxn"), (int, float))]
     pct = [z["edad_clave_pct"] for z in zonas if isinstance(z.get("edad_clave_pct"), (int, float))]
     if ing:
@@ -482,6 +517,9 @@ def recomendar_zonas(giro: str, municipio: str | None = None, nse: str | None = 
               f"el ticket promedio de {g.get('ticket_promedio_mxn')} pesos es un supuesto ({g.get('ticket_fuente')})"]
     if g.get("rubro_enigh_nota"):
         avisos.append(g["rubro_enigh_nota"])
+    aviso_rubro = aviso_rubro_amplio(clave)
+    if aviso_rubro:
+        avisos.append(aviso_rubro)
     if not g.get("rubro_enigh"):
         avisos.append("sin rubro ENIGH para este giro: gasto potencial NO ENCONTRADO, el score usa población objetivo")
     m = _metricas()
@@ -492,6 +530,8 @@ def recomendar_zonas(giro: str, municipio: str | None = None, nse: str | None = 
            "edad_clave": {"grupo": edad_clave(clave), "etiqueta": EDAD_ETIQUETA[edad_clave(clave)],
                           "pct_zmvm": _r(_pct_edad_zmvm(edad_clave(clave)), 1),
                           "peso_en_cliente_objetivo": g.get("cliente_objetivo", {}).get(edad_clave(clave))}}
+    if aviso_rubro:
+        out["aviso_rubro_amplio"] = aviso_rubro
     if info_col:
         out["colonia_consultada"] = info_col
         out["aviso_colonia"] = info_col["aviso"]
@@ -615,18 +655,71 @@ def indicadores_del_giro(giro: str | None) -> list[str]:
     return claves
 
 
+def _fmt_valor(v) -> str:
+    """Cifra es-MX: separador de miles desde 1,000 («5,362»); los valores chicos van tal cual («6.25»)."""
+    if isinstance(v, (int, float)) and abs(v) >= 1000:
+        return f"{v:,.0f}"
+    return f"{v}"
+
+
+# indicador de macro.json -> serie de macro_series.parquet (la misma serie, con datos mas nuevos si ya se bajaron)
+SERIE_DE = {"tasa_objetivo": "tasa_objetivo", "tiie_28": "tiie_28", "tipo_cambio_fix": "tipo_cambio_fix", "remesas": "remesas",
+            "inpc_general_var_anual": "inpc_general_var_anual", "confianza_consumidor": "confianza_consumidor",
+            "consumo_privado": "consumo_privado_var_anual"}
+MENSUALES = {"remesas", "inpc_general_var_anual", "inpc_alimentos_var_anual", "confianza_consumidor", "consumo_privado"}
+
+
+def _fecha_txt(fecha, mensual: bool) -> str | None:
+    """Fecha del dato: «2026-10» en las series mensuales (nunca «2026-09-01»), «2026-11-23» en las diarias."""
+    if fecha is None:
+        return None
+    t = str(fecha)[:10]
+    return t[:7] if mensual else t
+
+
+def _macro_json() -> dict:
+    """data/processed/macro.json; si macro_series.parquet trae un dato mas nuevo de la MISMA serie (mismo id_serie), usa ese
+    valor y su fecha («FIX 19.16 del 2026-11-23» en vez de «19.02 del 2026-11-20»)."""
+    m = json.loads((PROC / "macro.json").read_text(encoding="utf-8"))
+    p = PROC / "macro_series.parquet"
+    if not p.exists():
+        return m
+    try:
+        ser = pd.read_parquet(p)
+        ser["fecha"] = pd.to_datetime(ser["fecha"])
+    except Exception:
+        return m
+    for k, nombre in SERIE_DE.items():
+        v = m.get(k)
+        if not isinstance(v, dict) or "valor" not in v or v.get("estado") == NO:
+            continue
+        g = ser[ser["serie"] == nombre].sort_values("fecha")
+        if g.empty or str(g["id_serie"].iloc[-1]) != str(v.get("id_serie")):
+            continue
+        try:
+            actual = pd.to_datetime(str(v.get("fecha")))
+        except (ValueError, TypeError):
+            continue
+        ult = g.iloc[-1]
+        if ult["fecha"] > actual and np.isfinite(ult["valor"]):
+            v = {x: y for x, y in v.items() if x not in ("variacion_anual_pct", "acumulado_12_meses_millones_usd")}
+            v["valor"], v["fecha"] = float(ult["valor"]), ult["fecha"].strftime("%Y-%m-%d")
+            m[k] = v
+    return m
+
+
 def _txt_indicador(k: str, v: dict) -> str:
     if v.get("valor") == NO:
         prox = v.get("proxies") or {}
         p = prox.get("no_subyacente_agropecuarios")
         if p:
             return (f"inflación de alimentos, bebidas y tabaco (INPC): NO ENCONTRADO; como aproximación, agropecuarios "
-                    f"{p['valor']} % anual ({p['fecha']}, serie {p['id_serie']})")
+                    f"{_fmt_valor(p['valor'])} % anual ({_fecha_txt(p['fecha'], True)}, serie {p['id_serie']})")
         return f"{ETIQUETA_MACRO.get(k, k)}: NO ENCONTRADO"
     unidad = {"% anual": "% anual", "% variacion anual": "% anual", "MXN por USD": "pesos por dólar",
               "puntos (indice)": "puntos del índice", "% variacion anual (cifras originales)": "% anual (cifras originales)",
               "millones de USD (mensual)": "millones de dólares al mes"}.get(v.get("unidad"), v.get("unidad") or "")
-    return f"{ETIQUETA_MACRO.get(k, k)} {v['valor']} {unidad} ({v.get('fecha')}, serie {v.get('id_serie')})"
+    return f"{ETIQUETA_MACRO.get(k, k)} {_fmt_valor(v['valor'])} {unidad} ({_fecha_txt(v.get('fecha'), k in MENSUALES)}, serie {v.get('id_serie')})"
 
 
 _ACENTOS_FUENTE = (("Banco de Mexico", "Banco de México"), ("busqueda por ids", "búsqueda por ids"),
@@ -644,8 +737,8 @@ def _fuente_acentuada(f: str) -> str:
 ORDEN_COMO = ("tasa_objetivo", "tiie_28", "inpc_general_var_anual", "inpc_alimentos_var_anual", "tipo_cambio_fix",
               "remesas", "confianza_consumidor", "consumo_privado")
 COMO_INFLUYE = {
-    "tasa_objetivo": "La tasa de Banxico fija el costo del crédito: con tasa alta cuesta más financiar el equipo, el local y el inventario, "
-                     "y el cliente pospone compras a crédito.",
+    "tasa_objetivo": "La tasa objetivo de Banxico es la tasa de política, no la que paga el negocio: los bancos prestan a la TIIE, que la sigue "
+                     "de cerca, más un margen (que no está en los datos). Con tasa alta cuesta más financiar el equipo, el local y el inventario.",
     "tiie_28": "La TIIE a 28 días es la referencia de los créditos empresariales: si sube, el financiamiento del negocio sale más caro.",
     "tipo_cambio_fix": "Un dólar más caro encarece los insumos y el equipo importados y aprieta el margen si no se puede subir el precio.",
     "inpc_general_var_anual": "La inflación general sube el costo de la renta, los servicios y los insumos, y le quita poder de compra al cliente: "
@@ -657,12 +750,86 @@ COMO_INFLUYE = {
     "consumo_privado": "El consumo privado es la demanda total de los hogares: si crece, hay más ventas para el comercio y los servicios.",
 }
 PIDE_COMO = re.compile(r"\bcomo\s+(?:me\s+|nos\s+|le\s+|les\s+)?(?:influy\w*|afect\w*|impact\w*|cambi\w*|repercut\w*)\b|"
-                       r"\b(?:efecto|influencia|impacto)\s+(?:de|del|en)\b")
+                       r"\b(?:efecto|influencia|impacto)\s+(?:de|del|en)\b|"
+                       r"\bcomo\s+(?:esta|anda|va|ve)\s+(?:la\s+)?(?:economia|situacion economica)\b|"
+                       r"\b(?:buen|mal|mejor|peor)\s+momento\b|\bmomento\s+(?:para|de)\s+(?:abrir|invertir|poner|emprender)\b")
+
+
+# «¿me afecta...?» solo cuenta con un termino macro en la misma pregunta («¿me afecta la competencia?» no es de economia)
+AFECTA = re.compile(r"\bafect\w*")
+TERMINO_MACRO = re.compile(r"\binflacion\b|\btasas?\b|\bdolar(?:es)?\b|\btipo de cambio\b|\beconomi\w*|\bcreditos?\b|\bremesas?\b|"
+                           r"\bbanxico\b|\bbanco de mexico\b|\binpc\b|\binteres(?:es)?\b|\bprecios\b|\bconsumo\b|\bconfianza\b")
+# «¿es buen momento para abrir?» pide el mecanismo aunque no nombre un indicador
+MOMENTO = re.compile(r"\b(?:buen|mal|mejor|peor)\s+momento\b|\bmomento\s+(?:para|de)\s+(?:abrir|invertir|poner|emprender)\b")
 
 
 def pide_como_influye(pregunta: str | None) -> bool:
-    """La pregunta pide el mecanismo («cómo influye la inflación...»), no solo las cifras."""
-    return bool(PIDE_COMO.search(norm(pregunta or "")))
+    """La pregunta pide el mecanismo («cómo influye la inflación...», «cómo está la economía», «¿es buen momento?»,
+    «¿afecta la inflación?»), no solo las cifras. «¿Cómo me afecta la competencia?» no es de economía: el verbo
+    (influir, afectar, impacto...) solo cuenta con un término macro en la misma pregunta."""
+    q = norm(pregunta or "")
+    return bool(MOMENTO.search(q) or ((PIDE_COMO.search(q) or AFECTA.search(q)) and TERMINO_MACRO.search(q)))
+
+
+def _g(x) -> str:
+    """Numero sin ceros de sobra («2.5», «6.25»)."""
+    return f"{round(float(x), 2):g}"
+
+
+def tasa_real(ind: dict) -> dict | None:
+    """Tasa real aproximada = tasa objetivo de Banxico menos inflacion general anual (puntos porcentuales), con las cifras
+    de `ind` (indicadores de contexto_macro). Es una aproximacion, no una tasa real ex ante."""
+    t, i = ind.get("tasa_objetivo"), ind.get("inpc_general_var_anual")
+    if not all(isinstance(x, dict) and isinstance(x.get("valor"), (int, float)) for x in (t, i)):
+        return None
+    return {"valor": round(t["valor"] - i["valor"], 2), "unidad": "puntos porcentuales",
+            "formula": "tasa objetivo de Banxico menos inflación general anual",
+            "tasa_objetivo": t["valor"], "inflacion_general": i["valor"]}
+
+
+def _texto_tasa_real(tr: dict) -> str:
+    v = tr["valor"]
+    lec = ("la tasa de política va por encima de la inflación, así que el dinero tiene un costo real positivo, y el crédito del negocio, "
+           "que se paga a la TIIE más un margen, sale todavía más caro" if v > 0 else
+           "la tasa de política va por debajo de la inflación, así que el dinero cuesta menos de lo que suben los precios, aunque el crédito "
+           "del negocio se paga a la TIIE más un margen" if v < 0 else
+           "la tasa de política iguala a la inflación")
+    return (f"Con la tasa objetivo en {_g(tr['tasa_objetivo'])} % anual y la inflación general en {_g(tr['inflacion_general'])} % anual, "
+            f"la tasa real aproximada es de {_g(v)} puntos porcentuales (tasa objetivo menos inflación anual); {lec}.")
+
+
+def _texto_insumos(clave: str, ind: dict) -> str | None:
+    """Los insumos del giro (config/giros.yaml: insumos) y como los toca la inflacion; para giros de comida, con la
+    aproximacion de precios agropecuarios si la inflacion de alimentos no esta."""
+    insumos = (motor.giros().get(clave) or {}).get("insumos")
+    if not insumos:
+        return None
+    lista = ", ".join(insumos[:-1]) + (" y " if len(insumos) > 1 else "") + insumos[-1]
+    t = (f"Los insumos que más pesan en este giro ({nombre_giro(clave)}) son {lista} (supuesto del proyecto): cuando su precio sube más que el "
+         "precio que cobra el negocio, el margen se aprieta.")
+    if clave in GIROS_ALIMENTOS:
+        al = ind.get("inpc_alimentos_var_anual") or {}
+        p = (al.get("proxies") or {}).get("no_subyacente_agropecuarios")
+        if p and isinstance(p.get("valor"), (int, float)):
+            t += (f" Como aproximación del precio de los alimentos, los precios agropecuarios del INPC variaron "
+                  f"{_g(p['valor'])} % anual ({_fecha_txt(p.get('fecha'), True)}).")
+    return t
+
+
+def _como_influye(ks: list[str], out: dict, clave: str | None) -> dict:
+    """Mecanismo por indicador, mas la tasa real aproximada y, con giro, los insumos del giro (en ese orden de lectura)."""
+    res: dict[str, str] = {}
+    tr = tasa_real(out)
+    for k in ORDEN_COMO:
+        if k in ks and k in COMO_INFLUYE and out[k].get("valor") != NO:
+            res[k] = COMO_INFLUYE[k]
+        if k == "inpc_general_var_anual":
+            if tr and "tasa_objetivo" in out and k in out:
+                res["tasa_real"] = _texto_tasa_real(tr)
+            ins = _texto_insumos(clave, out) if clave else None
+            if ins:
+                res["insumos_del_giro"] = ins
+    return res
 
 
 def contexto_macro(giro: str | None = None) -> dict:
@@ -670,7 +837,7 @@ def contexto_macro(giro: str | None = None) -> dict:
 
     giro: si se da, solo los indicadores que le importan a ese giro (tasa, inflacion; alimentos o tipo de cambio segun
     el giro) y `linea`, una frase lista para citar."""
-    m = json.loads((PROC / "macro.json").read_text(encoding="utf-8"))
+    m = _macro_json()
     out, fuentes = {}, set()
     for k, v in m.items():
         if k.startswith("_") or not isinstance(v, dict):
@@ -681,14 +848,15 @@ def contexto_macro(giro: str | None = None) -> dict:
                 item["evidencia"] = v["evidencia"][:700]
             prox = {}
             for pk, pv in (v.get("proxies") or {}).items():
-                prox[pk] = {"valor": _r(pv["valor"], 2), "unidad": pv.get("unidad"), "fecha": pv.get("fecha"),
+                prox[pk] = {"valor": _r(pv["valor"], 2), "unidad": pv.get("unidad"), "fecha": _fecha_txt(pv.get("fecha"), True),
                             "id_serie": pv.get("id_serie")}
                 fuentes.add(pv.get("fuente", "").split(";")[0])
             if prox:
                 item["proxies"] = prox
             out[k] = item
             continue
-        item = {"nombre": ETIQUETA_MACRO.get(k, k), "valor": _r(v["valor"], 2), "unidad": v.get("unidad"), "fecha": v.get("fecha"),
+        item = {"nombre": ETIQUETA_MACRO.get(k, k), "valor": _r(v["valor"], 2), "unidad": v.get("unidad"),
+                "fecha": _fecha_txt(v.get("fecha"), k in MENSUALES),
                 "id_serie": v.get("id_serie")}
         for extra in ("variacion_anual_pct", "acumulado_12_meses_millones_usd"):
             if extra in v:
@@ -702,7 +870,10 @@ def contexto_macro(giro: str | None = None) -> dict:
             + ("NO ENCONTRADO (solo proxies)" if alim.get("valor") == NO else "es el subindice «Alimentos, bebidas y tabaco»"))
     res = {"indicadores": out, "consultado": m.get("_meta", {}).get("generado"), "nota": nota,
            "fuentes": sorted(_fuente_acentuada(f) for f in fuentes if f)}
-    res["como_influye"] = {k: COMO_INFLUYE[k] for k in ORDEN_COMO if k in out and k in COMO_INFLUYE and out[k].get("valor") != NO}
+    res["como_influye"] = _como_influye([k for k in ORDEN_COMO if k in out], out, None)
+    tr = tasa_real(out)
+    if tr:
+        res["tasa_real_aproximada"] = tr
     if giro:
         clave = _resolver_giro(giro)
         if clave:
@@ -712,13 +883,71 @@ def contexto_macro(giro: str | None = None) -> dict:
                 fu |= {pv.get("fuente", "").split(";")[0] for pv in (m[k].get("proxies") or {}).values()}
             res = {"giro": clave, "indicadores": {k: out[k] for k in ks}, "consultado": res["consultado"], "nota": nota,
                    "linea": "valores nacionales: " + "; ".join(_txt_indicador(k, out[k]) for k in ks) + ".",
-                   "como_influye": {k: COMO_INFLUYE[k] for k in ks if k in COMO_INFLUYE and out[k].get("valor") != NO},
+                   "como_influye": _como_influye(ks, out, clave),
                    "fuentes": sorted(_fuente_acentuada(f) for f in fu if f)}
+            if tr:
+                res["tasa_real_aproximada"] = tr
     return res
 
 
 # ---------------------------------------------------------------- ficha_municipio (extra)
 FICHA_LINEAS = ("Población en AGEB", "Densidad", "Edad", "Escolaridad promedio", "Población por NSE estimado", "Decil estimado típico")
+
+
+F_INGRESO_MUN = "estimación del proyecto con ENIGH 2024 y Censo 2020 (reports/decil_imputado.md)"
+PIDE_INGRESO = re.compile(r"\bcuanto\s+(?:ganan|gana|gano|ganamos|cobran|cobra|sacan)\b|\bingresos?\b|\bque tan (?:rico|rica|ricos|ricas|pobre|pobres)\b|"
+                          r"\bnivel\s+(?:socio\s*economico|economico|de ingresos?)\b|\bsocioeconomic\w*|\bpoder adquisitivo\b")
+# «sueldo» o «salario» solo piden el ingreso de la gente si hablan de ella («el sueldo de un empleado» es un costo del negocio)
+SUELDO_DE_LA_GENTE = re.compile(r"\b(?:sueldos?|salarios?)\b.*\b(?:ganan|gente|hogares|vecinos|habitantes|familias)\b|"
+                                r"\b(?:ganan|gente|hogares|vecinos|habitantes|familias)\b.*\b(?:sueldos?|salarios?)\b")
+
+
+# «ingreso» suelto que habla del negocio («¿cuánto ingreso necesito para abrir?», «qué ingresos tendría mi negocio»)
+INGRESO_DEL_NEGOCIO = re.compile(r"\bingresos?\b.*\b(?:necesit\w*|tendri\w*|tendre|generari\w*|dejari\w*|invert\w*|abrir|mi negocio|del negocio)\b|"
+                                 r"\b(?:mi negocio|del negocio)\b.*\bingresos?\b")
+DE_LA_GENTE = re.compile(r"\b(?:gente|hogares?|vecinos|habitantes|familias|personas|poblacion|zona|colonia|ahi)\b")
+
+
+def pide_ingreso(pregunta: str | None) -> bool:
+    """La pregunta pide el ingreso de la gente («¿cuánto ganan ahí?», «qué tan ricos», «nivel socioeconómico»)."""
+    q = norm(pregunta or "")
+    if INGRESO_DEL_NEGOCIO.search(q) and not DE_LA_GENTE.search(q):
+        q = re.sub(r"(?<!de )\bingresos?\b", " ", q)    # ese «ingreso» es del negocio; «nivel de ingresos» sigue contando
+    return bool(PIDE_INGRESO.search(q) or SUELDO_DE_LA_GENTE.search(q))
+
+
+def _mediana_ponderada(valores: pd.Series, pesos: pd.Series) -> float | None:
+    """Mediana de `valores` donde cada fila pesa `pesos` (el primer valor cuyo peso acumulado llega a la mitad)."""
+    d = pd.DataFrame({"v": valores, "w": pesos}).dropna()
+    d = d[d["w"] > 0].sort_values("v")
+    if d.empty:
+        return None
+    acum = d["w"].cumsum()
+    return float(d["v"][acum >= d["w"].sum() / 2].iloc[0])
+
+
+def ingreso_municipio(cvegeo_mun: str) -> dict | None:
+    """Ingreso trimestral mediano estimado por hogar de un municipio: mediana, ponderada por hogares, del ingreso
+    trimestral mediano estimado de sus AGEB (`ing_trim_mediano_est`), y su decil tipico (mediana ponderada por hogares).
+    Es una estimacion del proyecto, no un dato del INEGI por municipio."""
+    f = motor.cargar_features()
+    d = f[(f["cve_ent"].astype(str) + f["cve_mun"].astype(str)) == str(cvegeo_mun)]
+    ing = _mediana_ponderada(d["ing_trim_mediano_est"], d["hogares"])
+    if ing is None:
+        return None
+    decil = _mediana_ponderada(d["decil_imputado"], d["hogares"])
+    out = {"ingreso_trim_mediano_est_hogar_mxn": _r(ing, -2), "agebs_con_ingreso": int(d["ing_trim_mediano_est"].notna().sum()),
+           "metodo_ingreso": "mediana, ponderada por hogares, del ingreso trimestral mediano estimado de las AGEB del municipio",
+           "fuente_ingreso": F_INGRESO_MUN}
+    if decil is not None:
+        out["decil_tipico"] = _r(decil)
+    return out
+
+
+def _linea_ingreso(nombre: str, ing: dict) -> str:
+    deciles = f"decil típico {ing['decil_tipico']}; " if ing.get("decil_tipico") is not None else ""
+    return (f"Ingreso trimestral mediano estimado por hogar en {nombre}: {_pesos_txt(ing['ingreso_trim_mediano_est_hogar_mxn'])} "
+            f"({deciles}{ing['fuente_ingreso'].split(' (')[0]}).")
 
 
 def ficha_municipio(municipio: str, max_chars: int = 520) -> dict:
@@ -744,8 +973,14 @@ def ficha_municipio(municipio: str, max_chars: int = 520) -> dict:
     if not sel:
         return {"encontrado": False, "municipio": mres["nom_mun"], "motivo": f"{NO}: sin ficha en carpetas/03_municipios",
                 "fuentes": ["carpetas/03_municipios"]}
-    return {"encontrado": True, "municipio": mres["nom_mun"], "cvegeo_mun": mres["cvegeo_mun"], "ficha": sel,
-            "fuentes": [F_CENSO, F_DENUE, "carpetas/03_municipios (fichas generadas desde agebs_features)"]}
+    out = {"encontrado": True, "municipio": mres["nom_mun"], "cvegeo_mun": mres["cvegeo_mun"], "ficha": sel,
+           "fuentes": [F_CENSO, F_DENUE, "carpetas/03_municipios (fichas generadas desde agebs_features)"]}
+    ing = ingreso_municipio(mres["cvegeo_mun"])
+    if ing:
+        out.update(ing)
+        out["ingreso_linea"] = _linea_ingreso(mres["nom_mun"], ing)
+        out["fuentes"].append(F_ENIGH)
+    return out
 
 
 # ---------------------------------------------------------------- sugerir_giros (extra)
