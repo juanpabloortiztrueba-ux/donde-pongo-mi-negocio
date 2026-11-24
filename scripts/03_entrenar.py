@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import re
 import sys
@@ -78,8 +79,10 @@ def empatar_por_nombre(a: pd.DataFrame, h: pd.DataFrame) -> tuple[set, set]:
     return ea, eh
 
 
-def etiquetas() -> tuple[pd.DataFrame, pd.DataFrame, dict]:
-    """Etiquetas por (AGEB, giro) y tabla por establecimiento historico (para la variante sobrevivio)."""
+def etiquetas(con_puntos: bool = False):
+    """Etiquetas por (AGEB, giro) y tabla por establecimiento historico (para la variante sobrevivio).
+    Con con_puntos=True devuelve ademas (hist con `sobrevive`, nuevos, nuevos fuera de la carga censal) con coordenadas,
+    que usa scripts/03b_validar_score.py para medir los objetivos en el mismo circulo del giro."""
     ids_a = set(pd.read_parquet(PROC / "denue_actual.parquet", columns=["id"])["id"].dropna().astype(int))
     ids_h = set(pd.read_parquet(PROC / "denue_hist.parquet", columns=["id"])["id"].dropna().astype(int))
     a, h = motor.denue("actual"), motor.denue("hist")
@@ -95,20 +98,27 @@ def etiquetas() -> tuple[pd.DataFrame, pd.DataFrame, dict]:
            "nuevos_por_anio_alta": nuevo["id"].map(fa).str[:4].value_counts().sort_index().to_dict(),
            "hist_sobreviven_pct": round(100 * float(sobrevive.mean()), 2)}
     agebs = motor.agebs_xy().index
+    # altas fuera de la carga de los Censos Economicos 2024 (fecha_alta 2024): son las que mas se parecen a una apertura real
+    nuevo_real = nuevo[nuevo["id"].map(fa).str[:4] != "2024"]
+    res["nuevos_fuera_carga_censal"] = len(nuevo_real)
     filas, estab = [], []
     for clave, g in motor.giros().items():
         sc, fl = g.get("scian", []), g.get("scian_con_filtro")
         n_new = motor.seleccionar(nuevo, sc, fl).groupby("cvegeo").size()
+        n_real = motor.seleccionar(nuevo_real, sc, fl).groupby("cvegeo").size()
         hg = motor.seleccionar(h, sc, fl)
         n_h = hg.groupby("cvegeo").size()
         n_s = hg.groupby("cvegeo")["sobrevive"].sum()
         filas.append(pd.DataFrame({"cvegeo": agebs, "giro": clave,
                                    "n_aperturas": n_new.reindex(agebs).fillna(0).astype(int).to_numpy(),
+                                   "n_aperturas_reales": n_real.reindex(agebs).fillna(0).astype(int).to_numpy(),
                                    "n_hist": n_h.reindex(agebs).fillna(0).astype(int).to_numpy(),
                                    "n_sobreviven": n_s.reindex(agebs).fillna(0).astype(int).to_numpy()}))
         estab.append(hg[hg["cvegeo"].isin(agebs)][["id", "cvegeo", "per_ocu_medio", "sobrevive"]].assign(giro=clave))
     et = pd.concat(filas, ignore_index=True)
     et["y_apertura"] = (et["n_aperturas"] > 0).astype(np.int8)
+    if con_puntos:
+        return et, pd.concat(estab, ignore_index=True), res, (h, nuevo, nuevo_real)
     return et, pd.concat(estab, ignore_index=True), res
 
 
@@ -264,13 +274,16 @@ def escribir_reporte() -> None:
       f"**{gana_d}**, a la competencia Huff en **{gana_c}**, a la competencia dentro de la AGEB en **{gana_ca}** y a la "
       f"actividad en **{gana_a}**; en P@100 iguala o supera a densidad y "
       f"competencia a la vez en {gana_p}. AUC medio: modelo {ok['auc_modelo'].mean():.3f}, densidad {ok['auc_densidad'].mean():.3f}, "
-      f"competencia {ok['auc_competencia'].mean():.3f}, competencia en la AGEB {ok['auc_comp_ageb'].mean():.3f}, actividad {ok['auc_actividad'].mean():.3f}, score {ok['auc_score'].mean():.3f}.\n")
-    a("| Giro | AGEB con apertura | Tasa | AUC modelo | AUC dens. | AUC comp. | AUC comp. AGEB | AUC activ. | AUC score | AP modelo | AP dens. | AP comp. | P@50 modelo | P@100 modelo | P@100 dens. | P@100 comp. |")
-    a("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
+      f"competencia {ok['auc_competencia'].mean():.3f}, competencia en la AGEB {ok['auc_comp_ageb'].mean():.3f}, actividad {ok['auc_actividad'].mean():.3f}, "
+      f"score vigente {ok['auc_score'].mean():.3f}"
+      + (f", score anterior (v2.1) {ok['auc_score_v21'].mean():.3f}" if "auc_score_v21" in ok else "")
+      + ". **El score no se diseñó para predecir aperturas crudas y por eso queda debajo**: ver «¿Por qué el score no predice aperturas crudas y está bien?» abajo.\n")
+    a("| Giro | AGEB con apertura | Tasa | AUC modelo | AUC dens. | AUC comp. | AUC comp. AGEB | AUC activ. | AUC score vigente | AUC score anterior | AP modelo | AP dens. | AP comp. | P@50 modelo | P@100 modelo | P@100 dens. | P@100 comp. |")
+    a("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
     for r in met.sort_values("agebs_con_apertura", ascending=False).itertuples():
         nota = " *" if r.agebs_con_apertura < 30 else ""
         a(f"| {r.giro}{nota} | {r.agebs_con_apertura:,} | {r.tasa_base:.3f} | **{_f(r.auc_modelo)}** | {_f(r.auc_densidad)} | "
-          f"{_f(r.auc_competencia)} | {_f(r.auc_comp_ageb)} | {_f(r.auc_actividad)} | {_f(r.auc_score)} | **{_f(r.ap_modelo)}** | {_f(r.ap_densidad)} | "
+          f"{_f(r.auc_competencia)} | {_f(r.auc_comp_ageb)} | {_f(r.auc_actividad)} | {_f(r.auc_score)} | {_f(getattr(r, 'auc_score_v21', None))} | **{_f(r.ap_modelo)}** | {_f(r.ap_densidad)} | "
           f"{_f(r.ap_competencia)} | {_f(r.p50_modelo, 2)} | {_f(r.p100_modelo, 2)} | {_f(r.p100_densidad, 2)} | {_f(r.p100_competencia, 2)} |")
     a("\n\\* Menos de 30 AGEB con apertura: métricas inestables, no usar para decidir.\n")
     a("## Variables que más pesan\n")
@@ -295,7 +308,9 @@ def escribir_reporte() -> None:
       f"puntos cada {motor.PASO_MALLA_M} m dentro de su polígono (`motor.malla_agebs`). Así una AGEB enorme no suma toda su "
       "gente en su centroide y el score no crece con el tamaño de la AGEB (ver «Sesgo por tamaño» abajo).")
     a("- `prob_apertura`: probabilidad del modelo con las variables de 05/2026 (por AGEB; crece con el tamaño de la AGEB). "
-      "Para el score se usa `aperturas_esperadas`: la intensidad -ln(1-p) de cada AGEB repartida en su superficie y sumada en el radio.")
+      "`aperturas_esperadas`: la intensidad -ln(1-p) de cada AGEB repartida en su superficie y sumada en el radio. "
+      "El primer término del score (`prob_apertura` en los pesos, por compatibilidad) es el **núcleo**: `aperturas_esperadas × captura_huff`, "
+      "o sea aperturas esperadas **por competidor**.")
     a("- `demanda`: gasto potencial trimestral del rubro ENIGH del giro (`rubro_enigh`, pesos de 2024) de los hogares "
       "dentro del radio de influencia, con peso por distancia w(d) = 1/(1+(d/d0)²), d0 = radio/2, 0 fuera del radio.")
     a("- `poblacion_objetivo`: residentes por edad ponderados con `cliente_objetivo` (Censo 2020) dentro del radio; si `demanda_base` es "
@@ -313,14 +328,13 @@ def escribir_reporte() -> None:
     for k, p in w.items():
         a(f"| percentil de `{k}` | {p:.2f} |")
     a("\nSi el giro no tiene rubro ENIGH (`coworking`), el peso de `demanda_neta` pasa a `pob_neta`. "
-      "Por qué así: la probabilidad del modelo mide dónde el mercado sí abre (aglomeración, flujo), pero por eso mismo favorece "
-      "zonas ya llenas de competidores; la demanda neta de Huff corrige hacia donde hay gasto y gente sin tantos competidores. "
-      "Los pesos son una decisión del proyecto, no se estimaron; la columna «AUC score» de la tabla muestra cuánto se separa el "
-      "score de la señal pura de aperturas (es esperado que sea menor que el del modelo: premia lugares con poca competencia, "
-      "donde abren menos negocios, y ya no premia AGEB grandes, que es justo donde la etiqueta por AGEB sale positiva más seguido; "
-      "con la versión anterior del score, medida por AGEB, el AUC score medio era 0.688). **El score es un percentil dentro de cada giro: ordena sitios para un giro y no compara "
+      "**Los pesos no los puso el autor**: los aprendió `scripts/03b_validar_score.py` contra el crecimiento neto, la sobrevivencia y las altas fuera de la "
+      "carga censal, con pesos no negativos que suman 1, ajustados en pliegues por municipio y reportados en el que no vieron, "
+      "con la restricción a priori de que la demanda (gasto + población) pese al menos 25 %. Están en `models/pesos_score.json` y la evidencia en "
+      "`reports/validacion_score.md`. **El score es un percentil dentro de cada giro: ordena sitios para un giro y no compara "
       "giros entre sí** (una librería con score 90 puede tener 5 % de probabilidad de apertura). Para comparar giros, "
       "`app/herramientas.py: sugerir_giros` usa la probabilidad absoluta de apertura × la de seguir abierto.\n")
+    escribir_validacion_score(a)
     escribir_sesgo(a)
     a("## Límites\n")
     a("- La etiqueta es «apareció en el DENUE», sesgada por la cobertura de los Censos Económicos 2024 (ver arriba).")
@@ -350,6 +364,49 @@ def escribir_reporte() -> None:
     a(f"\nTiempo de la última corrida completa: {meta['segundos']} s.")
     REPORTE.write_text("\n".join(L) + "\n", encoding="utf-8")
     log(f"reporte: {REPORTE.relative_to(RAIZ)}")
+
+
+def escribir_validacion_score(a) -> None:
+    """Seccion del reporte: resumen de reports/validacion_score.md y la pregunta de examen sobre aperturas crudas."""
+    f = MODELS / "validacion_score.csv"
+    rj = MODELS / "validacion_score_resumen.json"
+    if not (f.exists() and rj.exists()):
+        return
+    r = pd.read_csv(f)
+    info = json.loads(rj.read_text(encoding="utf-8"))
+    m = r.groupby(["objetivo", "puntuacion"])["valor"].mean()
+    bases = ["densidad", "comp_huff", "comp_ageb", "actividad"]
+
+    def mejor(o):
+        c = 0.5 if o == "aperturas_crudas" else 0.0
+        return max(abs(m[(o, b)] - c) for b in bases) + c
+
+    a("## ¿Por qué el score no predice aperturas crudas y está bien?\n")
+    b = info["diagnostico"]["bins"]
+    a("**Respuesta corta, como la diría Juan Pablo:** «El score no está hecho para adivinar dónde aparecen más negocios, sino dónde conviene poner uno. "
+      f"Las aperturas se aglomeran donde ya hay competencia: en las AGEB con 3 o más negocios del giro en 2020 aparecieron {10 * b['aper_por_estab']:.0f} nuevos por cada 10 que ya había "
+      f"y desaparecieron otros {10 * b['cierres_por_estab']:.0f}, o sea que hay mucha rotación. Un score que castiga la competencia, como debe hacerlo uno de ubicación, "
+      "forzosamente queda debajo de la competencia a secas para predecir aperturas crudas. Por eso lo medí contra lo que sí corresponde a la decisión: "
+      "crecimiento neto, sobrevivencia y altas fuera de la carga censal. El score nuevo le gana a las líneas base en la tasa de crecimiento neto, "
+      "pero esa ventaja viene de la carga de los Censos Económicos 2024 (negocios que ya existían y no estaban en el DENUE 2020): quitando la carga "
+      "(crecimiento neto sin carga censal) no le gana al score anterior, en altas fuera de la carga pierde y en sobrevivencia empata (que ninguna "
+      "variable predice bien dentro de un giro). Por eso lo conservo como decisión de diseño, no como victoria medida; el detalle y "
+      "las limitaciones están en `reports/validacion_score.md`.»\n")
+    a("Evidencia, promedio entre giros (ρ de Spearman; AUC en la última fila). La probabilidad de apertura es fuera de muestra por municipio; los "
+      "pesos vigentes se ajustaron con todos los datos y la columna «pesos fuera de muestra» los ajusta sin ver el municipio de prueba:\n")
+    a("| Objetivo | Score anterior (v2.1) | Score vigente | Score vigente, pesos fuera de muestra | Mejor línea base ingenua |")
+    a("|---|---|---|---|---|")
+    nom = {"crecimiento_neto": "Crecimiento neto", "sobrevivencia": "Sobrevivencia", "altas_reales": "Altas fuera de la carga censal",
+           "neto_sin_carga": "Crecimiento neto sin carga censal", "aperturas_crudas": "Aperturas crudas (AUC)"}
+    for o, n in nom.items():
+        if (o, "score_nuevo") not in m.index:   # validacion_score.csv de antes del objetivo sin carga censal
+            continue
+        a(f"| {n} | {m[(o, 'score_v21')]:.3f} | {m[(o, 'score_nuevo')]:.3f} | {m[(o, 'score_nuevo_oos')]:.3f} | {mejor(o):.3f} |")
+    n = info["nse"]
+    a(f"\nDecil imputado: acierta el decil exacto {100 * n['decil_exacto']:.1f} % y ±1 decil {100 * n['decil_mas_menos_1']:.1f} %; la **banda de NSE** que usa el producto "
+      f"(bajo 1-4, medio 5-8, alto 9-10) la acierta {100 * n['banda_exacta']:.1f} % de los hogares (decir siempre «medio» daría {100 * n['mayoritaria']:.0f} %), "
+      f"con {100 * n['recall']['bajo']:.0f} % de acierto en bajo, {100 * n['recall']['medio']:.0f} % en medio y {100 * n['recall']['alto']:.0f} % en alto. "
+      "Fuente: ENIGH 2024 y modelo propio (`reports/validacion_score.md`, sección 4).\n")
 
 
 def escribir_sesgo(a) -> None:
@@ -474,6 +531,13 @@ def main() -> None:
         scores_actuales()
     elif not a.solo_reporte:
         entrenar()
+        # el score se valida contra los objetivos de decision y sus pesos se reaprenden (03b); luego se regeneran los scores
+        (MODELS / "oof_sobrevive.parquet").unlink(missing_ok=True)
+        spec = importlib.util.spec_from_file_location("validar_score03b", RAIZ / "scripts" / "03b_validar_score.py")
+        m03b = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(m03b)
+        m03b.main([])
+        scores_actuales()
     escribir_reporte()
 
 

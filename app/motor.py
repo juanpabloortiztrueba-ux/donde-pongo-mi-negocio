@@ -422,21 +422,46 @@ def matriz_modelo(corte: str, claves: list[str] | None = None) -> pd.DataFrame:
 
 # ================================================================ Modelo E: score_giro
 MODELS = RAIZ / "models"
-# Pesos del score (0-100). Cada termino es el percentil (0-1) de la AGEB dentro de la ZMVM PARA ESE GIRO
-# (el score ordena sitios de un giro; no compara giros entre si). Todo se mide en el MISMO circulo de
-# radio_influencia_m alrededor del sitio (reparto dasimetrico), no por AGEB, para no premiar AGEB grandes:
-#   prob_apertura   : aperturas esperadas del giro en el radio (intensidad -ln(1-p) del modelo, repartida
-#                     en la superficie de cada AGEB): senal de que el mercado si abre ahi
+# Score (0-100). Cada termino es el percentil (0-1) de la AGEB dentro de la ZMVM PARA ESE GIRO (el score
+# ordena sitios de un giro; no compara giros entre si). Todo se mide en el MISMO circulo de radio_influencia_m
+# alrededor del sitio (reparto dasimetrico), no por AGEB, para no premiar AGEB grandes:
+#   prob_apertura   : NUCLEO = aperturas esperadas del giro en el radio (intensidad -ln(1-p) del modelo, repartida
+#                     en la superficie de cada AGEB) x captura Huff = aperturas esperadas POR COMPETIDOR.
+#                     (el nombre del termino se conserva por compatibilidad; ya no es solo la probabilidad)
 #   demanda_neta    : gasto potencial del rubro ENIGH en el radio x captura Huff
 #   pob_neta        : poblacion objetivo en el radio (residente, diurna o mixta) x ajuste al NSE objetivo x captura
 #   flujo           : flujo de gente (empleo DENUE en el radio, corredor comercial 46/72/81, Metro y estaciones a 1 km)
 #   complementarios : negocios que atraen al cliente del giro (Huff)
 # captura Huff = 1 / (1 + competidores ponderados por distancia): la parte del mercado que se lleva un
 # local nuevo igual de atractivo que los que ya estan. Si el giro no tiene rubro ENIGH (coworking),
-# el peso de demanda_neta pasa a pob_neta. Ver reports/validacion.md.
-SCORE_VERSION = "2.1-dasimetrico-flujo"  # cambia si cambia la formula: invalida models/scores_giros.parquet
-PESOS_SCORE = {"prob_apertura": 0.30, "demanda_neta": 0.25, "pob_neta": 0.15, "flujo": 0.20,
-               "complementarios": 0.10}
+# el peso de demanda_neta pasa a pob_neta.
+# Los PESOS NO los puso el autor: los aprendio scripts/03b_validar_score.py contra el crecimiento neto, la
+# sobrevivencia y las altas fuera de la carga censal (ajustados en pliegues por municipio y probados en el
+# pliegue que no vieron, no negativos, suman 1, redondeados a 0.05) y quedan en models/pesos_score.json.
+# El nucleo (aperturas por competidor) no tiene parametros. Ver reports/validacion_score.md.
+SCORE_VERSION = "3.0-nucleo-aprendido"  # cambia si cambia la formula: invalida models/scores_giros.parquet
+# Valores de respaldo = los entregados (los mismos de models/pesos_score.json); un test comprueba que coinciden.
+_PESOS_ENTREGADOS = {"prob_apertura": 0.35, "demanda_neta": 0.05, "pob_neta": 0.20, "flujo": 0.10,
+                     "complementarios": 0.30}
+# De donde sale el percentil de cada termino (el termino prob_apertura usa el nucleo, no la probabilidad sola)
+FUENTE_TERMINO = {"prob_apertura": "nucleo", "demanda_neta": "demanda_neta", "pob_neta": "pob_neta",
+                  "flujo": "flujo", "complementarios": "complementarios"}
+
+
+def _cargar_pesos() -> dict:
+    import json
+
+    f = RAIZ / "models" / "pesos_score.json"
+    try:
+        w = json.loads(f.read_text(encoding="utf-8"))["pesos"]
+        if set(w) == set(FUENTE_TERMINO):
+            return {k: float(w[k]) for k in FUENTE_TERMINO}
+    except (OSError, ValueError, KeyError):
+        pass
+    return dict(_PESOS_ENTREGADOS)
+
+
+PESOS_SCORE = _cargar_pesos()
 
 
 def poblacion_demanda(clave: str, pob_radio: pd.Series, empleo_radio: pd.Series) -> pd.Series:
@@ -475,19 +500,19 @@ def combinar_score(clave: str, fg: pd.DataFrame, prob: np.ndarray, pesos: dict |
     out["corredor_radio"] = fl["corredor_radio"].to_numpy()
     out["afluencia_metro_1km"] = fl["afluencia_metro_1km"].to_numpy()
     out["n_estaciones_1km"] = fl["n_estaciones_1km"].to_numpy()
+    out["nucleo"] = out["aperturas_esperadas"] * out["captura_huff"]   # aperturas esperadas por competidor
     out["demanda_neta"] = out["demanda"] * out["captura_huff"]
     out["pob_neta"] = out["poblacion_objetivo"] * out["nse_fit"] * out["captura_huff"]
     out["flujo"] = (out["empleo_radio"].rank(pct=True) + out["corredor_radio"].rank(pct=True)
                     + 0.5 * (out["afluencia_metro_1km"].rank(pct=True) + out["n_estaciones_1km"].rank(pct=True))) / 3
     if out["demanda"].isna().all():                           # giro sin rubro ENIGH
         w["pob_neta"] += w.pop("demanda_neta")
-    pct = {"prob_apertura": "aperturas_esperadas", "demanda_neta": "demanda_neta", "pob_neta": "pob_neta",
-           "flujo": "flujo", "complementarios": "complementarios"}
+    out["pct_aperturas_esperadas"] = out["aperturas_esperadas"].rank(pct=True)   # solo informativo
+    for k, src in FUENTE_TERMINO.items():
+        out[f"pct_{k}"] = out[src].rank(pct=True).fillna(0.0)
     score = np.zeros(len(out))
     for k, pk in w.items():
-        p = out[pct[k]].rank(pct=True).fillna(0.0)
-        out[f"pct_{k}"] = p
-        score += pk * p.to_numpy()
+        score += pk * out[f"pct_{k}"].to_numpy()
     out["score"] = 100.0 * score / sum(w.values())
     return out
 
@@ -520,7 +545,8 @@ def _razones(clave: str, d: pd.DataFrame) -> pd.Series:
             d["prob_apertura"], d["aperturas_esperadas"], d["pct_prob_apertura"], d["demanda"], d["competencia"],
             d["captura_huff"], d["residentes_objetivo"], d["empleo_radio"], d["corredor_radio"], d["complementarios"],
             d.get("prob_sobrevive", nan)):
-        t = (f"prob. de apertura en la AGEB {p:.2f}; aperturas esperadas a {r} m {ae:.2f} (percentil {100 * pp:.0f}); "
+        t = (f"prob. de apertura en la AGEB {p:.2f}; aperturas esperadas a {r} m {ae:.2f}, o {ae * cap:.2f} por competidor "
+             f"(percentil {100 * pp:.0f} en aperturas por competidor); "
              f"gasto potencial {rub} {_fmt_pesos(dem)}/trim a {r} m; {comp:.1f} competidores ponderados "
              f"(captura Huff {100 * cap:.0f} %); residentes objetivo a {r} m {pob:,.0f}; empleos a {r} m {emp:,.0f}; "
              f"{cor:,.0f} negocios de corredor comercial; {comple:.1f} complementarios")

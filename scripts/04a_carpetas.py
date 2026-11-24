@@ -28,8 +28,8 @@ PROC = RAIZ / "data" / "processed"
 CARP = RAIZ / "carpetas"
 HOY = date.today().isoformat()
 
-FUENTE_CENSO = "INEGI, Censo de Poblacion y Vivienda 2020 (resultados por AGEB urbana)"
-FUENTE_DENUE = "INEGI, DENUE (corte 05/2026; historico 11/2020)"
+FUENTE_CENSO = "INEGI, Censo de Población y Vivienda 2020 (resultados por AGEB urbana)"
+FUENTE_DENUE = "INEGI, DENUE (corte 05/2026; histórico 11/2020)"
 
 
 # ---------- utilidades ----------

@@ -72,3 +72,11 @@ def test_valle_de_chalco_no_se_confunde_con_chalco():
     assert rag.municipios_en("negocio en Valle de Chalco") == ["Valle de Chalco Solidaridad"]
     assert rag.municipios_en("heladeria en Chalco") == ["Chalco"]
     assert rag.municipios_en("cuautitlan izcalli") == ["Cuautitlán Izcalli"]
+
+
+def test_lineas_ficha_sin_ollama():
+    """La ficha del municipio se lee directo del indice (sin embeddings): sirve para la respuesta por defecto."""
+    from app import rag
+    ls = rag.lineas_ficha("Coyoacán")
+    assert any(x.startswith("Población en AGEB") for x in ls) and any(x.startswith("Edad") for x in ls)
+    assert rag.lineas_ficha("Narnia") == []

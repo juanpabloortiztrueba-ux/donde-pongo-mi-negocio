@@ -4,7 +4,7 @@ Zona Metropolitana del Valle de México (76 municipios, delimitación 2015 de SE
 
 ## Población y hogares
 
-- Población en AGEB urbanas: 172,626 habitantes (lugar 35 de 76 en la ZMVM). Fuente: INEGI, Censo de Poblacion y Vivienda 2020 (resultados por AGEB urbana).
+- Población en AGEB urbanas: 172,626 habitantes (lugar 35 de 76 en la ZMVM). Fuente: INEGI, Censo de Población y Vivienda 2020 (resultados por AGEB urbana).
 - Hogares: 50,339. AGEB urbanas: 44. Superficie urbana de esas AGEB: 24.5 km².
 - Densidad: 7,051 hab/km² (lugar 28 de 76).
 - Edad: 0-14 años 21.7 %; 15-24 17.1 %; 25-59 52.5 %; 60 o más 8.6 %.
@@ -22,7 +22,7 @@ Estimación propia (no dato del INEGI): modelo de ingreso entrenado en la ENIGH 
 
 ## Actividad económica (DENUE)
 
-- Establecimientos en el DENUE 05/2026: 8,301 (48.1 por cada 1 000 habitantes, lugar 56 de 76). Fuente: INEGI, DENUE (corte 05/2026; historico 11/2020).
+- Establecimientos en el DENUE 05/2026: 8,301 (48.1 por cada 1 000 habitantes, lugar 56 de 76). Fuente: INEGI, DENUE (corte 05/2026; histórico 11/2020).
 - Establecimientos en el DENUE 11/2020: 5,510. Cuidado: la diferencia entre cortes no son aperturas netas; hay cargas masivas de los Censos Económicos y rotación de identificadores.
 - Personal ocupado estimado en AGEB (punto medio de estratos; subestima grandes empleadores): 50,660.
 

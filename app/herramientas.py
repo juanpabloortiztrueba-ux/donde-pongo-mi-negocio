@@ -5,11 +5,15 @@ Lo que no esta en los datos sale como "NO ENCONTRADO". El agente (app/agente.py)
 numeros que vengan de aqui.
 
     perfil_giro(texto)                                  -> giro de config/giros.yaml (o propuestas SCIAN)
-    recomendar_zonas(giro, municipio, nse, top)         -> top de colonias (AGEB) con score y razones
+    recomendar_zonas(giro, municipio, nse, top, una_por_colonia, colonia, radio_km)
+                                                        -> top de colonias (AGEB) con score y razones; con
+                                                           `colonia`, solo esa colonia y las AGEB a <= radio_km
     ficha_zona(zona, municipio, giro)                   -> datos de una AGEB o de una colonia
     buscar_carpetas(pregunta, k)                        -> trozos de carpetas/ (RAG)
-    contexto_macro()                                    -> macro.json resumido
-    sugerir_giros(municipio, nse, ticket_max, top)      -> extra: giros que mejor salen en una zona
+    contexto_macro(giro)                                -> macro.json resumido (con giro: lo que le importa a ese giro)
+    sugerir_giros(municipio, nse, ticket_max, top, colonia, radio_km, inversion)
+                                                        -> extra: giros que mejor salen en una zona
+    ficha_municipio(municipio)                          -> extra: trozo corto de la ficha del municipio (carpetas/)
 """
 from __future__ import annotations
 
@@ -23,22 +27,22 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from app import motor, rag
+from app import lugares, motor, rag
 
 RAIZ = Path(__file__).resolve().parents[1]
 PROC = RAIZ / "data" / "processed"
 NO = "NO ENCONTRADO"
 
 # fuentes cortas (las URL completas y sha256 estan en data/FUENTES.md)
-F_CENSO = "INEGI, Censo de Poblacion y Vivienda 2020, resultados por AGEB urbana"
-F_MARCO = "INEGI, Marco Geoestadistico 2020 (poligonos de AGEB)"
+F_CENSO = "INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana"
+F_MARCO = "INEGI, Marco Geoestadístico 2020 (polígonos de AGEB)"
 F_DENUE = "INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo)"
-F_ENIGH = "INEGI, ENIGH 2024 (gasto trimestral por decil, ambito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md)"
-F_CONAPO = "CONAPO, Indice de marginacion urbana 2020"
+F_ENIGH = "INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md)"
+F_CONAPO = "CONAPO, Índice de marginación urbana 2020"
 F_MODELO = "Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md)"
 F_GIROS = "config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket)"
 F_SCIAN = "INEGI, SCIAN 2023 (data/processed/scian.csv)"
-F_ZMVM = "SEDATU-CONAPO-INEGI, delimitacion de zonas metropolitanas 2015 (data/processed/zmvm_municipios.csv)"
+F_ZMVM = "SEDATU-CONAPO-INEGI, delimitación de zonas metropolitanas 2015 (data/processed/zmvm_municipios.csv)"
 F_TRANSP = "datos.cdmx.gob.mx (Metro, Metrobus, STE, GTFS) y OpenStreetMap para Mexibus/Mexicable (data/FUENTES.md)"
 
 
@@ -212,46 +216,127 @@ def _resolver_giro(giro: str) -> str | None:
     return clave
 
 
+# La edad que le importa a cada giro, en UN solo lugar (los demas giros usan 25-59, la poblacion en edad de
+# trabajar). Es criterio del proyecto, coherente con cliente_objetivo de config/giros.yaml; no es un dato medido.
+EDAD_CLAVE = {
+    "heladeria": "0-14", "papeleria": "0-14", "guarderia": "0-14", "pizzeria": "0-14",
+    "libreria": "15-24", "cafe_internet": "15-24", "tienda_celulares": "15-24", "bar": "15-24", "escuela_idiomas": "15-24",
+    "farmacia": "60+", "optica": "60+", "consultorio_medico": "60+", "laboratorio_clinico": "60+",
+}
+EDAD_DEFECTO = "25-59"
+EDAD_COL = {"0-14": "pob_0_14", "15-24": "pob_15_24", "25-59": "pob_25_59", "60+": "pob_60_mas"}
+EDAD_ETIQUETA = {"0-14": "0 a 14 años", "15-24": "15 a 24 años", "25-59": "25 a 59 años", "60+": "60 años o más"}
+
+
+# Nombre natural (con acentos) de cada giro, para mostrarlo en pantalla; contiene un sinonimo del giro.
+NOMBRE_GIRO = {
+    "heladeria": "heladería", "cafeteria": "cafetería", "gimnasio": "gimnasio", "farmacia": "farmacia", "papeleria": "papelería",
+    "lavanderia": "lavandería", "veterinaria": "veterinaria", "taqueria": "taquería", "abarrotes": "tienda de abarrotes",
+    "barberia_estetica": "barbería y estética", "consultorio_dental": "consultorio dental", "guarderia": "guardería",
+    "ferreteria": "ferretería", "pasteleria": "pastelería", "libreria": "librería", "renta_bicicletas": "renta de bicicletas",
+    "tortilleria": "tortillería", "fonda": "fonda", "pizzeria": "pizzería", "optica": "óptica", "tienda_ropa": "tienda de ropa",
+    "zapateria": "zapatería", "cerrajeria": "cerrajería", "taller_mecanico": "taller mecánico",
+    "purificadora": "purificadora de agua", "panaderia": "panadería", "tienda_mascotas": "tienda de mascotas",
+    "escuela_idiomas": "escuela de idiomas", "spa": "spa", "cafe_internet": "café internet", "floreria": "florería",
+    "carniceria": "carnicería", "fruteria": "frutería", "comida_china": "comida china", "sushi": "sushi", "bar": "bar",
+    "coworking": "coworking", "consultorio_medico": "consultorio médico", "laboratorio_clinico": "laboratorio clínico",
+    "tienda_celulares": "tienda de celulares",
+}
+
+
+def nombre_giro(clave: str) -> str:
+    return NOMBRE_GIRO.get(clave, clave.replace("_", " "))
+
+
+def edad_clave(clave: str) -> str:
+    """Grupo de edad del Censo que importa al giro (0-14, 15-24, 25-59 o 60+)."""
+    return EDAD_CLAVE.get(clave, EDAD_DEFECTO)
+
+
+@lru_cache(maxsize=4)
+def _pct_edad_zmvm(grupo: str) -> float:
+    f = motor.cargar_features()
+    return float(100 * f[EDAD_COL[grupo]].sum() / f["pob_total"].sum())
+
+
 @lru_cache(maxsize=40)
 def _score(clave: str) -> pd.DataFrame:
     d = motor.score_giro(clave)
     f = motor.cargar_features()
-    extra = f[["cve_ent", "cve_mun", "decil_imputado", "pob_total", "hogares", "ing_trim_mediano_est"]]
+    extra = f[["cve_ent", "cve_mun", "decil_imputado", "pob_total", "hogares", "ing_trim_mediano_est",
+               "pob_0_14", "pob_15_24", "pob_25_59", "pob_60_mas"]]
     d = d.join(extra, on="cvegeo")
     d["cvegeo_mun"] = d["cve_ent"].astype(str) + d["cve_mun"].astype(str)
     d["rank_zmvm"] = np.arange(1, len(d) + 1)
     return d
 
 
+def _pesos_txt(v) -> str:
+    return f"${v:,.0f}" if isinstance(v, (int, float)) else str(v)
+
+
+def _resumen(z: dict) -> str:
+    """Una linea con las cifras de la zona, ya formateadas (el agente la copia tal cual; corta para no alargar la respuesta)."""
+    g = z["gasto_potencial_trim_mxn"]
+    if isinstance(g, (int, float)):
+        gasto = _pesos_txt(g) + " por trimestre" + (f" ({z['gasto_potencial_nota']})" if z.get("gasto_potencial_nota") else "")
+    else:
+        gasto = str(g)
+    ing = _pesos_txt(z["ingreso_trim_mediano_estimado_mxn"]) if isinstance(z["ingreso_trim_mediano_estimado_mxn"], (int, float)) else NO
+    edad = f"{z['edad_clave_pct']} %" if isinstance(z["edad_clave_pct"], (int, float)) else f"{NO} (el Censo reserva el dato)"
+    return (f"prob. de apertura {z['prob_apertura_pct']} %; gasto potencial {gasto}; "
+            f"{z['competidores_ponderados']} competidores ponderados (captura {z['captura_huff_pct']} %); "
+            f"NSE estimado {z['nse_estimado']}, decil {z['decil_estimado']}, ingreso trimestral estimado por hogar {ing}; "
+            f"{z['edad_clave_etiqueta']}: {edad}")
+
+
 def _zona(r, clave: str) -> dict:
     g = motor.giros()[clave]
-    return {"colonia": _txt(r["nom_colonia"]), "municipio": _txt(r["nom_mun"]), "ageb": r["cvegeo"],
-            "score": _r(r["score"], 1), "rank_zmvm": int(r["rank_zmvm"]),
-            "prob_apertura_pct": _r(100 * r["prob_apertura"]),
-            "aperturas_esperadas_en_radio": _r(r["aperturas_esperadas"], 2),
-            "gasto_potencial_trim_mxn": _r(r["demanda"], -3) if np.isfinite(r["demanda"]) else NO,
-            "competidores_ponderados": _r(r["competencia"], 1),
-            "captura_huff_pct": _r(100 * r["captura_huff"]),
-            "residentes_objetivo_en_radio": _r(r["residentes_objetivo"], -1),
-            "empleos_en_radio": _r(r["empleo_radio"], -1),
-            "demanda_de_personas": BASE_DEMANDA[g.get("demanda_base", "residente")],
-            "negocios_corredor_comercial_en_radio": _r(r["corredor_radio"]),
-            "complementarios_ponderados": _r(r["complementarios"], 1),
-            "prob_sigue_abierto_pct": _r(100 * r["prob_sobrevive"]) if pd.notna(r.get("prob_sobrevive")) else NO,
-            "nse_estimado": _txt(r["nse"]) or NO,
-            "decil_estimado": _r(r["decil_imputado"]) if pd.notna(r["decil_imputado"]) else NO,
-            "poblacion_ageb_2020": _r(r["pob_total"]),
-            "radio_m": g["radio_influencia_m"]}
+    grupo = edad_clave(clave)
+    pob = r["pob_total"]
+    # el Censo reserva (NaN) el dato de algunos grupos de edad en AGEB chicas: sin dato no hay porcentaje
+    edad_pct = _r(100 * r[EDAD_COL[grupo]] / pob, 1) if pob and pd.notna(r[EDAD_COL[grupo]]) else None
+    z = {"colonia": _txt(r["nom_colonia"]), "municipio": _txt(r["nom_mun"]), "ageb": r["cvegeo"],
+         "score": _r(r["score"], 1), "rank_zmvm": int(r["rank_zmvm"]),
+         "prob_apertura_pct": _r(100 * r["prob_apertura"]),
+         "aperturas_esperadas_en_radio": _r(r["aperturas_esperadas"], 2),
+         "gasto_potencial_trim_mxn": (_r(r["demanda"], -3) if np.isfinite(r["demanda"]) else NO) if g.get("gasto_dimensionable", True)
+                                     else GASTO_NO_DIMENSIONABLE,
+         "competidores_ponderados": _r(r["competencia"], 1),
+         "captura_huff_pct": _r(100 * r["captura_huff"]),
+         "residentes_objetivo_en_radio": _r(r["residentes_objetivo"], -1),
+         "empleos_en_radio": _r(r["empleo_radio"], -1),
+         "demanda_de_personas": BASE_DEMANDA[g.get("demanda_base", "residente")],
+         "negocios_corredor_comercial_en_radio": _r(r["corredor_radio"]),
+         "complementarios_ponderados": _r(r["complementarios"], 1),
+         "prob_sigue_abierto_pct": _r(100 * r["prob_sobrevive"]) if pd.notna(r.get("prob_sobrevive")) else NO,
+         "nse_estimado": _txt(r["nse"]) or NO,
+         "decil_estimado": _r(r["decil_imputado"]) if pd.notna(r["decil_imputado"]) else NO,
+         "ingreso_trim_mediano_estimado_mxn": _r(r["ing_trim_mediano_est"], -2) if pd.notna(r["ing_trim_mediano_est"]) else NO,
+         "edad_clave_grupo": grupo, "edad_clave_etiqueta": EDAD_ETIQUETA[grupo],
+         "edad_clave_pct": NO if edad_pct is None else edad_pct,
+         "edad_clave_pct_zmvm": _r(_pct_edad_zmvm(grupo), 1),
+         "poblacion_ageb_2020": _r(pob),
+         "radio_m": g["radio_influencia_m"]}
+    if "dist_colonia_km" in r.index and pd.notna(r["dist_colonia_km"]):
+        z["dist_a_colonia_km"] = _r(r["dist_colonia_km"], 1)
+        z["en_colonia_consultada"] = bool(r["en_colonia"])
+    if g.get("gasto_proxy") and isinstance(z["gasto_potencial_trim_mxn"], (int, float)):
+        z["gasto_potencial_nota"] = f"proxy: {g['gasto_proxy']}"
+    z["resumen_texto"] = _resumen(z)
+    return z
 
 
-BASE_DEMANDA = {"residente": "residentes objetivo", "diurna": "empleos (poblacion que trabaja ahi)",
+GASTO_NO_DIMENSIONABLE = "no dimensionable (la ENIGH casi no registra gasto en este rubro)"
+BASE_DEMANDA = {"residente": "residentes objetivo", "diurna": "empleos (población que trabaja ahí)",
                 "mixta": "mitad residentes objetivo, mitad empleos"}
 NOMBRES_PESOS = {"prob_apertura": "aperturas esperadas del giro (modelo)", "demanda_neta": "gasto potencial x captura Huff",
                  "pob_neta": "poblacion objetivo x ajuste a NSE x captura", "flujo": "flujo de gente (empleo, corredor comercial, Metro)",
                  "complementarios": "complementarios"}
 COMO_LEER = ("el score 0-100 es un percentil DENTRO de este giro: ordena colonias para este giro en la ZMVM; "
-             "no dice que el giro sea rentable ni sirve para comparar giros entre si (para eso, prob. de apertura absoluta)")
+             "no dice que el giro sea rentable ni sirve para comparar giros entre sí (para eso, la prob. de apertura absoluta)")
 PROB_BAJA = 0.10  # prob. de apertura por AGEB debajo de esto = pocos negocios del giro abren ahi
+RADIO_COLONIA_KM = 2.0  # con `colonia`: AGEB de la colonia y las que estan a esta distancia de su centroide
 
 
 def metodo_score() -> str:
@@ -260,9 +345,91 @@ def metodo_score() -> str:
               "y cada termino en percentil dentro de la ZMVM para el giro")
 
 
+def _rango(v: list) -> str:
+    """«0» si todos son iguales, «2 a 9» si no."""
+    return f"{min(v)}" if min(v) == max(v) else f"{min(v)} a {max(v)}"
+
+
+def _n_agebs_base(clave: str, m) -> str:
+    """«1 de 5,875 AGEB» (si son pocas) o «el 12 % de las AGEB»: en cuantas AGEB aparecio una apertura del giro 2020-2026."""
+    n, tasa = int(m.at[clave, "agebs_con_apertura"]), float(m.at[clave, "tasa_base"])
+    pct = 100 * tasa
+    if pct < 1 and tasa > 0:
+        return f"{n:,} de {round(n / tasa):,} AGEB"
+    return f"el {_r(pct)} % de las AGEB"
+
+
+def _destacados(zonas: list[dict]) -> dict:
+    """Lo que distingue a las zonas del top, ya calculado (el agente lo cita en la lectura sin buscar en cada renglon)."""
+    def mejor(clave, mayor=True):
+        v = [z for z in zonas if isinstance(z.get(clave), (int, float))]
+        return (max if mayor else min)(v, key=lambda z: z[clave]) if v else None
+
+    out = {}
+    for nombre, clave, mayor, etiqueta in (
+            ("mayor_ingreso_estimado", "ingreso_trim_mediano_estimado_mxn", True, "ingreso trimestral estimado por hogar"),
+            ("menor_competencia", "competidores_ponderados", False, "competidores ponderados"),
+            ("mayor_prob_apertura", "prob_apertura_pct", True, "prob. de apertura %"),
+            ("mayor_gasto_potencial", "gasto_potencial_trim_mxn", True, "gasto potencial por trimestre"),
+            ("mayor_edad_clave", "edad_clave_pct", True, "% de la edad clave")):
+        z = mejor(clave, mayor)
+        if z:
+            out[nombre] = {"colonia": z["colonia"], "ageb": z["ageb"], etiqueta: z[clave]}
+    ing = [z["ingreso_trim_mediano_estimado_mxn"] for z in zonas if isinstance(z.get("ingreso_trim_mediano_estimado_mxn"), (int, float))]
+    pct = [z["edad_clave_pct"] for z in zonas if isinstance(z.get("edad_clave_pct"), (int, float))]
+    if ing:
+        out["rango_ingreso_trimestral_estimado_mxn"] = [min(ing), max(ing)]
+    if pct:
+        out["rango_edad_clave_pct"] = [min(pct), max(pct)]
+    return out
+
+
+def _filtro_colonia(colonia: str, cve_mun: str | None, nom_mun: str | None, radio_km: float) -> tuple[set | None, pd.Series | None, dict]:
+    """Resuelve la colonia pedida. Regresa (AGEB permitidas | None, distancia km al centroide | None, info).
+
+    Nunca calla: info["aviso"] dice que filtro se uso, que hubo de ambiguo o que NO se encontro y que se da a cambio."""
+    r = lugares.resolver(colonia, cve_mun)
+    ambito = nom_mun or "toda la ZMVM"
+    if not r["ok"]:
+        sug = r.get("sugerencias") or []
+        aviso = (f"NO ENCONTRADO: «{colonia}» no aparece como colonia o asentamiento ({'en ' + nom_mun if nom_mun else 'en la ZMVM'}). "
+                 f"A cambio se muestra el top del giro en {ambito}, SIN filtro de colonia."
+                 + (f" ¿Quisiste decir: {'; '.join(sug)}?" if sug else ""))
+        return None, None, {"consulta": colonia, "encontrada": False, "motivo": r["motivo"], "sugerencias": sug, "aviso": aviso}
+    dist = lugares.distancias_km(r["centro"])
+    dentro = set(r["agebs"])
+    permitidas = dentro | set(dist.index[dist <= radio_km])
+    nombre = r["colonias"][0].title() if r["n_colonias"] == 1 else r["consulta"].strip().title()
+    info = {"consulta": colonia, "encontrada": True, "criterio": r["criterio"], "ambigua": r["ambigua"],
+            "municipio": r["municipio"], "colonias_coincidentes": r["colonias"], "n_colonias": r["n_colonias"],
+            "agebs_en_colonia": len(dentro), "radio_km": radio_km, "agebs_en_radio": len(permitidas),
+            "centroide": r["centro"]}
+    aviso = (f"Filtro por colonia: «{nombre}» ({r['municipio']}; {len(dentro)} AGEB). El top se limita a las AGEB de esa colonia "
+             f"y a las que están a {radio_km:g} km o menos de su centroide; hay al menos 3 zonas de la colonia misma (si las tiene) y cada zona dice si está dentro y a cuántos km queda.")
+    if r.get("parcial"):  # lo pedido NO existe y empieza con una colonia que si: se dice, no se resuelve en silencio
+        usada = r["colonias"][0].title() if r["n_colonias"] == 1 else r["usada"].title()
+        aviso = (f"NO ENCONTRADO: «{r['pedido']}» no aparece como colonia o asentamiento; se usó la colonia más parecida, "
+                 f"«{usada}» ({r['municipio']}). " + aviso)
+        info.update(parcial=True, pedido=r["pedido"], usada=usada)
+    if r["criterio"] == "aproximado":
+        aviso += f" Se interpretó «{colonia}» como {', '.join(r['colonias'][:2])}."
+    if r["ambigua"]:
+        info["alternativas"] = r["alternativas"]
+        otras = "; ".join(f"{a['municipio']} ({a['agebs']} AGEB)" for a in r["alternativas"][:3])
+        aviso += (f" Hay más colonias con ese nombre ({otras}); se usó la de {r['municipio']}, la más poblada. "
+                  "Si buscabas otra, indica el municipio.")
+    info["aviso"] = aviso
+    return permitidas, dist, info
+
+
 def recomendar_zonas(giro: str, municipio: str | None = None, nse: str | None = None, top: int = 5,
-                     una_por_colonia: bool = True) -> dict:
-    """Top de AGEB (colonias) para un giro, opcionalmente dentro de un municipio y/o NSE."""
+                     una_por_colonia: bool = True, colonia: str | None = None,
+                     radio_km: float = RADIO_COLONIA_KM) -> dict:
+    """Top de AGEB (colonias) para un giro, opcionalmente dentro de un municipio, un NSE y/o cerca de una colonia.
+
+    colonia: nombre de colonia o asentamiento («Polanco», «la Condesa», «Santa Fe»). Limita el top a las AGEB de esa
+    colonia y a las que estan a `radio_km` o menos de su centroide; `filtros`, `colonia_consultada` y `aviso_colonia`
+    dicen el filtro. Si la colonia no existe o es ambigua lo dice y explica que se da a cambio."""
     clave = _resolver_giro(giro)
     if clave is None:
         return {"encontrado": False, "motivo": f"{NO}: giro '{giro}' no esta en config/giros.yaml",
@@ -273,6 +440,19 @@ def recomendar_zonas(giro: str, municipio: str | None = None, nse: str | None = 
                 "fuentes": [F_ZMVM]}
     d = _score(clave)
     filtros = {}
+    info_col = None
+    if colonia and str(colonia).strip():
+        permitidas, dist, info_col = _filtro_colonia(str(colonia), mres["cvegeo_mun"], mres["nom_mun"], float(radio_km))
+        if permitidas is not None:
+            d = d[d["cvegeo"].isin(permitidas)].copy()
+            d["dist_colonia_km"] = dist.reindex(d["cvegeo"]).to_numpy()
+            d["en_colonia"] = d["cvegeo"].isin(set(lugares.resolver(str(colonia), mres["cvegeo_mun"])["agebs"])).to_numpy()
+            filtros["colonia"] = info_col["usada"] if info_col.get("parcial") else str(colonia).strip()
+            if info_col.get("parcial"):
+                filtros["colonia_no_encontrada"] = info_col["pedido"]
+            filtros["radio_km_colonia"] = float(radio_km)
+        else:
+            filtros["colonia_no_encontrada"] = str(colonia).strip()
     if mres["cvegeo_mun"]:
         d = d[d["cvegeo_mun"] == mres["cvegeo_mun"]]
         filtros["municipio"] = mres["nom_mun"]
@@ -284,31 +464,45 @@ def recomendar_zonas(giro: str, municipio: str | None = None, nse: str | None = 
         filtros["nse"] = n
     if d.empty:
         return {"encontrado": False, "giro": clave, "filtros": filtros,
+                **({"colonia_consultada": info_col, "aviso_colonia": info_col["aviso"]} if info_col else {}),
                 "motivo": f"{NO}: no hay AGEB urbanas con esos filtros", "fuentes": [F_CENSO]}
     n_eval = int(len(d))
     if una_por_colonia:  # la mejor AGEB de cada colonia, para no repetir la misma colonia 5 veces
         d = d.drop_duplicates(subset=["nom_mun", "nom_colonia"], keep="first")
     top = max(1, min(int(top or 5), 10))
-    zonas = [_zona(r, clave) for _, r in d.head(top).iterrows()]
+    if "en_colonia" in d.columns:  # con colonia: al menos 3 de las del top son de la colonia misma (si hay), el resto por score
+        dentro = d[d["en_colonia"]].head(min(3, top))
+        sel = pd.concat([dentro, d.drop(index=dentro.index).head(top - len(dentro))]).sort_values("score", ascending=False)
+    else:
+        sel = d.head(top)
+    zonas = [_zona(r, clave) for _, r in sel.iterrows()]
     g = motor.giros()[clave]
-    avisos = ["«aparecio en el DENUE» no es lo mismo que «abrio»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Economicos",
-              "el NSE y el decil por AGEB son estimaciones del proyecto (ENIGH no representa colonias)",
-              f"ticket promedio {g.get('ticket_promedio_mxn')} MXN es supuesto ({g.get('ticket_fuente')})"]
+    avisos = ["«apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos",
+              "el NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)",
+              f"el ticket promedio de {g.get('ticket_promedio_mxn')} pesos es un supuesto ({g.get('ticket_fuente')})"]
     if g.get("rubro_enigh_nota"):
         avisos.append(g["rubro_enigh_nota"])
     if not g.get("rubro_enigh"):
-        avisos.append("sin rubro ENIGH para este giro: gasto potencial NO ENCONTRADO, el score usa poblacion objetivo")
+        avisos.append("sin rubro ENIGH para este giro: gasto potencial NO ENCONTRADO, el score usa población objetivo")
     m = _metricas()
     if clave in m.index and m.at[clave, "agebs_con_apertura"] < 30:
         avisos.append(f"giro raro: solo {int(m.at[clave, 'agebs_con_apertura'])} AGEB con aperturas 2020-2026; el modelo es poco confiable")
     out = {"encontrado": True, "giro": clave, "filtros": filtros or None, "agebs_evaluadas": n_eval,
-           "metodo": metodo_score(), "como_leer_score": COMO_LEER}
+           "metodo": metodo_score(), "como_leer_score": COMO_LEER, "destacados": _destacados(zonas),
+           "edad_clave": {"grupo": edad_clave(clave), "etiqueta": EDAD_ETIQUETA[edad_clave(clave)],
+                          "pct_zmvm": _r(_pct_edad_zmvm(edad_clave(clave)), 1),
+                          "peso_en_cliente_objetivo": g.get("cliente_objetivo", {}).get(edad_clave(clave))}}
+    if info_col:
+        out["colonia_consultada"] = info_col
+        out["aviso_colonia"] = info_col["aviso"]
     probs = [z["prob_apertura_pct"] for z in zonas]
     if max(probs) < 100 * PROB_BAJA:
-        tb = f"; en la ZMVM aparecio en el {_r(100 * m.at[clave, 'tasa_base'])} % de las AGEB" if clave in m.index else ""
-        out["aviso_prob_baja"] = (f"probabilidad de apertura baja en todo el top ({min(probs)} a {max(probs)} %){tb}: "
+        tb = f"; en la ZMVM apareció en {_n_agebs_base(clave, m)}" if clave in m.index else ""
+        out["aviso_prob_baja"] = (f"probabilidad de apertura baja en todo el top ({_rango(probs)} %){tb}: "
                                   "el score alto solo dice que estas son las mejores zonas PARA ESTE GIRO, no que el giro sea viable")
         avisos.insert(0, out["aviso_prob_baja"])
+    if info_col:
+        avisos.insert(0, info_col["aviso"])
     return {**out, "rubro_enigh": g.get("rubro_enigh") or NO,
             "zonas": zonas, "avisos": avisos,
             "fuentes": [F_MODELO, F_DENUE, F_CENSO, F_ENIGH, F_GIROS]}
@@ -401,15 +595,90 @@ def buscar_carpetas(pregunta: str, k: int = 4, max_chars: int = 700) -> dict:
 
 
 # ---------------------------------------------------------------- contexto_macro
-def contexto_macro() -> dict:
-    """Ultimos indicadores macro (Banxico e INEGI) con fecha y serie."""
+# Giros de alimentos y bebidas (les importa la inflacion de alimentos) y giros con insumos importados (tipo de cambio).
+GIROS_ALIMENTOS = {"heladeria", "cafeteria", "taqueria", "abarrotes", "pasteleria", "tortilleria", "fonda", "pizzeria",
+                   "panaderia", "carniceria", "fruteria", "comida_china", "sushi", "bar", "purificadora"}
+GIROS_IMPORTADOS = {"tienda_celulares", "optica", "taller_mecanico", "tienda_mascotas", "tienda_ropa", "zapateria"}
+ETIQUETA_MACRO = {"tasa_objetivo": "tasa objetivo de Banxico", "tiie_28": "TIIE a 28 días",
+                  "tipo_cambio_fix": "tipo de cambio FIX", "inpc_general_var_anual": "inflación general (INPC)",
+                  "inpc_alimentos_var_anual": "inflación de alimentos, bebidas y tabaco (INPC)",
+                  "consumo_privado": "consumo privado (IMCP)", "confianza_consumidor": "confianza del consumidor"}
+
+
+def indicadores_del_giro(giro: str | None) -> list[str]:
+    """Claves de macro.json que le importan al giro: tasa y inflacion siempre; alimentos o FIX segun el giro."""
+    claves = ["tasa_objetivo", "inpc_general_var_anual"]
+    if giro in GIROS_ALIMENTOS:
+        claves.append("inpc_alimentos_var_anual")
+    if giro in GIROS_IMPORTADOS:
+        claves.append("tipo_cambio_fix")
+    return claves
+
+
+def _txt_indicador(k: str, v: dict) -> str:
+    if v.get("valor") == NO:
+        prox = v.get("proxies") or {}
+        p = prox.get("no_subyacente_agropecuarios")
+        if p:
+            return (f"inflación de alimentos, bebidas y tabaco (INPC): NO ENCONTRADO; como aproximación, agropecuarios "
+                    f"{p['valor']} % anual ({p['fecha']}, serie {p['id_serie']})")
+        return f"{ETIQUETA_MACRO.get(k, k)}: NO ENCONTRADO"
+    unidad = {"% anual": "% anual", "% variacion anual": "% anual", "MXN por USD": "pesos por dólar",
+              "puntos (indice)": "puntos del índice", "% variacion anual (cifras originales)": "% anual (cifras originales)",
+              "millones de USD (mensual)": "millones de dólares al mes"}.get(v.get("unidad"), v.get("unidad") or "")
+    return f"{ETIQUETA_MACRO.get(k, k)} {v['valor']} {unidad} ({v.get('fecha')}, serie {v.get('id_serie')})"
+
+
+_ACENTOS_FUENTE = (("Banco de Mexico", "Banco de México"), ("busqueda por ids", "búsqueda por ids"),
+                   ("Poblacion", "Población"), ("ambito", "ámbito"))
+
+
+def _fuente_acentuada(f: str) -> str:
+    """Las fuentes que bajaron los scripts de datos vienen sin acentos; el texto visible va con acentos."""
+    for a, b in _ACENTOS_FUENTE:
+        f = f.replace(a, b)
+    return f
+
+
+# Mecanismo por indicador (texto fijo, sin cifras): lo muestra el agente cuando la pregunta pide «cómo influye / afecta».
+ORDEN_COMO = ("tasa_objetivo", "tiie_28", "inpc_general_var_anual", "inpc_alimentos_var_anual", "tipo_cambio_fix",
+              "remesas", "confianza_consumidor", "consumo_privado")
+COMO_INFLUYE = {
+    "tasa_objetivo": "La tasa de Banxico fija el costo del crédito: con tasa alta cuesta más financiar el equipo, el local y el inventario, "
+                     "y el cliente pospone compras a crédito.",
+    "tiie_28": "La TIIE a 28 días es la referencia de los créditos empresariales: si sube, el financiamiento del negocio sale más caro.",
+    "tipo_cambio_fix": "Un dólar más caro encarece los insumos y el equipo importados y aprieta el margen si no se puede subir el precio.",
+    "inpc_general_var_anual": "La inflación general sube el costo de la renta, los servicios y los insumos, y le quita poder de compra al cliente: "
+                              "el negocio absorbe el aumento en su margen o lo traslada al precio y vende menos.",
+    "inpc_alimentos_var_anual": "La inflación de alimentos sube el costo de los insumos de un negocio de comida y aprieta el margen, "
+                                "además de reducir lo que el hogar gasta fuera de casa.",
+    "remesas": "Las remesas sostienen el ingreso de los hogares que las reciben y con ello su gasto en el comercio local.",
+    "confianza_consumidor": "Cuando baja la confianza del consumidor, los hogares posponen gastos que no son indispensables.",
+    "consumo_privado": "El consumo privado es la demanda total de los hogares: si crece, hay más ventas para el comercio y los servicios.",
+}
+PIDE_COMO = re.compile(r"\bcomo\s+(?:me\s+|nos\s+|le\s+|les\s+)?(?:influy\w*|afect\w*|impact\w*|cambi\w*|repercut\w*)\b|"
+                       r"\b(?:efecto|influencia|impacto)\s+(?:de|del|en)\b")
+
+
+def pide_como_influye(pregunta: str | None) -> bool:
+    """La pregunta pide el mecanismo («cómo influye la inflación...»), no solo las cifras."""
+    return bool(PIDE_COMO.search(norm(pregunta or "")))
+
+
+def contexto_macro(giro: str | None = None) -> dict:
+    """Ultimos indicadores macro (Banxico e INEGI) con fecha y serie.
+
+    giro: si se da, solo los indicadores que le importan a ese giro (tasa, inflacion; alimentos o tipo de cambio segun
+    el giro) y `linea`, una frase lista para citar."""
     m = json.loads((PROC / "macro.json").read_text(encoding="utf-8"))
     out, fuentes = {}, set()
     for k, v in m.items():
         if k.startswith("_") or not isinstance(v, dict):
             continue
         if v.get("estado") == NO or "valor" not in v:
-            item = {"valor": NO, "detalle": v.get("detalle", "")[:200]}
+            item = {"valor": NO, "detalle": v.get("detalle", "")[:300]}
+            if v.get("evidencia") and not giro:
+                item["evidencia"] = v["evidencia"][:700]
             prox = {}
             for pk, pv in (v.get("proxies") or {}).items():
                 prox[pk] = {"valor": _r(pv["valor"], 2), "unidad": pv.get("unidad"), "fecha": pv.get("fecha"),
@@ -419,7 +688,8 @@ def contexto_macro() -> dict:
                 item["proxies"] = prox
             out[k] = item
             continue
-        item = {"valor": _r(v["valor"], 2), "unidad": v.get("unidad"), "fecha": v.get("fecha"), "id_serie": v.get("id_serie")}
+        item = {"nombre": ETIQUETA_MACRO.get(k, k), "valor": _r(v["valor"], 2), "unidad": v.get("unidad"), "fecha": v.get("fecha"),
+                "id_serie": v.get("id_serie")}
         for extra in ("variacion_anual_pct", "acumulado_12_meses_millones_usd"):
             if extra in v:
                 item[extra] = _r(v[extra], 2 if "pct" in extra else 0)
@@ -427,9 +697,55 @@ def contexto_macro() -> dict:
         fuentes.add(v.get("fuente", "").split(";")[0])
     if "remesas" in out:
         out["remesas"]["valor"] = _r(m["remesas"]["valor"], 0)
-    return {"indicadores": out, "consultado": m.get("_meta", {}).get("generado"),
-            "nota": "valores nacionales, no por colonia; INPC de alimentos NO ENCONTRADO (solo proxies)",
-            "fuentes": sorted(f for f in fuentes if f)}
+    alim = out.get("inpc_alimentos_var_anual", {})
+    nota = ("valores nacionales, no por colonia; INPC de alimentos "
+            + ("NO ENCONTRADO (solo proxies)" if alim.get("valor") == NO else "es el subindice «Alimentos, bebidas y tabaco»"))
+    res = {"indicadores": out, "consultado": m.get("_meta", {}).get("generado"), "nota": nota,
+           "fuentes": sorted(_fuente_acentuada(f) for f in fuentes if f)}
+    res["como_influye"] = {k: COMO_INFLUYE[k] for k in ORDEN_COMO if k in out and k in COMO_INFLUYE and out[k].get("valor") != NO}
+    if giro:
+        clave = _resolver_giro(giro)
+        if clave:
+            ks = [k for k in indicadores_del_giro(clave) if k in out]
+            fu = {m[k].get("fuente", "").split(";")[0] for k in ks if isinstance(m.get(k), dict)}
+            for k in ks:
+                fu |= {pv.get("fuente", "").split(";")[0] for pv in (m[k].get("proxies") or {}).values()}
+            res = {"giro": clave, "indicadores": {k: out[k] for k in ks}, "consultado": res["consultado"], "nota": nota,
+                   "linea": "valores nacionales: " + "; ".join(_txt_indicador(k, out[k]) for k in ks) + ".",
+                   "como_influye": {k: COMO_INFLUYE[k] for k in ks if k in COMO_INFLUYE and out[k].get("valor") != NO},
+                   "fuentes": sorted(_fuente_acentuada(f) for f in fu if f)}
+    return res
+
+
+# ---------------------------------------------------------------- ficha_municipio (extra)
+FICHA_LINEAS = ("Población en AGEB", "Densidad", "Edad", "Escolaridad promedio", "Población por NSE estimado", "Decil estimado típico")
+
+
+def ficha_municipio(municipio: str, max_chars: int = 520) -> dict:
+    """Trozo corto de la ficha del municipio en carpetas/03_municipios (poblacion, densidad, edades, NSE).
+
+    Lectura directa del indice del RAG: no usa embeddings ni Ollama."""
+    mres = resolver_municipio(municipio)
+    if not mres["ok"] or not mres["nom_mun"]:
+        return {"encontrado": False, **{k: v for k, v in mres.items() if k != "ok"}, "fuentes": [F_ZMVM]}
+    try:
+        lineas = rag.lineas_ficha(mres["nom_mun"])
+    except FileNotFoundError:
+        lineas = []
+    sel, n = [], 0
+    for pref in FICHA_LINEAS:
+        for ln in lineas:
+            if ln.startswith(pref):
+                ln = re.sub(r"\s*Fuente:.*$", "", ln).strip()
+                if n + len(ln) <= max_chars:
+                    sel.append(ln)
+                    n += len(ln)
+                break
+    if not sel:
+        return {"encontrado": False, "municipio": mres["nom_mun"], "motivo": f"{NO}: sin ficha en carpetas/03_municipios",
+                "fuentes": ["carpetas/03_municipios"]}
+    return {"encontrado": True, "municipio": mres["nom_mun"], "cvegeo_mun": mres["cvegeo_mun"], "ficha": sel,
+            "fuentes": [F_CENSO, F_DENUE, "carpetas/03_municipios (fichas generadas desde agebs_features)"]}
 
 
 # ---------------------------------------------------------------- sugerir_giros (extra)
@@ -448,19 +764,57 @@ def _auc_sobrevive():
         return NO
 
 
+@lru_cache(maxsize=1)
+def _personal_por_giro() -> dict[str, float]:
+    """Personal ocupado medio por establecimiento del giro (DENUE 05/2026, punto medio del estrato)."""
+    den = motor.denue("actual")
+    out = {}
+    for clave, g in motor.giros().items():
+        sel = motor.seleccionar(den, g.get("scian", []), g.get("scian_con_filtro"))
+        if len(sel):
+            out[clave] = float(sel["per_ocu_medio"].mean())
+    return out
+
+
+def giros_poca_inversion() -> dict[str, float]:
+    """Giros de «poca inversion»: el tercio de giros con el establecimiento tipico mas chico del DENUE.
+
+    El proyecto NO tiene datos de inversion inicial por giro (giros.yaml solo trae ticket por venta). Se usa una
+    aproximacion declarada: el personal ocupado medio por establecimiento, porque un negocio de 1 a 3 personas
+    necesita menos local, equipo e inventario que uno de 10. Regresa {giro: personal medio}."""
+    p = _personal_por_giro()
+    orden = sorted(p, key=p.get)
+    return {k: round(p[k], 1) for k in orden[:max(3, len(orden) // 3)]}
+
+
 def sugerir_giros(municipio: str | None = None, nse: str | None = None, ticket_max: float | None = None,
-                  top: int = 5) -> dict:
+                  top: int = 5, colonia: str | None = None, radio_km: float = RADIO_COLONIA_KM,
+                  inversion: str | None = None) -> dict:
     """Giros del catalogo que conviene considerar en una zona (sin giro definido).
 
     El score de cada giro es percentil DENTRO del giro, asi que no sirve para compararlos (una libreria puede
     tener score 90 con 5 % de probabilidad de apertura). Aqui los giros se ordenan por una medida absoluta y
     comparable: en las 10 mejores AGEB del giro dentro del filtro, prob. de apertura x prob. de seguir abierto
-    (las dos del modelo, misma ventana 2020-2026 y misma unidad, la AGEB)."""
+    (las dos del modelo, misma ventana 2020-2026 y misma unidad, la AGEB).
+
+    colonia / radio_km: limita a la colonia y las AGEB a <= radio_km de su centroide (igual que recomendar_zonas).
+    inversion='baja': solo giros de poca inversion (aproximacion declarada, ver giros_poca_inversion)."""
     mres = resolver_municipio(municipio)
     if not mres["ok"]:
         return {"encontrado": False, **{k: v for k, v in mres.items() if k != "ok"}, "fuentes": [F_ZMVM]}
     d = _scores_todos()
     filtros = {}
+    info_col = None
+    if colonia and str(colonia).strip():
+        permitidas, _, info_col = _filtro_colonia(str(colonia), mres["cvegeo_mun"], mres["nom_mun"], float(radio_km))
+        if permitidas is not None:
+            d = d[d["cvegeo"].isin(permitidas)]
+            filtros["colonia"] = info_col["usada"] if info_col.get("parcial") else str(colonia).strip()
+            if info_col.get("parcial"):
+                filtros["colonia_no_encontrada"] = info_col["pedido"]
+            filtros["radio_km_colonia"] = float(radio_km)
+        else:
+            filtros["colonia_no_encontrada"] = str(colonia).strip()
     if mres["cvegeo_mun"]:
         d = d[d["cvegeo_mun"] == mres["cvegeo_mun"]]
         filtros["municipio"] = mres["nom_mun"]
@@ -472,11 +826,19 @@ def sugerir_giros(municipio: str | None = None, nse: str | None = None, ticket_m
         filtros["nse"] = n
     if ticket_max:
         filtros["ticket_max_mxn"] = _r(ticket_max)
+    chicos = None
+    if inversion:
+        if norm(inversion) not in ("baja", "poca", "bajo"):
+            return {"encontrado": False, "motivo": "inversion solo acepta 'baja'", "fuentes": []}
+        chicos = giros_poca_inversion()
+        filtros["inversion"] = "baja (aproximacion: establecimiento tipico chico)"
     m = _metricas()
     filas = []
     for clave, g in motor.giros().items():
         t = g.get("ticket_promedio_mxn")
         if ticket_max and (t is None or t > ticket_max):
+            continue
+        if chicos is not None and clave not in chicos:
             continue
         if n and g.get("nse_objetivo", {}).get(n, 0) < 0.3:
             continue
@@ -489,26 +851,39 @@ def sugerir_giros(municipio: str | None = None, nse: str | None = None, ticket_m
         fila = {"giro": clave, "viabilidad_pct": _r(100 * pa * ps), "prob_apertura_pct": _r(100 * pa),
                 "prob_sigue_abierto_pct": _r(100 * ps), "score_relativo_medio_top10": _r(s["score"].mean(), 1),
                 "ticket_promedio_mxn": t, "peso_nse_objetivo": g.get("nse_objetivo", {}).get(n) if n else None}
+        if chicos is not None:
+            fila["personal_ocupado_medio_estab"] = chicos[clave]
         if pa < PROB_BAJA:
-            fila["aviso"] = "probabilidad de apertura baja: pocos negocios de este giro abren aqui"
+            fila["aviso"] = "probabilidad de apertura baja: pocos negocios de este giro abren aquí"
         filas.append(fila)
+    # el orden es el de viabilidad (el agente lo respeta tal cual)
     filas = sorted(filas, key=lambda r: -r["viabilidad_pct"])[:max(1, min(int(top or 5), 10))]
+    extra = {}
+    if info_col:
+        extra = {"colonia_consultada": info_col, "aviso_colonia": info_col["aviso"]}
     if not filas:
-        return {"encontrado": False, "filtros": filtros, "motivo": f"{NO}: ningun giro cumple los filtros", "fuentes": [F_GIROS]}
-    return {"encontrado": True, "filtros": filtros or None, "giros": filas,
-            "como_leer": ("los giros se ordenan por viabilidad = prob. de apertura x prob. de seguir abierto (absolutas, "
-                          "comparables entre giros). El score 0-100 es relativo dentro de cada giro: NO compara giros"),
-            "metodo": ("en las 10 AGEB con mejor score de cada giro dentro del filtro: media de la prob. de apertura "
-                       "(aparece >= 1 negocio del giro 2020-2026) y de la prob. de que un local nuevo siga abierto; "
-                       "con nse se exige peso >= 0.3 en nse_objetivo; se excluyen giros con menos de 30 AGEB con "
-                       "aperturas (coworking, renta de bicicletas); ticket es supuesto; la prob. de seguir abierto "
-                       f"viene de un modelo debil (AUC {_auc_sobrevive()})"),
-            "fuentes": [F_MODELO, F_GIROS, F_DENUE]}
+        return {"encontrado": False, "filtros": filtros, **extra, "motivo": f"{NO}: ningun giro cumple los filtros", "fuentes": [F_GIROS]}
+    out = {"encontrado": True, "filtros": filtros or None, **extra, "giros": filas,
+           "como_leer": ("los giros se ordenan por viabilidad = prob. de apertura x prob. de seguir abierto (absolutas, "
+                         "comparables entre giros). El score 0-100 es relativo dentro de cada giro: NO compara giros"),
+           "metodo": ("en las 10 AGEB con mejor score de cada giro dentro del filtro: media de la prob. de apertura "
+                      "(aparece >= 1 negocio del giro 2020-2026) y de la prob. de que un local nuevo siga abierto; "
+                      "con nse se exige peso >= 0.3 en nse_objetivo; se excluyen giros con menos de 30 AGEB con "
+                      "aperturas (coworking, renta de bicicletas); ticket es supuesto; la prob. de seguir abierto "
+                      f"viene de un modelo debil (AUC {_auc_sobrevive()})"),
+           "fuentes": [F_MODELO, F_GIROS, F_DENUE]}
+    if chicos is not None:
+        out["criterio_inversion"] = ("«barato» se entendió como poca inversión inicial. El proyecto NO tiene la inversión por giro "
+                                     "(NO ENCONTRADO; el catálogo solo trae el ticket por venta, que no mide el costo de abrir). "
+                                     "Aproximación: giros cuyo establecimiento típico es de los más chicos del DENUE (personal ocupado "
+                                     "medio por establecimiento, tercio inferior de los giros del catálogo)")
+    return out
 
 
 # ---------------------------------------------------------------- registro para el agente
 HERRAMIENTAS = {"perfil_giro": perfil_giro, "recomendar_zonas": recomendar_zonas, "ficha_zona": ficha_zona,
-                "buscar_carpetas": buscar_carpetas, "contexto_macro": contexto_macro, "sugerir_giros": sugerir_giros}
+                "buscar_carpetas": buscar_carpetas, "contexto_macro": contexto_macro, "sugerir_giros": sugerir_giros,
+                "ficha_municipio": ficha_municipio}
 
 
 def ejecutar(nombre: str, argumentos: dict | None) -> dict:

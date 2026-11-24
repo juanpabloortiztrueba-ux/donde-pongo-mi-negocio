@@ -556,16 +556,18 @@
   }
  },
  "pesos_score": {
-  "prob_apertura": 0.3,
-  "demanda_neta": 0.25,
-  "pob_neta": 0.15,
-  "flujo": 0.2,
-  "complementarios": 0.1
+  "prob_apertura": 0.35,
+  "demanda_neta": 0.05,
+  "pob_neta": 0.2,
+  "flujo": 0.1,
+  "complementarios": 0.3
  },
  "top_k": [
   50,
   100
  ],
  "filas_entrenamiento": 235000,
- "segundos": 279
+ "segundos": 279,
+ "score_version": "3.0-nucleo-aprendido",
+ "validacion_score": "reports/validacion_score.md"
 }

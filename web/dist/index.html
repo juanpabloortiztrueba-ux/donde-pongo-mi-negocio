@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<title>Dónde pongo mi negocio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3a9 9 0 0 0-9 9c0 6.5 9 17 9 17s9-10.500 9-17a9 9 0 0 0-9-9Z' fill='%23f26a2e'/%3E%3Ccircle cx='16' cy='12' r='3.500' fill='white'/%3E%3C/svg%3E" />
+<script>
+  // Tema antes de pintar, para que no parpadee: lo guardado o el del sistema.
+  (function () { var t = null; try { t = localStorage.getItem('tablero-tema') } catch (e) {} 
+    if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.dataset.tema = t })();
+</script>
+  <script type="module" crossorigin src="./assets/index-CjMetSgt.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CduD2Q1s.css">
+</head>
+<body>
+<div id="root"></div>
+</body>
+</html>

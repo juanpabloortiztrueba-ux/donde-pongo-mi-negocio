@@ -630,8 +630,8 @@ def construir_macro() -> None:
         raise RuntimeError("INPC: la variacion anual publicada no coincide con el indice")
     macro["inpc_general_var_anual"] = inpc
 
-    # INPC alimentos: el subindice 'Alimentos, bebidas y tabaco' NO esta en la API (se buscaron los
-    # catalogos BIE y BISE completos). Se entregan proxies oficiales, claramente marcados.
+    # INPC alimentos: el subindice 'Alimentos, bebidas y tabaco' NO se encontro en la API (busqueda del 2026-11-23,
+    # ver `evidencia` abajo). Se entregan proxies oficiales, claramente marcados.
     prox = {}
     for nombre, idx_id, var_id, esperado in (
             ("no_subyacente_agropecuarios", "910397", "910411", "Agropecuarios"),
@@ -646,10 +646,17 @@ def construir_macro() -> None:
         prox[nombre] = v
     macro["inpc_alimentos_var_anual"] = dict(
         estado="NO ENCONTRADO",
-        detalle=("El subindice de INPC 'Alimentos, bebidas y tabaco' no esta publicado en la API de indicadores "
-                 "del INEGI (BIE ni BISE) y no se localizo su serie en las busquedas hechas en el SIE de Banxico. Ver proxies."),
+        detalle=("El subindice de INPC 'Alimentos, bebidas y tabaco' (por objeto del gasto) no se encontro en la API de "
+                 "indicadores del INEGI ni en el SIE de Banxico. Ver evidencia y proxies."),
+        evidencia=("Busqueda del 2026-11-23 (la API no tiene buscador por texto: se consulto la descripcion de cada id). "
+                   "INEGI BIE-BISE: ids 910000-911200 y 628100-628300 son solo el INPC por componente (general, subyacente, "
+                   "mercancias, servicios, no subyacente, agropecuarios, energeticos) y otras series ajenas; no hay "
+                   "descomposicion de alimentos. Banxico SIE: SP1 es solo el indice general por objeto del gasto; "
+                   "SP30000-SP31500 son genericos y subgrupos de ciudades/regiones (p. ej. 1.1 Alimentos > Carnes > Chuleta), sin el "
+                   "total «Alimentos, bebidas y tabaco»; SP74400-SP74900 solo trae subyacente/no subyacente "
+                   "(SP74625-SP74640: mercancias, mercancias no alimenticias, servicios, energeticos) sin su contraparte alimenticia."),
         proxies=prox, consultado=hoy.isoformat(),
-        fuente="INEGI, Banco de Indicadores API; busqueda en catalogos CL_INDICATOR (BIE-BISE y BISE)")
+        fuente="INEGI, Banco de Indicadores API; Banco de Mexico, SIE API (busqueda por ids)")
 
     # Confianza del consumidor (ENCO, INEGI-Banxico)
     macro["confianza_consumidor"] = inegi_ultimo(

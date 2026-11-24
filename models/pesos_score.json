@@ -1,0 +1,138 @@
+{
+ "version": "3.0-nucleo-aprendido",
+ "fecha": "2026-11-23",
+ "pesos": {
+  "prob_apertura": 0.35,
+  "demanda_neta": 0.05,
+  "pob_neta": 0.2,
+  "flujo": 0.1,
+  "complementarios": 0.3
+ },
+ "pesos_sin_redondear": {
+  "prob_apertura": 0.3373,
+  "demanda_neta": 0.0466,
+  "pob_neta": 0.2034,
+  "flujo": 0.1253,
+  "complementarios": 0.2874
+ },
+ "pesos_por_pliegue": [
+  {
+   "prob_apertura": 0.3627,
+   "demanda_neta": 0.0788,
+   "pob_neta": 0.1712,
+   "flujo": 0.1552,
+   "complementarios": 0.2321
+  },
+  {
+   "prob_apertura": 0.335,
+   "demanda_neta": 0.1087,
+   "pob_neta": 0.1413,
+   "flujo": 0.1224,
+   "complementarios": 0.2926
+  },
+  {
+   "prob_apertura": 0.2685,
+   "demanda_neta": 0.0132,
+   "pob_neta": 0.2368,
+   "flujo": 0.263,
+   "complementarios": 0.2185
+  },
+  {
+   "prob_apertura": 0.3579,
+   "demanda_neta": 0.0421,
+   "pob_neta": 0.2079,
+   "flujo": 0.0943,
+   "complementarios": 0.2978
+  },
+  {
+   "prob_apertura": 0.3563,
+   "demanda_neta": 0.0104,
+   "pob_neta": 0.2396,
+   "flujo": 0.0,
+   "complementarios": 0.3937
+  }
+ ],
+ "pesos_por_pliegue_sin_piso": [
+  {
+   "prob_apertura": 0.4656,
+   "demanda_neta": 0.0,
+   "pob_neta": 0.0566,
+   "flujo": 0.2622,
+   "complementarios": 0.2156
+  },
+  {
+   "prob_apertura": 0.4494,
+   "demanda_neta": 0.0,
+   "pob_neta": 0.0266,
+   "flujo": 0.2395,
+   "complementarios": 0.2846
+  },
+  {
+   "prob_apertura": 0.3568,
+   "demanda_neta": 0.0,
+   "pob_neta": 0.0936,
+   "flujo": 0.3315,
+   "complementarios": 0.2182
+  },
+  {
+   "prob_apertura": 0.4591,
+   "demanda_neta": 0.0,
+   "pob_neta": 0.0781,
+   "flujo": 0.1909,
+   "complementarios": 0.2718
+  },
+  {
+   "prob_apertura": 0.4636,
+   "demanda_neta": 0.0,
+   "pob_neta": 0.0575,
+   "flujo": 0.1128,
+   "complementarios": 0.3661
+  }
+ ],
+ "piso_demanda": 0.25,
+ "objetivos_que_aprende": [
+  "crecimiento_neto",
+  "sobrevivencia",
+  "altas_reales"
+ ],
+ "h_min": 3.0,
+ "giros_en_el_aprendizaje": [
+  "abarrotes",
+  "bar",
+  "barberia_estetica",
+  "cafe_internet",
+  "cafeteria",
+  "carniceria",
+  "cerrajeria",
+  "consultorio_dental",
+  "consultorio_medico",
+  "escuela_idiomas",
+  "farmacia",
+  "ferreteria",
+  "floreria",
+  "fonda",
+  "fruteria",
+  "gimnasio",
+  "heladeria",
+  "laboratorio_clinico",
+  "lavanderia",
+  "libreria",
+  "optica",
+  "panaderia",
+  "papeleria",
+  "pasteleria",
+  "pizzeria",
+  "purificadora",
+  "spa",
+  "sushi",
+  "taller_mecanico",
+  "taqueria",
+  "tienda_celulares",
+  "tienda_mascotas",
+  "tienda_ropa",
+  "tortilleria",
+  "veterinaria",
+  "zapateria"
+ ],
+ "origen": "scripts/03b_validar_score.py"
+}

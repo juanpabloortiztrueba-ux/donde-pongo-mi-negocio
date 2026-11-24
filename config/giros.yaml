@@ -43,7 +43,7 @@ giros:
     ticket_promedio_mxn: 70
     ticket_fuente: "supuesto: una nieve o helado artesanal individual, 2026"
     radio_influencia_m: 500
-    notas: "Complementarios: escuelas de preescolar y primaria privadas, zoologicos y jardines, salones de fiestas, jugueterias y casas de juegos. Estacional (calor)."
+    notas: "Complementarios: escuelas de preescolar y primaria privadas, zoológicos y jardines, salones de fiestas, jugueterías y casas de juegos. Estacional (calor)."
 
   - clave: cafeteria
     nombres: [cafeteria, cafe, cafeterias, cafe de especialidad, cafe de barrio]
@@ -53,12 +53,12 @@ giros:
     nse_objetivo: {bajo: 0.10, medio: 0.45, alto: 0.45}
     rubro_enigh: ali_fuera_total
     rubro_enigh_alt: [cafe_bebidas]
-    rubro_enigh_nota: "cafe_bebidas de la ENIGH es cafe para preparar en casa; el consumo en cafeteria cae en ali_fuera_total (restaurantes y similares)."
+    rubro_enigh_nota: "cafe_bebidas de la ENIGH es café para preparar en casa; el consumo en cafetería cae en ali_fuera_total (restaurantes y similares)."
     ticket_promedio_mxn: 95
     ticket_fuente: "supuesto: una bebida y un alimento ligero"
     radio_influencia_m: 400
     demanda_base: diurna
-    notas: "La clase 722515 mezcla cafeterias, neverias y refresquerias (por nombre, 26 % dicen 'cafe'). Complementarios: universidades, oficinas, despachos, cafes internet, librerias, bibliotecas y museos."
+    notas: "La clase 722515 mezcla cafeterías, neverías y refresquerías (por nombre, 26 % dicen 'cafe'). Complementarios: universidades, oficinas, despachos, cafés internet, librerías, bibliotecas y museos."
 
   - clave: gimnasio
     nombres: [gimnasio, gym, gimnasios, centro de acondicionamiento fisico, crossfit]
@@ -71,7 +71,7 @@ giros:
     ticket_promedio_mxn: 550
     ticket_fuente: "supuesto: mensualidad de un gimnasio de barrio, 2026 (no es ticket por visita)"
     radio_influencia_m: 1500
-    notas: "La clase 713944 (acondicionamiento fisico publico: deportivos de gobierno) no se cuenta como competencia directa por ser gratuita o casi; puede ser sustituto. Complementarios: escuelas de deporte, clubes, tiendas deportivas, nutriologos, suplementos."
+    notas: "La clase 713944 (acondicionamiento físico público: deportivos de gobierno) no se cuenta como competencia directa por ser gratuita o casi; puede ser sustituto. Complementarios: escuelas de deporte, clubes, tiendas deportivas, nutriologos, suplementos."
 
   - clave: farmacia
     nombres: [farmacia, farmacias, botica, farmacia de similares]
@@ -81,9 +81,9 @@ giros:
     nse_objetivo: {bajo: 0.35, medio: 0.45, alto: 0.20}
     rubro_enigh: medic_prod
     ticket_promedio_mxn: 190
-    ticket_fuente: "supuesto: medicamento de receta o patente mas un articulo de cuidado personal"
+    ticket_fuente: "supuesto: medicamento de receta o patente más un artículo de cuidado personal"
     radio_influencia_m: 500
-    notas: "Mercado maduro y muy competido (cadenas y similares). Complementarios: consultorios medicos, dentales, hospitales, laboratorios y veterinarias."
+    notas: "Mercado maduro y muy competido (cadenas y similares). Complementarios: consultorios médicos, dentales, hospitales, laboratorios y veterinarias."
 
   - clave: papeleria
     nombres: [papeleria, papelerias, libreria escolar, utiles escolares]
@@ -93,9 +93,9 @@ giros:
     nse_objetivo: {bajo: 0.35, medio: 0.50, alto: 0.15}
     rubro_enigh: papeleria
     ticket_promedio_mxn: 60
-    ticket_fuente: "supuesto: copias, cuadernos y utiles sueltos; sube en temporada escolar"
+    ticket_fuente: "supuesto: copias, cuadernos y útiles sueltos; sube en temporada escolar"
     radio_influencia_m: 400
-    notas: "Fuerte dependencia de escuelas cercanas (primaria a prepa). Complementarios: escuelas publicas y privadas y universidades, y fotocopiado."
+    notas: "Fuerte dependencia de escuelas cercanas (primaria a prepa). Complementarios: escuelas públicas y privadas y universidades, y fotocopiado."
 
   - clave: lavanderia
     nombres: [lavanderia, lavanderias, tintoreria, lavado de ropa, lavanderia de autoservicio]
@@ -105,9 +105,10 @@ giros:
     nse_objetivo: {bajo: 0.20, medio: 0.55, alto: 0.25}
     rubro_enigh: lavanderia_ropa
     rubro_enigh_alt: [cuida_pers]
-    rubro_enigh_nota: "Solo 0.4 % de los hogares reporta gasto en lavanderia en la ENIGH (promedio cercano a 1 peso por trimestre): no sirve para dimensionar demanda. La demanda real se apoya en vivienda en renta, departamentos chicos, estudiantes y trabajadores."
+    rubro_enigh_nota: "Solo 0.4 % de los hogares reporta gasto en lavandería en la ENIGH (promedio cercano a 1 peso por trimestre): no sirve para dimensionar demanda. La demanda real se apoya en vivienda en renta, departamentos chicos, estudiantes y trabajadores."
+    gasto_dimensionable: false   # el gasto potencial en pesos no sirve: la herramienta dice «no dimensionable» en lugar del numero
     ticket_promedio_mxn: 150
-    ticket_fuente: "supuesto: carga de ropa lavada y secada, o prendas de tintoreria"
+    ticket_fuente: "supuesto: carga de ropa lavada y secada, o prendas de tintorería"
     radio_influencia_m: 800
     notas: "Complementarios: viviendas en renta, departamentos amueblados, universidades y estacionamientos/oficinas. Alta demanda donde hay muchos departamentos sin lavadora."
 
@@ -120,9 +121,9 @@ giros:
     rubro_enigh: veterinaria_mascotas
     rubro_enigh_alt: [coicop_0945, coicop_0932]
     ticket_promedio_mxn: 450
-    ticket_fuente: "supuesto: consulta general mas alimento o vacuna"
+    ticket_fuente: "supuesto: consulta general más alimento o vacuna"
     radio_influencia_m: 1200
-    notas: "Complementarios: tiendas de mascotas, estetica canina (otros servicios personales), zoologicos/parques, farmacias y alimento para animales. La clase 541942 es sector publico y no cuenta como competencia."
+    notas: "Complementarios: tiendas de mascotas, estética canina (otros servicios personales), zoológicos/parques, farmacias y alimento para animales. La clase 541942 es sector público y no cuenta como competencia."
 
   - clave: taqueria
     nombres: [taqueria, taquerias, tacos, taqueria de trompo, tacos al pastor]
@@ -136,7 +137,7 @@ giros:
     ticket_fuente: "supuesto: 5-6 tacos y una bebida"
     radio_influencia_m: 400
     demanda_base: diurna
-    notas: "Mercado saturado en la ZMVM (722514 tiene decenas de miles de unidades). Complementarios: bares y antros (consumo nocturno), Metro, oficinas, universidades. Incluye tortas por la clasificacion del DENUE."
+    notas: "Mercado saturado en la ZMVM (722514 tiene decenas de miles de unidades). Complementarios: bares y antros (consumo nocturno), Metro, oficinas, universidades. Incluye tortas por la clasificación del DENUE."
 
   - clave: abarrotes
     nombres: [abarrotes, tienda de abarrotes, miscelanea, tiendita, tienda de la esquina]
@@ -149,7 +150,7 @@ giros:
     ticket_promedio_mxn: 55
     ticket_fuente: "supuesto: compra de reposicion diaria"
     radio_influencia_m: 300
-    notas: "461110 y minisupers (462112). Es el giro mas numeroso del DENUE (117 mil unidades en la ZMVM, corte 05/2026). Se gana por densidad de hogares y falta de tiendas a 300 m, no por NSE alto."
+    notas: "461110 y minisupers (462112). Es el giro más numeroso del DENUE (117 mil unidades en la ZMVM, corte 05/2026). Se gana por densidad de hogares y falta de tiendas a 300 m, no por NSE alto."
 
   - clave: barberia_estetica
     nombres: [barberia estetica, barberia, estetica, salon de belleza, peluqueria, estilista, barber shop, salon de unas]
@@ -162,7 +163,7 @@ giros:
     ticket_promedio_mxn: 180
     ticket_fuente: "supuesto: corte de cabello o servicio de unas"
     radio_influencia_m: 600
-    notas: "812110 es la clase mas grande del DENUE de la ZMVM despues de abarrotes (59 mil unidades). Barberia y estetica comparten clase: el modelo no las distingue. Complementarios: perfumeria, ropa, escuelas de oficios (cosmetologia), bares."
+    notas: "812110 es la clase más grande del DENUE de la ZMVM después de abarrotes (59 mil unidades). Barbería y estética comparten clase: el modelo no las distingue. Complementarios: perfumería, ropa, escuelas de oficios (cosmetología), bares."
 
   - clave: consultorio_dental
     nombres: [consultorio dental, dentista, odontologo, clinica dental, ortodoncia]
@@ -175,7 +176,7 @@ giros:
     ticket_promedio_mxn: 700
     ticket_fuente: "supuesto: consulta con limpieza o resina simple"
     radio_influencia_m: 1200
-    notas: "La clase 621212 (consultorios dentales publicos) no cuenta como competencia. Complementarios: farmacias, consultorios medicos, clinicas y hospitales. Mercado de destino: la gente cruza la colonia para ir con su dentista."
+    notas: "La clase 621212 (consultorios dentales públicos) no cuenta como competencia. Complementarios: farmacias, consultorios médicos, clínicas y hospitales. Mercado de destino: la gente cruza la colonia para ir con su dentista."
 
   - clave: guarderia
     nombres: [guarderia, estancia infantil, kinder, maternal, cendi, centro de cuidado infantil]
@@ -185,12 +186,12 @@ giros:
     nse_objetivo: {bajo: 0.15, medio: 0.55, alto: 0.30}
     rubro_enigh: coicop_1010
     rubro_enigh_alt: [educacion]
-    rubro_enigh_nota: "La ENIGH no tiene un rubro de guarderia; coicop_1010 es educacion preescolar y primaria."
+    rubro_enigh_nota: "La ENIGH no tiene un rubro de guardería; coicop_1010 es educación preescolar y primaria."
     ticket_promedio_mxn: 3500
-    ticket_fuente: "supuesto: mensualidad de una guarderia privada de barrio (no es ticket por visita)"
+    ticket_fuente: "supuesto: mensualidad de una guardería privada de barrio (no es ticket por visita)"
     radio_influencia_m: 1000
     demanda_base: mixta
-    notas: "Demanda doble: familias con ninos de 0 a 4 anios (residente) y padres que trabajan cerca (diurna). El Censo no da el grupo 0-4; se aproxima con 0-14. Complementarios: oficinas, preescolares y pediatras. La 624412 (publica) no cuenta como competencia."
+    notas: "Demanda doble: familias con niños de 0 a 4 años (residente) y padres que trabajan cerca (diurna). El Censo no da el grupo 0-4; se aproxima con 0-14. Complementarios: oficinas, preescolares y pediatras. La 624412 (pública) no cuenta como competencia."
 
   - clave: ferreteria
     nombres: [ferreteria, tlapaleria, ferreteria y tlapaleria, materiales para construccion, tienda de pinturas]
@@ -203,7 +204,7 @@ giros:
     ticket_promedio_mxn: 180
     ticket_fuente: "supuesto: tornillos, pintura, herramienta de mano"
     radio_influencia_m: 800
-    notas: "Mas demanda en colonias populares con autoconstruccion y viviendas con mas de 20 anios. Complementarios: pinturas, vidrios, articulos de limpieza, pisos, talleres y viviendas en renta. 237113 es supervision de obra de agua y drenaje; no es un buen atractor y se quita si valida mal."
+    notas: "Más demanda en colonias populares con autoconstrucción y viviendas con más de 20 años. Complementarios: pinturas, vidrios, artículos de limpieza, pisos, talleres y viviendas en renta. 237113 es supervisión de obra de agua y drenaje; no es un buen atractor y se quita si valida mal."
 
   - clave: pasteleria
     nombres: [pasteleria, pasteleria y reposteria, pasteles, reposteria, cupcakes, cafe y pasteles]
@@ -218,7 +219,7 @@ giros:
     ticket_promedio_mxn: 350
     ticket_fuente: "supuesto: pastel chico o rebanadas y postres para una reunion"
     radio_influencia_m: 800
-    notas: "En el DENUE la pasteleria comparte la clase 311812 (panificacion tradicional) con la panaderia; se separa por nombre (21 % de la clase dice 'pasteler' o 'pastel'). Es una aproximacion: una panaderia que vende pasteles queda en ambos giros. Complementarios: salones de fiestas, regalos, florerias, escuelas, dulces y materias primas de reposteria."
+    notas: "En el DENUE la pastelería comparte la clase 311812 (panificacion tradicional) con la panadería; se separa por nombre (21 % de la clase dice 'pasteler' o 'pastel'). Es una aproximación: una panadería que vende pasteles queda en ambos giros. Complementarios: salones de fiestas, regalos, florerías, escuelas, dulces y materias primas de repostería."
 
   - clave: libreria
     nombres: [libreria, librerias, tienda de libros, libreria y papeleria]
@@ -231,7 +232,7 @@ giros:
     ticket_promedio_mxn: 260
     ticket_fuente: "supuesto: uno o dos libros"
     radio_influencia_m: 1500
-    notas: "Giro de destino y baja densidad (solo 750 unidades en la ZMVM): la colonia no basta, pesa el flujo de universitarios. Complementarios: universidades, preparatorias, cafeterias, bibliotecas y museos. La 465313 (revistas y periodicos) es otro giro."
+    notas: "Giro de destino y baja densidad (solo 750 unidades en la ZMVM): la colonia no basta, pesa el flujo de universitarios. Complementarios: universidades, preparatorias, cafeterías, bibliotecas y museos. La 465313 (revistas y periodicos) es otro giro."
 
   - clave: renta_bicicletas
     nombres: [renta bicicletas, renta de bicicletas, alquiler de bicicletas, bicicletas, bicis, biciescuela, ciclovia]
@@ -245,10 +246,11 @@ giros:
     rubro_enigh: esparci
     rubro_enigh_alt: [coicop_0946, coicop_0922]
     rubro_enigh_nota: "No hay rubro de renta de bicicletas en la ENIGH; se usa esparcimiento como proxy de gasto discrecional."
+    gasto_proxy: "todo el gasto en esparcimiento, no solo renta de bicicletas"   # se anota junto a la cifra de gasto potencial
     ticket_promedio_mxn: 120
     ticket_fuente: "supuesto: una hora o una vuelta de renta"
     radio_influencia_m: 2000
-    notas: "GIRO RARO. La 532289 (alquiler de otros articulos personales) incluye por definicion el alquiler de bicicletas pero tambien instrumentos, muletas, etc.; se filtra por nombre ('bici' o 'bike'; 'cicl' se descarto porque atrapa cuadriciclos y ciclotaxis) y la muestra es minima (7 unidades en el DENUE actual y 9 en 11/2020). Se espera que el modelo diga que hay pocos datos. Complementarios: parques y jardines, ciclovias (no hay SCIAN), reparacion y venta de bicicletas, hoteles y agencias de viajes."
+    notas: "GIRO RARO. La 532289 (alquiler de otros artículos personales) incluye por definición el alquiler de bicicletas pero también instrumentos, muletas, etc.; se filtra por nombre ('bici' o 'bike'; 'cicl' se descarto porque atrapa cuadriciclos y ciclotaxis) y la muestra es minima (7 unidades en el DENUE actual y 9 en 11/2020). Se espera que el modelo diga que hay pocos datos. Complementarios: parques y jardines, ciclovías (no hay SCIAN), reparación y venta de bicicletas, hoteles y agencias de viajes."
 
   - clave: tortilleria
     nombres: [tortilleria, tortillerias, tortilla de maiz, molino de nixtamal, tortilla]
@@ -258,11 +260,11 @@ giros:
     nse_objetivo: {bajo: 0.55, medio: 0.35, alto: 0.10}
     rubro_enigh: cereales
     rubro_enigh_alt: [alimentos, ali_dentro]
-    rubro_enigh_nota: "La ENIGH junta la tortilla con los cereales (011131 tortillas de maiz, 011132 de harina); no hay rubro solo de tortilla."
+    rubro_enigh_nota: "La ENIGH junta la tortilla con los cereales (011131 tortillas de maíz, 011132 de harina); no hay rubro solo de tortilla."
     ticket_promedio_mxn: 35
     ticket_fuente: "supuesto: 1 a 2 kg de tortilla"
     radio_influencia_m: 300
-    notas: "Compra diaria y muy local. 311830 incluye tortillerias y molinos de nixtamal; 311813 es tortilla de harina de trigo. Complementarios: abarrotes, taquerias, antojitos, carnicerias, fruterias."
+    notas: "Compra diaria y muy local. 311830 incluye tortillerías y molinos de nixtamal; 311813 es tortilla de harina de trigo. Complementarios: abarrotes, taquerías, antojitos, carnicerías, fruterías."
 
   - clave: fonda
     nombres: [fonda, comida corrida, cocina economica, comedor, restaurante de comida casera]
@@ -276,7 +278,7 @@ giros:
     ticket_fuente: "supuesto: comida corrida de 4 tiempos"
     radio_influencia_m: 400
     demanda_base: diurna
-    notas: "Depende del trabajador de la zona (comida de mediodia), no del residente. Complementarios: oficinas, universidades, Metro, estacionamientos, talleres, hospitales. 722511 es restaurante a la carta o comida corrida; 722519 otros alimentos para consumo inmediato (incluye cocinas economicas)."
+    notas: "Depende del trabajador de la zona (comida de mediodía), no del residente. Complementarios: oficinas, universidades, Metro, estacionamientos, talleres, hospitales. 722511 es restaurante a la carta o comida corrida; 722519 otros alimentos para consumo inmediato (incluye cocinas económicas)."
 
   - clave: pizzeria
     nombres: [pizzeria, pizzerias, pizza, pizzas a domicilio, pizza al horno de lena]
@@ -292,7 +294,7 @@ giros:
     ticket_promedio_mxn: 220
     ticket_fuente: "supuesto: pizza mediana para 2 personas o 2 rebanadas con bebida"
     radio_influencia_m: 1000
-    notas: "722517 mezcla pizzas, hamburguesas, hot dogs y pollo rostizado (24 % dice 'pizz' en el nombre), asi que se filtra por nombre tambien en otras clases de restaurante. Reparto a domicilio: el radio es mayor que el de un restaurante. Complementarios: universidades, preparatorias, salones de fiestas, cines, bares."
+    notas: "722517 mezcla pizzas, hamburguesas, hot dogs y pollo rostizado (24 % dice 'pizz' en el nombre), así que se filtra por nombre también en otras clases de restaurante. Reparto a domicilio: el radio es mayor que el de un restaurante. Complementarios: universidades, preparatorias, salones de fiestas, cines, bares."
 
   - clave: optica
     nombres: [optica, opticas, lentes, anteojos, optometrista]
@@ -302,11 +304,11 @@ giros:
     nse_objetivo: {bajo: 0.15, medio: 0.50, alto: 0.35}
     rubro_enigh: coicop_06131
     rubro_enigh_alt: [coicop_0613]
-    rubro_enigh_nota: "Solo 3 % de hogares reporta gasto en productos de apoyo para la vision; el promedio es chico pero estable por decil."
+    rubro_enigh_nota: "Solo 3 % de hogares reporta gasto en productos de apoyo para la visión; el promedio es chico pero estable por decil."
     ticket_promedio_mxn: 1500
-    ticket_fuente: "supuesto: armazon mas micas con graduacion"
+    ticket_fuente: "supuesto: armazón más micas con graduación"
     radio_influencia_m: 1500
-    notas: "Giro de destino. Complementarios: optometria (621320), oftalmologia y medicina especializada, consultorios, hospitales y farmacias."
+    notas: "Giro de destino. Complementarios: optometría (621320), oftalmología y medicina especializada, consultorios, hospitales y farmacias."
 
   - clave: tienda_ropa
     nombres: [tienda ropa, tienda de ropa, boutique, ropa, ropa de mujer, ropa de hombre, ropa casual]
@@ -319,7 +321,7 @@ giros:
     ticket_promedio_mxn: 450
     ticket_fuente: "supuesto: una o dos prendas en tienda independiente"
     radio_influencia_m: 1000
-    notas: "463211 excluye ropa de bebe, lenceria, disfraces y ropa de piel; esas tienen su clase (463212, 463213, ...). Se beneficia de aglomeracion (calles comerciales, plazas, Metro). Complementarios: tiendas departamentales, calzado, perfumeria, bisuteria."
+    notas: "463211 excluye ropa de bebe, lencería, disfraces y ropa de piel; esas tienen su clase (463212, 463213, ...). Se beneficia de aglomeración (calles comerciales, plazas, Metro). Complementarios: tiendas departamentales, calzado, perfumería, bisutería."
 
   - clave: zapateria
     nombres: [zapateria, zapaterias, tienda de zapatos, calzado]
@@ -332,7 +334,7 @@ giros:
     ticket_promedio_mxn: 550
     ticket_fuente: "supuesto: un par de zapatos o tenis de gama media"
     radio_influencia_m: 1000
-    notas: "Se beneficia de aglomeracion con tiendas de ropa. Complementarios: ropa, tiendas departamentales, reparacion de calzado (811430) y escuelas (uniformes y zapato escolar)."
+    notas: "Se beneficia de aglomeración con tiendas de ropa. Complementarios: ropa, tiendas departamentales, reparación de calzado (811430) y escuelas (uniformes y zapato escolar)."
 
   - clave: cerrajeria
     nombres: [cerrajeria, cerrajero, llaves, duplicado de llaves]
@@ -342,11 +344,11 @@ giros:
     nse_objetivo: {bajo: 0.35, medio: 0.45, alto: 0.20}
     rubro_enigh: coicop_0432
     rubro_enigh_alt: [coicop_0431]
-    rubro_enigh_nota: "coicop_0432 = servicios de mantenimiento, reparacion y seguridad de la vivienda; la cerrajeria no tiene rubro propio."
+    rubro_enigh_nota: "coicop_0432 = servicios de mantenimiento, reparación y seguridad de la vivienda; la cerrajería no tiene rubro propio."
     ticket_promedio_mxn: 250
     ticket_fuente: "supuesto: duplicado de llave o apertura de chapa"
     radio_influencia_m: 1500
-    notas: "Servicio de emergencia y de bajo volumen. Se beneficia de mucha vivienda en renta (rotacion de inquilinos), automoviles, inmobiliarias y estacionamientos."
+    notas: "Servicio de emergencia y de bajo volumen. Se beneficia de mucha vivienda en renta (rotación de inquilinos), automóviles, inmobiliarias y estacionamientos."
 
   - clave: taller_mecanico
     nombres: [taller mecanico, mecanico, taller automotriz, mecanica automotriz, taller de autos]
@@ -357,9 +359,9 @@ giros:
     rubro_enigh: mantenim
     rubro_enigh_alt: [refaccion, transporte]
     ticket_promedio_mxn: 1800
-    ticket_fuente: "supuesto: afinacion o servicio mayor menor"
+    ticket_fuente: "supuesto: afinación o servicio mayor menor"
     radio_influencia_m: 1500
-    notas: "Se mide mejor donde hay muchos automoviles (pct_viv_auto). Sin clase de refacciones nuevas utiles (468211 tiene 8 unidades en el DENUE ZMVM, probable error de clasificacion de INEGI). Complementarios: llantas, hojalateria, lavado, gasolinerias, estacionamientos."
+    notas: "Se mide mejor donde hay muchos automóviles (pct_viv_auto). Sin clase de refacciones nuevas útiles (468211 tiene 8 unidades en el DENUE ZMVM, probable error de clasificación de INEGI). Complementarios: llantas, hojalatería, lavado, gasolinerías, estacionamientos."
 
   - clave: purificadora
     nombres: [purificadora, purificadora de agua, garrafon, agua purificada, agua embotellada]
@@ -369,9 +371,9 @@ giros:
     nse_objetivo: {bajo: 0.40, medio: 0.45, alto: 0.15}
     rubro_enigh: coicop_0125
     rubro_enigh_alt: [bebidas]
-    rubro_enigh_nota: "coicop_0125 = agua embotellada (natural y mineral), 53 % de hogares con gasto; el garrafon de purificadora va aqui."
+    rubro_enigh_nota: "coicop_0125 = agua embotellada (natural y mineral), 53 % de hogares con gasto; el garrafón de purificadora va aquí."
     ticket_promedio_mxn: 40
-    ticket_fuente: "supuesto: un garrafon de 20 litros rellenado"
+    ticket_fuente: "supuesto: un garrafón de 20 litros rellenado"
     radio_influencia_m: 700
     notas: "La clase 312112 (9 191 unidades) incluye purificadoras de barrio y plantas embotelladoras; no se distinguen. Mercado ligado a viviendas con agua de mala calidad o intermitente. Complementarios: tiendas de abarrotes, vivienda en renta, hielo y bebidas."
 
@@ -386,7 +388,7 @@ giros:
     ticket_promedio_mxn: 60
     ticket_fuente: "supuesto: una bolsa de pan dulce y bolillos"
     radio_influencia_m: 400
-    notas: "311812 incluye panaderia y pasteleria (ver pasteleria). Compra diaria, de barrio. Complementarios: abarrotes, cafeterias, escuelas, lacteos."
+    notas: "311812 incluye panadería y pastelería (ver pastelería). Compra diaria, de barrio. Complementarios: abarrotes, cafeterías, escuelas, lacteos."
 
   - clave: tienda_mascotas
     nombres: [tienda mascotas, tienda de mascotas, petshop, pet shop, alimento para mascotas, acuario, accesorios para mascotas]
@@ -399,7 +401,7 @@ giros:
     ticket_promedio_mxn: 280
     ticket_fuente: "supuesto: un costal chico de croquetas o accesorios"
     radio_influencia_m: 1200
-    notas: "Complementarios: veterinarias (la mejor senal), esteticas caninas (812990 otros servicios personales), parques, alimento para animales. Poca densidad de dueños en colonias con vivienda muy chica."
+    notas: "Complementarios: veterinarias (la mejor señal), estéticas caninas (812990 otros servicios personales), parques, alimento para animales. Poca densidad de dueños en colonias con vivienda muy chica."
 
   - clave: escuela_idiomas
     nombres: [escuela idiomas, escuela de idiomas, academia de ingles, ingles, clases de ingles, instituto de idiomas]
@@ -409,12 +411,12 @@ giros:
     nse_objetivo: {bajo: 0.10, medio: 0.50, alto: 0.40}
     rubro_enigh: coicop_1050
     rubro_enigh_alt: [educacion, cursos_recreativos]
-    rubro_enigh_nota: "Solo 0.4 % de los hogares reporta educacion no definida por nivel (cursos): cobertura muy baja en la ENIGH."
+    rubro_enigh_nota: "Solo 0.4 % de los hogares reporta educación no definida por nivel (cursos): cobertura muy baja en la ENIGH."
     ticket_promedio_mxn: 1200
-    ticket_fuente: "supuesto: mensualidad de un curso de ingles de barrio (no es ticket por visita)"
+    ticket_fuente: "supuesto: mensualidad de un curso de inglés de barrio (no es ticket por visita)"
     radio_influencia_m: 2000
     demanda_base: mixta
-    notas: "Giro de destino que se alimenta de estudiantes y de oficinas. 611632 (idiomas publicos) no cuenta como competencia. Complementarios: universidades, preparatorias, profesores particulares, computacion, agencias de viajes."
+    notas: "Giro de destino que se alimenta de estudiantes y de oficinas. 611632 (idiomas públicos) no cuenta como competencia. Complementarios: universidades, preparatorias, profesores particulares, computación, agencias de viajes."
 
   - clave: spa
     nombres: [spa, masajes, spa de unas, estetica y spa, sauna, temazcal]
@@ -427,11 +429,11 @@ giros:
     nse_objetivo: {bajo: 0.05, medio: 0.35, alto: 0.60}
     rubro_enigh: cuida_pers
     rubro_enigh_alt: [peluqueria_estetica, esparci]
-    rubro_enigh_nota: "No hay rubro de spa en la ENIGH; cuida_pers (cuidados personales) es el mas cercano pero incluye productos de aseo."
+    rubro_enigh_nota: "No hay rubro de spa en la ENIGH; cuida_pers (cuidados personales) es el más cercano pero incluye productos de aseo."
     ticket_promedio_mxn: 800
     ticket_fuente: "supuesto: masaje de una hora"
     radio_influencia_m: 1500
-    notas: "812120 (banos publicos, vapor, sauna) mas los salones de belleza cuyo nombre dice spa o masaje (los masajes reductivos entran en 812110 segun el SCIAN). Es un servicio premium: pesa el NSE alto. Complementarios: hoteles, gimnasios, perfumeria, oficinas."
+    notas: "812120 (baños públicos, vapor, sauna) más los salones de belleza cuyo nombre dice spa o masaje (los masajes reductivos entran en 812110 segun el SCIAN). Es un servicio premium: pesa el NSE alto. Complementarios: hoteles, gimnasios, perfumería, oficinas."
 
   - clave: cafe_internet
     nombres: [cafe internet, cibercafe, ciber, papeleria y copias, fotocopiado, centro de copiado, impresiones]
@@ -441,11 +443,11 @@ giros:
     nse_objetivo: {bajo: 0.55, medio: 0.35, alto: 0.10}
     rubro_enigh: papeleria
     rubro_enigh_alt: [coicop_0833, comunica]
-    rubro_enigh_nota: "No hay rubro de ciber o copias en la ENIGH; papeleria (material impreso) es el mas cercano."
+    rubro_enigh_nota: "No hay rubro de ciber o copias en la ENIGH; papelería (material impreso) es el más cercano."
     ticket_promedio_mxn: 35
     ticket_fuente: "supuesto: hora de computadora o 10-20 copias e impresiones"
     radio_influencia_m: 400
-    notas: "GIRO EN DECLIVE: 561432 + 561431 pasaron de 12 319 unidades en 11/2020 a 7 905 en 05/2026 (-36 %, DENUE); pesa el pct_viv_internet bajo. 561431 es fotocopiado, fax y afines. Complementarios: escuelas de todos los niveles, papelerias, tramites."
+    notas: "GIRO EN DECLIVE: 561432 + 561431 pasaron de 12 319 unidades en 11/2020 a 7 905 en 05/2026 (-36 %, DENUE); pesa el pct_viv_internet bajo. 561431 es fotocopiado, fax y afines. Complementarios: escuelas de todos los niveles, papelerías, trámites."
 
   - clave: floreria
     nombres: [floreria, florerias, flores, arreglos florales, ramos, florista]
@@ -455,11 +457,11 @@ giros:
     nse_objetivo: {bajo: 0.15, medio: 0.50, alto: 0.35}
     rubro_enigh: coicop_0931
     rubro_enigh_alt: [esparci]
-    rubro_enigh_nota: "coicop_0931 = productos de jardineria, plantas y flores; solo 10 % de los hogares reporta gasto."
+    rubro_enigh_nota: "coicop_0931 = productos de jardinería, plantas y flores; solo 10 % de los hogares reporta gasto."
     ticket_promedio_mxn: 450
     ticket_fuente: "supuesto: ramo o arreglo mediano"
     radio_influencia_m: 1000
-    notas: "466312 incluye plantas y flores naturales (viveros). Demanda ligada a eventos (14 de febrero, 10 de mayo, Dia de Muertos) y a la cercania con funerarias, panteones, hospitales, iglesias y salones de fiestas."
+    notas: "466312 incluye plantas y flores naturales (viveros). Demanda ligada a eventos (14 de febrero, 10 de mayo, Día de Muertos) y a la cercanía con funerarias, panteones, hospitales, iglesias y salones de fiestas."
 
   - clave: carniceria
     nombres: [carniceria, carnicerias, polleria, carne, carniceria y polleria]
@@ -472,7 +474,7 @@ giros:
     ticket_promedio_mxn: 160
     ticket_fuente: "supuesto: 1 kg de carne o pollo"
     radio_influencia_m: 400
-    notas: "461121 carnes rojas y 461122 carne de aves (polleria). Las dos compiten por el mismo gasto en carnes. Complementarios: abarrotes, fruterias, tortillerias, taquerias, pescaderia."
+    notas: "461121 carnes rojas y 461122 carne de aves (pollería). Las dos compiten por el mismo gasto en carnes. Complementarios: abarrotes, fruterías, tortillerías, taquerías, pescadería."
 
   - clave: fruteria
     nombres: [fruteria, verduleria, fruteria y verduleria, frutas y verduras]
@@ -485,7 +487,7 @@ giros:
     ticket_promedio_mxn: 90
     ticket_fuente: "supuesto: fruta y verdura de la semana para un hogar"
     radio_influencia_m: 400
-    notas: "461130 junta fruta y verdura frescas. Compite con mercados publicos y tianguis, que el DENUE capta mal (los puestos de tianguis suelen faltar). Complementarios: abarrotes, tortillerias, carnicerias, supermercados chicos."
+    notas: "461130 junta fruta y verdura frescas. Compite con mercados públicos y tianguis, que el DENUE capta mal (los puestos de tianguis suelen faltar). Complementarios: abarrotes, tortillerías, carnicerías, supermercados chicos."
 
   - clave: comida_china
     nombres: [comida china, restaurante chino, cocina china, wok, buffet chino]
@@ -527,12 +529,12 @@ giros:
     nse_objetivo: {bajo: 0.20, medio: 0.50, alto: 0.30}
     rubro_enigh: ali_fuera_total
     rubro_enigh_alt: [bebidas, coicop_0213]
-    rubro_enigh_nota: "La ENIGH registra la bebida alcoholica como consumo en casa (bebidas, coicop_0213 cerveza); el consumo en bar no se separa y cae en alimentos fuera del hogar."
+    rubro_enigh_nota: "La ENIGH registra la bebida alcohólica como consumo en casa (bebidas, coicop_0213 cerveza); el consumo en bar no se separa y cae en alimentos fuera del hogar."
     ticket_promedio_mxn: 320
     ticket_fuente: "supuesto: dos o tres bebidas por persona"
     radio_influencia_m: 800
     demanda_base: diurna
-    notas: "Giro regulado (licencias de alcohol por alcaldia y distancia a escuelas, que este modelo NO revisa: es una limitante a decir al usuario). Complementarios: antros, taquerias (consumo nocturno), billares, universidades, cines, Metro."
+    notas: "Giro regulado (licencias de alcohol por alcaldía y distancia a escuelas, que este modelo NO revisa: es una limitante a decir al usuario). Complementarios: antros, taquerías (consumo nocturno), billares, universidades, cines, Metro."
 
   - clave: coworking
     nombres: [coworking, espacio de trabajo compartido, oficinas compartidas, oficina virtual, renta de escritorios]
@@ -544,12 +546,12 @@ giros:
     cliente_objetivo: {"0-14": 0.00, "15-24": 0.15, "25-59": 0.80, "60+": 0.05}
     nse_objetivo: {bajo: 0.05, medio: 0.40, alto: 0.55}
     rubro_enigh: null
-    rubro_enigh_nota: "NO ENCONTRADO: la ENIGH mide gasto de hogares; el coworking lo paga el freelancer o la empresa. No hay rubro. La demanda se mide con poblacion diurna y establecimientos profesionales (SCIAN 54), no con gasto de hogar."
+    rubro_enigh_nota: "NO ENCONTRADO: la ENIGH mide gasto de hogares; el coworking lo paga el freelancer o la empresa. No hay rubro. La demanda se mide con población diurna y establecimientos profesionales (SCIAN 54), no con gasto de hogar."
     ticket_promedio_mxn: 2800
     ticket_fuente: "supuesto: escritorio flexible por mes (no es ticket por visita)"
     radio_influencia_m: 2000
     demanda_base: diurna
-    notas: "GIRO RARO y mal clasificado: el DENUE lo reparte en varias clases de renta de oficinas; se encuentra solo por nombre (41 unidades en el DENUE actual, 25 en 11/2020). Complementarios: despachos de arquitectura, ingenieria, sistemas, investigacion de mercados, cafeterias. 541110 y 541211 son abogados y contadores: vea scian.csv para confirmar los codigos."
+    notas: "GIRO RARO y mal clasificado: el DENUE lo reparte en varias clases de renta de oficinas; se encuentra solo por nombre (41 unidades en el DENUE actual, 25 en 11/2020). Complementarios: despachos de arquitectura, ingeniería, sistemas, investigación de mercados, cafeterías. 541110 y 541211 son abogados y contadores: vea scian.csv para confirmar los códigos."
 
   - clave: consultorio_medico
     nombres: [consultorio medico, medico general, doctor, clinica, consultorio, medico especialista]
@@ -562,7 +564,7 @@ giros:
     ticket_promedio_mxn: 400
     ticket_fuente: "supuesto: consulta general privada, sin medicamento"
     radio_influencia_m: 1000
-    notas: "621111 medicina general privada, 621113 especialidades privadas, 621115 clinicas de consultorios privadas. Los consultorios adyacentes a farmacias (modelo de similares) son un patron comun. Complementarios: farmacias, laboratorios, hospitales, dentistas, optometria."
+    notas: "621111 medicina general privada, 621113 especialidades privadas, 621115 clínicas de consultorios privadas. Los consultorios adyacentes a farmacias (modelo de similares) son un patron común. Complementarios: farmacias, laboratorios, hospitales, dentistas, optometría."
 
   - clave: laboratorio_clinico
     nombres: [laboratorio clinico, laboratorio de analisis clinicos, analisis clinicos, laboratorio medico, toma de muestras]
@@ -573,9 +575,9 @@ giros:
     rubro_enigh: coicop_0641
     rubro_enigh_alt: [consulta_medica, ambul_serv]
     ticket_promedio_mxn: 450
-    ticket_fuente: "supuesto: biometria hematica y quimica sanguinea"
+    ticket_fuente: "supuesto: biometría hemática y química sanguínea"
     radio_influencia_m: 2000
-    notas: "Giro de destino, depende de que haya medicos y hospitales cerca (la gente va con la orden). 621512 (publicos) no cuenta como competencia. coicop_0641 = diagnostico por imagenes y laboratorio."
+    notas: "Giro de destino, depende de que haya médicos y hospitales cerca (la gente va con la orden). 621512 (públicos) no cuenta como competencia. coicop_0641 = diagnóstico por imágenes y laboratorio."
 
   - clave: tienda_celulares
     nombres: [tienda celulares, tienda de celulares, celulares, venta de celulares, accesorios para celular, reparacion de celulares]
@@ -584,9 +586,9 @@ giros:
     cliente_objetivo: {"0-14": 0.05, "15-24": 0.40, "25-59": 0.50, "60+": 0.05}
     nse_objetivo: {bajo: 0.35, medio: 0.45, alto: 0.20}
     rubro_enigh: coicop_0812
-    rubro_enigh_nota: "Solo 3 % de hogares reporta gasto en equipo de telefonia movil (se compra cada 2-3 anios): sirve para ordenar deciles, no para dimensionar."
+    rubro_enigh_nota: "Solo 3 % de hogares reporta gasto en equipo de telefonía móvil (se compra cada 2-3 años): sirve para ordenar deciles, no para dimensionar."
     rubro_enigh_alt: [comunica, coicop_0832]
     ticket_promedio_mxn: 600
-    ticket_fuente: "supuesto: funda, mica, cargador o telefono economico (el promedio sube si vende equipos)"
+    ticket_fuente: "supuesto: funda, mica, cargador o teléfono económico (el promedio sube si vende equipos)"
     radio_influencia_m: 1000
-    notas: "466212 es venta de telefonos y aparatos de comunicacion (incluye accesorios y reparacion informal). Se beneficia del flujo peatonal alto: Metro, plazas, calles comerciales y universidades."
+    notas: "466212 es venta de teléfonos y aparatos de comunicación (incluye accesorios y reparación informal). Se beneficia del flujo peatonal alto: Metro, plazas, calles comerciales y universidades."

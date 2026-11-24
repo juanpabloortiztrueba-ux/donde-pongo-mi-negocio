@@ -1,0 +1,3 @@
+# El .bat necesita CRLF (cmd.exe falla con goto/etiquetas en LF); el .command necesita LF.
+*.bat text eol=crlf
+*.command text eol=lf

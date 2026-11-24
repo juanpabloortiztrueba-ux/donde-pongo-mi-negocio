@@ -86,6 +86,43 @@ def test_cache_igual_a_calculo_vivo():
     np.testing.assert_allclose(a["prob_apertura"], b["prob_apertura"], rtol=1e-6)
 
 
+def test_pesos_del_score():
+    # no negativos, suman 1, son los aprendidos (models/pesos_score.json) y los del respaldo de motor.py
+    pj = json.loads((M / "pesos_score.json").read_text(encoding="utf-8"))
+    w = motor.PESOS_SCORE
+    assert set(w) == {"prob_apertura", "demanda_neta", "pob_neta", "flujo", "complementarios"}
+    assert all(v >= 0 for v in w.values()) and abs(sum(w.values()) - 1) < 1e-9
+    assert w == pj["pesos"] == motor._PESOS_ENTREGADOS
+    assert w["demanda_neta"] + w["pob_neta"] >= pj["piso_demanda"] - 1e-9
+    assert pj["version"] == motor.SCORE_VERSION == json.loads((M / "metadata.json").read_text(encoding="utf-8"))["score_version"]
+
+
+def test_score_es_la_suma_de_percentiles_ponderados():
+    s = motor.score_giro("farmacia")
+    np.testing.assert_allclose(s["nucleo"], s["aperturas_esperadas"] * s["captura_huff"], rtol=1e-9)
+    esperado = 100 * sum(w * s[f"pct_{k}"] for k, w in motor.PESOS_SCORE.items())
+    np.testing.assert_allclose(s["score"], esperado, atol=1e-6)
+
+
+def test_validacion_del_score():
+    # el score vigente le gana a la mejor linea base ingenua en el crecimiento neto (el objetivo que importa) y mejora al anterior
+    r = pd.read_csv(M / "validacion_score.csv")
+    m = r.groupby(["objetivo", "puntuacion"])["valor"].mean()
+    base = max(abs(m[("crecimiento_neto", b)]) for b in ["densidad", "comp_huff", "comp_ageb", "actividad"])
+    assert m[("crecimiento_neto", "score_nuevo")] > base
+    assert m[("crecimiento_neto", "score_nuevo")] > m[("crecimiento_neto", "score_v21")]
+    assert m[("crecimiento_neto", "score_nuevo_oos")] > 0          # con pesos ajustados sin ver el municipio de prueba
+    # esa ventaja viene de la carga censal 2024: sin ella (objetivo limpio) el score nuevo NO le gana al anterior, y el reporte lo dice
+    assert m[("neto_sin_carga", "score_nuevo")] < m[("neto_sin_carga", "score_v21")] + 0.05
+    assert m[("neto_sin_carga", "score_nuevo")] < m[("crecimiento_neto", "score_nuevo")]
+    # la captura Huff (el castigo por competencia) ordena al reves de las aperturas crudas: por eso el AUC del score es bajo
+    assert m[("aperturas_crudas", "captura_huff")] < 0.5
+    txt = (motor.RAIZ / "reports" / "validacion_score.md").read_text(encoding="utf-8")
+    for t in ["Diagnóstico", "Qué se decidió", "banda", "Crecimiento neto", "Sobrevivencia", "carga de los Censos Económicos",
+              "Crecimiento neto sin carga censal", "no es una victoria empírica"]:
+        assert t in txt
+
+
 def test_giro_inexistente():
     with pytest.raises(KeyError):
         motor.score_giro("heladeria_en_monterrey")
@@ -99,6 +136,7 @@ def test_sin_tokens_en_salidas():
             if "=" in ln and not ln.lstrip().startswith("#")]
     vals = [v for v in vals if len(v) >= 8]
     for p in [M / "metadata.json", M / "entrenar.log", motor.RAIZ / "reports" / "validacion.md",
+              motor.RAIZ / "reports" / "validacion_score.md", motor.RAIZ / "scripts" / "03b_validar_score.py",
               motor.RAIZ / "scripts" / "03_entrenar.py", motor.RAIZ / "app" / "motor.py"]:
         if p.exists():
             txt = p.read_text(encoding="utf-8")

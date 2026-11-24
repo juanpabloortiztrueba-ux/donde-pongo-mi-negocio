@@ -153,6 +153,17 @@ def buscar(pregunta: str, k: int = 5, archivo: str | None = None) -> list[dict]:
             for i in top]
 
 
+def lineas_ficha(municipio: str) -> list[str]:
+    """Lineas (viñetas) de la ficha del municipio, sin embeddings ni Ollama (lectura directa del indice).
+    Cada linea es una viñeta de la ficha, sin el guion inicial."""
+    df, _, _ = _cargar()
+    x = df[(df["municipio"] == municipio) & df["archivo"].str.startswith("03_municipios/")]
+    out = []
+    for t in x["texto"]:
+        out += [ln.lstrip("- ").strip() for ln in t.splitlines() if ln.startswith("- ")]
+    return out
+
+
 def estado() -> dict:
     """Resumen del indice (para diagnosticar desde la UI o el agente)."""
     df, m, _ = _cargar()

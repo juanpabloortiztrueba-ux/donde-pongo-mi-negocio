@@ -1,0 +1,16 @@
+/* Follow */
+
+@layer stageshow {
+  .ss-follow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease;
+  }
+
+  .ss-follow[data-show] {
+    opacity: 1;
+  }
+}

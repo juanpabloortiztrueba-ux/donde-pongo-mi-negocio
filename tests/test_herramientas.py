@@ -72,7 +72,7 @@ def test_contexto_macro():
     ind = r["indicadores"]
     assert ind["tasa_objetivo"]["valor"] > 0 and ind["tasa_objetivo"]["id_serie"]
     assert ind["inpc_alimentos_var_anual"]["valor"] == "NO ENCONTRADO"
-    assert any("Banco de Mexico" in f for f in r["fuentes"])
+    assert any("Banco de México" in f for f in r["fuentes"])
 
 
 def test_sugerir_giros():
@@ -115,3 +115,99 @@ def test_buscar_carpetas():
 def test_ejecutar_errores_controlados():
     assert "error" in h.ejecutar("no_existe", {})
     assert "error" in h.ejecutar("recomendar_zonas", {"zzz": 1})
+
+
+# ---------------------------------------------------------------- colonias (2026-11-23)
+def _km(f, ageb, centro):
+    from app import lugares
+    return float(lugares.distancias_km(centro)[ageb])
+
+
+@pytest.mark.parametrize("colonia,mun,patron", [
+    ("Polanco", "Miguel Hidalgo", "POLANCO"),
+    ("la Condesa", "Cuauhtémoc", "CONDESA"),
+    ("Santa Fe", "Álvaro Obregón", "SANTA FE"),
+])
+def test_recomendar_zonas_por_colonia(colonia, mun, patron):
+    from app import lugares
+    r = h.recomendar_zonas("heladeria", colonia=colonia)
+    assert r["encontrado"] and r["filtros"]["colonia"] == colonia and "Filtro por colonia" in r["aviso_colonia"]
+    info = r["colonia_consultada"]
+    assert info["encontrada"] and info["agebs_en_colonia"] >= 2 and info["radio_km"] == 2.0
+    assert any(z["en_colonia_consultada"] for z in r["zonas"])           # al menos una es de la colonia misma
+    assert patron in " ".join(info["colonias_coincidentes"]).upper() and mun in info["municipio"]
+    for z in r["zonas"]:                                                  # y todas de la colonia o a <= 2 km del centroide
+        assert z["en_colonia_consultada"] or z["dist_a_colonia_km"] <= 2.0 + 1e-6
+        assert z["en_colonia_consultada"] or _km(None, z["ageb"], info["centroide"]) <= 2.0 + 0.06
+    assert r["avisos"][0].startswith("Filtro por colonia")
+
+
+def test_colonia_inexistente_avisa_y_da_a_cambio():
+    r = h.recomendar_zonas("papeleria", colonia="Villa Esperanza Imaginaria")
+    assert r["encontrado"] and len(r["zonas"]) == 5                        # a cambio: top sin filtro de colonia
+    assert r["aviso_colonia"].startswith("NO ENCONTRADO") and "SIN filtro" in r["aviso_colonia"]
+    assert r["filtros"] == {"colonia_no_encontrada": "Villa Esperanza Imaginaria"}
+    assert not r["colonia_consultada"]["encontrada"]
+    r2 = h.recomendar_zonas("papeleria", municipio="Coyoacán", colonia="Polanco")  # Polanco no esta en Coyoacan
+    assert r2["aviso_colonia"].startswith("NO ENCONTRADO") and "Coyoacán" in r2["aviso_colonia"]
+    assert all(z["municipio"] == "Coyoacán" for z in r2["zonas"])
+
+
+def test_colonia_ambigua_lo_dice():
+    r = h.recomendar_zonas("farmacia", colonia="Del Carmen")
+    assert r["colonia_consultada"]["ambigua"] and "más colonias con ese nombre" in r["aviso_colonia"]
+    assert r["colonia_consultada"]["alternativas"]
+
+
+def test_zona_trae_ingreso_edad_y_resumen():
+    r = h.recomendar_zonas("heladeria", municipio="Coyoacán")
+    assert r["edad_clave"]["grupo"] == "0-14" and r["edad_clave"]["pct_zmvm"]
+    for z in r["zonas"]:
+        assert isinstance(z["ingreso_trim_mediano_estimado_mxn"], int) and z["edad_clave_etiqueta"] == "0 a 14 años"
+        assert f"{z['edad_clave_pct']} %" in z["resumen_texto"] and f"${z['ingreso_trim_mediano_estimado_mxn']:,}" in z["resumen_texto"]
+    assert h.recomendar_zonas("farmacia", municipio="Coyoacán")["edad_clave"]["grupo"] == "60+"
+    json.dumps(r)
+
+
+def test_edad_clave_cubre_todos_los_giros():
+    assert set(h.EDAD_CLAVE) <= set(motor.giros())            # no hay claves huerfanas
+    assert all(h.edad_clave(g) in h.EDAD_COL for g in motor.giros())
+
+
+def test_contexto_macro_por_giro():
+    m = h.contexto_macro("heladeria")
+    assert m["giro"] == "heladeria" and "tasa_objetivo" in m["indicadores"] and "inpc_alimentos_var_anual" in m["indicadores"]
+    assert "Banxico" in m["linea"] and "serie SF61745" in m["linea"] and len(m["linea"]) < 500
+    assert "inpc_alimentos_var_anual" not in h.contexto_macro("farmacia")["indicadores"]
+    assert "FIX" in h.contexto_macro("optica")["linea"]
+    assert "remesas" in h.contexto_macro()["indicadores"]     # sin giro, todo como antes
+
+
+def test_ficha_municipio_corta():
+    f = h.ficha_municipio("Coyoacán")
+    assert f["encontrado"] and f["municipio"] == "Coyoacán" and 2 <= len(f["ficha"]) <= 6
+    assert sum(len(x) for x in f["ficha"]) <= 520
+    assert not h.ficha_municipio("Narnia")["encontrado"]
+
+
+def test_sugerir_giros_barato_es_poca_inversion():
+    r = h.sugerir_giros(nse="bajo", inversion="baja")
+    assert r["encontrado"] and "NO ENCONTRADO" in r["criterio_inversion"]
+    chicos = h.giros_poca_inversion()
+    assert all(g["giro"] in chicos and g["personal_ocupado_medio_estab"] for g in r["giros"])
+    v = [g["viabilidad_pct"] for g in r["giros"]]
+    assert v == sorted(v, reverse=True)                        # el orden de la herramienta es por viabilidad
+    assert h.sugerir_giros(colonia="Polanco")["colonia_consultada"]["encontrada"]
+
+
+def test_lugares_buscar_y_resolver():
+    from app import lugares
+    r = lugares.buscar("polan")
+    assert r and all("POLANCO" in x["colonia"] for x in r) and r[0]["municipio"] == "Miguel Hidalgo"
+    assert lugares.buscar("x") == []
+    res = lugares.resolver("Interlomas")                      # asentamiento que solo existe en el DENUE
+    assert res["ok"] and res["municipio"] == "Huixquilucan" and res["agebs"]
+    assert lugares.resolver("polanko")["criterio"] == "aproximado"
+    assert not lugares.resolver("Narnia Central")["ok"]
+    det = lugares.detectar("heladeria en la colonia Narnia Central")
+    assert det and not det[0]["encontrada"] and det[0]["origen"] == "explicita"

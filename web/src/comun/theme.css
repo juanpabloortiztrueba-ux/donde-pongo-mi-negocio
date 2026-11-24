@@ -1,0 +1,131 @@
+/* ===== Tablero: tokens y MODO PLANO de stageshow (aprobado por JP el 2026-11-17) =====
+   Todo va sobre el color del fondo: sin cajas blancas flotando, sin sombras ni marcos; solo líneas finas.
+   Claro = blanco, oscuro = casi negro. Naranja (--accent) = el valor o la serie clave; azul = comparación y selección;
+   amarillo = una sola cosa destacada; verde solo en una píldora de «ok».
+   El tema vive en <html data-tema="light|dark"> (lo pone comun/tema.ts, sigue al sistema). */
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --ink: #18181b;
+  --ink-2: #3f3f46;
+  --muted: #6b6b75;
+  --rule: rgba(24, 24, 27, 0.10);
+  --rule-2: rgba(24, 24, 27, 0.18);
+  --soft: rgba(24, 24, 27, 0.045);
+  --accent: #f26a2e;
+  --accent-text: #c2410c;
+  --accent-soft: rgba(242, 106, 46, 0.12);
+  --blue: #2563eb;
+  --blue-soft: rgba(37, 99, 235, 0.10);
+  --gold: #d99a00;
+  --green: #15803d;
+  --green-soft: rgba(34, 197, 94, 0.14);
+  --red: #b91c1c;
+  --sans: 'Inter Variable', 'Inter', 'SF Pro Text', -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --pad: 40px;
+  --nav-w: 264px;
+}
+[data-tema='dark'] {
+  color-scheme: dark;
+  --bg: #0d0d0f;
+  --ink: #f2f2f3;
+  --ink-2: #c7c7cd;
+  --muted: #9a9aa4;
+  --rule: rgba(255, 255, 255, 0.10);
+  --rule-2: rgba(255, 255, 255, 0.18);
+  --soft: rgba(255, 255, 255, 0.05);
+  --accent: #f57f45;
+  --accent-text: #ff9a66;
+  --accent-soft: rgba(245, 127, 69, 0.16);
+  --blue: #6ea2ff;
+  --blue-soft: rgba(110, 162, 255, 0.16);
+  --gold: #f5b301;
+  --green: #4ade80;
+  --green-soft: rgba(74, 222, 128, 0.14);
+  --red: #f87171;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; min-height: 100%; background: var(--bg); }
+body { font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: antialiased; font-feature-settings: 'cv11' 1, 'ss01' 1; font-size: 16px; line-height: 1.5; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 4px; }
+::selection { background: var(--accent-soft); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; } }
+
+/* ---------- tipografía ---------- */
+.mono, .num { font-feature-settings: 'tnum' 1; }
+.kicker { display: inline-flex; align-items: center; gap: 10px; padding: 5px 14px 5px 12px; border-radius: 999px; border: 1px solid var(--rule-2); font-size: 14px; font-weight: 600; color: var(--ink); background: transparent; }
+.kicker::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); }
+.kicker em { font-style: normal; color: var(--muted); font-weight: 500; }
+.titulo { font-weight: 650; font-size: clamp(30px, 4.4vw, 56px); line-height: 1.06; letter-spacing: -0.035em; margin: 18px 0 0; max-width: 22ch; text-wrap: balance; }
+.titulo em, .titulo i { font-style: normal; color: var(--accent); }
+.lede { font-size: clamp(17px, 1.7vw, 21px); line-height: 1.5; color: var(--ink-2); max-width: 62ch; margin: 18px 0 0; letter-spacing: -0.01em; }
+.chico { font-size: 13px; line-height: 1.4; color: var(--muted); }
+.eyebrow { font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: 0.01em; }
+.seccion-t { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 12px; }
+.hl { color: var(--accent-text); }
+
+/* ---------- MODO PLANO del kit (reglas sin capa: le ganan a @layer stageshow) ---------- */
+.ss-scope, .ss-stage, .ss-stage[data-theme] {
+  --ss-canvas: var(--bg); --ss-surface: var(--bg); --ss-chrome: var(--bg); --ss-raised: var(--bg);
+  --ss-shadow-window: none; --ss-shadow-hero: none; --ss-shadow-card: none; --ss-shadow-satellite: none;
+  --ss-shadow-ground: none; --ss-shadow-lift: none;
+  --ss-shadow-float: 0 0 0 1px var(--rule-2);
+  --ss-accent: var(--accent);
+  --ss-font: var(--sans);
+  --ss-accent-text: var(--accent-text);
+}
+.ss-stage { background: transparent; }
+.ss-ground { background: transparent !important; box-shadow: none !important; }
+.ss-window { box-shadow: none !important; border: 0 !important; background: transparent !important; }
+.ss-window__bar { background: transparent !important; box-shadow: none !important; border: 0 !important; }
+.ss-window__lights { display: none !important; }
+.ss-window__bar { padding-left: 14px !important; }
+.ss-window__url { background: transparent !important; box-shadow: none !important; }
+.ss-window__body, .ss-window__main { background: transparent !important; }
+.ss-bar { opacity: 0.7; }
+
+/* ---------- marco de la app ---------- */
+.mc { min-height: 100vh; display: grid; grid-template-columns: var(--nav-w) minmax(0, 1fr); background: var(--bg); color: var(--ink); }
+.mc-nav { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; padding: 22px 16px 16px; border-right: 1px solid var(--rule); overflow-y: auto; }
+.mc-marca { display: flex; align-items: center; gap: 10px; padding: 4px 10px 18px; text-decoration: none; }
+.mc-marca svg { flex: none; }
+.mc-marca b { font-size: 16px; font-weight: 650; letter-spacing: -0.02em; line-height: 1.15; }
+.mc-marca small { display: block; font-size: 12px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+.mc-sec { margin-top: 14px; }
+.mc-sec h2 { margin: 0 0 4px; padding: 0 10px; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.mc-link { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; text-decoration: none; font-size: 15px; font-weight: 500; color: var(--ink-2); transition: background 0.25s var(--ease), color 0.25s; }
+.mc-link svg { flex: none; color: var(--muted); transition: color 0.25s; }
+.mc-link:hover { background: var(--soft); }
+.mc-link[aria-current='page'] { background: var(--blue-soft); color: var(--blue); font-weight: 600; }
+.mc-link[aria-current='page'] svg { color: var(--blue); }
+.mc-pie { margin-top: auto; padding: 18px 10px 0; border-top: 1px solid var(--rule); display: grid; gap: 8px; }
+.mc-est { display: flex; align-items: center; gap: 9px; font-size: 13px; color: var(--ink-2); line-height: 1.3; }
+.mc-est small { color: var(--muted); display: block; font-size: 12px; }
+.mc-pto { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); flex: none; }
+.mc-pto[data-ok='true'] { background: #22c55e; }
+.mc-pto[data-ok='aviso'] { background: var(--gold); }
+.mc-pto[data-ok='false'] { background: var(--red); }
+.mc-tema { display: inline-flex; align-items: center; gap: 8px; margin-top: 4px; padding: 7px 12px; border: 1px solid var(--rule-2); border-radius: 999px; background: transparent; cursor: pointer; font-size: 13px; font-weight: 500; width: fit-content; }
+.mc-tema:hover { background: var(--soft); }
+.mc-main { min-width: 0; padding: 36px var(--pad) 72px; }
+.mc-tope { display: none; }
+.mc-cab { max-width: 1320px; }
+.mc-cuerpo { max-width: 1320px; }
+
+@media (max-width: 920px) {
+  :root { --pad: 20px; }
+  .mc { display: block; }
+  .mc-tope { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; background: var(--bg); border-bottom: 1px solid var(--rule); }
+  .mc-tope .mc-marca { padding: 0; }
+  .mc-tope .mc-marca small, .mc-tope .mc-marca br { display: none; }
+  .mc-menu-btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid var(--rule-2); border-radius: 999px; background: transparent; cursor: pointer; font-size: 14px; font-weight: 500; }
+  .mc-nav { position: fixed; z-index: 40; inset: 53px 0 0 0; height: auto; display: none; background: var(--bg); border-right: 0; padding: 16px 20px 24px; }
+  .mc-nav[data-abierto='true'] { display: flex; }
+  .mc-nav .mc-marca { display: none; }
+  .mc-main { padding-top: 24px; }
+}

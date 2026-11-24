@@ -3,8 +3,8 @@
  "prefijo_doc": "search_document: ",
  "prefijo_consulta": "search_query: ",
  "dim": 768,
- "n_trozos": 872,
- "n_archivos": 91,
+ "n_trozos": 909,
+ "n_archivos": 93,
  "max_chars": 1500,
- "creado": "2026-11-23T13:18:20"
+ "creado": "2026-11-23T17:32:19"
 }

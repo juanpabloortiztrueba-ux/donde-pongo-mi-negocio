@@ -1,0 +1,112 @@
+/* Componentes comunes (prefijo c-): Fuente, Kpi, Cargando, ErrorApi, Mapa, leyenda. */
+.c-fuente { font-size: 12.5px; line-height: 1.4; color: var(--muted); margin: 8px 0 0; }
+.c-fuente b { font-weight: 600; color: var(--ink-2); }
+
+.c-kpi { display: grid; gap: 4px; padding-top: 14px; border-top: 1px solid var(--rule-2); min-width: 0; }
+.c-kpi__valor { font-size: clamp(32px, 4vw, 52px); font-weight: 650; letter-spacing: -0.045em; line-height: 1; font-feature-settings: 'tnum' 1; color: var(--ink); }
+.c-kpi[data-tono='accent'] .c-kpi__valor { color: var(--accent-text); }
+.c-kpi__nd { font-size: 0.4em; letter-spacing: 0; font-weight: 650; color: var(--muted); }
+.c-kpi__etq { font-size: 14px; font-weight: 600; color: var(--ink-2); }
+.c-kpi .ss-count, .c-kpi .ss-roll { font-size: inherit; font-weight: inherit; letter-spacing: inherit; }
+/* Count pinta cada carácter en un inline-block dentro de un inline-flex: sin «pre» los espacios («38 de 38», «117.2 s») colapsan */
+.ss-count__char { white-space: pre; }
+
+.c-carga { display: grid; gap: 14px; }
+.c-carga__fila { display: flex; align-items: center; gap: 14px; }
+.c-carga .ss-bar { background: var(--rule) !important; opacity: 1; animation: c-brillo 1.8s ease-in-out infinite; }
+@keyframes c-brillo { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+.c-carga__mapa { width: 100%; border: 1px solid var(--rule); border-radius: 14px; background: repeating-linear-gradient(135deg, transparent 0 14px, var(--soft) 14px 15px); animation: c-brillo 1.8s ease-in-out infinite; }
+
+.c-error { display: grid; gap: 10px; justify-items: start; padding: 18px 0; border-top: 1px solid var(--rule-2); max-width: 60ch; }
+.c-error b { font-size: 16px; }
+.c-error p { margin: 0; color: var(--ink-2); font-size: 15px; }
+.c-boton { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border: 1px solid var(--rule-2); border-radius: 999px; background: transparent; cursor: pointer; font-size: 14px; font-weight: 600; }
+.c-boton:hover { background: var(--soft); }
+.c-boton[data-primario='true'] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+/* Mapa */
+.c-mapa { position: relative; width: 100%; border: 1px solid var(--rule); border-radius: 14px; overflow: hidden; background: var(--bg); }
+.c-mapa .c-mapa__lienzo { position: absolute; inset: 0; width: 100%; height: 100%; }
+.c-mapa .maplibregl-ctrl-attrib { font-size: 11px; background: transparent; color: var(--muted); }
+.c-mapa .maplibregl-ctrl-attrib a { color: inherit; }
+.c-mapa .maplibregl-ctrl-group { background: var(--bg); border: 1px solid var(--rule-2); box-shadow: none; border-radius: 10px; }
+.c-mapa .maplibregl-ctrl-group button + button { border-top: 1px solid var(--rule); }
+[data-tema='dark'] .c-mapa .maplibregl-ctrl-icon { filter: invert(1); }
+.c-mapa__leyenda { position: absolute; left: 12px; bottom: 12px; max-width: min(320px, calc(100% - 24px)); padding: 10px 12px; font-size: 12px; color: var(--ink-2); background: color-mix(in srgb, var(--bg) 88%, transparent); border: 1px solid var(--rule); border-radius: 12px; pointer-events: none; }
+.c-mapa__leyenda b { display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+.c-mapa__barra { height: 8px; border-radius: 4px; }
+.c-mapa__ejes { display: flex; justify-content: space-between; margin-top: 4px; font-feature-settings: 'tnum' 1; color: var(--muted); }
+.c-mapa__cat { display: flex; align-items: center; gap: 7px; line-height: 1.5; }
+.c-mapa__cat i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.c-mapa__base { position: absolute; right: 12px; top: 12px; display: flex; align-items: center; gap: 8px; padding: 6px 10px; font-size: 12px; color: var(--ink-2); background: color-mix(in srgb, var(--bg) 88%, transparent); border: 1px solid var(--rule); border-radius: 999px; cursor: pointer; user-select: none; }
+.c-mapa__base[aria-disabled='true'] { opacity: 0.55; cursor: not-allowed; }
+.c-mapa__tip { position: absolute; z-index: 5; pointer-events: none; padding: 7px 10px; font-size: 12.5px; line-height: 1.35; color: var(--ink); background: var(--bg); border: 1px solid var(--rule-2); border-radius: 10px; max-width: 240px; width: max-content; }
+.c-mapa__tip b { display: block; font-weight: 650; }
+.c-mapa__tip span { color: var(--muted); }
+.c-mapa__tip em { font-style: normal; font-weight: 650; font-feature-settings: 'tnum' 1; color: var(--accent-text); }
+.c-mapa__num { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 700; font-feature-settings: 'tnum' 1; color: #fff; background: var(--accent-text); border: 2px solid var(--bg); cursor: pointer; }
+[data-tema='dark'] .c-mapa__num { color: #0d0d0f; background: var(--accent); }
+.c-mapa__vacio { position: absolute; inset: 0; display: grid; place-items: center; font-size: 14px; color: var(--muted); }
+.c-switch { position: relative; width: 28px; height: 16px; border-radius: 8px; background: var(--rule-2); flex: none; transition: background 0.25s; }
+.c-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); transition: transform 0.25s var(--ease); }
+.c-switch[data-on='true'] { background: var(--accent); }
+.c-switch[data-on='true']::after { transform: translateX(12px); }
+
+.c-pill .ss-badge { font-size: 12px; height: 22px; background: var(--soft); color: var(--ink-2); }
+.c-pill--naranja .ss-badge { background: var(--accent-soft); color: var(--accent-text); }
+.c-pill--azul .ss-badge { --ss-accent: var(--blue); --ss-accent-text: var(--blue); --ss-accent-soft: var(--blue-soft); background: var(--blue-soft); color: var(--blue); }
+.c-pill--verde .ss-badge { background: var(--green-soft); color: var(--green); }
+.c-pill--amarillo .ss-badge { background: rgba(245, 179, 1, 0.16); color: var(--gold); }
+.c-pill--rojo .ss-badge { background: rgba(239, 68, 68, 0.12); color: var(--red); }
+
+/* Selectores (SelectorGiro, SelectorMunicipio): <select> nativo en modo plano */
+.c-campo { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+.c-campo__t { white-space: nowrap; }
+.c-select { font: inherit; font-size: 14px; color: var(--ink); background: transparent; border: 1px solid var(--rule-2); border-radius: 8px; padding: 6px 28px 6px 10px; max-width: 100%; min-width: 0; cursor: pointer; -webkit-appearance: none; appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 15px) 55%, calc(100% - 10px) 55%; background-size: 5px 5px; background-repeat: no-repeat; }
+.c-select:hover { border-color: var(--muted); }
+.c-select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.c-select option, .c-select optgroup { background: var(--bg); color: var(--ink); }
+
+/* Gráficas (Grafica.tsx): SVG propio en modo plano */
+.c-graf { position: relative; width: 100%; }
+.c-graf__tit { margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--ink-2); }
+.c-graf__leyenda { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 10px; font-size: 13px; color: var(--ink-2); }
+.c-graf__leyenda i { display: inline-block; width: 14px; height: 0; border-top: 2px solid currentColor; vertical-align: middle; margin-right: 7px; }
+.c-graf svg { display: block; width: 100%; overflow: visible; }
+.c-graf text { font-family: var(--sans); font-size: 11.5px; fill: var(--muted); font-feature-settings: 'tnum' 1; }
+.c-graf__rej { stroke: var(--rule); stroke-width: 1; shape-rendering: crispEdges; }
+.c-graf__eje { stroke: var(--rule-2); stroke-width: 1; shape-rendering: crispEdges; }
+.c-graf__linea { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: c-graf-traza 1.1s var(--ease) 0.1s forwards; }
+@keyframes c-graf-traza { to { stroke-dashoffset: 0; } }
+.c-graf__guia { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
+.c-graf__pt { stroke: var(--bg); stroke-width: 2; }
+.c-graf__tip { position: absolute; z-index: 3; pointer-events: none; padding: 6px 10px; font-size: 12.5px; line-height: 1.4; color: var(--ink); background: var(--bg); border: 1px solid var(--rule-2); border-radius: 10px; white-space: nowrap; font-feature-settings: 'tnum' 1; }
+.c-graf__tip b { display: block; font-weight: 650; }
+.c-graf__tip span { display: flex; align-items: center; gap: 6px; }
+.c-graf__tip i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.c-graf__eje-t { font-size: 12px; fill: var(--muted); }
+.c-graf-t--naranja { --tono: var(--accent); } .c-graf-t--azul { --tono: var(--blue); } .c-graf-t--gris { --tono: var(--muted); } .c-graf-t--verde { --tono: var(--green); }
+.c-graf__linea, .c-graf__pt { stroke: var(--tono); }
+.c-graf__pt { fill: var(--tono); stroke: var(--bg); }
+
+/* GraficaBarras horizontal: filas con etiqueta | pista | valor */
+.c-gb { display: grid; grid-template-columns: minmax(80px, 32%) minmax(0, 1fr) auto; column-gap: 12px; align-items: center; position: relative; }
+.c-gb__etq { font-size: 13.5px; color: var(--ink-2); padding: 7px 0; line-height: 1.25; overflow-wrap: anywhere; }
+.c-gb__pista { position: relative; align-self: stretch; min-height: 30px; }
+.c-gb__barra { position: absolute; top: 50%; height: 10px; margin-top: -5px; border-radius: 2px; background: var(--tono); transform-origin: left center; animation: c-gb-crece 0.8s var(--ease) both; animation-delay: calc(var(--i, 0) * 60ms); }
+.c-gb__barra[data-neg='true'] { transform-origin: right center; }
+@keyframes c-gb-crece { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.c-gb__val { font-size: 13.5px; font-weight: 600; color: var(--ink); font-feature-settings: 'tnum' 1; text-align: right; padding-left: 4px; }
+.c-gb__fila-sel { display: contents; }
+.c-gb__fila-sel:hover .c-gb__etq, .c-gb__fila-sel:hover .c-gb__val { color: var(--accent-text); }
+.c-gb__pista u { position: absolute; top: 0; bottom: 0; border-left: 1px solid var(--rule); text-decoration: none; }
+.c-gb__pista u[data-cero='true'] { border-left-color: var(--rule-2); }
+.c-gb__ejes { grid-column: 2; }
+.c-gb__ejes { grid-column: 2; position: relative; height: 20px; }
+.c-gb__ejes span { position: absolute; top: 4px; transform: translateX(-50%); font-size: 11.5px; color: var(--muted); font-feature-settings: 'tnum' 1; white-space: nowrap; }
+.c-gb__ejes span:first-of-type { transform: none; } .c-gb__ejes span:last-of-type { transform: translateX(-100%); }
+.c-gb__ejes[data-ref] { height: 40px; }
+.c-gb__pista u.c-gb__ref { border-left: 1px dashed var(--ink-2); z-index: 1; }
+.c-gb__ejes em.c-gb__ref-t { position: absolute; top: 22px; transform: translateX(-50%); font-style: normal; font-size: 11.5px; color: var(--ink-2); white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) { .c-graf__linea { animation: none; stroke-dashoffset: 0; } .c-gb__barra { animation: none; } }

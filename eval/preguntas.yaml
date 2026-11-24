@@ -1,7 +1,13 @@
-# 20 preguntas de evaluacion del agente (contrato, etapa Agente H). Las corre eval/evaluar.py.
+# 28 preguntas de evaluacion del agente: las 20 del contrato (etapa Agente H) y 8 nuevas (2026-11-23, ids 21-28)
+# que cubren los fallos de docs/REVISION_CRITICA_2026-11-23.md. Las corre eval/evaluar.py.
 # tipo: giro (top de colonias), sugerir (sin giro), macro, trampa (fuera de alcance).
 # giro: clave esperada en recomendar_zonas; municipio: cvegeo_mun al que deben pertenecer las AGEB citadas;
 # nse: filtro esperado en recomendar_zonas.
+# colonia: {regex, muns}: la colonia pedida; regex sobre el nombre normalizado de nom_colonia en agebs_features y
+#   muns = cvegeo_mun donde buscarla. El evaluador calcula su centroide y exige AGEB a <= 2 km.
+# colonia_inexistente: nombre inventado; la respuesta debe decir que no se encontro y que da a cambio.
+# historial: turnos anteriores (como los pasa la UI); la pregunta es un seguimiento.
+# grupo: colonia | seguimiento -> TODAS deben pasar para aprobar (ademas del 90 % general).
 preguntas:
   - {id: 1, tipo: giro, giro: heladeria, pregunta: "Quiero poner una heladería, ¿en qué colonias me conviene?"}
   - {id: 2, tipo: giro, giro: cafeteria, pregunta: "¿Dónde abro una cafetería de especialidad?"}
@@ -23,3 +29,27 @@ preguntas:
   - {id: 18, tipo: sugerir, nse: bajo, pregunta: "Quiero algo barato para una zona de nivel bajo, ¿qué pongo y dónde?"}
   - {id: 19, tipo: macro, pregunta: "¿Cómo está la economía para abrir un negocio? Inflación, tasa de Banxico y tipo de cambio"}
   - {id: 20, tipo: trampa, pregunta: "Quiero poner una heladería en Monterrey"}
+  - {id: 21, tipo: giro, grupo: colonia, giro: heladeria, colonia: {regex: "^polanco", muns: ["09016"]}, pregunta: "Quiero abrir una nevería en Polanco"}
+  - {id: 22, tipo: giro, grupo: colonia, giro: cafeteria, colonia: {regex: "^(condesa|hipodromo condesa|hipodromo)$", muns: ["09015"]}, pregunta: "¿Dónde pongo una cafetería en la Condesa?"}
+  - {id: 23, tipo: giro, grupo: colonia, giro: farmacia, colonia: {regex: "^santa fe", muns: ["09010", "09004"]}, pregunta: "Quiero abrir una farmacia en Santa Fe"}
+  - {id: 24, tipo: giro, grupo: colonia, giro: papeleria, colonia_inexistente: "Villa Esperanza Imaginaria", pregunta: "Quiero abrir una papelería en la colonia Villa Esperanza Imaginaria"}
+  - id: 25
+    tipo: giro
+    grupo: seguimiento
+    giro: heladeria
+    municipio: "09003"
+    historial:
+      - {role: user, content: "Quiero poner una heladería, ¿en qué colonias me conviene?"}
+      - {role: assistant, content: "Te muestro las zonas con mejor score para heladería en la ZMVM, con sus cifras y fuentes."}
+    pregunta: "¿Y en Coyoacán?"
+  - id: 26
+    tipo: giro
+    grupo: seguimiento
+    giro: veterinaria
+    municipio: "09014"
+    historial:
+      - {role: user, content: "Quiero abrir una farmacia en Benito Juárez"}
+      - {role: assistant, content: "Te muestro las mejores zonas para una farmacia en Benito Juárez, con sus cifras y fuentes."}
+    pregunta: "¿Y una veterinaria?"
+  - {id: 27, tipo: giro, giro: heladeria, municipio: "09003", pregunta: "Quiero una heladería en Coyoacán para niños, ¿cuánto ganan ahí y qué porcentaje de la gente es menor de 14 años?"}
+  - {id: 28, tipo: giro, giro: taqueria, pregunta: "Quiero abrir una taquería, ¿cómo influyen la inflación y la tasa de Banxico?"}

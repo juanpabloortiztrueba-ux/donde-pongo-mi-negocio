@@ -1,535 +1,737 @@
-# Evaluación del agente (2026-11-23 15:10)
+# Evaluación del agente (2026-11-23 19:17)
 
-Modelo: qwen3:8b (Ollama, think=False). Preguntas: 20 de 20 (`eval/preguntas.yaml`). Script: `eval/evaluar.py`.
+Modelo: qwen3:8b (Ollama, think=False). Preguntas: 28 de 28 (`eval/preguntas.yaml`). Script: `eval/evaluar.py`.
 
-**Resultado: 20/20 pasan; trampa pasa → APROBADO** (criterio del contrato: ≥ 18/20 y la trampa pasa).
+**Resultado: 28/28 pasan; trampa pasa; colonia y seguimiento 6/6 → APROBADO** (criterio: ≥ 90 % de las preguntas, la trampa, y todas las de colonia y de seguimiento).
 
-- Latencia: mediana 117.2 s, p90 152.6 s, máxima 172.2 s (objetivo de mediana ≤ 90 s: NO; una respuesta de más de 180 s falla).
-- Memoria (MacBook Air M4, 16 GB): swap 4586.0 MB al inicio, máximo 14379.0 MB, 13565.62 MB al final; memoria libre mínima 16 % (`memory_pressure`).
+- Latencia: mediana 32.9 s, p90 46.8 s, máxima 55.7 s (meta: mediana ≤ 120 s y máxima ≤ 165 s: cumplida; una respuesta de más de 165 s falla).
+- Memoria (MacBook Air M4, 16 GB): swap 9737.75 MB al inicio, máximo 14403.94 MB, 14403.94 MB al final; memoria libre mínima 18 % (`memory_pressure`).
 
 ## Checks
 
 - `sin_tokens`: ningún valor de `.env` aparece en la respuesta ni en lo que regresaron las herramientas.
 - `fuentes`: la respuesta tiene sección de fuentes y nombra al menos una fuente real (INEGI, DENUE, ENIGH, CONAPO, Banxico, carpetas...).
-- `latencia`: ≤ 180 s.
+- `fuentes_completas`: todas las fuentes que regresaron las herramientas están en la respuesta (no se corta la lista).
+- `latencia`: ≤ 165 s.
+- `formato`: sin «prob. de apertura % 63» (debe ser «63 %»), sin «tipo de cambio fijo» (es FIX), sin «None» ni «nan» impresos (un dato vacío se dice «NO ENCONTRADO») y sin respuesta cortada por `num_predict`.
 - `top_agebs`: cada AGEB citada existe en `agebs_features`, salió de una herramienta, su colonia (de `agebs_features`) aparece en la respuesta y hay al menos 5 (o las que regresó la herramienta).
+- `colonia_de_su_ageb`: cada renglón de zona (desde la línea con la clave AGEB hasta la siguiente) trae la colonia de SU AGEB y no la de otra zona citada.
+- `cifras_por_zona`: las cifras de cada renglón coinciden con las de la zona a la que se atribuyen (no con las de otra).
+- `lectura_cifras_de_su_zona`: en la «Lectura» del modelo, cada frase que nombra una zona solo usa cifras de esa zona (si un nombre está dentro de otro más largo, «Granada» en «Ampliación Granada», manda la coincidencia más larga) y cada cifra se compara solo con el campo que nombra («prob. de apertura», «gasto potencial», «ingreso», «competidores», «edad clave») o, sin magnitud, con los campos del renglón de la zona; no con cualquier número del resultado.
+- `lectura_cifras_de_su_zona` (a partir de la evaluación final): además, cada cifra tiene que salir de alguna herramienta y ser de su tipo (un % solo se compara con campos en %, los pesos con pesos); las de `perfil_giro`, `contexto_macro` y `ficha_municipio` valen en cualquier frase; la viabilidad de un giro de `sugerir_giros` solo vale con ese giro; y a un giro sin `recomendar_zonas` no se le atribuyen zonas ni gasto potencial.
+- `lectura_superlativos`: «mayor», «menor», «lidera(n)», «destaca», «mejor(es)»... junto con una magnitud (prob. de apertura, gasto, ingreso, competidores, edad, score u «oportunidad / mejor opción») solo valen si la zona nombrada es de las primeras del top en esa magnitud (`app/lectura.py`); sin magnitud escrita se deduce de la cifra que sigue («lidera con un 12.5 %»); el giro que «lidera» es el 1 de `sugerir_giros`; y «En <colonia pedida>, la colonia Z» solo si Z está dentro de la colonia.
+- `avisos_del_giro`: los avisos «giro raro» y el del rubro ENIGH sustituto de `recomendar_zonas` aparecen en la respuesta (en los riesgos).
+- `macro_mecanismo` (pregunta «¿cómo influye...?»): la respuesta explica el mecanismo (costo, insumos, crédito, financiamiento, margen, precio).
+- `colonias_con_origen`: ninguna colonia del catálogo de `agebs_features`, renglón de lista en negritas ni nombre escrito como «colonia X» / «fraccionamiento X» aparece sin salir de las herramientas, de la pregunta o del historial.
 - `municipio`, `giro`, `nse`, `macro_usada`: se usó la herramienta con el giro/filtro esperado y las AGEB son del municipio pedido.
 - `macro_cifras` (pregunta macro): la respuesta cita al menos 2 cifras de `contexto_macro`.
-- `cifras`: a lo más 1 cifra sin origen y al menos 90 % de las cifras citadas coinciden con un número de las herramientas, con tolerancia de redondeo según los decimales escritos («0.43 millones» = 430,000; una fracción de la herramienta puede citarse como %). No se verifican enteros ≤ 10 (enumeraciones, deciles), años ni fechas.
+- `macro_breve` (giro con `contexto_macro`): al menos 2 cifras de la línea macro y el párrafo no pasa de 600 caracteres.
+- `ingreso_y_edad`: al menos el 60 % de las zonas citadas traen su ingreso trimestral estimado en pesos y el % de la edad clave del giro.
+- `colonia_respetada` (preguntas con colonia): toda AGEB citada es de la colonia o está a ≤ 2 km de su centroide (calculado aquí desde `agebs_features`), al menos una es de la colonia misma y la herramienta recibió el filtro; con una colonia inexistente: la respuesta dice «no se encontró», nombra la colonia y explica qué da a cambio, y no aplicó filtro.
+- `seguimiento_mantiene_giro` (preguntas con historial): el giro de los turnos anteriores se conserva en la herramienta y en la respuesta.
+- `cifras`: a lo más 0 cifras sin origen y al menos 95 % de las cifras citadas coinciden con un número de las herramientas, con tolerancia de redondeo según los decimales escritos («0.43 millones» = 430,000; una fracción de la herramienta puede citarse como %). No se verifican enteros ≤ 10 (enumeraciones, deciles), años ni fechas.
 - `trampa_fuera_de_alcance`: dice que está fuera de alcance y no da ninguna AGEB.
 - `aviso_prob_baja`: si `recomendar_zonas` avisa que la prob. de apertura es baja en todo el top, la respuesta lo dice y aclara que el score es relativo al giro.
+- `score_relativo_dicho`: con zonas recomendadas, la respuesta dice que el score es relativo dentro del giro.
 - `sin_giros_inventados`: sin `sugerir_giros`, la respuesta no habla de «viabilidad» ni lista «giros que conviene».
-- `sugerir_usada`, `alternativas`, `score_relativo` (preguntas sin giro): se usó `sugerir_giros`, la respuesta nombra al menos 3 de los giros que regresó y dice que el score es relativo dentro de cada giro.
+- `sugerir_usada`, `alternativas`, `score_relativo`, `orden_sugerir`, `inversion_explicada` (preguntas sin giro): se usó `sugerir_giros`, la respuesta nombra al menos 3 de los giros que regresó, y la Lectura los nombra en el orden de la herramienta, dice que el score es relativo dentro de cada giro y, si pidió algo barato, explica que se entendió como poca inversión.
 
 ## Resultados por pregunta
 
 | # | Pregunta | Pasa | Latencia (s) | Herramientas | Cifras ok | Checks que fallan |
 |---|---|---|---|---|---|---|
-| 1 | Quiero poner una heladería, ¿en qué colonias me conviene? | sí | 77.7 | perfil_giro, recomendar_zonas | 34/34 | - |
-| 2 | ¿Dónde abro una cafetería de especialidad? | sí | 114.7 | perfil_giro, recomendar_zonas | 35/35 | - |
-| 3 | Busco dónde poner un gimnasio, ¿qué zonas me recomiendas? | sí | 109.2 | perfil_giro, recomendar_zonas | 33/33 | - |
-| 4 | Quiero abrir una farmacia en Iztapalapa | sí | 99.6 | perfil_giro, recomendar_zonas | 34/34 | - |
-| 5 | ¿Dónde conviene poner una papelería? | sí | 102.1 | perfil_giro, recomendar_zonas | 35/35 | - |
-| 6 | Una lavandería de autoservicio, ¿dónde la pongo? | sí | 119.0 | perfil_giro, recomendar_zonas | 33/33 | - |
-| 7 | Quiero poner una veterinaria en Naucalpan | sí | 123.0 | perfil_giro, recomendar_zonas | 35/35 | - |
-| 8 | ¿En qué colonias pongo una taquería? | sí | 112.7 | perfil_giro, recomendar_zonas | 38/38 | - |
-| 9 | Tienda de abarrotes en Ecatepec, ¿qué colonias? | sí | 115.4 | perfil_giro, recomendar_zonas | 32/32 | - |
-| 10 | Quiero abrir una barbería en una zona de nivel alto | sí | 113.2 | perfil_giro, recomendar_zonas | 32/32 | - |
-| 11 | ¿Dónde pongo un consultorio dental? | sí | 141.8 | perfil_giro, recomendar_zonas | 32/32 | - |
-| 12 | Quiero abrir una guardería en Tlalnepantla | sí | 152.6 | perfil_giro, recomendar_zonas | 31/31 | - |
-| 13 | ¿Dónde abro una ferretería? | sí | 132.7 | perfil_giro, recomendar_zonas | 30/30 | - |
-| 14 | Una pastelería en Benito Juárez, ¿dónde? | sí | 132.9 | perfil_giro, recomendar_zonas | 34/34 | - |
-| 15 | Quiero poner una librería | sí | 143.0 | perfil_giro, recomendar_zonas | 31/31 | - |
-| 16 | Quiero un negocio de renta de bicicletas, ¿dónde lo pongo? | sí | 164.3 | perfil_giro, recomendar_zonas | 31/31 | - |
-| 17 | Quiero poner un negocio en Coyoacán, ¿qué me recomiendas y dónde? | sí | 172.2 | perfil_giro, sugerir_giros, recomendar_zonas | 46/46 | - |
-| 18 | Quiero algo barato para una zona de nivel bajo, ¿qué pongo y dónde? | sí | 138.9 | perfil_giro, sugerir_giros, recomendar_zonas | 46/46 | - |
-| 19 | ¿Cómo está la economía para abrir un negocio? Inflación, tasa de Banxico y tipo de cambio | sí | 59.6 | perfil_giro, contexto_macro | 16/17 | - |
-| 20 | Quiero poner una heladería en Monterrey | sí | 33.5 | perfil_giro, recomendar_zonas, buscar_carpetas | 2/2 | - |
+| 1 | Quiero poner una heladería, ¿en qué colonias me conviene? | sí | 22.3 | perfil_giro, recomendar_zonas, contexto_macro | 60/60 | - |
+| 2 | ¿Dónde abro una cafetería de especialidad? | sí | 18.9 | perfil_giro, recomendar_zonas, contexto_macro | 62/62 | - |
+| 3 | Busco dónde poner un gimnasio, ¿qué zonas me recomiendas? | sí | 30.2 | perfil_giro, recomendar_zonas, contexto_macro | 56/56 | - |
+| 4 | Quiero abrir una farmacia en Iztapalapa | sí | 31.3 | perfil_giro, recomendar_zonas, contexto_macro, ficha_municipio | 66/66 | - |
+| 5 | ¿Dónde conviene poner una papelería? | sí | 31.3 | perfil_giro, recomendar_zonas, contexto_macro | 50/50 | - |
+| 6 | Una lavandería de autoservicio, ¿dónde la pongo? | sí | 31.5 | perfil_giro, recomendar_zonas, contexto_macro | 55/55 | - |
+| 7 | Quiero poner una veterinaria en Naucalpan | sí | 34.4 | perfil_giro, recomendar_zonas, contexto_macro, ficha_municipio | 72/72 | - |
+| 8 | ¿En qué colonias pongo una taquería? | sí | 12.6 | perfil_giro, recomendar_zonas, contexto_macro | 60/60 | - |
+| 9 | Tienda de abarrotes en Ecatepec, ¿qué colonias? | sí | 34.2 | perfil_giro, recomendar_zonas, contexto_macro, ficha_municipio | 73/73 | - |
+| 10 | Quiero abrir una barbería en una zona de nivel alto | sí | 31.1 | perfil_giro, recomendar_zonas, contexto_macro | 59/59 | - |
+| 11 | ¿Dónde pongo un consultorio dental? | sí | 26.3 | perfil_giro, recomendar_zonas, contexto_macro | 55/55 | - |
+| 12 | Quiero abrir una guardería en Tlalnepantla | sí | 48.7 | perfil_giro, recomendar_zonas, contexto_macro, ficha_municipio | 62/62 | - |
+| 13 | ¿Dónde abro una ferretería? | sí | 30.5 | perfil_giro, recomendar_zonas, contexto_macro | 54/54 | - |
+| 14 | Una pastelería en Benito Juárez, ¿dónde? | sí | 37.1 | perfil_giro, recomendar_zonas, contexto_macro, ficha_municipio | 75/75 | - |
+| 15 | Quiero poner una librería | sí | 26.7 | perfil_giro, recomendar_zonas, contexto_macro | 51/51 | - |
+| 16 | Quiero un negocio de renta de bicicletas, ¿dónde lo pongo? | sí | 36.3 | perfil_giro, recomendar_zonas, contexto_macro | 51/51 | - |
+| 17 | Quiero poner un negocio en Coyoacán, ¿qué me recomiendas y dónde? | sí | 55.7 | perfil_giro, sugerir_giros, recomendar_zonas, ficha_municipio | 83/83 | - |
+| 18 | Quiero algo barato para una zona de nivel bajo, ¿qué pongo y dónde? | sí | 39.9 | perfil_giro, sugerir_giros, recomendar_zonas | 67/67 | - |
+| 19 | ¿Cómo está la economía para abrir un negocio? Inflación, tasa de Banxico y tipo de cambio | sí | 14.4 | perfil_giro, contexto_macro | 22/22 | - |
+| 20 | Quiero poner una heladería en Monterrey | sí | 30.6 | perfil_giro, recomendar_zonas, buscar_carpetas | 3/3 | - |
+| 21 | Quiero abrir una nevería en Polanco | sí | 46.7 | perfil_giro, recomendar_zonas, contexto_macro, ficha_municipio | 76/76 | - |
+| 22 | ¿Dónde pongo una cafetería en la Condesa? | sí | 43.7 | perfil_giro, recomendar_zonas, contexto_macro, ficha_municipio | 78/78 | - |
+| 23 | Quiero abrir una farmacia en Santa Fe | sí | 35.0 | perfil_giro, recomendar_zonas, contexto_macro | 52/52 | - |
+| 24 | Quiero abrir una papelería en la colonia Villa Esperanza Imaginaria | sí | 31.3 | perfil_giro, recomendar_zonas, contexto_macro | 53/53 | - |
+| 25 | ¿Y en Coyoacán? | sí | 46.8 | perfil_giro, recomendar_zonas, contexto_macro, ficha_municipio | 70/70 | - |
+| 26 | ¿Y una veterinaria? | sí | 42.5 | perfil_giro, recomendar_zonas, contexto_macro, ficha_municipio | 70/70 | - |
+| 27 | Quiero una heladería en Coyoacán para niños, ¿cuánto ganan ahí y qué porcentaje de la gente es menor de 14 años? | sí | 37.7 | perfil_giro, recomendar_zonas, contexto_macro, ficha_municipio | 64/64 | - |
+| 28 | Quiero abrir una taquería, ¿cómo influyen la inflación y la tasa de Banxico? | sí | 48.2 | perfil_giro, contexto_macro, recomendar_zonas | 62/62 | - |
 
 ## Respuestas completas
 
 ### 1. Quiero poner una heladería, ¿en qué colonias me conviene?
 
-_llm, 1 rondas, 77.7 s; herramientas: perfil_giro({"texto": "Quiero poner una heladería, ¿en qué colonias me conviene?"}); recomendar_zonas({"giro": "heladeria"})_
+_llm, 1 rondas, 22.3 s; herramientas: perfil_giro({"texto": "Quiero poner una heladería, ¿en qué colonias me conviene?"}); recomendar_zonas({"giro": "heladeria"}); contexto_macro({"giro": "heladeria"})_
 
-> **Top 5 para heladeria**  
-> 1. **FUENTES DE ARAGON**, Ecatepec de Morelos (AGEB 1503300011773): score 93.2/100 (relativo al giro). Por qué: prob. de apertura % 63, gasto potencial por trimestre $97,000, competidores ponderados 1.2, captura % 46, residentes objetivo en el radio 2,230, empleos en el radio 1,290, NSE estimado medio.  
-> 2. **AGUA AZUL**, Nezahualcóyotl (AGEB 1505800010740): score 90.0/100. Por qué: prob. de apertura % 64, gasto potencial por trimestre $65,000, competidores ponderados 0.4, captura % 72, residentes objetivo en el radio 2,030, empleos en el radio 1,120, NSE estimado medio.  
-> 3. **MIXCOATL**, Iztapalapa (AGEB 0900700014202): score 89.8/100. Por qué: prob. de apertura % 34, gasto potencial por trimestre $64,000, competidores ponderados 0.2, captura % 83, residentes objetivo en el radio 2,550, empleos en el radio 1,410, NSE estimado bajo.  
-> 4. **ROMA NORTE**, Cuauhtémoc (AGEB 0901500011110): score 89.7/100. Por qué: prob. de apertura % 60, gasto potencial por trimestre $112,000, competidores ponderados 0.8, captura % 55, residentes objetivo en el radio 1,490, empleos en el radio 5,440, NSE estimado medio.  
-> 5. **JARDINES DE ARAGON**, Ecatepec de Morelos (AGEB 150330001174A): score 89.7/100. Por qué: prob. de apertura % 55, gasto potencial por trimestre $86,000, competidores ponderados 0.8, captura % 55, residentes objetivo en el radio 1,820, empleos en el radio 930, NSE estimado medio.  
+> **Lectura:** Entre las zonas del top de heladería, Canteros tiene la mayor probabilidad de apertura (74 %); Fuentes de Aragon tiene el mayor gasto potencial ($97,000 por trimestre); Mixcoatl tiene la menor competencia (0.2 competidores ponderados). Fuente de Aragón lidera con ingreso trimestral estimado por hogar de $83,000 y gasto potencial de $97,000, mientras que Canteros destaca por tener una probabilidad de apertura del 74 % y una edad clave de 0 a 14 años del 26.5 %.
 > 
-> **Riesgos:**  
-> - Competencia: algunas colonias tienen competidores ponderados altos.  
-> - Confiabilidad del modelo: el score es un percentil dentro del giro, no garantiza rentabilidad.  
-> - Supuestos: el ticket promedio es un supuesto, no una cifra real.  
-> - "Apareció en el DENUE" no es lo mismo que "abrió": el modelo usa datos de 2020 a 2026.  
+> **Top 5 para heladería** (score 0-100 relativo al giro; 0 a 14 años en la ZMVM: 20.7 %)
+> 1. **MIXCOATL**, Iztapalapa (AGEB 0900700014202): score 96.1/100. prob. de apertura 34 %; gasto potencial $64,000 por trimestre; 0.2 competidores ponderados (captura 83 %); NSE estimado bajo, decil 3, ingreso trimestral estimado por hogar $49,000; 0 a 14 años: 21.8 %.
+> 2. **FUENTES DE ARAGON**, Ecatepec de Morelos (AGEB 1503300011773): score 95.7/100. prob. de apertura 63 %; gasto potencial $97,000 por trimestre; 1.2 competidores ponderados (captura 46 %); NSE estimado medio, decil 7, ingreso trimestral estimado por hogar $83,000; 0 a 14 años: 17.3 %.
+> 3. **AGUA AZUL**, Nezahualcóyotl (AGEB 1505800010740): score 95.1/100. prob. de apertura 64 %; gasto potencial $65,000 por trimestre; 0.4 competidores ponderados (captura 72 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $78,800; 0 a 14 años: 20.6 %.
+> 4. **CANTEROS**, Chimalhuacán (AGEB 1503100010535): score 94.2/100. prob. de apertura 74 %; gasto potencial $41,000 por trimestre; 0.5 competidores ponderados (captura 69 %); NSE estimado bajo, decil 3, ingreso trimestral estimado por hogar $48,600; 0 a 14 años: 26.5 %.
+> 5. **BENITO JUAREZ**, Nezahualcóyotl (AGEB 1505800010539): score 94.0/100. prob. de apertura 73 %; gasto potencial $55,000 por trimestre; 0.8 competidores ponderados (captura 56 %); NSE estimado bajo, decil 4, ingreso trimestral estimado por hogar $53,500; 0 a 14 años: 21.3 %.
 > 
-> **Fuentes:**  
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md).  
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo).  
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana.  
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM).  
-> - config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket).
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406); inflación de alimentos, bebidas y tabaco (INPC): NO ENCONTRADO; como aproximación, agropecuarios 2.99 % anual (2026-10, serie 910411).
+> 
+> **Riesgos:**
+> - Helados de la ENIGH es consumo en casa y solo 2-7 % de hogares reporta gasto; sirve para ordenar deciles, no para dimensionar.
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 70 pesos es un supuesto (supuesto: una nieve o helado artesanal individual, 2026)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API; INEGI, Banco de Indicadores API (BIE, id 910406); INEGI, Banco de Indicadores API (BIE, id 910408); INEGI, Banco de Indicadores API (BIE, id 910411).
 
 ### 2. ¿Dónde abro una cafetería de especialidad?
 
-_llm, 1 rondas, 114.7 s; herramientas: perfil_giro({"texto": "¿Dónde abro una cafetería de especialidad?"}); recomendar_zonas({"giro": "cafeteria"})_
+_llm, 1 rondas, 18.9 s; herramientas: perfil_giro({"texto": "¿Dónde abro una cafetería de especialidad?"}); recomendar_zonas({"giro": "cafeteria"}); contexto_macro({"giro": "cafeteria"})_
 
-> **Top 5 para cafetería**  
-> 1. **GRANADA**, Miguel Hidalgo (AGEB 0901600010571): score 93.6/100 (relativo al giro). Por qué: prob. de apertura 88%, gasto potencial por trimestre $17,792,000, competidores ponderados 2.5, captura 29%, residentes objetivo en el radio 1,070, empleos en el radio 4,630, NSE estimado alto.  
-> 2. **AMPLIACIÓN NÁPOLES**, Benito Juárez (AGEB 090140001037A): score 93.5/100. Por qué: prob. de apertura 67%, gasto potencial por trimestre $21,530,000, competidores ponderados 3.0, captura 25%, residentes objetivo en el radio 1,270, empleos en el radio 1,460, NSE estimado alto.  
-> 3. **ESCANDÓN I SECCIÓN**, Miguel Hidalgo (AGEB 0901600011211): score 93.5/100. Por qué: prob. de apertura 92%, gasto potencial por trimestre $18,344,000, competidores ponderados 4.6, captura 18%, residentes objetivo en el radio 1,600, empleos en el radio 3,400, NSE estimado medio.  
-> 4. **SANTA MARÍA NONOALCO**, Benito Juárez (AGEB 0901400010543): score 92.5/100. Por qué: prob. de apertura 87%, gasto potencial por trimestre $21,907,000, competidores ponderados 3.6, captura 22%, residentes objetivo en el radio 1,640, empleos en el radio 1,700, NSE estimado alto.  
-> 5. **ROMA SUR**, Cuauhtémoc (AGEB 0901500011464): score 92.4/100. Por qué: prob. de apertura 72%, gasto potencial por trimestre $19,613,000, competidores ponderados 5.4, captura 16%, residentes objetivo en el radio 1,440, empleos en el radio 2,100, NSE estimado alto.  
+> **Lectura:** Entre las zonas del top de cafetería, Granada tiene la mayor probabilidad de apertura (88 %) y el mayor gasto potencial ($17,792,000 por trimestre); Santa Apolonia tiene la menor competencia (0.5 competidores ponderados). Santa Apolonia, Azcapotzalco, destaca por tener menor competencia con solo 0.5 competidores ponderados.
 > 
-> **Riesgos:**  
-> - Competencia: colonias con muchos negocios complementarios (ej. librerías, bibliotecas, museos).  
-> - Confiabilidad del modelo: el score es un percentil dentro del giro, no garantiza rentabilidad.  
-> - Supuestos: el ticket promedio es estimado, no se basa en datos reales.  
-> - "Apareció en el DENUE" no significa que abrió, ya que el modelo usa datos de censos económicos.  
+> **Top 5 para cafetería** (score 0-100 relativo al giro; 25 a 59 años en la ZMVM: 49.5 %)
+> 1. **SANTA APOLONIA**, Azcapotzalco (AGEB 0900200010665): score 97.1/100. prob. de apertura 86 %; gasto potencial $7,822,000 por trimestre; 0.5 competidores ponderados (captura 68 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $72,200; 25 a 59 años: 51.4 %.
+> 2. **ANZURES**, Miguel Hidalgo (AGEB 0901600010711): score 96.6/100. prob. de apertura 70 %; gasto potencial $12,884,000 por trimestre; 1.3 competidores ponderados (captura 44 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $158,000; 25 a 59 años: 62.9 %.
+> 3. **GRANADA**, Miguel Hidalgo (AGEB 0901600010571): score 95.9/100. prob. de apertura 88 %; gasto potencial $17,792,000 por trimestre; 2.5 competidores ponderados (captura 29 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $169,400; 25 a 59 años: 67.2 %.
+> 4. **AMPLIACIÓN GRANADA**, Miguel Hidalgo (AGEB 0901600010459): score 95.5/100. prob. de apertura 75 %; gasto potencial $13,442,000 por trimestre; 1.4 competidores ponderados (captura 42 %); NSE estimado medio, decil 8, ingreso trimestral estimado por hogar $111,400; 25 a 59 años: 59.0 %.
+> 5. **GABRIEL RAMOS MILLÁN**, Iztacalco (AGEB 0900600010630): score 94.9/100. prob. de apertura 44 %; gasto potencial $9,856,000 por trimestre; 1.0 competidores ponderados (captura 50 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $75,900; 25 a 59 años: 49.9 %.
 > 
-> **Fuentes:**  
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md).  
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo).  
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana.  
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM).  
-> - config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket).
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406); inflación de alimentos, bebidas y tabaco (INPC): NO ENCONTRADO; como aproximación, agropecuarios 2.99 % anual (2026-10, serie 910411).
+> 
+> **Riesgos:**
+> - Cafe_bebidas de la ENIGH es café para preparar en casa; el consumo en cafetería cae en ali_fuera_total (restaurantes y similares).
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 95 pesos es un supuesto (supuesto: una bebida y un alimento ligero)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API; INEGI, Banco de Indicadores API (BIE, id 910406); INEGI, Banco de Indicadores API (BIE, id 910408); INEGI, Banco de Indicadores API (BIE, id 910411).
 
 ### 3. Busco dónde poner un gimnasio, ¿qué zonas me recomiendas?
 
-_llm, 1 rondas, 109.2 s; herramientas: perfil_giro({"texto": "Busco dónde poner un gimnasio, ¿qué zonas me recomiendas?"}); recomendar_zonas({"giro": "gimnasio"})_
+_llm, 1 rondas, 30.2 s; herramientas: perfil_giro({"texto": "Busco dónde poner un gimnasio, ¿qué zonas me recomiendas?"}); recomendar_zonas({"giro": "gimnasio"}); contexto_macro({"giro": "gimnasio"})_
 
-> **Top 5 para gimnasio**  
-> 1. **ESCANDÓN I SECCIÓN**, Miguel Hidalgo (AGEB 0901600011211): score 91.7/100 (relativo al giro). Por qué: prob. de apertura % 50, gasto potencial por trimestre $7,647,000, competidores ponderados 13.3, captura % 7, residentes objetivo en el radio 20,350, empleos en el radio 44,840, NSE estimado medio.  
-> 2. **AMPLIACIÓN GRANADA**, Miguel Hidalgo (AGEB 0901600010459): score 91.5/100 (relativo al giro). Por qué: prob. de apertura % 54, gasto potencial por trimestre $6,629,000, competidores ponderados 12.3, captura % 8, residentes objetivo en el radio 21,560, empleos en el radio 52,320, NSE estimado medio.  
-> 3. **NÁPOLES**, Benito Juárez (AGEB 0901400010191): score 91.5/100 (relativo al giro). Por qué: prob. de apertura % 17, gasto potencial por trimestre $8,738,000, competidores ponderados 11.9, captura % 8, residentes objetivo en el radio 19,630, empleos en el radio 46,900, NSE estimado alto.  
-> 4. **SAN PEDRO DE LOS PINOS**, Benito Juárez (AGEB 0901400010187): score 91.2/100 (relativo al giro). Por qué: prob. de apertura % 51, gasto potencial por trimestre $7,774,000, competidores ponderados 11.8, captura % 8, residentes objetivo en el radio 20,800, empleos en el radio 39,290, NSE estimado alto.  
-> 5. **ESCANDÓN II SECCIÓN**, Miguel Hidalgo (AGEB 0901600011207): score 91.1/100 (relativo al giro). Por qué: prob. de apertura % 39, gasto potencial por trimestre $7,373,000, competidores ponderados 14.3, captura % 7, residentes objetivo en el radio 19,680, empleos en el radio 45,940, NSE estimado medio.  
+> **Lectura:** Las zonas con mayor potencial para un gimnasio son DEL VALLE CENTRO y AMPLIACIÓN NÁPOLES. DEL VALLE CENTRO lidera con un ingreso trimestral estimado por hogar de $172,600, mientras que AMPLIACIÓN NÁPOLES destaca por su gasto potencial de $8,830,000 por trimestre. Ambas tienen un alto NSE y una edad clave de 25 a 59 años.
 > 
-> **Riesgos:**  
-> - Competencia: hay 12 a 14 competidores ponderados en las colonias top.  
-> - Confiabilidad del modelo: el score es un percentil dentro del giro, no garantiza rentabilidad.  
-> - Supuestos: el ticket promedio de $550 MXN es un supuesto, no un dato real.  
-> - "Apareció en el DENUE" no es lo mismo que "abrió": parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos.  
+> **Top 5 para gimnasio** (score 0-100 relativo al giro; 25 a 59 años en la ZMVM: 49.5 %)
+> 1. **DEL VALLE CENTRO**, Benito Juárez (AGEB 0901400010399): score 90.0/100. prob. de apertura 24 %; gasto potencial $8,748,000 por trimestre; 9.2 competidores ponderados (captura 10 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $172,600; 25 a 59 años: 55.8 %.
+> 2. **GENERAL PEDRO MARÍA ANAYA**, Benito Juárez (AGEB 0901400010986): score 89.4/100. prob. de apertura 16 %; gasto potencial $5,971,000 por trimestre; 4.0 competidores ponderados (captura 20 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $166,500; 25 a 59 años: 54.8 %.
+> 3. **DEL CARMEN**, Coyoacán (AGEB 0900300010041): score 89.1/100. prob. de apertura 48 %; gasto potencial $4,831,000 por trimestre; 3.5 competidores ponderados (captura 22 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $152,200; 25 a 59 años: 51.5 %.
+> 4. **AMPLIACIÓN NÁPOLES**, Benito Juárez (AGEB 0901400010384): score 88.6/100. prob. de apertura 59 %; gasto potencial $8,830,000 por trimestre; 10.2 competidores ponderados (captura 9 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $169,100; 25 a 59 años: 62.4 %.
+> 5. **ARGENTINA PONIENTE**, Miguel Hidalgo (AGEB 0901600010092): score 88.4/100. prob. de apertura 12 %; gasto potencial $2,695,000 por trimestre; 2.4 competidores ponderados (captura 30 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $147,100; 25 a 59 años: 66.8 %.
 > 
-> **Fuentes:**  
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md)  
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo)  
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana  
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md)  
-> - config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket)
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406).
+> 
+> **Riesgos:**
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 550 pesos es un supuesto (supuesto: mensualidad de un gimnasio de barrio, 2026 (no es ticket por visita))
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API (BIE, id 910406).
 
 ### 4. Quiero abrir una farmacia en Iztapalapa
 
-_llm, 1 rondas, 99.6 s; herramientas: perfil_giro({"texto": "Quiero abrir una farmacia en Iztapalapa"}); recomendar_zonas({"giro": "farmacia", "municipio": "Iztapalapa"})_
+_llm, 1 rondas, 31.3 s; herramientas: perfil_giro({"texto": "Quiero abrir una farmacia en Iztapalapa"}); recomendar_zonas({"giro": "farmacia", "municipio": "Iztapalapa"}); contexto_macro({"giro": "farmacia"}); ficha_municipio({"municipio": "Iztapalapa"})_
 
-> **Top 5 para farmacia**  
-> 1. **JUAN ESCUTIA**, Iztapalapa (AGEB 0900700010017): score 84.4/100 (relativo al giro). Por qué: prob. de apertura 92%, gasto potencial por trimestre $1,053,000, competidores ponderados 3.4, captura 23%, residentes objetivo en el radio 1,850, empleos en el radio 2,010, NSE estimado medio.  
-> 2. **IZTLAHUACAN**, Iztapalapa (AGEB 0900700013115): score 79.7/100. Por qué: prob. de apertura 90%, gasto potencial $1,144,000, competidores ponderados 6.1, captura 14%, residentes objetivo 2,770, empleos en el radio 1,150, NSE estimado bajo.  
-> 3. **CARLOS HANK GONZÁLEZ**, Iztapalapa (AGEB 0900700014772): score 78.8/100. Por qué: prob. de apertura 90%, gasto potencial $1,337,000, competidores ponderados 8.4, captura 11%, residentes objetivo 2,740, empleos en el radio 1,250, NSE estimado medio.  
-> 4. **CONSEJO AGRARISTA MEXICANO**, Iztapalapa (AGEB 090070001419A): score 78.7/100. Por qué: prob. de apertura 24%, gasto potencial $1,407,000, competidores ponderados 7.9, captura 11%, residentes objetivo 2,760, empleos en el radio 1,190, NSE estimado medio.  
-> 5. **SAN MIGUEL TEOTONGO SECCIÓN PUENTE**, Iztapalapa (AGEB 0900700012649): score 78.3/100. Por qué: prob. de apertura 78%, gasto potencial $799,000, competidores ponderados 4.6, captura 18%, residentes objetivo 1,920, empleos en el radio 950, NSE estimado bajo.  
+> **Lectura:** Entre las zonas del top de farmacia, Juan Escutia tiene la mayor probabilidad de apertura (92 %); Unidad Modelo tiene el mayor gasto potencial ($1,218,000 por trimestre); Aculco tiene la menor competencia (1.0 competidores ponderados). La colonia JUAN ESCUTIA destaca por tener una probabilidad de apertura del 92 %, lo que la convierte en una opción muy viable.
 > 
-> **Riesgos:**  
-> - Competencia: El giro es muy competido (cadenas y similares).  
-> - Confiabilidad del modelo: El score es un percentil dentro del giro, no una garantía de rentabilidad.  
-> - Supuestos: El ticket promedio es un supuesto, no un dato real.  
-> - "Apareció en el DENUE" no es lo mismo que "abrió".  
+> **Top 5 para farmacia** (score 0-100 relativo al giro; 60 años o más en la ZMVM: 13.8 %)
+> 1. **JUAN ESCUTIA**, Iztapalapa (AGEB 0900700010017): score 90.9/100. prob. de apertura 92 %; gasto potencial $1,053,000 por trimestre; 3.4 competidores ponderados (captura 23 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $73,600; 60 años o más: 13.4 %.
+> 2. **SAN MIGUEL TEOTONGO SECCIÓN PUENTE**, Iztapalapa (AGEB 0900700012649): score 85.4/100. prob. de apertura 78 %; gasto potencial $799,000 por trimestre; 4.6 competidores ponderados (captura 18 %); NSE estimado bajo, decil 4, ingreso trimestral estimado por hogar $50,500; 60 años o más: 14.1 %.
+> 3. **UNIDAD MODELO**, Iztapalapa (AGEB 0900700012526): score 84.7/100. prob. de apertura 18 %; gasto potencial $1,218,000 por trimestre; 1.4 competidores ponderados (captura 42 %); NSE estimado medio, decil 8, ingreso trimestral estimado por hogar $111,200; 60 años o más: 27.7 %.
+> 4. **ACULCO**, Iztapalapa (AGEB 0900700015431): score 82.6/100. prob. de apertura 29 %; gasto potencial $1,067,000 por trimestre; 1.0 competidores ponderados (captura 50 %); NSE estimado medio, decil 8, ingreso trimestral estimado por hogar $98,400; 60 años o más: 18.8 %.
+> 5. **LA ERA**, Iztapalapa (AGEB 0900700011655): score 81.6/100. prob. de apertura 68 %; gasto potencial $802,000 por trimestre; 3.7 competidores ponderados (captura 21 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $75,300; 60 años o más: 16.3 %.
 > 
-> **Fuentes:**  
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md).  
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo).  
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana.  
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md).  
-> - config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket).
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406).
+> 
+> **Sobre Iztapalapa:** Población en AGEB urbanas: 1,835,486 habitantes (lugar 1 de 76 en la ZMVM). Densidad: 16,325 hab/km² (lugar 5 de 76). Edad: 0-14 años 20.0 %; 15-24 16.0 %; 25-59 49.7 %; 60 o más 14.3 %.
+> 
+> **Riesgos:**
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 190 pesos es un supuesto (supuesto: medicamento de receta o patente más un artículo de cuidado personal)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API (BIE, id 910406); carpetas/03_municipios (fichas generadas desde agebs_features).
 
 ### 5. ¿Dónde conviene poner una papelería?
 
-_llm, 1 rondas, 102.1 s; herramientas: perfil_giro({"texto": "¿Dónde conviene poner una papelería?"}); recomendar_zonas({"giro": "papeleria"})_
+_llm, 1 rondas, 31.3 s; herramientas: perfil_giro({"texto": "¿Dónde conviene poner una papelería?"}); recomendar_zonas({"giro": "papeleria"}); contexto_macro({"giro": "papeleria"})_
 
-> **Top 5 para papeleria**  
-> 1. **BENITO JUAREZ**, Nezahualcóyotl (AGEB 1505800010577): score 88.8/100 (relativo al giro). Por qué: prob. de apertura 91%, gasto potencial por trimestre $828,000, competidores ponderados 4.2, captura 19%, residentes objetivo en el radio 1,500, empleos en el radio 1,330, NSE estimado medio.  
-> 2. **EX HIPÓDROMO DE PERALVILLO**, Cuauhtémoc (AGEB 0901500010150): score 85.0/100. Por qué: prob. de apertura 50%, gasto potencial por trimestre $795,000, competidores ponderados 2.1, captura 33%, residentes objetivo en el radio 1,100, empleos en el radio 1,450.  
-> 3. **REFORMA PENSIL**, Miguel Hidalgo (AGEB 0901600011349): score 85.0/100. Por qué: prob. de apertura 82%, gasto potencial por trimestre $1,848,000, competidores ponderados 5.4, captura 16%, residentes objetivo en el radio 2,890, empleos en el radio 1,100.  
-> 4. **JUVENTINO ROSAS**, Iztacalco (AGEB 0900600010611): score 84.5/100. Por qué: prob. de apertura 85%, gasto potencial por trimestre $953,000, competidores ponderados 4.9, captura 17%, residentes objetivo en el radio 1,530, empleos en el radio 900.  
-> 5. **PEDREGAL DE SANTO DOMINGO**, Coyoacán (AGEB 0900300010785): score 84.5/100. Por qué: prob. de apertura 95%, gasto potencial por trimestre $1,124,000, competidores ponderados 7.1, captura 12%, residentes objetivo en el radio 2,130, empleos en el radio 790.  
+> **Lectura:** Entre las zonas del top de papelería, Juan Escutia tiene la mayor probabilidad de apertura (92 %); Nonoalco Tlatelolco tiene el mayor gasto potencial ($1,191,000 por trimestre); Tacubaya tiene la menor competencia (1.8 competidores ponderados).
 > 
-> **Riesgos:**  
-> - Competencia: algunas colonias tienen más competidores ponderados (ej. PEDREGAL DE SANTO DOMINGO).  
-> - Confiabilidad del modelo: el score es un percentil dentro del giro, no garantiza rentabilidad.  
-> - Supuestos: el ticket promedio es estimado, no hay datos reales.  
-> - "Apareció en el DENUE" no es lo mismo que "abrió": parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Economicos.  
+> **Top 5 para papelería** (score 0-100 relativo al giro; 0 a 14 años en la ZMVM: 20.7 %)
+> 1. **BENITO JUAREZ**, Nezahualcóyotl (AGEB 1505800010577): score 95.7/100. prob. de apertura 91 %; gasto potencial $828,000 por trimestre; 4.2 competidores ponderados (captura 19 %); NSE estimado medio, decil 5, ingreso trimestral estimado por hogar $67,500; 0 a 14 años: 18.2 %.
+> 2. **NONOALCO TLATELOLCO**, Cuauhtémoc (AGEB 0901500010324): score 94.5/100. prob. de apertura 9 %; gasto potencial $1,191,000 por trimestre; 1.9 competidores ponderados (captura 34 %); NSE estimado medio, decil 7, ingreso trimestral estimado por hogar $92,000; 0 a 14 años: 10.4 %.
+> 3. **EX HIPÓDROMO DE PERALVILLO**, Cuauhtémoc (AGEB 0901500010150): score 94.2/100. prob. de apertura 50 %; gasto potencial $795,000 por trimestre; 2.1 competidores ponderados (captura 33 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $73,100; 0 a 14 años: 17.1 %.
+> 4. **TACUBAYA**, Miguel Hidalgo (AGEB 0901600011175): score 93.3/100. prob. de apertura 65 %; gasto potencial $817,000 por trimestre; 1.8 competidores ponderados (captura 35 %); NSE estimado medio, decil 8, ingreso trimestral estimado por hogar $104,800; 0 a 14 años: 11.1 %.
+> 5. **JUAN ESCUTIA**, Iztapalapa (AGEB 0900700010017): score 92.9/100. prob. de apertura 92 %; gasto potencial $669,000 por trimestre; 3.3 competidores ponderados (captura 23 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $73,600; 0 a 14 años: 19.4 %.
 > 
-> **Fuentes:**  
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md).  
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo).  
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana.  
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md).  
-> - config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket).
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406).
+> 
+> **Riesgos:**
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 60 pesos es un supuesto (supuesto: copias, cuadernos y útiles sueltos; sube en temporada escolar)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API (BIE, id 910406).
 
 ### 6. Una lavandería de autoservicio, ¿dónde la pongo?
 
-_llm, 1 rondas, 119.0 s; herramientas: perfil_giro({"texto": "Una lavandería de autoservicio, ¿dónde la pongo?"}); recomendar_zonas({"giro": "lavanderia"})_
+_llm, 1 rondas, 31.5 s; herramientas: perfil_giro({"texto": "Una lavandería de autoservicio, ¿dónde la pongo?"}); recomendar_zonas({"giro": "lavanderia"}); contexto_macro({"giro": "lavanderia"})_
 
-> **Top 5 para lavanderia**  
-> 1. **AGRÍCOLA PANTITLAN**, Iztacalco (AGEB 0900600010081): score 88.8/100 (relativo al giro). Por qué: prob. de apertura 59%, gasto potencial por trimestre 7,000 MXN, competidores ponderados 8.5, captura 10%, residentes objetivo en el radio 7,600, empleos en el radio 4,590, NSE estimado medio.  
-> 2. **DOCTORES**, Cuauhtémoc (AGEB 0901500011549): score 86.7/100. Por qué: prob. de apertura 47%, gasto potencial por trimestre 7,000 MXN, competidores ponderados 9.0, captura 10%, residentes objetivo en el radio 6,210, empleos en el radio 11,670, NSE estimado medio.  
-> 3. **CAMPAMENTO DOS DE OCTUBRE**, Iztacalco (AGEB 0900600011041): score 86.5/100. Por qué: prob. de apertura 28%, gasto potencial por trimestre 5,000 MXN, competidores ponderados 7.1, captura 12%, residentes objetivo en el radio 7,850, empleos en el radio 2,580, NSE estimado medio.  
-> 4. **ESCANDÓN II SECCIÓN**, Miguel Hidalgo (AGEB 0901600011226): score 85.6/100. Por qué: prob. de apertura 54%, gasto potencial por trimestre 12,000 MXN, competidores ponderados 12.5, captura 7%, residentes objetivo en el radio 6,070, empleos en el radio 17,090, NSE estimado alto.  
-> 5. **REFORMA PENSIL**, Miguel Hidalgo (AGEB 0901600011349): score 84.6/100. Por qué: prob. de apertura 58%, gasto potencial por trimestre 8,000 MXN, competidores ponderados 9.0, captura 10%, residentes objetivo en el radio 10,560, empleos en el radio 4,840, NSE estimado medio.  
+> **Lectura:** Entre las zonas del top de lavandería, Hank Gonzalez tiene la mayor probabilidad de apertura (51 %); Centro tiene la menor competencia (0.8 competidores ponderados). CENTRO destaca por tener el 51.7 % de la edad clave (25 a 59 años) y menor competencia con 0.8 competidores ponderados.
 > 
-> **Riesgos:**  
-> - Competencia: colonias con alta densidad de negocios (ej. ESCANDÓN II SECCIÓN, 12.5 competidores ponderados).  
-> - Confiabilidad del modelo: el score es un percentil dentro del giro, no una garantía de rentabilidad.  
-> - Supuestos: el ticket promedio de 150 MXN es estimado, no confirmado.  
-> - "Apareció en el DENUE" no es lo mismo que "abrió": el modelo usa datos de 2020 a 2026, que no son completos.  
+> **Top 5 para lavandería** (score 0-100 relativo al giro; 25 a 59 años en la ZMVM: 49.5 %)
+> 1. **CENTRO**, Cuauhtémoc (AGEB 0901500010979): score 94.9/100. prob. de apertura 9 %; gasto potencial no dimensionable (la ENIGH casi no registra gasto en este rubro); 0.8 competidores ponderados (captura 56 %); NSE estimado bajo, decil 3, ingreso trimestral estimado por hogar $46,300; 25 a 59 años: 51.7 %.
+> 2. **BENITO JUAREZ NORTE XALOSTOC**, Ecatepec de Morelos (AGEB 150330001224A): score 94.5/100. prob. de apertura 36 %; gasto potencial no dimensionable (la ENIGH casi no registra gasto en este rubro); 1.5 competidores ponderados (captura 40 %); NSE estimado bajo, decil 3, ingreso trimestral estimado por hogar $49,300; 25 a 59 años: 46.2 %.
+> 3. **HANK GONZALEZ**, Ecatepec de Morelos (AGEB 1503300013642): score 94.4/100. prob. de apertura 51 %; gasto potencial no dimensionable (la ENIGH casi no registra gasto en este rubro); 0.9 competidores ponderados (captura 51 %); NSE estimado bajo, decil 4, ingreso trimestral estimado por hogar $56,800; 25 a 59 años: 48.5 %.
+> 4. **SAN JUAN IXTACALA PLANO NORTE**, Atizapán de Zaragoza (AGEB 1501300011183): score 93.4/100. prob. de apertura 51 %; gasto potencial no dimensionable (la ENIGH casi no registra gasto en este rubro); 3.0 competidores ponderados (captura 25 %); NSE estimado medio, decil 5, ingreso trimestral estimado por hogar $64,400; 25 a 59 años: 49.0 %.
+> 5. **TABLAS DEL POZO**, Ecatepec de Morelos (AGEB 1503300012254): score 92.6/100. prob. de apertura 33 %; gasto potencial no dimensionable (la ENIGH casi no registra gasto en este rubro); 1.1 competidores ponderados (captura 48 %); NSE estimado bajo, decil 2, ingreso trimestral estimado por hogar $38,900; 25 a 59 años: 45.7 %.
 > 
-> **Fuentes:**  
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md).  
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo).  
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana.  
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM).  
-> - config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket).
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406).
+> 
+> **Riesgos:**
+> - Solo 0.4 % de los hogares reporta gasto en lavandería en la ENIGH (promedio cercano a 1 peso por trimestre): no sirve para dimensionar demanda. La demanda real se apoya en vivienda en renta, departamentos chicos, estudiantes y trabajadores.
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 150 pesos es un supuesto (supuesto: carga de ropa lavada y secada, o prendas de tintorería)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API (BIE, id 910406).
 
 ### 7. Quiero poner una veterinaria en Naucalpan
 
-_llm, 1 rondas, 123.0 s; herramientas: perfil_giro({"texto": "Quiero poner una veterinaria en Naucalpan"}); recomendar_zonas({"giro": "veterinaria", "municipio": "Naucalpan de Juárez"})_
+_llm, 1 rondas, 34.4 s; herramientas: perfil_giro({"texto": "Quiero poner una veterinaria en Naucalpan"}); recomendar_zonas({"giro": "veterinaria", "municipio": "Naucalpan de Juárez"}); contexto_macro({"giro": "veterinaria"}); ficha_municipio({"municipio": "Naucalpan de Juárez"})_
 
-> **Top 5 para veterinaria**  
-> 1. **SAN JOSE DE LOS LEONES II SECCION**, Naucalpan de Juárez (AGEB 1505700010851): score 81.8/100 (relativo al giro). Por qué: prob. de apertura 22%, gasto potencial por trimestre $279,000, competidores ponderados 1.2, captura 46%, residentes objetivo en el radio 18,170, empleos en el radio 4,600, NSE estimado bajo.  
-> 2. **SAN RAFAEL CHAMAPA**, Naucalpan de Juárez (AGEB 1505700011794): score 81.3/100. Por qué: prob. de apertura 19%, gasto potencial $277,000, competidores ponderados 2.1, captura 32%, residentes objetivo 17,990, empleos en el radio 5,110, NSE estimado bajo.  
-> 3. **BENITO JUAREZ**, Naucalpan de Juárez (AGEB 1505700010955): score 81.0/100. Por qué: prob. de apertura 31%, gasto potencial $271,000, competidores ponderados 2.0, captura 34%, residentes objetivo 17,080, empleos en el radio 4,710, NSE estimado bajo.  
-> 4. **ALFREDO V BONFIL**, Naucalpan de Juárez (AGEB 1505700010940): score 80.5/100. Por qué: prob. de apertura 43%, gasto potencial $279,000, competidores ponderados 2.9, captura 26%, residentes objetivo 17,890, empleos en el radio 5,050, NSE estimado bajo.  
-> 5. **IZCALLI CHAMAPA**, Naucalpan de Juárez (AGEB 1505700012171): score 79.7/100. Por qué: prob. de apertura 39%, gasto potencial $267,000, competidores ponderados 2.8, captura 27%, residentes objetivo 14,320, empleos en el radio 5,070, NSE estimado medio.  
+> **Lectura:** Entre las zonas del top de veterinaria, Alfredo V Bonfil tiene la mayor probabilidad de apertura (43 %); San Jose de los Leones II Seccion tiene el mayor gasto potencial ($279,000 por trimestre) y la menor competencia (1.2 competidores ponderados). San José de los Leones II Sección destaca por tener menor competencia con 1.2 competidores ponderados, lo que podría facilitar la apertura.
 > 
-> **Riesgos:**  
-> - Competencia: algunas colonias tienen más competidores ponderados.  
-> - Confiabilidad del modelo: el score es un percentil dentro del giro, no garantiza rentabilidad.  
-> - Supuestos: el ticket promedio es estimado, no real.  
-> - "Apareció en el DENUE" no es lo mismo que "abrió".  
+> **Top 5 para veterinaria** (score 0-100 relativo al giro; 25 a 59 años en la ZMVM: 49.5 %)
+> 1. **SAN RAFAEL CHAMAPA**, Naucalpan de Juárez (AGEB 1505700011794): score 93.8/100. prob. de apertura 19 %; gasto potencial $277,000 por trimestre; 2.1 competidores ponderados (captura 32 %); NSE estimado bajo, decil 3, ingreso trimestral estimado por hogar $46,900; 25 a 59 años: 47.0 %.
+> 2. **SAN JOSE DE LOS LEONES II SECCION**, Naucalpan de Juárez (AGEB 1505700010851): score 93.5/100. prob. de apertura 22 %; gasto potencial $279,000 por trimestre; 1.2 competidores ponderados (captura 46 %); NSE estimado bajo, decil 3, ingreso trimestral estimado por hogar $45,500; 25 a 59 años: 47.2 %.
+> 3. **BENITO JUAREZ**, Naucalpan de Juárez (AGEB 1505700010955): score 92.9/100. prob. de apertura 31 %; gasto potencial $271,000 por trimestre; 2.0 competidores ponderados (captura 34 %); NSE estimado bajo, decil 2, ingreso trimestral estimado por hogar $38,800; 25 a 59 años: 46.7 %.
+> 4. **ALFREDO V BONFIL**, Naucalpan de Juárez (AGEB 1505700010940): score 92.4/100. prob. de apertura 43 %; gasto potencial $279,000 por trimestre; 2.9 competidores ponderados (captura 26 %); NSE estimado bajo, decil 2, ingreso trimestral estimado por hogar $40,800; 25 a 59 años: 47.9 %.
+> 5. **VALLE DORADO**, Naucalpan de Juárez (AGEB 1505700012557): score 92.1/100. prob. de apertura 6 %; gasto potencial $269,000 por trimestre; 1.7 competidores ponderados (captura 37 %); NSE estimado bajo, decil 3, ingreso trimestral estimado por hogar $48,500; 25 a 59 años: 46.7 %.
 > 
-> **Fuentes:**  
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md).  
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo).  
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana.  
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md).  
-> - config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket).
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406).
+> 
+> **Sobre Naucalpan de Juárez:** Población en AGEB urbanas: 795,819 habitantes (lugar 5 de 76 en la ZMVM). Densidad: 9,994 hab/km² (lugar 19 de 76). Edad: 0-14 años 20.5 %; 15-24 15.9 %; 25-59 48.6 %; 60 o más 14.9 %.
+> 
+> **Riesgos:**
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 450 pesos es un supuesto (supuesto: consulta general más alimento o vacuna)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API (BIE, id 910406); carpetas/03_municipios (fichas generadas desde agebs_features).
 
 ### 8. ¿En qué colonias pongo una taquería?
 
-_llm, 1 rondas, 112.7 s; herramientas: perfil_giro({"texto": "¿En qué colonias pongo una taquería?"}); recomendar_zonas({"giro": "taqueria"})_
+_llm, 1 rondas, 12.6 s; herramientas: perfil_giro({"texto": "¿En qué colonias pongo una taquería?"}); recomendar_zonas({"giro": "taqueria"}); contexto_macro({"giro": "taqueria"})_
 
-> **Top 5 para taqueria**  
-> 1. **SAN RAFAEL**, Cuauhtémoc (AGEB 0901500010682): score 94.1/100 (relativo al giro). Por qué: prob. de apertura 95%, gasto potencial por trimestre $2,036,000, competidores ponderados 4.1, captura 20%, residentes objetivo en el radio 1,710, empleos en el radio 2,380, NSE estimado medio.  
-> 2. **DEL VALLE SUR**, Benito Juárez (AGEB 0901400010806): score 91.8/100. Por qué: prob. de apertura 91%, gasto potencial por trimestre $1,974,000, competidores ponderados 4.2, captura 19%, residentes objetivo en el radio 1,270, empleos en el radio 3,290, NSE estimado alto.  
-> 3. **ALAMOS**, Benito Juárez (AGEB 0901400010030): score 90.9/100. Por qué: prob. de apertura 89%, gasto potencial por trimestre $1,802,000, competidores ponderados 3.0, captura 25%, residentes objetivo en el radio 1,390, empleos en el radio 1,850, NSE estimado alto.  
-> 4. **GABRIEL RAMOS MILLÁN SECCIÓN BRAMADERO**, Iztacalco (AGEB 0900600010734): score 90.5/100. Por qué: prob. de apertura 73%, gasto potencial por trimestre $1,132,000, competidores ponderados 2.6, captura 28%, residentes objetivo en el radio 1,660, empleos en el radio 1,340, NSE estimado medio.  
-> 5. **GABRIEL RAMOS MILLÁN SECCIÓN CUCHILLA**, Iztacalco (AGEB 0900600011018): score 89.4/100. Por qué: prob. de apertura 21%, gasto potencial por trimestre $1,080,000, competidores ponderados 1.3, captura 43%, residentes objetivo en el radio 1,520, empleos en el radio 1,250, NSE estimado medio.  
+> **Lectura:** Entre las zonas del top de taquería, Gabriel Ramos Millán Sección Bramadero tiene la mayor probabilidad de apertura (73 %); Del Carmen tiene el mayor gasto potencial ($1,785,000 por trimestre); Polanco III Sección tiene la menor competencia (0.3 competidores ponderados).
 > 
-> **Riesgos:**  
-> - Competencia: hay 4.1 a 11.6 competidores ponderados en las colonias.  
-> - Confiabilidad del modelo: el score es un percentil dentro del giro, no una garantía de rentabilidad.  
-> - Supuestos: el ticket promedio de $110 MXN es un supuesto.  
-> - "Apareció en el DENUE" no es lo mismo que "abrió": parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos.  
+> **Top 5 para taquería** (score 0-100 relativo al giro; 25 a 59 años en la ZMVM: 49.5 %)
+> 1. **POLANCO III SECCIÓN**, Miguel Hidalgo (AGEB 0901600010764): score 96.7/100. prob. de apertura 15 %; gasto potencial $803,000 por trimestre; 0.3 competidores ponderados (captura 79 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $157,400; 25 a 59 años: NO ENCONTRADO (el Censo reserva el dato).
+> 2. **GABRIEL RAMOS MILLÁN SECCIÓN CUCHILLA**, Iztacalco (AGEB 0900600011018): score 95.2/100. prob. de apertura 21 %; gasto potencial $1,080,000 por trimestre; 1.3 competidores ponderados (captura 43 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $72,500; 25 a 59 años: 50.8 %.
+> 3. **GABRIEL RAMOS MILLÁN SECCIÓN BRAMADERO**, Iztacalco (AGEB 0900600010734): score 94.3/100. prob. de apertura 73 %; gasto potencial $1,132,000 por trimestre; 2.6 competidores ponderados (captura 28 %); NSE estimado medio, decil 5, ingreso trimestral estimado por hogar $66,700; 25 a 59 años: 50.1 %.
+> 4. **HIPÓDROMO**, Cuauhtémoc (AGEB 0901500011426): score 92.7/100. prob. de apertura 43 %; gasto potencial $1,373,000 por trimestre; 1.6 competidores ponderados (captura 38 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $142,800; 25 a 59 años: 66.4 %.
+> 5. **DEL CARMEN**, Benito Juárez (AGEB 0901400010666): score 92.4/100. prob. de apertura 40 %; gasto potencial $1,785,000 por trimestre; 1.1 competidores ponderados (captura 47 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $130,200; 25 a 59 años: 56.9 %.
 > 
-> **Fuentes:**  
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md).  
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo).  
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana.  
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md).  
-> - config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket).
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406); inflación de alimentos, bebidas y tabaco (INPC): NO ENCONTRADO; como aproximación, agropecuarios 2.99 % anual (2026-10, serie 910411).
+> 
+> **Riesgos:**
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 110 pesos es un supuesto (supuesto: 5-6 tacos y una bebida)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API; INEGI, Banco de Indicadores API (BIE, id 910406); INEGI, Banco de Indicadores API (BIE, id 910408); INEGI, Banco de Indicadores API (BIE, id 910411).
 
 ### 9. Tienda de abarrotes en Ecatepec, ¿qué colonias?
 
-_llm, 1 rondas, 115.4 s; herramientas: perfil_giro({"texto": "Tienda de abarrotes en Ecatepec, ¿qué colonias?"}); recomendar_zonas({"giro": "abarrotes", "municipio": "Ecatepec de Morelos"})_
+_llm, 1 rondas, 34.2 s; herramientas: perfil_giro({"texto": "Tienda de abarrotes en Ecatepec, ¿qué colonias?"}); recomendar_zonas({"giro": "abarrotes", "municipio": "Ecatepec de Morelos"}); contexto_macro({"giro": "abarrotes"}); ficha_municipio({"municipio": "Ecatepec de Morelos"})_
 
-> **Top 5 para abarrotes**  
-> 1. **LLANO DE LOS BAEZ**, Ecatepec de Morelos (AGEB 1503300013873): score 84.6/100 (relativo al giro). Por qué: prob. de apertura 99%, gasto potencial por trimestre $14,136,000, competidores ponderados 10.7, captura 9%, residentes objetivo en el radio 900, empleos en el radio 450, NSE estimado medio.  
-> 2. **FUENTES DE ARAGON**, Ecatepec de Morelos (AGEB 1503300011773): score 83.5/100. Por qué: prob. de apertura 98%, gasto potencial por trimestre $17,205,000, competidores ponderados 6.0, captura 14%, residentes objetivo en el radio 1,020, empleos en el radio 450, NSE estimado medio.  
-> 3. **JARDINES DE ARAGON**, Ecatepec de Morelos (AGEB 150330001174A): score 81.9/100. Por qué: prob. de apertura 99%, gasto potencial por trimestre $12,221,000, competidores ponderados 9.1, captura 10%, residentes objetivo en el radio 740, empleos en el radio 430, NSE estimado medio.  
-> 4. **JARDINES DE SANTA CLARA**, Ecatepec de Morelos (AGEB 1503300010493): score 79.1/100. Por qué: prob. de apertura 97%, gasto potencial por trimestre $10,427,000, competidores ponderados 10.5, captura 9%, residentes objetivo en el radio 720, empleos en el radio 540, NSE estimado medio.  
-> 5. **CIUDAD AZTECA**, Ecatepec de Morelos (AGEB 1503300010436): score 78.9/100. Por qué: prob. de apertura 100%, gasto potencial por trimestre $10,518,000, competidores ponderados 8.0, captura 11%, residentes objetivo en el radio 700, empleos en el radio 390, NSE estimado medio.  
+> **Lectura:** Entre las zonas del top de tienda de abarrotes, Ciudad Azteca tiene la mayor probabilidad de apertura (100 %); Llano de los Baez tiene el mayor gasto potencial ($14,136,000 por trimestre); Guadalupe Victoria tiene la menor competencia (4.4 competidores ponderados).
 > 
-> **Riesgos:**  
-> - Competencia: algunas colonias tienen muchos competidores ponderados.  
-> - Confiabilidad del modelo: el score es un percentil dentro del giro, no garantiza rentabilidad.  
-> - Supuestos: el ticket promedio es un supuesto, no una cifra real.  
-> - "Apareció en el DENUE" no es lo mismo que "abrió": parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Economicos.  
+> **Top 5 para tienda de abarrotes** (score 0-100 relativo al giro; 25 a 59 años en la ZMVM: 49.5 %)
+> 1. **GUADALUPE VICTORIA**, Ecatepec de Morelos (AGEB 1503300014496): score 85.9/100. prob. de apertura 93 %; gasto potencial $7,178,000 por trimestre; 4.4 competidores ponderados (captura 19 %); NSE estimado bajo, decil 4, ingreso trimestral estimado por hogar $57,900; 25 a 59 años: 49.2 %.
+> 2. **LLANO DE LOS BAEZ**, Ecatepec de Morelos (AGEB 1503300013873): score 85.0/100. prob. de apertura 99 %; gasto potencial $14,136,000 por trimestre; 10.7 competidores ponderados (captura 9 %); NSE estimado medio, decil 5, ingreso trimestral estimado por hogar $67,700; 25 a 59 años: 52.4 %.
+> 3. **CIUDAD AZTECA**, Ecatepec de Morelos (AGEB 1503300010436): score 83.7/100. prob. de apertura 100 %; gasto potencial $10,518,000 por trimestre; 8.0 competidores ponderados (captura 11 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $78,600; 25 a 59 años: 47.7 %.
+> 4. **JARDINES DE ARAGON**, Ecatepec de Morelos (AGEB 150330001174A): score 83.7/100. prob. de apertura 99 %; gasto potencial $12,221,000 por trimestre; 9.1 competidores ponderados (captura 10 %); NSE estimado medio, decil 7, ingreso trimestral estimado por hogar $90,800; 25 a 59 años: 51.6 %.
+> 5. **JOSE MARIA MORELOS Y PAVON**, Ecatepec de Morelos (AGEB 1503300012023): score 83.7/100. prob. de apertura 99 %; gasto potencial $6,759,000 por trimestre; 9.2 competidores ponderados (captura 10 %); NSE estimado bajo, decil 4, ingreso trimestral estimado por hogar $53,800; 25 a 59 años: 46.9 %.
 > 
-> **Fuentes:**  
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md)  
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo)  
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana  
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md)  
-> - config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket)
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406); inflación de alimentos, bebidas y tabaco (INPC): NO ENCONTRADO; como aproximación, agropecuarios 2.99 % anual (2026-10, serie 910411).
+> 
+> **Sobre Ecatepec de Morelos:** Población en AGEB urbanas: 1,643,623 habitantes (lugar 2 de 76 en la ZMVM). Densidad: 12,764 hab/km² (lugar 14 de 76). Edad: 0-14 años 21.8 %; 15-24 16.3 %; 25-59 48.3 %; 60 o más 13.5 %.
+> 
+> **Riesgos:**
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 55 pesos es un supuesto (supuesto: compra de reposicion diaria)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API; INEGI, Banco de Indicadores API (BIE, id 910406); INEGI, Banco de Indicadores API (BIE, id 910408); INEGI, Banco de Indicadores API (BIE, id 910411); carpetas/03_municipios (fichas generadas desde agebs_features).
 
 ### 10. Quiero abrir una barbería en una zona de nivel alto
 
-_llm, 1 rondas, 113.2 s; herramientas: perfil_giro({"texto": "Quiero abrir una barbería en una zona de nivel alto"}); recomendar_zonas({"giro": "barberia_estetica", "nse": "alto"})_
+_llm, 1 rondas, 31.1 s; herramientas: perfil_giro({"texto": "Quiero abrir una barbería en una zona de nivel alto"}); recomendar_zonas({"giro": "barberia_estetica", "nse": "alto"}); contexto_macro({"giro": "barberia_estetica"})_
 
-> **Top 5 para barberia_estetica**  
-> 1. **ESCANDÓN II SECCIÓN**, Miguel Hidalgo (AGEB 0901600011226): score 81.9/100 (relativo al giro). Por qué: prob. de apertura 99%, gasto potencial por trimestre $2,534,000, competidores ponderados 27.9, captura 3%, residentes objetivo en el radio 3,410, empleos en el radio 8,340, NSE estimado alto.  
-> 2. **ALAMOS**, Benito Juárez (AGEB 0901400010134): score 81.7/100. Por qué: prob. de apertura 98%, gasto potencial por trimestre $2,332,000, competidores ponderados 21.5, captura 4%, residentes objetivo en el radio 3,410, empleos en el radio 3,250, NSE estimado alto.  
-> 3. **SANTA MARÍA NONOALCO**, Benito Juárez (AGEB 0901400010543): score 78.6/100. Por qué: prob. de apertura 97%, gasto potencial por trimestre $2,208,000, competidores ponderados 14.0, captura 7%, residentes objetivo en el radio 3,390, empleos en el radio 3,860, NSE estimado alto.  
-> 4. **AMÉRICAS UNIDAS**, Benito Juárez (AGEB 0901400010492): score 78.2/100. Por qué: prob. de apertura 78%, gasto potencial por trimestre $2,622,000, competidores ponderados 22.5, captura 4%, residentes objetivo en el radio 4,160, empleos en el radio 2,130, NSE estimado alto.  
-> 5. **MIXCOAC**, Benito Juárez (AGEB 090140001069A): score 77.9/100. Por qué: prob. de apertura 98%, gasto potencial por trimestre $1,742,000, competidores ponderados 15.6, captura 6%, residentes objetivo en el radio 2,320, empleos en el radio 5,150, NSE estimado alto.  
+> **Lectura:** Entre las zonas del top de barbería y estética, Granada tiene la mayor probabilidad de apertura (99 %) y el mayor gasto potencial ($3,429,000 por trimestre); San Lorenzo tiene la menor competencia (1.1 competidores ponderados). Oxtopulco Universidad lidera con un ingreso trimestral estimado por hogar de $213,600, mientras que Granada destaca por su gasto potencial por trimestre de $3,429,000 y una probabilidad de apertura del 99 %.
 > 
-> **Riesgos:**  
-> - Competencia: algunas colonias tienen muchos competidores ponderados (ej. 27.9 en ESCANDÓN II SECCIÓN).  
-> - Confiabilidad del modelo: el score es un percentil dentro del giro, no una garantía de rentabilidad.  
-> - Supuestos: el ticket promedio es un supuesto (180 MXN).  
-> - "Apareció en el DENUE" no es lo mismo que "abrió".  
+> **Top 5 para barbería y estética** (score 0-100 relativo al giro; 25 a 59 años en la ZMVM: 49.5 %)
+> 1. **ACACIAS**, Benito Juárez (AGEB 0901400010948): score 89.7/100. prob. de apertura 42 %; gasto potencial $2,238,000 por trimestre; 3.4 competidores ponderados (captura 23 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $170,300; 25 a 59 años: 55.1 %.
+> 2. **SAN LORENZO**, Tlalnepantla de Baz (AGEB 1510400011885): score 88.6/100. prob. de apertura 88 %; gasto potencial $349,000 por trimestre; 1.1 competidores ponderados (captura 49 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $127,500; 25 a 59 años: 54.4 %.
+> 3. **OXTOPULCO UNIVERSIDAD**, Coyoacán (AGEB 0900300010234): score 84.4/100. prob. de apertura 83 %; gasto potencial $1,126,000 por trimestre; 5.7 competidores ponderados (captura 15 %); NSE estimado alto, decil 10, ingreso trimestral estimado por hogar $213,600; 25 a 59 años: 47.0 %.
+> 4. **GRANADA**, Miguel Hidalgo (AGEB 0901600010444): score 82.6/100. prob. de apertura 99 %; gasto potencial $3,429,000 por trimestre; 9.2 competidores ponderados (captura 10 %); NSE estimado alto, decil 10, ingreso trimestral estimado por hogar $194,500; 25 a 59 años: 63.5 %.
+> 5. **XOCO**, Benito Juárez (AGEB 0901400010952): score 80.6/100. prob. de apertura 95 %; gasto potencial $1,506,000 por trimestre; 7.3 competidores ponderados (captura 12 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $157,800; 25 a 59 años: 54.4 %.
 > 
-> **Fuentes:**  
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md).  
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo).  
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana.  
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md).  
-> - config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket).
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406).
+> 
+> **Riesgos:**
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 180 pesos es un supuesto (supuesto: corte de cabello o servicio de unas)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API (BIE, id 910406).
 
 ### 11. ¿Dónde pongo un consultorio dental?
 
-_llm, 1 rondas, 141.8 s; herramientas: perfil_giro({"texto": "¿Dónde pongo un consultorio dental?"}); recomendar_zonas({"giro": "consultorio_dental"})_
+_llm, 1 rondas, 26.3 s; herramientas: perfil_giro({"texto": "¿Dónde pongo un consultorio dental?"}); recomendar_zonas({"giro": "consultorio_dental"}); contexto_macro({"giro": "consultorio_dental"})_
 
-> **Top 5 para consultorio_dental**  
-> 1. **SAN RAFAEL**, Cuauhtémoc (AGEB 0901500010678): score 91.5/100 (relativo al giro). Por qué: prob. de apertura 87%, gasto potencial por trimestre $4,037,000, competidores ponderados 24.3, captura 4%, residentes objetivo en el radio 13,090, empleos en el radio 27,940, NSE estimado medio.  
-> 2. **TLAXPANA**, Miguel Hidalgo (AGEB 090160001050A): score 89.7/100. Por qué: prob. de apertura 75%, gasto potencial $3,930,000, competidores ponderados 18.2, captura 5%, residentes objetivo 13,260, empleos en el radio 24,090, NSE estimado medio.  
-> 3. **DOCTORES**, Cuauhtémoc (AGEB 0901500011036): score 89.5/100. Por qué: prob. de apertura 74%, gasto potencial $2,544,000, competidores ponderados 18.3, captura 5%, residentes objetivo 12,340, empleos en el radio 28,700, NSE estimado medio.  
-> 4. **SAN JUANICO**, Miguel Hidalgo (AGEB 0901600010270): score 88.4/100. Por qué: prob. de apertura 73%, gasto potencial $4,054,000, competidores ponderados 24.9, captura 4%, residentes objetivo 17,050, empleos en el radio 14,070, NSE estimado medio.  
-> 5. **ANÁHUAC II SECCIÓN**, Miguel Hidalgo (AGEB 0901600010497): score 88.2/100. Por qué: prob. de apertura 57%, gasto potencial $3,862,000, competidores ponderados 14.6, captura 6%, residentes objetivo 13,740, empleos en el radio 20,980, NSE estimado medio.  
+> **Lectura:** Entre las zonas del top de consultorio dental, Real de San Vicente I tiene la mayor probabilidad de apertura (90 %); Doctores tiene el mayor gasto potencial ($2,544,000 por trimestre); Luis Donaldo Colosio tiene la menor competencia (5.4 competidores ponderados). DOCTORES destaca por su gasto potencial de $2,544,000 por trimestre, mientras que REAL DE SAN VICENTE I tiene una alta probabilidad de apertura.
 > 
-> **Riesgos:**  
-> - Competencia: hay 24.3% de competidores ponderados en SAN RAFAEL.  
-> - Confiabilidad del modelo: el score es un percentil dentro del giro, no garantiza rentabilidad.  
-> - Supuestos: el ticket promedio de $700 MXN es un supuesto.  
-> - "Apareció en el DENUE" no es lo mismo que "abrió".  
+> **Top 5 para consultorio dental** (score 0-100 relativo al giro; 25 a 59 años en la ZMVM: 49.5 %)
+> 1. **LOMAS CHICOLOAPAN**, Chicoloapan (AGEB 1502900010325): score 89.3/100. prob. de apertura 83 %; gasto potencial $1,449,000 por trimestre; 8.8 competidores ponderados (captura 10 %); NSE estimado medio, decil 5, ingreso trimestral estimado por hogar $68,500; 25 a 59 años: 48.7 %.
+> 2. **REAL DE SAN VICENTE I**, Chicoloapan (AGEB 1502900010293): score 88.8/100. prob. de apertura 90 %; gasto potencial $1,432,000 por trimestre; 8.9 competidores ponderados (captura 10 %); NSE estimado medio, decil 5, ingreso trimestral estimado por hogar $64,300; 25 a 59 años: 50.9 %.
+> 3. **DOCTORES**, Cuauhtémoc (AGEB 0901500011036): score 87.0/100. prob. de apertura 74 %; gasto potencial $2,544,000 por trimestre; 18.3 competidores ponderados (captura 5 %); NSE estimado medio, decil 7, ingreso trimestral estimado por hogar $83,600; 25 a 59 años: 52.8 %.
+> 4. **TEPALCATES**, Chimalhuacán (AGEB 1503100011054): score 86.6/100. prob. de apertura 40 %; gasto potencial $595,000 por trimestre; 6.0 competidores ponderados (captura 14 %); NSE estimado bajo, decil 4, ingreso trimestral estimado por hogar $55,800; 25 a 59 años: 46.8 %.
+> 5. **LUIS DONALDO COLOSIO**, Chimalhuacán (AGEB 1503100011143): score 85.9/100. prob. de apertura 18 %; gasto potencial $587,000 por trimestre; 5.4 competidores ponderados (captura 16 %); NSE estimado bajo, decil 3, ingreso trimestral estimado por hogar $46,600; 25 a 59 años: 47.3 %.
 > 
-> **Fuentes:**  
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md).  
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo).  
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana.  
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md).  
-> - config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket).
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406).
+> 
+> **Riesgos:**
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 700 pesos es un supuesto (supuesto: consulta con limpieza o resina simple)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API (BIE, id 910406).
 
 ### 12. Quiero abrir una guardería en Tlalnepantla
 
-_llm, 1 rondas, 152.6 s; herramientas: perfil_giro({"texto": "Quiero abrir una guardería en Tlalnepantla"}); recomendar_zonas({"giro": "guarderia", "municipio": "Tlalnepantla de Baz"})_
+_llm, 1 rondas, 48.7 s; herramientas: perfil_giro({"texto": "Quiero abrir una guardería en Tlalnepantla"}); recomendar_zonas({"giro": "guarderia", "municipio": "Tlalnepantla de Baz"}); contexto_macro({"giro": "guarderia"}); ficha_municipio({"municipio": "Tlalnepantla de Baz"})_
 
-> **Top 5 para guarderia**  
-> 1. **VIVEROS DE LA LOMA**, Tlalnepantla de Baz (AGEB 151040001075A): score 85.3/100 (relativo al giro). Por qué: prob. de apertura 9%, gasto potencial por trimestre $6,205,000, competidores ponderados 0.8, captura 57%, residentes objetivo en el radio 3,860, empleos en el radio 9,510, NSE estimado alto.  
-> 2. **JARDINES DE SANTA MONICA**, Tlalnepantla de Baz (AGEB 1510400010552): score 83.5/100 (relativo al giro). Por qué: prob. de apertura 1%, gasto potencial por trimestre $6,410,000, competidores ponderados 0.3, captura 76%, residentes objetivo en el radio 3,350, empleos en el radio 6,740, NSE estimado alto.  
-> 3. **EXHACIENDA SANTA MONICA**, Tlalnepantla de Baz (AGEB 1510400010618): score 83.4/100 (relativo al giro). Por qué: prob. de apertura 7%, gasto potencial por trimestre $5,867,000, competidores ponderados 0.6, captura 63%, residentes objetivo en el radio 3,060, empleos en el radio 8,040, NSE estimado alto.  
-> 4. **JARDINES DE STA MONICA**, Tlalnepantla de Baz (AGEB 1510400010548): score 82.6/100 (relativo al giro). Por qué: prob. de apertura 6%, gasto potencial por trimestre $5,734,000, competidores ponderados 0.6, captura 62%, residentes objetivo en el radio 3,480, empleos en el radio 7,280, NSE estimado alto.  
-> 5. **VISTA HERMOSA**, Tlalnepantla de Baz (AGEB 1510400010904): score 81.8/100 (relativo al giro). Por qué: prob. de apertura 3%, gasto potencial por trimestre $5,530,000, competidores ponderados 1.1, captura 48%, residentes objetivo en el radio 4,460, empleos en el radio 8,680, NSE estimado medio.  
+> **Lectura:** Entre las zonas del top de guardería, Viveros de la Loma tiene el mayor gasto potencial ($6,205,000 por trimestre); Centro tiene la menor competencia (0.0 competidores ponderados). En Tlalnepantla de Baz, la colonia Viveros de la Loma lidera con un ingreso trimestral estimado por hogar de $157,800, mientras que el centro tiene el menor competencia con 0.0 competidores ponderados.
 > 
-> **Riesgos:**  
-> - **Probabilidad de apertura baja en todo el top (1 a 9 %); en la ZMVM apareció en el 3 % de las AGEB**: el score alto solo dice que estas son las mejores zonas PARA ESTE GIRO, no que el giro sea viable.  
-> - «Apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Economicos.  
-> - El NSE y el decil por AGEB son estimaciones del proyecto (ENIGH no representa colonias).  
-> - Ticket promedio $3,500 MXN es supuesto (supuesto: mensualidad de una guardería privada de barrio (no es ticket por visita)).  
-> - La ENIGH no tiene un rubro de guardería; coicop_1010 es educación preescolar y primaria.  
+> **Top 5 para guardería** (score 0-100 relativo al giro; 0 a 14 años en la ZMVM: 20.7 %)
+> 1. **CENTRO**, Tlalnepantla de Baz (AGEB 1510400010410): score 92.1/100. prob. de apertura 4 %; gasto potencial $1,956,000 por trimestre; 0.0 competidores ponderados (captura 100 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $69,500; 0 a 14 años: 16.5 %.
+> 2. **CARACOLES**, Tlalnepantla de Baz (AGEB 1510400011211): score 87.0/100. prob. de apertura 4 %; gasto potencial $1,907,000 por trimestre; 0.0 competidores ponderados (captura 100 %); NSE estimado bajo, decil 4, ingreso trimestral estimado por hogar $51,600; 0 a 14 años: 22.9 %.
+> 3. **VIVEROS DE LA LOMA**, Tlalnepantla de Baz (AGEB 151040001075A): score 86.3/100. prob. de apertura 9 %; gasto potencial $6,205,000 por trimestre; 0.8 competidores ponderados (captura 57 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $157,800; 0 a 14 años: 12.5 %.
+> 4. **DR JORGE JIMENEZ CANTU**, Tlalnepantla de Baz (AGEB 1510400011298): score 86.2/100. prob. de apertura 5 %; gasto potencial $1,925,000 por trimestre; 0.0 competidores ponderados (captura 100 %); NSE estimado bajo, decil 4, ingreso trimestral estimado por hogar $57,900; 0 a 14 años: 21.5 %.
+> 5. **FRANCISCO VILLA**, Tlalnepantla de Baz (AGEB 1510400011781): score 85.0/100. prob. de apertura 4 %; gasto potencial $4,675,000 por trimestre; 0.2 competidores ponderados (captura 81 %); NSE estimado medio, decil 5, ingreso trimestral estimado por hogar $67,300; 0 a 14 años: 17.6 %.
+> **Ojo:** probabilidad de apertura baja en todo el top (4 a 9 %); en la ZMVM apareció en el 3 % de las AGEB: el score alto solo dice que estas son las mejores zonas PARA ESTE GIRO, no que el giro sea viable.
 > 
-> **Fuentes:**  
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md).  
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo).  
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana.  
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md).  
-> - config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket).
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406).
+> 
+> **Sobre Tlalnepantla de Baz:** Población en AGEB urbanas: 671,937 habitantes (lugar 9 de 76 en la ZMVM). Densidad: 9,572 hab/km² (lugar 22 de 76). Edad: 0-14 años 18.7 %; 15-24 15.0 %; 25-59 49.7 %; 60 o más 16.3 %.
+> 
+> **Riesgos:**
+> - Probabilidad de apertura baja en todo el top (4 a 9 %); en la ZMVM apareció en el 3 % de las AGEB: el score alto solo dice que estas son las mejores zonas PARA ESTE GIRO, no que el giro sea viable
+> - La ENIGH no tiene un rubro de guardería; coicop_1010 es educación preescolar y primaria.
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 3500 pesos es un supuesto (supuesto: mensualidad de una guardería privada de barrio (no es ticket por visita))
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API (BIE, id 910406); carpetas/03_municipios (fichas generadas desde agebs_features).
 
 ### 13. ¿Dónde abro una ferretería?
 
-_llm, 1 rondas, 132.7 s; herramientas: perfil_giro({"texto": "¿Dónde abro una ferretería?"}); recomendar_zonas({"giro": "ferreteria"})_
+_llm, 1 rondas, 30.5 s; herramientas: perfil_giro({"texto": "¿Dónde abro una ferretería?"}); recomendar_zonas({"giro": "ferreteria"}); contexto_macro({"giro": "ferreteria"})_
 
-> **Top 5 para ferreteria**  
-> 1. **FUENTES DE ARAGON**, Ecatepec de Morelos (AGEB 1503300011788): score 87.4/100 (relativo al giro). Por qué: prob. de apertura 51%, gasto potencial por trimestre $575,000, competidores ponderados 7.7, captura 11%, residentes objetivo en el radio 6,990, empleos en el radio 2,650, NSE estimado medio.  
-> 2. **BENITO JUAREZ**, Nezahualcóyotl (AGEB 1505800010609): score 87.2/100. Por qué: prob. de apertura 78%, gasto potencial por trimestre $482,000, competidores ponderados 9.5, captura 9%, residentes objetivo en el radio 7,570, empleos en el radio 4,200, NSE estimado medio.  
-> 3. **BUENOS AIRES**, Cuauhtémoc (AGEB 0901500011483): score 86.4/100. Por qué: gasto potencial por trimestre $709,000, competidores ponderados 8.4, captura 11%, residentes objetivo en el radio 7,200, empleos en el radio 4,820, NSE estimado medio.  
-> 4. **SAN JUANICO**, Miguel Hidalgo (AGEB 0901600011334): score 86.3/100. Por qué: gasto potencial por trimestre $894,000, competidores ponderados 8.6, captura 10%, residentes objetivo en el radio 10,470, empleos en el radio 4,510, NSE estimado medio.  
-> 5. **DOCTORES**, Cuauhtémoc (AGEB 0901500011534): score 85.8/100. Por qué: gasto potencial por trimestre $575,000, competidores ponderados 3.3, captura 23%, residentes objetivo en el radio 5,560, empleos en el radio 11,590, NSE estimado medio.  
+> **Lectura:** Las mejores opciones para abrir una ferretería son Fuente de Aragón (Ecatepec de Morelos) y Benito Juárez (Nezahualcóyotl). Fuente de Aragón lidera con ingreso trimestral estimado por hogar de $81,000 y gasto potencial de $575,000, mientras que Benito Juárez destaca por su probabilidad de apertura del 78 %.
 > 
-> **Riesgos:**  
-> - Competencia: colonias con muchos negocios complementarios (pinturas, vidrios, etc.) pueden reducir la rentabilidad.  
-> - Confiabilidad del modelo: el score es un percentil dentro del giro, no una garantía de éxito.  
-> - Supuestos: el ticket promedio es estimado, no una cifra real.  
-> - "Apareció en el DENUE" no significa que abrió: parte de lo nuevo entre 2020 y 2026 no está cubierto por los Censos Económicos.  
+> **Top 5 para ferretería** (score 0-100 relativo al giro; 25 a 59 años en la ZMVM: 49.5 %)
+> 1. **BENITO JUAREZ**, Nezahualcóyotl (AGEB 1505800010609): score 92.8/100. prob. de apertura 78 %; gasto potencial $482,000 por trimestre; 9.5 competidores ponderados (captura 9 %); NSE estimado medio, decil 5, ingreso trimestral estimado por hogar $63,600; 25 a 59 años: 48.8 %.
+> 2. **FUENTES DE ARAGON**, Ecatepec de Morelos (AGEB 1503300011788): score 90.5/100. prob. de apertura 51 %; gasto potencial $575,000 por trimestre; 7.7 competidores ponderados (captura 11 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $81,000; 25 a 59 años: 50.1 %.
+> 3. **CAMPESTRE GUADALUPANA**, Nezahualcóyotl (AGEB 150580001012A): score 89.3/100. prob. de apertura 52 %; gasto potencial $380,000 por trimestre; 5.8 competidores ponderados (captura 15 %); NSE estimado medio, decil 5, ingreso trimestral estimado por hogar $60,300; 25 a 59 años: 49.2 %.
+> 4. **GABRIEL RAMOS MILLÁN SECCIÓN BRAMADERO**, Iztacalco (AGEB 0900600010467): score 88.9/100. prob. de apertura 2 %; gasto potencial $418,000 por trimestre; 4.4 competidores ponderados (captura 18 %); NSE estimado bajo, decil 1, ingreso trimestral estimado por hogar $28,700; 25 a 59 años: NO ENCONTRADO (el Censo reserva el dato).
+> 5. **JORGE JIMENEZ CANTU**, Tlalnepantla de Baz (AGEB 1510400012351): score 88.4/100. prob. de apertura 30 %; gasto potencial $218,000 por trimestre; 6.2 competidores ponderados (captura 14 %); NSE estimado bajo, decil 3, ingreso trimestral estimado por hogar $43,000; 25 a 59 años: 46.0 %.
 > 
-> **Fuentes:**  
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md)  
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo)  
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana  
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md)  
-> - config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket)
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406).
+> 
+> **Riesgos:**
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 180 pesos es un supuesto (supuesto: tornillos, pintura, herramienta de mano)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API (BIE, id 910406).
 
 ### 14. Una pastelería en Benito Juárez, ¿dónde?
 
-_llm, 1 rondas, 132.9 s; herramientas: perfil_giro({"texto": "Una pastelería en Benito Juárez, ¿dónde?"}); recomendar_zonas({"giro": "pasteleria", "municipio": "Benito Juárez"})_
+_llm, 1 rondas, 37.1 s; herramientas: perfil_giro({"texto": "Una pastelería en Benito Juárez, ¿dónde?"}); recomendar_zonas({"giro": "pasteleria", "municipio": "Benito Juárez"}); contexto_macro({"giro": "pasteleria"}); ficha_municipio({"municipio": "Benito Juárez"})_
 
-> **Top 5 para pasteleria**  
-> 1. **PIEDAD NARVARTE**, Benito Juárez (AGEB 0901400010026): score 86.3/100 (relativo al giro). Por qué: prob. de apertura 16%, gasto potencial por trimestre $4,800,000, competidores ponderados 0.6, captura 61%, residentes objetivo en el radio 5,590, empleos en el radio 7,080, NSE estimado alto.  
-> 2. **NARVARTE PONIENTE**, Benito Juárez (AGEB 0901400010079): score 84.9/100 (relativo al giro). Por qué: prob. de apertura 15%, gasto potencial por trimestre $5,231,000, competidores ponderados 1.3, captura 43%, residentes objetivo en el radio 5,670, empleos en el radio 8,480, NSE estimado medio.  
-> 3. **NARVARTE ORIENTE**, Benito Juárez (AGEB 0901400010083): score 84.3/100 (relativo al giro). Por qué: prob. de apertura 14%, gasto potencial por trimestre $5,654,000, competidores ponderados 1.8, captura 36%, residentes objetivo en el radio 6,000, empleos en el radio 6,870, NSE estimado alto.  
-> 4. **DEL VALLE NORTE**, Benito Juárez (AGEB 090140001005A): score 82.9/100 (relativo al giro). Por qué: prob. de apertura 10%, gasto potencial por trimestre $4,990,000, competidores ponderados 1.1, captura 47%, residentes objetivo en el radio 5,390, empleos en el radio 7,700, NSE estimado alto.  
-> 5. **INDEPENDENCIA**, Benito Juárez (AGEB 0901400010469): score 82.4/100 (relativo al giro). Por qué: prob. de apertura 21%, gasto potencial por trimestre $5,870,000, competidores ponderados 2.6, captura 28%, residentes objetivo en el radio 6,610, empleos en el radio 4,690, NSE estimado medio.  
+> **Lectura:** Entre las zonas del top de pastelería, Narvarte Poniente tiene la mayor probabilidad de apertura (15 %); Nápoles tiene el mayor gasto potencial ($5,942,000 por trimestre); Letrán Valle tiene la menor competencia (0.0 competidores ponderados). NÁPOLES destaca por tener el 63.9 % de la edad clave (25 a 59 años) y el mayor ingreso estimado.
 > 
-> **Riesgos:**  
-> - Competencia: algunas colonias tienen muchos competidores ponderados.  
-> - Confiabilidad del modelo: el score es un percentil dentro del giro, no garantiza rentabilidad.  
-> - Supuestos: el ticket promedio es un supuesto, no una cifra real.  
-> - "Apareció en el DENUE" no es lo mismo que "abrió": parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Economicos.  
+> **Top 5 para pastelería** (score 0-100 relativo al giro; 25 a 59 años en la ZMVM: 49.5 %)
+> 1. **PIEDAD NARVARTE**, Benito Juárez (AGEB 0901400010011): score 91.9/100. prob. de apertura 7 %; gasto potencial $4,935,000 por trimestre; 0.3 competidores ponderados (captura 79 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $136,300; 25 a 59 años: 60.9 %.
+> 2. **LETRÁN VALLE**, Benito Juárez (AGEB 090140001076A): score 88.4/100. prob. de apertura 7 %; gasto potencial $3,951,000 por trimestre; 0.0 competidores ponderados (captura 100 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $171,200; 25 a 59 años: 60.0 %.
+> 3. **NÁPOLES**, Benito Juárez (AGEB 0901400010204): score 87.4/100. prob. de apertura 6 %; gasto potencial $5,942,000 por trimestre; 0.2 competidores ponderados (captura 80 %); NSE estimado alto, decil 10, ingreso trimestral estimado por hogar $174,000; 25 a 59 años: 63.9 %.
+> 4. **DEL VALLE SUR**, Benito Juárez (AGEB 0901400010755): score 86.2/100. prob. de apertura 9 %; gasto potencial $4,156,000 por trimestre; 0.0 competidores ponderados (captura 100 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $161,200; 25 a 59 años: 56.3 %.
+> 5. **NARVARTE PONIENTE**, Benito Juárez (AGEB 0901400010079): score 80.6/100. prob. de apertura 15 %; gasto potencial $5,231,000 por trimestre; 1.3 competidores ponderados (captura 43 %); NSE estimado medio, decil 8, ingreso trimestral estimado por hogar $120,500; 25 a 59 años: 59.1 %.
 > 
-> **Fuentes:**  
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md)  
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo)  
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana  
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md)  
-> - config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket)
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406); inflación de alimentos, bebidas y tabaco (INPC): NO ENCONTRADO; como aproximación, agropecuarios 2.99 % anual (2026-10, serie 910411).
+> 
+> **Sobre Benito Juárez:** Población en AGEB urbanas: 434,153 habitantes (lugar 18 de 76 en la ZMVM). Densidad: 16,353 hab/km² (lugar 4 de 76). Edad: 0-14 años 11.8 %; 15-24 10.2 %; 25-59 57.9 %; 60 o más 20.1 %.
+> 
+> **Riesgos:**
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 350 pesos es un supuesto (supuesto: pastel chico o rebanadas y postres para una reunion)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API; INEGI, Banco de Indicadores API (BIE, id 910406); INEGI, Banco de Indicadores API (BIE, id 910408); INEGI, Banco de Indicadores API (BIE, id 910411); carpetas/03_municipios (fichas generadas desde agebs_features).
 
 ### 15. Quiero poner una librería
 
-_llm, 1 rondas, 143.0 s; herramientas: perfil_giro({"texto": "Quiero poner una librería"}); recomendar_zonas({"giro": "libreria"})_
+_llm, 1 rondas, 26.7 s; herramientas: perfil_giro({"texto": "Quiero poner una librería"}); recomendar_zonas({"giro": "libreria"}); contexto_macro({"giro": "libreria"})_
 
-> **Top 5 para libreria**  
-> 1. **ALAMOS**, Benito Juárez (AGEB 090140001012A): score 94.4/100 (relativo al giro). Por qué: prob. de apertura 3%, gasto potencial por trimestre $8,001,000, competidores ponderados 1.1, captura 47%, residentes objetivo en el radio 17,940, empleos en el radio 21,610, NSE estimado alto.  
-> 2. **NIÑOS HÉROES**, Benito Juárez (AGEB 0901400010295): score 94.0/100. Por qué: prob. de apertura 2%, gasto potencial por trimestre $8,285,000, competidores ponderados 1.4, captura 41%, residentes objetivo en el radio 18,180, empleos en el radio 17,350, NSE estimado medio.  
-> 3. **POSTAL**, Benito Juárez (AGEB 0901400010308): score 93.9/100. Por qué: prob. de apertura 3%, gasto potencial por trimestre $7,565,000, competidores ponderados 1.1, captura 48%, residentes objetivo en el radio 17,160, empleos en el radio 16,700, NSE estimado medio.  
-> 4. **NONOALCO TLATELOLCO**, Cuauhtémoc (AGEB 0901500010288): score 92.9/100. Por qué: prob. de apertura 1%, gasto potencial por trimestre $5,082,000, competidores ponderados 1.2, captura 46%, residentes objetivo en el radio 21,570, empleos en el radio 19,730, NSE estimado medio.  
-> 5. **MIGUEL ALEMÁN**, Benito Juárez (AGEB 0901400010280): score 92.7/100. Por qué: prob. de apertura 4%, gasto potencial por trimestre $8,308,000, competidores ponderados 1.7, captura 37%, residentes objetivo en el radio 17,990, empleos en el radio 18,560, NSE estimado medio.  
+> **Lectura:** Entre las zonas del top de librería, Alamos tiene el mayor gasto potencial ($6,436,000 por trimestre); Tacuba tiene la menor competencia (0.0 competidores ponderados). Popotla destaca por su probabilidad de apertura del 3 %, la más alta del top.
 > 
-> **Riesgos:**  
-> - **Probabilidad de apertura baja en todo el top (1 a 4 %); en la ZMVM apareció en el 3 % de las AGEB**: el score alto solo dice que estas son las mejores zonas PARA ESTE GIRO, no que el giro sea viable.  
-> - «Apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos.  
-> - El NSE y el decil por AGEB son estimaciones del proyecto (ENIGH no representa colonias).  
-> - Ticket promedio $260 MXN es supuesto (supuesto: uno o dos libros).  
+> **Top 5 para librería** (score 0-100 relativo al giro; 15 a 24 años en la ZMVM: 15.9 %)
+> 1. **TACUBA**, Miguel Hidalgo (AGEB 0901600010162): score 98.3/100. prob. de apertura 2 %; gasto potencial $5,560,000 por trimestre; 0.0 competidores ponderados (captura 100 %); NSE estimado medio, decil 8, ingreso trimestral estimado por hogar $109,100; 15 a 24 años: 11.2 %.
+> 2. **POPOTLA**, Miguel Hidalgo (AGEB 0901600010177): score 97.5/100. prob. de apertura 3 %; gasto potencial $5,979,000 por trimestre; 0.2 competidores ponderados (captura 82 %); NSE estimado medio, decil 8, ingreso trimestral estimado por hogar $98,600; 15 a 24 años: 12.0 %.
+> 3. **ALAMOS**, Benito Juárez (AGEB 0901400010030): score 96.6/100. prob. de apertura 2 %; gasto potencial $6,436,000 por trimestre; 0.7 competidores ponderados (captura 58 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $130,200; 15 a 24 años: 9.8 %.
+> 4. **SAN ÁLVARO**, Azcapotzalco (AGEB 090020001081A): score 95.7/100. prob. de apertura 3 %; gasto potencial $4,553,000 por trimestre; 0.4 competidores ponderados (captura 73 %); NSE estimado medio, decil 8, ingreso trimestral estimado por hogar $99,500; 15 a 24 años: 10.8 %.
+> 5. **AMPLIACIÓN GABRIEL RAMOS MILLÁN**, Iztacalco (AGEB 0900600010700): score 95.2/100. prob. de apertura 1 %; gasto potencial $3,788,000 por trimestre; 0.0 competidores ponderados (captura 100 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $71,000; 15 a 24 años: 15.9 %.
+> **Ojo:** probabilidad de apertura baja en todo el top (1 a 3 %); en la ZMVM apareció en el 3 % de las AGEB: el score alto solo dice que estas son las mejores zonas PARA ESTE GIRO, no que el giro sea viable.
 > 
-> **Fuentes:**  
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md)  
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo)  
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana  
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md)  
-> - config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket)
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406).
+> 
+> **Riesgos:**
+> - Probabilidad de apertura baja en todo el top (1 a 3 %); en la ZMVM apareció en el 3 % de las AGEB: el score alto solo dice que estas son las mejores zonas PARA ESTE GIRO, no que el giro sea viable
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 260 pesos es un supuesto (supuesto: uno o dos libros)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API (BIE, id 910406).
 
 ### 16. Quiero un negocio de renta de bicicletas, ¿dónde lo pongo?
 
-_llm, 1 rondas, 164.3 s; herramientas: perfil_giro({"texto": "Quiero un negocio de renta de bicicletas, ¿dónde lo pongo?"}); recomendar_zonas({"giro": "renta_bicicletas"})_
+_llm, 1 rondas, 36.3 s; herramientas: perfil_giro({"texto": "Quiero un negocio de renta de bicicletas, ¿dónde lo pongo?"}); recomendar_zonas({"giro": "renta_bicicletas"}); contexto_macro({"giro": "renta_bicicletas"})_
 
-> **Top 5 para renta_bicicletas**  
-> 1. **ROMA SUR**, Cuauhtémoc (AGEB 0901500011360): score 98.1/100 (relativo al giro). Por qué: prob. de apertura 0 %, gasto potencial por trimestre $92,893,000, competidores ponderados 0.0, captura % 100, residentes objetivo en el radio 25,720, empleos en el radio 81,150, NSE estimado alto.  
-> 2. **SAN RAFAEL**, Cuauhtémoc (AGEB 0901500010682): score 97.9/100 (relativo al giro). Por qué: prob. de apertura 0 %, gasto potencial por trimestre $75,307,000, competidores ponderados 0.0, captura % 100, residentes objetivo en el radio 27,340, empleos en el radio 92,070, NSE estimado medio.  
-> 3. **NARVARTE PONIENTE**, Benito Juárez (AGEB 0901400010079): score 97.8/100 (relativo al giro). Por qué: prob. de apertura 0 %, gasto potencial por trimestre $110,640,000, competidores ponderados 0.0, captura % 100, residentes objetivo en el radio 31,870, empleos en el radio 49,300, NSE estimado medio.  
-> 4. **NARVARTE ORIENTE**, Benito Juárez (AGEB 0901400010083): score 97.6/100 (relativo al giro). Por qué: prob. de apertura 0 %, gasto potencial por trimestre $120,325,000, competidores ponderados 0.0, captura % 100, residentes objetivo en el radio 31,910, empleos en el radio 43,420, NSE estimado alto.  
-> 5. **GRANADA**, Miguel Hidalgo (AGEB 0901600010478): score 97.5/100 (relativo al giro). Por qué: prob. de apertura 0 %, gasto potencial por trimestre $93,982,000, competidores ponderados 0.0, captura % 100, residentes objetivo en el radio 30,930, empleos en el radio 83,990, NSE estimado alto.  
+> **Lectura:** Entre las zonas del top de renta de bicicletas, Narvarte Poniente tiene el mayor gasto potencial ($110,640,000 por trimestre).
 > 
-> **Riesgos:**  
-> - **Probabilidad de apertura baja en todo el top (0 a 0 %):** En la ZMVM apareció en el 0 % de las AGEB: el score alto solo dice que estas son las mejores zonas PARA ESTE GIRO, no que el giro sea viable.  
-> - «Apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos.  
-> - El NSE y el decil por AGEB son estimaciones del proyecto (ENIGH no representa colonias).  
-> - Ticket promedio $120 MXN es supuesto (supuesto: una hora o una vuelta de renta).  
-> - No hay rubro de renta de bicicletas en la ENIGH; se usa esparcimiento como proxy de gasto discrecional.  
-> - Giro raro: solo 1 AGEB con aperturas 2020-2026; el modelo es poco confiable.  
+> **Top 5 para renta de bicicletas** (score 0-100 relativo al giro; 25 a 59 años en la ZMVM: 49.5 %)
+> 1. **SAN RAFAEL**, Cuauhtémoc (AGEB 0901500010682): score 98.4/100. prob. de apertura 0 %; gasto potencial $75,307,000 por trimestre (proxy: todo el gasto en esparcimiento, no solo renta de bicicletas); 0.0 competidores ponderados (captura 100 %); NSE estimado medio, decil 8, ingreso trimestral estimado por hogar $115,600; 25 a 59 años: 61.0 %.
+> 2. **ROMA SUR**, Cuauhtémoc (AGEB 0901500011360): score 98.2/100. prob. de apertura 0 %; gasto potencial $92,893,000 por trimestre (proxy: todo el gasto en esparcimiento, no solo renta de bicicletas); 0.0 competidores ponderados (captura 100 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $127,200; 25 a 59 años: 61.6 %.
+> 3. **TABACALERA**, Cuauhtémoc (AGEB 0901500010729): score 98.1/100. prob. de apertura 0 %; gasto potencial $57,642,000 por trimestre (proxy: todo el gasto en esparcimiento, no solo renta de bicicletas); 0.0 competidores ponderados (captura 100 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $165,600; 25 a 59 años: 76.6 %.
+> 4. **SANTA MARÍA LA RIBERA**, Cuauhtémoc (AGEB 0901500010593): score 97.8/100. prob. de apertura 0 %; gasto potencial $75,954,000 por trimestre (proxy: todo el gasto en esparcimiento, no solo renta de bicicletas); 0.0 competidores ponderados (captura 100 %); NSE estimado medio, decil 8, ingreso trimestral estimado por hogar $101,700; 25 a 59 años: 53.4 %.
+> 5. **NARVARTE PONIENTE**, Benito Juárez (AGEB 0901400010079): score 97.7/100. prob. de apertura 0 %; gasto potencial $110,640,000 por trimestre (proxy: todo el gasto en esparcimiento, no solo renta de bicicletas); 0.0 competidores ponderados (captura 100 %); NSE estimado medio, decil 8, ingreso trimestral estimado por hogar $120,500; 25 a 59 años: 59.1 %.
+> **Ojo:** probabilidad de apertura baja en todo el top (0 %); en la ZMVM apareció en 1 de 5,875 AGEB: el score alto solo dice que estas son las mejores zonas PARA ESTE GIRO, no que el giro sea viable.
 > 
-> **Fuentes:**  
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md)  
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo)  
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana  
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md)  
-> - config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket)
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406).
+> 
+> **Riesgos:**
+> - Probabilidad de apertura baja en todo el top (0 %); en la ZMVM apareció en 1 de 5,875 AGEB: el score alto solo dice que estas son las mejores zonas PARA ESTE GIRO, no que el giro sea viable
+> - No hay rubro de renta de bicicletas en la ENIGH; se usa esparcimiento como proxy de gasto discrecional.
+> - Giro raro: solo 1 AGEB con aperturas 2020-2026; el modelo es poco confiable
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API (BIE, id 910406).
 
 ### 17. Quiero poner un negocio en Coyoacán, ¿qué me recomiendas y dónde?
 
-_llm, 1 rondas, 172.2 s; herramientas: perfil_giro({"texto": "Quiero poner un negocio en Coyoacán, ¿qué me recomiendas y dónde?"}); sugerir_giros({"municipio": "Coyoacán"}); recomendar_zonas({"giro": "abarrotes", "municipio": "Coyoacán"})_
+_llm, 1 rondas, 55.7 s; herramientas: perfil_giro({"texto": "Quiero poner un negocio en Coyoacán, ¿qué me recomiendas y dónde?"}); sugerir_giros({"municipio": "Coyoacán"}); recomendar_zonas({"giro": "abarrotes", "municipio": "Coyoacán"}); ficha_municipio({"municipio": "Coyoacán"})_
 
-> **Giros que conviene considerar**  
-> 1. **abarrotes** (viabilidad: 72%, prob. de apertura: 96%, prob. de seguir abierto: 74%)  
-> 2. **barberia_estetica** (viabilidad: 62%, prob. de apertura: 91%, prob. de seguir abierto: 68%)  
-> 3. **carniceria** (viabilidad: 62%, prob. de apertura: 83%, prob. de seguir abierto: 75%)  
-> 4. **papeleria** (viabilidad: 58%, prob. de apertura: 83%, prob. de seguir abierto: 70%)  
-> 5. **fruteria** (viabilidad: 57%, prob. de apertura: 81%, prob. de seguir abierto: 69%)  
+> **Lectura:** Entre las zonas del top de tienda de abarrotes, Culhuacán Ctm Sección Ix-a tiene la mayor probabilidad de apertura (99 %) y el mayor gasto potencial ($17,067,000 por trimestre); Ex-ejido de San Francisco Culhuacán tiene la menor competencia (2.9 competidores ponderados). Los giros más viables en Coyoacán son abarrotes, consultorio dental, tortillería, frutería y carnicería.
 > 
-> El score 0-100 es relativo dentro de cada giro y no sirve para comparar giros entre sí.  
+> **Giros que conviene considerar** (en orden de viabilidad = prob. de apertura × prob. de seguir abierto; el score de las colonias es relativo dentro de cada giro y no compara giros)
+> 1. tienda de abarrotes: viabilidad 69 %, prob. de apertura 91 %, prob. de seguir abierto 75 %.
+> 2. consultorio dental: viabilidad 59 %, prob. de apertura 79 %, prob. de seguir abierto 74 %.
+> 3. tortillería: viabilidad 55 %, prob. de apertura 71 %, prob. de seguir abierto 78 %.
+> 4. frutería: viabilidad 55 %, prob. de apertura 77 %, prob. de seguir abierto 71 %.
+> 5. carnicería: viabilidad 53 %, prob. de apertura 73 %, prob. de seguir abierto 73 %.
 > 
-> **Top 5 para abarrotes**  
-> 1. **CULHUACÁN CTM SECCIÓN IX-A**, Coyoacán (AGEB 0900300011497): score 84/100 (relativo al giro). Por qué: prob. de apertura 99%, gasto potencial por trimestre $17,067,000, competidores ponderados 8, captura % 11, residentes objetivo en el radio 960, empleos en el radio 510, NSE estimado medio.  
-> 2. **CARMEN SERDÁN**, Coyoacán (AGEB 0900300010959): score 82/100. Por qué: prob. de apertura 99%, gasto potencial por trimestre $16,322,000, competidores ponderados 20, captura % 5, residentes objetivo en el radio 1,160, empleos en el radio 600, NSE estimado medio.  
-> 3. **EMILIANO ZAPATA**, Coyoacán (AGEB 0900300011406): score 81/100. Por qué: prob. de apertura 98%, gasto potencial por trimestre $13,199,000, competidores ponderados 13.1, captura % 7, residentes objetivo en el radio 920, empleos en el radio 500, NSE estimado medio.  
-> 4. **CULHUACÁN CTM CROC**, Coyoacán (AGEB 0900300011745): score 79/100. Por qué: prob. de apertura 88%, gasto potencial por trimestre $15,882,000, competidores ponderados 6, captura % 14, residentes objetivo en el radio 860, empleos en el radio 620, NSE estimado medio.  
-> 5. **PEDREGAL DE SANTO DOMINGO**, Coyoacán (AGEB 0900300010802): score 78/100. Por qué: prob. de apertura 100%, gasto potencial por trimestre $20,905,000, competidores ponderados 20.1, captura % 5, residentes objetivo en el radio 1,580, empleos en el radio 330, NSE estimado medio.  
+> **Top 5 para tienda de abarrotes** (score 0-100 relativo al giro; 25 a 59 años en la ZMVM: 49.5 %)
+> 1. **CULHUACÁN CTM SECCIÓN IX-A**, Coyoacán (AGEB 0900300011497): score 88.2/100. prob. de apertura 99 %; gasto potencial $17,067,000 por trimestre; 8.0 competidores ponderados (captura 11 %); NSE estimado medio, decil 8, ingreso trimestral estimado por hogar $102,900; 25 a 59 años: 47.0 %.
+> 2. **CULHUACÁN CTM CROC**, Coyoacán (AGEB 0900300011745): score 84.9/100. prob. de apertura 88 %; gasto potencial $15,882,000 por trimestre; 6.0 competidores ponderados (captura 14 %); NSE estimado medio, decil 8, ingreso trimestral estimado por hogar $99,100; 25 a 59 años: 52.8 %.
+> 3. **EMILIANO ZAPATA**, Coyoacán (AGEB 0900300011406): score 78.9/100. prob. de apertura 98 %; gasto potencial $13,199,000 por trimestre; 13.1 competidores ponderados (captura 7 %); NSE estimado medio, decil 5, ingreso trimestral estimado por hogar $68,400; 25 a 59 años: 48.5 %.
+> 4. **CULHUACÁN CTM SECCIÓN VI**, Coyoacán (AGEB 0900300011270): score 78.7/100. prob. de apertura 90 %; gasto potencial $17,018,000 por trimestre; 6.8 competidores ponderados (captura 13 %); NSE estimado medio, decil 7, ingreso trimestral estimado por hogar $94,900; 25 a 59 años: 48.8 %.
+> 5. **EX-EJIDO DE SAN FRANCISCO CULHUACÁN**, Coyoacán (AGEB 0900300010516): score 78.2/100. prob. de apertura 78 %; gasto potencial $7,590,000 por trimestre; 2.9 competidores ponderados (captura 26 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $150,100; 25 a 59 años: 47.8 %.
 > 
-> **Riesgos:**  
-> - Competencia: algunas colonias tienen muchos competidores ponderados (ej. Carmen Serdán).  
-> - Confiabilidad del modelo: el score es una estimación basada en datos históricos y supuestos.  
-> - Supuestos: el ticket promedio es un supuesto del proyecto.  
-> - "Apareció en el DENUE" no es lo mismo que "abrió": parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos.  
+> **Sobre Coyoacán:** Población en AGEB urbanas: 614,447 habitantes (lugar 10 de 76 en la ZMVM). Densidad: 11,459 hab/km² (lugar 15 de 76). Edad: 0-14 años 14.9 %; 15-24 14.1 %; 25-59 50.4 %; 60 o más 20.6 %.
 > 
-> **Fuentes:**  
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md)  
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo)  
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana  
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md)  
-> - config/giros.yaml (supuestos del
+> **Riesgos:**
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 55 pesos es un supuesto (supuesto: compra de reposicion diaria)
+> - La probabilidad de seguir abierto viene de un modelo débil (AUC 0.59): mide rotación, no rentabilidad.
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); carpetas/03_municipios (fichas generadas desde agebs_features).
 
 ### 18. Quiero algo barato para una zona de nivel bajo, ¿qué pongo y dónde?
 
-_llm, 1 rondas, 138.9 s; herramientas: perfil_giro({"texto": "Quiero algo barato para una zona de nivel bajo, ¿qué pongo y dónde?"}); sugerir_giros({"nse": "bajo", "ticket_max": 100}); recomendar_zonas({"giro": "abarrotes", "nse": "bajo"})_
+_llm, 1 rondas, 39.9 s; herramientas: perfil_giro({"texto": "Quiero algo barato para una zona de nivel bajo, ¿qué pongo y dónde?"}); sugerir_giros({"nse": "bajo", "inversion": "baja"}); recomendar_zonas({"giro": "abarrotes", "nse": "bajo"})_
 
-> **Giros que conviene considerar:**
-> 1. **abarrotes**: viabilidad 52%, prob. de apertura 71%, prob. de seguir abierto 73%.
-> 2. **tortilleria**: viabilidad 52%, prob. de apertura 66%, prob. de seguir abierto 79%.
-> 3. **fruteria**: viabilidad 46%, prob. de apertura 72%, prob. de seguir abierto 64%.
-> 4. **purificadora**: viabilidad 43%, prob. de apertura 57%, prob. de seguir abierto 75%.
-> 5. **panaderia**: viabilidad 40%, prob. de apertura 65%, prob. de seguir abierto 61%.
+> **Lectura:** Entre las zonas del top de tienda de abarrotes, Tercera Unidad José María Morelos (unidad Morelos Tercera Sección) tiene la mayor probabilidad de apertura (100 %); Infonavit Norte Sección 1 tiene el mayor gasto potencial ($16,730,000 por trimestre); Guadalupe Victoria tiene la menor competencia (4.4 competidores ponderados). El giro de abarrotes lidera con mayor viabilidad (64 %) y es la mejor opción para un nivel socioeconómico bajo.
 > 
-> Los giros se ordenan por viabilidad = prob. de apertura x prob. de seguir abierto (absolutas, comparables entre giros). El score 0-100 es relativo dentro de cada giro: NO compara giros.
+> **Giros que conviene considerar** (en orden de viabilidad = prob. de apertura × prob. de seguir abierto; el score de las colonias es relativo dentro de cada giro y no compara giros)
+> 1. tienda de abarrotes: viabilidad 64 %, prob. de apertura 85 %, prob. de seguir abierto 76 %.
+> 2. barbería y estética: viabilidad 60 %, prob. de apertura 94 %, prob. de seguir abierto 64 %.
+> 3. tortillería: viabilidad 55 %, prob. de apertura 71 %, prob. de seguir abierto 78 %.
+> 4. carnicería: viabilidad 47 %, prob. de apertura 71 %, prob. de seguir abierto 67 %.
+> 5. frutería: viabilidad 41 %, prob. de apertura 61 %, prob. de seguir abierto 66 %.
+> **Nota sobre «barato»:** «barato» se entendió como poca inversión inicial. El proyecto NO tiene la inversión por giro (NO ENCONTRADO; el catálogo solo trae el ticket por venta, que no mide el costo de abrir). Aproximación: giros cuyo establecimiento típico es de los más chicos del DENUE (personal ocupado medio por establecimiento, tercio inferior de los giros del catálogo).
 > 
-> **Top 5 para abarrotes**
-> 1. **MORELOS**, Cuauhtémoc (AGEB 0901500010339): score 85.7/100 (relativo al giro). Por qué: prob. de apertura 100%, gasto potencial por trimestre $13,628,000, competidores ponderados 10.6, captura % 9, residentes objetivo en el radio 950, empleos en el radio 720, NSE estimado "bajo".
-> 2. **CHINAMPAC DE JUÁREZ**, Iztapalapa (AGEB 090070001579A): score 84.6/100 (relativo al giro). Por qué: prob. de apertura 29%, gasto potencial por trimestre $16,196,000, competidores ponderados 15.1, captura % 6, residentes objetivo en el radio 1,160, empleos en el radio 600, NSE estimado "bajo".
-> 3. **INFONAVIT NORTE SECCIÓN 1**, Cuautitlán Izcalli (AGEB 1512100010765): score 83.2/100 (relativo al giro). Por qué: prob. de apertura 98%, gasto potencial por trimestre $16,730,000, competidores ponderados 13.9, captura % 7, residentes objetivo en el radio 1,140, empleos en el radio 340, NSE estimado "bajo".
-> 4. **CONSEJO AGRARISTA MEXICANO**, Iztapalapa (AGEB 0900700015056): score 83.1/100 (relativo al giro). Por qué: prob. de apertura 50%, gasto potencial por trimestre $16,358,000, competidores ponderados 10.3, captura % 9, residentes objetivo en el radio 1,140, empleos en el radio 330, NSE estimado "bajo".
-> 5. **SAN ANTONIO ZOMEYUCAN**, Naucalpan de Juárez (AGEB 1505700010419): score 82.8/100 (relativo al giro). Por qué: prob. de apertura 100%, gasto potencial por trimestre $16,155,000, competidores ponderados 16.7, captura % 6, residentes objetivo en el radio 1,250, empleos en el radio 480, NSE estimado "bajo".
+> **Top 5 para tienda de abarrotes** (score 0-100 relativo al giro; 25 a 59 años en la ZMVM: 49.5 %)
+> 1. **CHINAMPAC DE JUÁREZ**, Iztapalapa (AGEB 090070001579A): score 87.6/100. prob. de apertura 29 %; gasto potencial $16,196,000 por trimestre; 15.1 competidores ponderados (captura 6 %); NSE estimado bajo, decil 4, ingreso trimestral estimado por hogar $55,000; 25 a 59 años: 48.1 %.
+> 2. **INFONAVIT NORTE SECCIÓN 1**, Cuautitlán Izcalli (AGEB 1512100010765): score 86.0/100. prob. de apertura 98 %; gasto potencial $16,730,000 por trimestre; 13.9 competidores ponderados (captura 7 %); NSE estimado bajo, decil 4, ingreso trimestral estimado por hogar $51,800; 25 a 59 años: 46.5 %.
+> 3. **GUADALUPE VICTORIA**, Ecatepec de Morelos (AGEB 1503300014496): score 85.9/100. prob. de apertura 93 %; gasto potencial $7,178,000 por trimestre; 4.4 competidores ponderados (captura 19 %); NSE estimado bajo, decil 4, ingreso trimestral estimado por hogar $57,900; 25 a 59 años: 49.2 %.
+> 4. **TERCERA UNIDAD JOSÉ MARÍA MORELOS (UNIDAD MORELOS TERCERA SECCIÓN)**, Tultitlán (AGEB 1510900251650): score 84.7/100. prob. de apertura 100 %; gasto potencial $10,970,000 por trimestre; 8.6 competidores ponderados (captura 10 %); NSE estimado bajo, decil 4, ingreso trimestral estimado por hogar $57,200; 25 a 59 años: 49.2 %.
+> 5. **SAN MARCOS HUIXTOCO**, Chalco (AGEB 150250013195A): score 84.4/100. prob. de apertura 98 %; gasto potencial $5,989,000 por trimestre; 6.7 competidores ponderados (captura 13 %); NSE estimado bajo, decil 4, ingreso trimestral estimado por hogar $51,400; 25 a 59 años: 44.1 %.
 > 
 > **Riesgos:**
-> - Competencia: algunas colonias tienen muchos competidores ponderados.
-> - Confiabilidad del modelo: el score es una estimación basada en datos históricos.
-> - Supuestos: el ticket promedio es un supuesto del proyecto.
-> - "Apareció en el DENUE" no es lo mismo que "abrió".
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 55 pesos es un supuesto (supuesto: compra de reposicion diaria)
+> - La probabilidad de seguir abierto viene de un modelo débil (AUC 0.59): mide rotación, no rentabilidad.
 > 
-> **Fuentes:**
-> - Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md).
-> - INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo).
-> - INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana.
-> - INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_im
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md).
 
 ### 19. ¿Cómo está la economía para abrir un negocio? Inflación, tasa de Banxico y tipo de cambio
 
-_llm, 1 rondas, 59.6 s; herramientas: perfil_giro({"texto": "¿Cómo está la economía para abrir un negocio? Inflación, tasa de Banxico y tipo de cambio"}); contexto_macro({})_
+_llm, 1 rondas, 14.4 s; herramientas: perfil_giro({"texto": "¿Cómo está la economía para abrir un negocio? Inflación, tasa de Banxico y tipo de cambio"}); contexto_macro({})_
 
-Cifras que no salen de las herramientas: 28
-
-> **Economía para abrir un negocio:**
+> **Lectura:** La economía muestra una inflación general del 3.75 % anual, tasa objetivo de Banxico en 6.25 % anual y tipo de cambio FIX en 19.02 MXN por USD. La confianza del consumidor es de 45.19 puntos.
 > 
-> - **Tasa objetivo de Banxico:** 6.25% anual (fecha: 2026-11-23).
-> - **TIIE 28 días:** 6.51% anual (fecha: 2026-11-23).
-> - **Tipo de cambio fijo (USD/MXN):** 19.02 (fecha: 2026-11-20).
-> - **Remesas (mensuales en millones de USD):** 5,362 (fecha: 2026-09-01). Variación anual: 1.55%. Acumulado de 12 meses: 63,452 millones de USD.
-> - **Inflación general (INPC):** 3.75% anual (fecha: 2026-10).
-> - **Inflación de alimentos (proxy):** No encontrado. Sin embargo, el subíndice de mercancias tiene una variación anual de 3.25% (fecha: 2026-10).
-> - **Confianza del consumidor:** 45.19 puntos (fecha: 2026-10).
-> - **Consumo privado (variación anual):** 1.34% (fecha: 2026-08).
+> **Indicadores (valores nacionales):**
+> - tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745)
+> - TIIE a 28 días 6.51 % anual (2026-11-23, serie SF43783)
+> - tipo de cambio FIX 19.02 pesos por dólar (2026-11-20, serie SF43718)
+> - inflación general (INPC) 3.75 % anual (2026-10, serie 910406)
+> - inflación de alimentos, bebidas y tabaco (INPC): NO ENCONTRADO; como aproximación, agropecuarios 2.99 % anual (2026-10, serie 910411)
+> - remesas 5362 millones de dólares al mes (2026-09-01, serie SE27803)
+> - confianza del consumidor 45.19 puntos del índice (2026-10, serie 454168)
+> - consumo privado (IMCP) 1.34 % anual (cifras originales) (2026-08, serie 740946)
 > 
-> **Fuentes:**
-> - Banco de México, SIE API (series SE27803, SF43718, SF43783, SF61745).
-> - INEGI, Banco de Indicadores API (series 454168, 740946, 910406, 910408, 910411).
-> 
-> **Nota:** Los valores son nacionales y no por colonia. El subíndice de alimentos no está disponible, solo se ofrecen proxies.
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, SCIAN 2023 (data/processed/scian.csv); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Banco de México, SIE API (serie SE27803); Banco de México, SIE API (serie SF43718); Banco de México, SIE API (serie SF43783); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API (BIE, id 454168); INEGI, Banco de Indicadores API (BIE, id 740946); INEGI, Banco de Indicadores API (BIE, id 910406); INEGI, Banco de Indicadores API (BIE, id 910408); INEGI, Banco de Indicadores API (BIE, id 910411).
 
 ### 20. Quiero poner una heladería en Monterrey
 
-_llm, 1 rondas, 33.5 s; herramientas: perfil_giro({"texto": "Quiero poner una heladería en Monterrey"}); recomendar_zonas({"giro": "heladeria", "municipio": "Monterrey"}); buscar_carpetas({"pregunta": "Quiero poner una heladería en Monterrey", "k": 2})_
+_llm, 1 rondas, 30.6 s; herramientas: perfil_giro({"texto": "Quiero poner una heladería en Monterrey"}); recomendar_zonas({"giro": "heladeria", "municipio": "Monterrey"}); buscar_carpetas({"pregunta": "Quiero poner una heladería en Monterrey", "k": 2})_
 
-> La ubicación de una heladería en Monterrey está **fuera de alcance** del modelo, ya que Monterrey no forma parte de la Zona Metropolitana del Valle de México (ZMVM), que incluye las 16 alcaldías de la Ciudad de México, 59 municipios del Estado de México y Tizayuca, Hidalgo. El modelo no cuenta con datos de ciudades fuera de la ZMVM, por lo que no se pueden proporcionar colonias o municipios de Monterrey.
+> El modelo no puede recomendar colonias para Monterrey, ya que está fuera de la Zona Metropolitana del Valle de México (ZMVM). El modelo solo cubre las 76 municipios de la ZMVM, incluyendo las 16 alcaldías de la Ciudad de México, 59 municipios del Estado de México y Tizayuca, Hidalgo. Monterrey no está dentro de este alcance.
 > 
-> **Fuentes:**  
-> - SEDATU-CONAPO-INEGI, delimitación de zonas metropolitanas 2015 (data/processed/zmvm_municipios.csv)  
-> - Carpetas/00_alcance.md (qué no cubre)
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); SEDATU-CONAPO-INEGI, delimitación de zonas metropolitanas 2015 (data/processed/zmvm_municipios.csv); carpetas/00_alcance.md.
+
+### 21. Quiero abrir una nevería en Polanco
+
+_llm, 1 rondas, 46.7 s; herramientas: perfil_giro({"texto": "Quiero abrir una nevería en Polanco"}); recomendar_zonas({"giro": "heladeria", "colonia": "Polanco"}); contexto_macro({"giro": "heladeria"}); ficha_municipio({"municipio": "Miguel Hidalgo"})_
+
+> > Filtro por colonia: «Polanco» (Miguel Hidalgo; 12 AGEB). El top se limita a las AGEB de esa colonia y a las que están a 2 km o menos de su centroide; hay al menos 3 zonas de la colonia misma (si las tiene) y cada zona dice si está dentro y a cuántos km queda.
+> 
+> **Lectura:** Entre las zonas del top de heladería, Polanco V Sección tiene la mayor probabilidad de apertura (50 %) y el mayor gasto potencial ($145,000 por trimestre); Polanco IV Sección tiene la menor competencia (0.0 competidores ponderados). La colonia POLANCO I SECCIÓN destaca por tener el mayor porcentaje de la edad clave (0-14 años) con 20.8 %.
+> 
+> **Top 5 para heladería (nevería)** (score 0-100 relativo al giro; 0 a 14 años en la ZMVM: 20.7 %)
+> 1. **POLANCO IV SECCIÓN**, Miguel Hidalgo (AGEB 0901600010656): score 76.4/100. prob. de apertura 23 %; gasto potencial $109,000 por trimestre; 0.0 competidores ponderados (captura 100 %); NSE estimado alto, decil 10, ingreso trimestral estimado por hogar $192,600; 0 a 14 años: 14.1 %. Dentro de Polanco.
+> 2. **5 DE MAYO**, Miguel Hidalgo (AGEB 090160001132A): score 71.8/100. prob. de apertura 16 %; gasto potencial $95,000 por trimestre; 1.4 competidores ponderados (captura 41 %); NSE estimado medio, decil 5, ingreso trimestral estimado por hogar $67,700; 0 a 14 años: 16.8 %. A 1.8 km de Polanco.
+> 3. **GRANADA**, Miguel Hidalgo (AGEB 0901600010571): score 70.2/100. prob. de apertura 21 %; gasto potencial $140,000 por trimestre; 0.0 competidores ponderados (captura 100 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $169,400; 0 a 14 años: 12.1 %. A 1.0 km de Polanco.
+> 4. **POLANCO V SECCIÓN**, Miguel Hidalgo (AGEB 0901600010660): score 59.1/100. prob. de apertura 50 %; gasto potencial $145,000 por trimestre; 1.1 competidores ponderados (captura 47 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $166,300; 0 a 14 años: 13.1 %. Dentro de Polanco.
+> 5. **POLANCO I SECCIÓN**, Miguel Hidalgo (AGEB 0901600010622): score 56.4/100. prob. de apertura 22 %; gasto potencial $115,000 por trimestre; 0.0 competidores ponderados (captura 100 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $162,900; 0 a 14 años: 20.8 %. Dentro de Polanco.
+> 
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406); inflación de alimentos, bebidas y tabaco (INPC): NO ENCONTRADO; como aproximación, agropecuarios 2.99 % anual (2026-10, serie 910411).
+> 
+> **Sobre Miguel Hidalgo:** Población en AGEB urbanas: 414,470 habitantes (lugar 21 de 76 en la ZMVM). Densidad: 8,980 hab/km² (lugar 23 de 76). Edad: 0-14 años 15.1 %; 15-24 12.0 %; 25-59 54.3 %; 60 o más 17.2 %.
+> 
+> **Riesgos:**
+> - Helados de la ENIGH es consumo en casa y solo 2-7 % de hogares reporta gasto; sirve para ordenar deciles, no para dimensionar.
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 70 pesos es un supuesto (supuesto: una nieve o helado artesanal individual, 2026)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API; INEGI, Banco de Indicadores API (BIE, id 910406); INEGI, Banco de Indicadores API (BIE, id 910408); INEGI, Banco de Indicadores API (BIE, id 910411); carpetas/03_municipios (fichas generadas desde agebs_features).
+
+### 22. ¿Dónde pongo una cafetería en la Condesa?
+
+_llm, 1 rondas, 43.7 s; herramientas: perfil_giro({"texto": "¿Dónde pongo una cafetería en la Condesa?"}); recomendar_zonas({"giro": "cafeteria", "colonia": "la Condesa"}); contexto_macro({"giro": "cafeteria"}); ficha_municipio({"municipio": "Cuauhtémoc"})_
+
+> > Filtro por colonia: «La Condesa» (Cuauhtémoc; 11 AGEB). El top se limita a las AGEB de esa colonia y a las que están a 2 km o menos de su centroide; hay al menos 3 zonas de la colonia misma (si las tiene) y cada zona dice si está dentro y a cuántos km queda.
+> 
+> **Lectura:** Entre las zonas del top de cafetería, Hipódromo tiene la mayor probabilidad de apertura (99 %); Roma Sur tiene el mayor gasto potencial ($19,613,000 por trimestre); Escandón I Sección tiene la menor competencia (4.6 competidores ponderados).
+> 
+> **Top 5 para cafetería** (score 0-100 relativo al giro; 25 a 59 años en la ZMVM: 49.5 %)
+> 1. **ESCANDÓN I SECCIÓN**, Miguel Hidalgo (AGEB 0901600011211): score 91.6/100. prob. de apertura 92 %; gasto potencial $18,344,000 por trimestre; 4.6 competidores ponderados (captura 18 %); NSE estimado medio, decil 8, ingreso trimestral estimado por hogar $104,800; 25 a 59 años: 56.8 %. A 1.6 km de la Condesa.
+> 2. **ROMA SUR**, Cuauhtémoc (AGEB 0901500011464): score 90.2/100. prob. de apertura 72 %; gasto potencial $19,613,000 por trimestre; 5.4 competidores ponderados (captura 16 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $126,900; 25 a 59 años: 60.5 %. A 1.5 km de la Condesa.
+> 3. **CONDESA**, Cuauhtémoc (AGEB 0901500011178): score 86.1/100. prob. de apertura 91 %; gasto potencial $15,225,000 por trimestre; 5.8 competidores ponderados (captura 15 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $129,900; 25 a 59 años: 62.3 %. Dentro de la Condesa.
+> 4. **HIPÓDROMO**, Cuauhtémoc (AGEB 090150001120A): score 78.0/100. prob. de apertura 99 %; gasto potencial $11,711,000 por trimestre; 16.1 competidores ponderados (captura 6 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $147,900; 25 a 59 años: 70.4 %. Dentro de la Condesa.
+> 5. **HIPÓDROMO CONDESA**, Cuauhtémoc (AGEB 0901500011411): score 77.3/100. prob. de apertura 94 %; gasto potencial $12,604,000 por trimestre; 7.4 competidores ponderados (captura 12 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $154,500; 25 a 59 años: 62.7 %. Dentro de la Condesa.
+> 
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406); inflación de alimentos, bebidas y tabaco (INPC): NO ENCONTRADO; como aproximación, agropecuarios 2.99 % anual (2026-10, serie 910411).
+> 
+> **Sobre Cuauhtémoc:** Población en AGEB urbanas: 545,884 habitantes (lugar 11 de 76 en la ZMVM). Densidad: 16,882 hab/km² (lugar 3 de 76). Edad: 0-14 años 15.3 %; 15-24 12.8 %; 25-59 54.7 %; 60 o más 17.2 %.
+> 
+> **Riesgos:**
+> - Cafe_bebidas de la ENIGH es café para preparar en casa; el consumo en cafetería cae en ali_fuera_total (restaurantes y similares).
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 95 pesos es un supuesto (supuesto: una bebida y un alimento ligero)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API; INEGI, Banco de Indicadores API (BIE, id 910406); INEGI, Banco de Indicadores API (BIE, id 910408); INEGI, Banco de Indicadores API (BIE, id 910411); carpetas/03_municipios (fichas generadas desde agebs_features).
+
+### 23. Quiero abrir una farmacia en Santa Fe
+
+_llm, 1 rondas, 35.0 s; herramientas: perfil_giro({"texto": "Quiero abrir una farmacia en Santa Fe"}); recomendar_zonas({"giro": "farmacia", "colonia": "Santa Fe"}); contexto_macro({"giro": "farmacia"})_
+
+> > Filtro por colonia: «Santa Fe» (Álvaro Obregón, Cuajimalpa de Morelos; 8 AGEB). El top se limita a las AGEB de esa colonia y a las que están a 2 km o menos de su centroide; hay al menos 3 zonas de la colonia misma (si las tiene) y cada zona dice si está dentro y a cuántos km queda.
+> 
+> **Lectura:** Entre las zonas del top de farmacia, Santa Fe Cuajimalpa tiene la mayor probabilidad de apertura (91 %); Punta de Ceguaya tiene el mayor gasto potencial ($1,116,000 por trimestre); Santa Fe la Loma tiene la menor competencia (0.0 competidores ponderados).
+> 
+> **Top 5 para farmacia** (score 0-100 relativo al giro; 60 años o más en la ZMVM: 13.8 %)
+> 1. **SANTA FE**, Álvaro Obregón (AGEB 0901000010309): score 79.3/100. prob. de apertura 44 %; gasto potencial $639,000 por trimestre; 0.2 competidores ponderados (captura 82 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $77,700; 60 años o más: 16.5 %. Dentro de Santa Fe.
+> 2. **SANTA LUCIA**, Álvaro Obregón (AGEB 0901000012305): score 72.6/100. prob. de apertura 43 %; gasto potencial $733,000 por trimestre; 1.0 competidores ponderados (captura 49 %); NSE estimado bajo, decil 3, ingreso trimestral estimado por hogar $45,400; 60 años o más: 10.8 %. A 1.5 km de Santa Fe.
+> 3. **PUNTA DE CEGUAYA**, Álvaro Obregón (AGEB 0901000012023): score 68.3/100. prob. de apertura 35 %; gasto potencial $1,116,000 por trimestre; 1.6 competidores ponderados (captura 39 %); NSE estimado bajo, decil 4, ingreso trimestral estimado por hogar $52,900; 60 años o más: 11.5 %. A 1.7 km de Santa Fe.
+> 4. **SANTA FE LA LOMA**, Álvaro Obregón (AGEB 0901000012358): score 35.0/100. prob. de apertura 9 %; gasto potencial $436,000 por trimestre; 0.0 competidores ponderados (captura 100 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $162,800; 60 años o más: 9.9 %. Dentro de Santa Fe.
+> 5. **SANTA FE CUAJIMALPA**, Cuajimalpa de Morelos (AGEB 0900400010369): score 27.0/100. prob. de apertura 91 %; gasto potencial $998,000 por trimestre; 2.8 competidores ponderados (captura 26 %); NSE estimado alto, decil 10, ingreso trimestral estimado por hogar $229,200; 60 años o más: 7.1 %. Dentro de Santa Fe.
+> 
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406).
+> 
+> **Riesgos:**
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 190 pesos es un supuesto (supuesto: medicamento de receta o patente más un artículo de cuidado personal)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API (BIE, id 910406).
+
+### 24. Quiero abrir una papelería en la colonia Villa Esperanza Imaginaria
+
+_llm, 1 rondas, 31.3 s; herramientas: perfil_giro({"texto": "Quiero abrir una papelería en la colonia Villa Esperanza Imaginaria"}); recomendar_zonas({"giro": "papeleria", "colonia": "Villa Esperanza Imaginaria"}); contexto_macro({"giro": "papeleria"})_
+
+> > NO ENCONTRADO: «Villa Esperanza Imaginaria» no aparece como colonia o asentamiento (en la ZMVM). A cambio se muestra el top del giro en toda la ZMVM, SIN filtro de colonia. ¿Quisiste decir: Esperanza (Nezahualcóyotl); España (Hueypoxtla)?
+> 
+> **Lectura:** Entre las zonas del top de papelería, Juan Escutia tiene la mayor probabilidad de apertura (92 %); Nonoalco Tlatelolco tiene el mayor gasto potencial ($1,191,000 por trimestre); Tacubaya tiene la menor competencia (1.8 competidores ponderados). JUAN ESCUTIA destaca por tener el 19.4 % de la edad clave (0 a 14 años) y una probabilidad de apertura del 92 %.
+> 
+> **Top 5 para papelería** (score 0-100 relativo al giro; 0 a 14 años en la ZMVM: 20.7 %)
+> 1. **BENITO JUAREZ**, Nezahualcóyotl (AGEB 1505800010577): score 95.7/100. prob. de apertura 91 %; gasto potencial $828,000 por trimestre; 4.2 competidores ponderados (captura 19 %); NSE estimado medio, decil 5, ingreso trimestral estimado por hogar $67,500; 0 a 14 años: 18.2 %.
+> 2. **NONOALCO TLATELOLCO**, Cuauhtémoc (AGEB 0901500010324): score 94.5/100. prob. de apertura 9 %; gasto potencial $1,191,000 por trimestre; 1.9 competidores ponderados (captura 34 %); NSE estimado medio, decil 7, ingreso trimestral estimado por hogar $92,000; 0 a 14 años: 10.4 %.
+> 3. **EX HIPÓDROMO DE PERALVILLO**, Cuauhtémoc (AGEB 0901500010150): score 94.2/100. prob. de apertura 50 %; gasto potencial $795,000 por trimestre; 2.1 competidores ponderados (captura 33 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $73,100; 0 a 14 años: 17.1 %.
+> 4. **TACUBAYA**, Miguel Hidalgo (AGEB 0901600011175): score 93.3/100. prob. de apertura 65 %; gasto potencial $817,000 por trimestre; 1.8 competidores ponderados (captura 35 %); NSE estimado medio, decil 8, ingreso trimestral estimado por hogar $104,800; 0 a 14 años: 11.1 %.
+> 5. **JUAN ESCUTIA**, Iztapalapa (AGEB 0900700010017): score 92.9/100. prob. de apertura 92 %; gasto potencial $669,000 por trimestre; 3.3 competidores ponderados (captura 23 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $73,600; 0 a 14 años: 19.4 %.
+> 
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406).
+> 
+> **Riesgos:**
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 60 pesos es un supuesto (supuesto: copias, cuadernos y útiles sueltos; sube en temporada escolar)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API (BIE, id 910406).
+
+### 25. ¿Y en Coyoacán?
+
+_llm, 1 rondas, 46.8 s; herramientas: perfil_giro({"texto": "heladeria"}); recomendar_zonas({"giro": "heladeria", "municipio": "Coyoacán"}); contexto_macro({"giro": "heladeria"}); ficha_municipio({"municipio": "Coyoacán"})_
+
+> Sigo con heladería (de tu pregunta anterior).
+> 
+> **Lectura:** En Coyoacán, las colonias con mejor score para heladería son AJUSCO y PEDREGAL DE SANTO DOMINGO. AJUSCO lidera con un ingreso trimestral estimado por hogar de $70,800 y una probabilidad de apertura del 60 %. PEDREGAL DE SANTO DOMINGO destaca por un gasto potencial de $98,000 por trimestre.
+> 
+> **Top 5 para heladería** (score 0-100 relativo al giro; 0 a 14 años en la ZMVM: 20.7 %)
+> 1. **AJUSCO**, Coyoacán (AGEB 0900300010817): score 88.8/100. prob. de apertura 60 %; gasto potencial $62,000 por trimestre; 0.3 competidores ponderados (captura 76 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $70,800; 0 a 14 años: 16.5 %.
+> 2. **PEDREGAL DE SANTO DOMINGO**, Coyoacán (AGEB 0900300010802): score 86.7/100. prob. de apertura 54 %; gasto potencial $98,000 por trimestre; 1.0 competidores ponderados (captura 50 %); NSE estimado medio, decil 5, ingreso trimestral estimado por hogar $58,900; 0 a 14 años: 20.2 %.
+> 3. **EMILIANO ZAPATA**, Coyoacán (AGEB 0900300011393): score 83.3/100. prob. de apertura 14 %; gasto potencial $73,000 por trimestre; 0.4 competidores ponderados (captura 70 %); NSE estimado medio, decil 5, ingreso trimestral estimado por hogar $65,100; 0 a 14 años: 19.4 %.
+> 4. **CARMEN SERDÁN**, Coyoacán (AGEB 0900300011389): score 82.3/100. prob. de apertura 27 %; gasto potencial $79,000 por trimestre; 0.9 competidores ponderados (captura 53 %); NSE estimado bajo, decil 3, ingreso trimestral estimado por hogar $48,500; 0 a 14 años: 21.6 %.
+> 5. **SAN FRANCISCO CULHUACÁN BARRIO DE SAN FRANCISCO**, Coyoacán (AGEB 0900300010357): score 77.6/100. prob. de apertura 37 %; gasto potencial $51,000 por trimestre; 0.4 competidores ponderados (captura 70 %); NSE estimado bajo, decil 4, ingreso trimestral estimado por hogar $55,400; 0 a 14 años: 17.1 %.
+> 
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406); inflación de alimentos, bebidas y tabaco (INPC): NO ENCONTRADO; como aproximación, agropecuarios 2.99 % anual (2026-10, serie 910411).
+> 
+> **Sobre Coyoacán:** Población en AGEB urbanas: 614,447 habitantes (lugar 10 de 76 en la ZMVM). Densidad: 11,459 hab/km² (lugar 15 de 76). Edad: 0-14 años 14.9 %; 15-24 14.1 %; 25-59 50.4 %; 60 o más 20.6 %.
+> 
+> **Riesgos:**
+> - Helados de la ENIGH es consumo en casa y solo 2-7 % de hogares reporta gasto; sirve para ordenar deciles, no para dimensionar.
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 70 pesos es un supuesto (supuesto: una nieve o helado artesanal individual, 2026)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API; INEGI, Banco de Indicadores API (BIE, id 910406); INEGI, Banco de Indicadores API (BIE, id 910408); INEGI, Banco de Indicadores API (BIE, id 910411); carpetas/03_municipios (fichas generadas desde agebs_features).
+
+### 26. ¿Y una veterinaria?
+
+_llm, 1 rondas, 42.5 s; herramientas: perfil_giro({"texto": "¿Y una veterinaria?"}); recomendar_zonas({"giro": "veterinaria", "municipio": "Benito Juárez"}); contexto_macro({"giro": "veterinaria"}); ficha_municipio({"municipio": "Benito Juárez"})_
+
+> Sigo con Benito Juárez (de tu pregunta anterior).
+> 
+> **Lectura:** Entre las zonas del top de veterinaria, Narvarte Oriente tiene la mayor probabilidad de apertura (57 %); Del Valle Norte tiene el mayor gasto potencial ($1,541,000 por trimestre); Del Valle Centro tiene la menor competencia (6.5 competidores ponderados).
+> 
+> **Top 5 para veterinaria** (score 0-100 relativo al giro; 25 a 59 años en la ZMVM: 49.5 %)
+> 1. **DEL VALLE NORTE**, Benito Juárez (AGEB 0901400010223): score 76.0/100. prob. de apertura 42 %; gasto potencial $1,541,000 por trimestre; 7.8 competidores ponderados (captura 11 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $139,800; 25 a 59 años: 59.7 %.
+> 2. **NARVARTE ORIENTE**, Benito Juárez (AGEB 0901400010276): score 73.4/100. prob. de apertura 57 %; gasto potencial $1,465,000 por trimestre; 13.8 competidores ponderados (captura 7 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $142,100; 25 a 59 años: 60.0 %.
+> 3. **DEL VALLE CENTRO**, Benito Juárez (AGEB 0901400010399): score 73.2/100. prob. de apertura 32 %; gasto potencial $1,430,000 por trimestre; 6.5 competidores ponderados (captura 13 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $172,600; 25 a 59 años: 55.8 %.
+> 4. **PIEDAD NARVARTE**, Benito Juárez (AGEB 0901400010026): score 71.8/100. prob. de apertura 42 %; gasto potencial $1,004,000 por trimestre; 10.3 competidores ponderados (captura 9 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $131,600; 25 a 59 años: 61.5 %.
+> 5. **AMPLIACIÓN NÁPOLES**, Benito Juárez (AGEB 0901400010384): score 71.7/100. prob. de apertura 46 %; gasto potencial $1,486,000 por trimestre; 8.0 competidores ponderados (captura 11 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $169,100; 25 a 59 años: 62.4 %.
+> 
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406).
+> 
+> **Sobre Benito Juárez:** Población en AGEB urbanas: 434,153 habitantes (lugar 18 de 76 en la ZMVM). Densidad: 16,353 hab/km² (lugar 4 de 76). Edad: 0-14 años 11.8 %; 15-24 10.2 %; 25-59 57.9 %; 60 o más 20.1 %.
+> 
+> **Riesgos:**
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 450 pesos es un supuesto (supuesto: consulta general más alimento o vacuna)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API (BIE, id 910406); carpetas/03_municipios (fichas generadas desde agebs_features).
+
+### 27. Quiero una heladería en Coyoacán para niños, ¿cuánto ganan ahí y qué porcentaje de la gente es menor de 14 años?
+
+_llm, 1 rondas, 37.7 s; herramientas: perfil_giro({"texto": "Quiero una heladería en Coyoacán para niños, ¿cuánto ganan ahí y qué porcentaje de la gente es menor de 14 años?"}); recomendar_zonas({"giro": "heladeria", "municipio": "Coyoacán"}); contexto_macro({"giro": "heladeria"}); ficha_municipio({"municipio": "Coyoacán"})_
+
+> **Lectura:** Entre las zonas del top de heladería, Ajusco tiene la mayor probabilidad de apertura (60 %) y la menor competencia (0.3 competidores ponderados); Pedregal de Santo Domingo tiene el mayor gasto potencial ($98,000 por trimestre). La colonia PEDREGAL DE SANTO DOMINGO destaca por tener el mayor porcentaje de menores de 14 años (20.2 %) y un gasto potencial por trimestre de $98,000.
+> 
+> **Top 5 para heladería** (score 0-100 relativo al giro; 0 a 14 años en la ZMVM: 20.7 %)
+> 1. **AJUSCO**, Coyoacán (AGEB 0900300010817): score 88.8/100. prob. de apertura 60 %; gasto potencial $62,000 por trimestre; 0.3 competidores ponderados (captura 76 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $70,800; 0 a 14 años: 16.5 %.
+> 2. **PEDREGAL DE SANTO DOMINGO**, Coyoacán (AGEB 0900300010802): score 86.7/100. prob. de apertura 54 %; gasto potencial $98,000 por trimestre; 1.0 competidores ponderados (captura 50 %); NSE estimado medio, decil 5, ingreso trimestral estimado por hogar $58,900; 0 a 14 años: 20.2 %.
+> 3. **EMILIANO ZAPATA**, Coyoacán (AGEB 0900300011393): score 83.3/100. prob. de apertura 14 %; gasto potencial $73,000 por trimestre; 0.4 competidores ponderados (captura 70 %); NSE estimado medio, decil 5, ingreso trimestral estimado por hogar $65,100; 0 a 14 años: 19.4 %.
+> 4. **CARMEN SERDÁN**, Coyoacán (AGEB 0900300011389): score 82.3/100. prob. de apertura 27 %; gasto potencial $79,000 por trimestre; 0.9 competidores ponderados (captura 53 %); NSE estimado bajo, decil 3, ingreso trimestral estimado por hogar $48,500; 0 a 14 años: 21.6 %.
+> 5. **SAN FRANCISCO CULHUACÁN BARRIO DE SAN FRANCISCO**, Coyoacán (AGEB 0900300010357): score 77.6/100. prob. de apertura 37 %; gasto potencial $51,000 por trimestre; 0.4 competidores ponderados (captura 70 %); NSE estimado bajo, decil 4, ingreso trimestral estimado por hogar $55,400; 0 a 14 años: 17.1 %.
+> 
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406); inflación de alimentos, bebidas y tabaco (INPC): NO ENCONTRADO; como aproximación, agropecuarios 2.99 % anual (2026-10, serie 910411).
+> 
+> **Sobre Coyoacán:** Población en AGEB urbanas: 614,447 habitantes (lugar 10 de 76 en la ZMVM). Densidad: 11,459 hab/km² (lugar 15 de 76). Edad: 0-14 años 14.9 %; 15-24 14.1 %; 25-59 50.4 %; 60 o más 20.6 %.
+> 
+> **Riesgos:**
+> - Helados de la ENIGH es consumo en casa y solo 2-7 % de hogares reporta gasto; sirve para ordenar deciles, no para dimensionar.
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 70 pesos es un supuesto (supuesto: una nieve o helado artesanal individual, 2026)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API; INEGI, Banco de Indicadores API (BIE, id 910406); INEGI, Banco de Indicadores API (BIE, id 910408); INEGI, Banco de Indicadores API (BIE, id 910411); carpetas/03_municipios (fichas generadas desde agebs_features).
+
+### 28. Quiero abrir una taquería, ¿cómo influyen la inflación y la tasa de Banxico?
+
+_llm, 1 rondas, 48.2 s; herramientas: perfil_giro({"texto": "Quiero abrir una taquería, ¿cómo influyen la inflación y la tasa de Banxico?"}); contexto_macro({"giro": "taqueria"}); recomendar_zonas({"giro": "taqueria"})_
+
+> **Lectura:** La inflación general (INPC) de 3.75 % anual y la tasa objetivo de Banxico de 6.25 % anual afectan la taquería al subir el costo del crédito y los insumos. La tasa alta incrementa el costo de financiar el local y el inventario, mientras que la inflación reduce el poder de compra del cliente. La mejor opción es POLANCO III SECCIÓN, con ingreso trimestral estimado por hogar de $157,400 y gasto potencial de $803,000 por trimestre. La probabilidad de apertura es del 15 %, y la competencia es menor.
+> 
+> **Top 5 para taquería** (score 0-100 relativo al giro; 25 a 59 años en la ZMVM: 49.5 %)
+> 1. **POLANCO III SECCIÓN**, Miguel Hidalgo (AGEB 0901600010764): score 96.7/100. prob. de apertura 15 %; gasto potencial $803,000 por trimestre; 0.3 competidores ponderados (captura 79 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $157,400; 25 a 59 años: NO ENCONTRADO (el Censo reserva el dato).
+> 2. **GABRIEL RAMOS MILLÁN SECCIÓN CUCHILLA**, Iztacalco (AGEB 0900600011018): score 95.2/100. prob. de apertura 21 %; gasto potencial $1,080,000 por trimestre; 1.3 competidores ponderados (captura 43 %); NSE estimado medio, decil 6, ingreso trimestral estimado por hogar $72,500; 25 a 59 años: 50.8 %.
+> 3. **GABRIEL RAMOS MILLÁN SECCIÓN BRAMADERO**, Iztacalco (AGEB 0900600010734): score 94.3/100. prob. de apertura 73 %; gasto potencial $1,132,000 por trimestre; 2.6 competidores ponderados (captura 28 %); NSE estimado medio, decil 5, ingreso trimestral estimado por hogar $66,700; 25 a 59 años: 50.1 %.
+> 4. **HIPÓDROMO**, Cuauhtémoc (AGEB 0901500011426): score 92.7/100. prob. de apertura 43 %; gasto potencial $1,373,000 por trimestre; 1.6 competidores ponderados (captura 38 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $142,800; 25 a 59 años: 66.4 %.
+> 5. **DEL CARMEN**, Benito Juárez (AGEB 0901400010666): score 92.4/100. prob. de apertura 40 %; gasto potencial $1,785,000 por trimestre; 1.1 competidores ponderados (captura 47 %); NSE estimado alto, decil 9, ingreso trimestral estimado por hogar $130,200; 25 a 59 años: 56.9 %.
+> 
+> **Contexto económico:** valores nacionales: tasa objetivo de Banxico 6.25 % anual (2026-11-23, serie SF61745); inflación general (INPC) 3.75 % anual (2026-10, serie 910406); inflación de alimentos, bebidas y tabaco (INPC): NO ENCONTRADO; como aproximación, agropecuarios 2.99 % anual (2026-10, serie 910411).
+> 
+> **Cómo influye en el negocio:**
+> - La tasa de Banxico fija el costo del crédito: con tasa alta cuesta más financiar el equipo, el local y el inventario, y el cliente pospone compras a crédito.
+> - La inflación general sube el costo de la renta, los servicios y los insumos, y le quita poder de compra al cliente: el negocio absorbe el aumento en su margen o lo traslada al precio y vende menos.
+> 
+> **Riesgos:**
+> - «apareció en el DENUE» no es lo mismo que «abrió»: parte de lo nuevo entre 2020 y 2026 es cobertura de los Censos Económicos
+> - El NSE, el decil y el ingreso por AGEB son estimaciones del proyecto (la ENIGH no representa colonias)
+> - El ticket promedio de 110 pesos es un supuesto (supuesto: 5-6 tacos y una bebida)
+> 
+> **Fuentes:** config/giros.yaml (supuestos del proyecto: radio, cliente objetivo, ticket); INEGI, DENUE corte 05/2026 (y 11/2020 para el modelo); Modelo de aperturas del proyecto (models/metadata.json, reports/validacion.md); Banco de México, SIE API (serie SF61745); INEGI, Banco de Indicadores API; INEGI, Banco de Indicadores API (BIE, id 910406); INEGI, Banco de Indicadores API (BIE, id 910408); INEGI, Banco de Indicadores API (BIE, id 910411); INEGI, Censo de Población y Vivienda 2020, resultados por AGEB urbana; INEGI, ENIGH 2024 (gasto trimestral por decil, ámbito ZMVM); decil por AGEB estimado por el proyecto (reports/decil_imputado.md).
 

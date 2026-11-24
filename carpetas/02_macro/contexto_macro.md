@@ -11,7 +11,7 @@ Generado por `scripts/04a_carpetas.py` desde `data/processed/macro.json` (últim
 
 ## Inflación de alimentos
 
-**NO ENCONTRADO**: El subindice de INPC 'Alimentos, bebidas y tabaco' no esta publicado en la API de indicadores del INEGI (BIE ni BISE) y no se localizo su serie en las busquedas hechas en el SIE de Banxico. Ver proxies.
+**NO ENCONTRADO**: El subindice de INPC 'Alimentos, bebidas y tabaco' (por objeto del gasto) no se encontro en la API de indicadores del INEGI ni en el SIE de Banxico. Ver evidencia y proxies.
 
 Aproximaciones oficiales que sí existen (son proxies, no la inflación de alimentos):
 

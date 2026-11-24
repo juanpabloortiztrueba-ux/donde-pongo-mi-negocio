@@ -2,7 +2,7 @@
 PY := uv run python
 PESADO := OMP_NUM_THREADS=6 nice -n 10
 
-.PHONY: setup datos features entrenar carpetas indexar app evaluar pruebas todo
+.PHONY: setup datos features entrenar carpetas indexar app tablero tablero-red web evaluar pruebas todo
 
 setup:            ## ambiente de Python y modelos locales (~6 GB de Ollama)
 	uv sync
@@ -13,6 +13,7 @@ datos:            ## descarga y limpia INEGI, CONAPO, ENIGH, Banxico y transport
 	$(PY) scripts/01a_censo_marco.py
 	$(PY) scripts/01b_denue.py
 	$(PY) scripts/01c_enigh_macro.py
+	$(PY) scripts/01d_macro_series.py
 	$(PY) scripts/01c_transporte.py
 	$(PY) scripts/validar_giros.py --md reports/validacion_giros.md
 
@@ -28,10 +29,19 @@ carpetas:         ## documentos de carpetas/ que salen del codigo (~20 s, sin Ol
 indexar:          ## carpetas + embeddings con nomic-embed-text (~1 min; necesita Ollama)
 	$(PY) scripts/04_indexar.py
 
-app:              ## interfaz en http://localhost:8501 (abrela en el navegador)
+app:              ## interfaz vieja de Streamlit (respaldo) en http://localhost:8501 (abrela en el navegador)
 	uv run streamlit run app/ui.py
 
-evaluar:          ## 20 preguntas al agente (~20-30 min; necesita Ollama) -> reports/evaluacion.md
+tablero:          ## tablero web en http://127.0.0.1:8501 (abre el navegador)
+	uv run python -m app.servidor
+
+tablero-red:      ## tablero web visible en tu red local (cualquiera en tu Wi-Fi puede abrirlo)
+	uv run python -m app.servidor --red
+
+web:              ## reconstruye web/dist (necesita Node 20+; solo hace falta si cambias web/src)
+	cd web && npm ci && npm run build
+
+evaluar:          ## 28 preguntas al agente (~20 min; necesita Ollama) -> reports/evaluacion.md
 	nice -n 10 $(PY) eval/evaluar.py --rehacer
 
 pruebas:          ## pruebas sin LLM (~20 s)
