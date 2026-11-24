@@ -48,7 +48,7 @@ function useSegundos(t: Turno) {
   return Math.max(0, Math.floor((t.segundos ?? 0) + (Date.now() - (t.t_seg ?? Date.now())) / 1000))
 }
 
-function Pensando({ t, mediana, onCancelar }: { t: Turno; mediana: number | null; onCancelar: () => void }) {
+function Pensando({ t, mediana, total, onCancelar }: { t: Turno; mediana: number | null; total?: number; onCancelar: () => void }) {
   const seg = useSegundos(t)
   const enCola = t.fase === 'en_cola'
   const pos = t.posicion ?? 0
@@ -67,7 +67,7 @@ function Pensando({ t, mediana, onCancelar }: { t: Turno; mediana: number | null
         <>
           <Meter value={Math.min(0.96, seg / mediana)} />
           <p className="chico">Suele tardar unos {fmtNum(mediana)} s en esta Mac. Mientras, ya puedes revisar el mapa y las zonas que aparecen abajo.</p>
-          <Fuente>modelo propio, mediana de las 20 preguntas de la evaluación</Fuente>
+          <Fuente>{`modelo propio, mediana de ${total != null ? `las ${fmtNum(total)} preguntas` : 'las preguntas'} de la evaluación (reports/evaluacion.json)`}</Fuente>
         </>
       )}
     </div>
@@ -116,7 +116,7 @@ function Respuesta({ t, cargarHerr }: { t: Turno; cargarHerr: () => void }) {
   )
 }
 
-function TurnoVista({ t, ultimo, mediana, onCancelar, parchar }: { t: Turno; ultimo: boolean; mediana: number | null; onCancelar: () => void; parchar: (k: string, p: Partial<Turno>) => void }) {
+function TurnoVista({ t, ultimo, mediana, total, onCancelar, parchar }: { t: Turno; ultimo: boolean; mediana: number | null; total?: number; onCancelar: () => void; parchar: (k: string, p: Partial<Turno>) => void }) {
   const [verMapa, setVerMapa] = useState(false)
   const [cargandoMapa, setCargandoMapa] = useState(false)
   const pedido = useRef(false)
@@ -150,7 +150,7 @@ function TurnoVista({ t, ultimo, mediana, onCancelar, parchar }: { t: Turno; ult
           <Cargando forma="lista" filas={3} />
         </div>
       )}
-      {EN_CURSO.has(t.fase) && <Pensando t={t} mediana={mediana} onCancelar={onCancelar} />}
+      {EN_CURSO.has(t.fase) && <Pensando t={t} mediana={mediana} total={total} onCancelar={onCancelar} />}
       {t.fase === 'falla' && <ErrorVista error={new Error(t.error ?? 'No pude contestar.')} titulo="No pude contestar esta pregunta" />}
       {t.datos && <Datos datos={t.datos} conMapa={conMapa && !!t.datos.mapa} cargandoMapa={cargandoMapa} onVerMapa={() => { setVerMapa(true); if (!t.datos?.mapa) pedido.current = false }} />}
       {t.fase === 'cancelada' && <p className="chico pre-nota">Cancelaste esta pregunta antes de que el modelo la contestara.</p>}
@@ -173,6 +173,7 @@ export default function Preguntar(_: VistaProps) {
   const ollamaListo = !!estado && estado.ollama.prendido && !estado.ollama.faltan.includes('qwen3:8b')
   const sinModelo = !!estado && !ollamaListo
   const mediana = estado?.kpis.evaluacion.latencia_mediana_s ?? null
+  const total = estado?.kpis.evaluacion.total ?? undefined
 
   const parchar = useCallback((k: string, p: Partial<Turno>) => setTurnos((ts) => ts.map((t) => (t.k === k ? { ...t, ...p } : t))), [])
   useEffect(() => { guardarHilo(turnos) }, [turnos])
@@ -269,7 +270,7 @@ export default function Preguntar(_: VistaProps) {
             <button className="pre-enlace" onClick={() => { vivos.current.forEach((a) => a.abort()); sondeos.current.forEach((a) => a.abort()); sondeos.current.clear(); borrarHilo(); setTurnos([]) }}><Trash2 size={14} />Borrar historial</button>
           </div>
           <div className="pre-hilo">
-            {ordenados.map((t, i) => <TurnoVista key={t.k} t={t} ultimo={i === 0} mediana={mediana} onCancelar={() => cancelar(t)} parchar={parchar} />)}
+            {ordenados.map((t, i) => <TurnoVista key={t.k} t={t} ultimo={i === 0} mediana={mediana} total={total} onCancelar={() => cancelar(t)} parchar={parchar} />)}
           </div>
           <p className="chico pre-nota">El historial se guarda en este navegador mientras la pestaña siga abierta.</p>
         </>

@@ -171,7 +171,7 @@ export default function Modelo(_: VistaProps) {
         ) : <Cargando forma="lista" filas={6} />}
       </Seccion>
 
-      <Seccion id="m-agente" kicker="Evaluación del agente" titulo={<>20 preguntas, una trampa y <em>cuánto tarda</em> cada respuesta</>}>
+      <Seccion id="m-agente" kicker="Evaluación del agente" titulo={<>{ev ? `${fmtNum(ev.preguntas)} preguntas` : 'Las preguntas'}, una trampa y <em>cuánto tarda</em> cada respuesta</>}>
         {ev ? (
           <>
             <div className="ctx-kpis ctx-kpis--4">

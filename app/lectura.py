@@ -436,13 +436,12 @@ class Contexto:
     # ---- giros
     def giros_problemas(self, fr: str) -> tuple[list[str], list[str]]:
         """(problemas de superlativo, problemas de cifras) sobre los giros que nombra la frase."""
-        if not self.giros_claves:
-            return [], []
         fn = ligera(fr)
         gs = giros_en(fn)
         sup, cif = [], []
         zm = menciones(fn, self.zonas_todas)
-        pos_todos = sorted(m.start() for rx, _ in SUPERLATIVOS for m in rx.finditer(fn))
+        # sin sugerir_giros no hay superlativos de giro que juzgar, pero si un giro ajeno al top (abajo)
+        pos_todos = sorted(m.start() for rx, _ in SUPERLATIVOS for m in rx.finditer(fn)) if self.giros_claves else []
         for p in pos_todos:
             d = +1 if any(rx.match(fn, p) for rx, dd in SUPERLATIVOS if dd > 0) else -1
             previo = max([x for x in pos_todos if x < p], default=-1)
@@ -466,7 +465,8 @@ class Contexto:
                 if mal:
                     sup.append(f"mayor {campo}: {', '.join(mal)} no es de los primeros de la lista de sugerir_giros")
         # un giro que no tiene recomendar_zonas no puede llevar zonas ni magnitudes de zona
-        ajenos = [c for _, _, c in gs if c not in self.giros_de_zonas and c in self.giros_claves]
+        # p. ej. «heladería» heredada del historial; no cuenta un nombre dentro de una colonia («Gabriel Ramos Millán»)
+        ajenos = [c for a, _, c in gs if c not in self.giros_de_zonas and not any(za <= a < zb for za, zb, _ in zm)]
         if ajenos and (menciones(fn, self.zonas_todas) or MAG_DE_ZONA.search(fn)):
             cif.append(f"{H.nombre_giro(ajenos[0])} no tiene zonas calculadas en esta respuesta (el top es de "
                        f"{', '.join(H.nombre_giro(g) for g in sorted(self.giros_de_zonas)) or 'ningún giro'})")
