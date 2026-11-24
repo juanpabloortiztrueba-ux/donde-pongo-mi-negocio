@@ -324,3 +324,18 @@ def test_la_tasa_objetivo_no_se_presenta_como_el_credito_del_negocio():
     assert "tasa de política" in m["tasa_objetivo"]
     assert "TIIE" in m["tasa_objetivo"] and "pospone" not in m["tasa_objetivo"]
     assert "TIIE más un margen" in m["tasa_real"]
+
+
+def test_acentuar_comunes_pone_acentos_del_llm():
+    from app.agente import acentuar_comunes
+    assert acentuar_comunes("nivel socioeconomico y poblacion") == "nivel socioeconómico y población"
+    assert acentuar_comunes("Segun el Censo, tambien") == "Según el Censo, también"
+    # ya acentuado, plural correcto sin acento y MAYÚSCULAS (nombres de los datos) no cambian
+    assert acentuar_comunes("nivel socioeconómico, ubicaciones") == "nivel socioeconómico, ubicaciones"
+    assert acentuar_comunes("COLONIA ECONOMICA") == "COLONIA ECONOMICA"
+
+
+def test_cerrar_con_revision_acentua_la_trampa():
+    from app.agente import cerrar_con_revision
+    texto, _ = cerrar_con_revision("Monterrey está fuera de la ZMVM; no tengo su nivel socioeconomico.", [])
+    assert "socioeconómico" in texto and "socioeconomico" not in texto

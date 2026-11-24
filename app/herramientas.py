@@ -351,7 +351,7 @@ GASTO_NO_DIMENSIONABLE = "no dimensionable (la ENIGH casi no registra gasto en e
 BASE_DEMANDA = {"residente": "residentes objetivo", "diurna": "empleos (población que trabaja ahí)",
                 "mixta": "mitad residentes objetivo, mitad empleos"}
 NOMBRES_PESOS = {"prob_apertura": "aperturas esperadas del giro (modelo)", "demanda_neta": "gasto potencial x captura Huff",
-                 "pob_neta": "poblacion objetivo x ajuste a NSE x captura", "flujo": "flujo de gente (empleo, corredor comercial, Metro)",
+                 "pob_neta": "población objetivo x ajuste a NSE x captura", "flujo": "flujo de gente (empleo, corredor comercial, Metro)",
                  "complementarios": "complementarios"}
 COMO_LEER = ("el score 0-100 es un percentil DENTRO de este giro: ordena colonias para este giro en la ZMVM; "
              "no dice que el giro sea rentable ni sirve para comparar giros entre sí (para eso, la prob. de apertura absoluta)")
@@ -361,8 +361,8 @@ RADIO_COLONIA_KM = 2.0  # con `colonia`: AGEB de la colonia y las que estan a es
 
 def metodo_score() -> str:
     return ("score 0-100 = " + " + ".join(f"{100 * w:.0f} % {NOMBRES_PESOS[k]}" for k, w in motor.PESOS_SCORE.items())
-            + "; todo medido en el radio de influencia (reparto dasimetrico de cada AGEB en una malla de 100 m) "
-              "y cada termino en percentil dentro de la ZMVM para el giro")
+            + "; todo medido en el radio de influencia (reparto dasimétrico de cada AGEB en una malla de 100 m) "
+              "y cada término en percentil dentro de la ZMVM para el giro")
 
 
 def _rango(v: list) -> str:

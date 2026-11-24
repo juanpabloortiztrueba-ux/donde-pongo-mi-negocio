@@ -31,7 +31,7 @@ El repo trae `data/processed/`, `data/index/` y `models/`, así que no hace falt
 ### Mac
 
 ```bash
-git clone <url-del-repo> donde-pongo-mi-negocio
+git clone https://github.com/juanpabloortiztrueba-ux/donde-pongo-mi-negocio.git donde-pongo-mi-negocio
 cd donde-pongo-mi-negocio
 make setup        # uv sync + ollama pull qwen3:8b + ollama pull nomic-embed-text  (~5-10 min, casi todo es la descarga de 5.5 GB)
 make tablero      # levanta el tablero web; abre http://127.0.0.1:8501 (make app = la interfaz vieja de Streamlit, respaldo)
@@ -47,15 +47,18 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 #    Ollama: descarga el instalador de https://ollama.com/download y ábrelo (queda corriendo en la bandeja)
 
 # 2. Clona y prepara
-git clone <url-del-repo> donde-pongo-mi-negocio
+git clone https://github.com/juanpabloortiztrueba-ux/donde-pongo-mi-negocio.git donde-pongo-mi-negocio
 cd donde-pongo-mi-negocio
 uv sync
 ollama pull qwen3:8b
 ollama pull nomic-embed-text
 
-# 3. Abre la app
-uv run streamlit run app/ui.py
+# 3. Abre el tablero (o doble clic en iniciar.bat); queda en http://127.0.0.1:8501
+.\iniciar.bat
+#    Respaldo, la interfaz vieja de Streamlit: uv run streamlit run app/ui.py
 ```
+
+`iniciar.bat` se escribió para Windows, pero solo se ha probado en Mac. Si algo falla, los mismos pasos a mano están en la tabla de abajo, columna «Windows / sin make».
 
 ### Primer uso
 

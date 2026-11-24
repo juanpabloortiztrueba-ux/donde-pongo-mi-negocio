@@ -169,7 +169,7 @@ giros:
     rubro_enigh_etiqueta: "alimentos dentro del hogar"
     rubro_enigh_alt: [alimentos, bebidas]
     ticket_promedio_mxn: 55
-    ticket_fuente: "supuesto: compra de reposicion diaria"
+    ticket_fuente: "supuesto: compra de reposición diaria"
     radio_influencia_m: 300
     notas: "461110 y minisupers (462112). Es el giro más numeroso del DENUE (117 mil unidades en la ZMVM, corte 05/2026). Se gana por densidad de hogares y falta de tiendas a 300 m, no por NSE alto."
 
@@ -496,7 +496,7 @@ giros:
     ticket_promedio_mxn: 800
     ticket_fuente: "supuesto: masaje de una hora"
     radio_influencia_m: 1500
-    notas: "812120 (baños públicos, vapor, sauna) más los salones de belleza cuyo nombre dice spa o masaje (los masajes reductivos entran en 812110 segun el SCIAN). Es un servicio premium: pesa el NSE alto. Complementarios: hoteles, gimnasios, perfumería, oficinas."
+    notas: "812120 (baños públicos, vapor, sauna) más los salones de belleza cuyo nombre dice spa o masaje (los masajes reductivos entran en 812110 según el SCIAN). Es un servicio premium: pesa el NSE alto. Complementarios: hoteles, gimnasios, perfumería, oficinas."
 
   - clave: cafe_internet
     nombres: [cafe internet, cibercafe, ciber, papeleria y copias, fotocopiado, centro de copiado, impresiones]

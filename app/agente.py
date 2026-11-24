@@ -732,6 +732,32 @@ def _con_edad_de_ninos(lect: str | None, usadas: list[dict], pregunta: str) -> s
     return "**Lectura:** " + (cuerpo + " " if cuerpo else "") + frase
 
 
+# Palabras que el LLM a veces escribe sin acento («nivel socioeconomico»); sin acento no son correctas en estas respuestas.
+# No se tocan las palabras en MAYUSCULAS: suelen ser nombres copiados de los datos.
+_ACENTOS_LLM = {
+    "socioeconomico": "socioeconómico", "socioeconomica": "socioeconómica",
+    "socioeconomicos": "socioeconómicos", "socioeconomicas": "socioeconómicas",
+    "economico": "económico", "economica": "económica", "economicos": "económicos", "economicas": "económicas",
+    "demografico": "demográfico", "demografica": "demográfica", "demograficos": "demográficos",
+    "demograficas": "demográficas", "estadistico": "estadístico", "estadistica": "estadística",
+    "poblacion": "población", "informacion": "información", "ubicacion": "ubicación", "inflacion": "inflación",
+    "metodologia": "metodología", "analisis": "análisis", "tambien": "también", "ademas": "además",
+    "segun": "según", "dificil": "difícil", "facil": "fácil", "trafico": "tráfico", "credito": "crédito",
+}
+_RE_ACENTOS_LLM = re.compile(r"\b(" + "|".join(sorted(_ACENTOS_LLM, key=len, reverse=True)) + r")\b", re.IGNORECASE)
+
+
+def acentuar_comunes(texto: str) -> str:
+    """Pone el acento a las palabras de `_ACENTOS_LLM` que el modelo escribió sin él; respeta la mayúscula inicial."""
+    def cambio(m: re.Match) -> str:
+        w = m.group(0)
+        if w.isupper():
+            return w
+        bueno = _ACENTOS_LLM[w.lower()]
+        return bueno[0].upper() + bueno[1:] if w[0].isupper() else bueno
+    return _RE_ACENTOS_LLM.sub(cambio, texto)
+
+
 def cerrar_con_revision(texto: str, usadas: list[dict], cortada: bool = False,
                         herencia: dict | None = None, pregunta: str = "") -> tuple[str, list[str]]:
     """Arma la respuesta final: avisos, lectura del modelo, bloques de datos, riesgos y fuentes completas.
@@ -739,7 +765,7 @@ def cerrar_con_revision(texto: str, usadas: list[dict], cortada: bool = False,
     Con datos que mostrar el modelo solo escribe la lectura; todo lo demas lo arma el codigo con lo que regresaron las
     herramientas (cifras de cada zona, orden de los giros, riesgos, fuentes). Retoques: formato de cifras («63 %»),
     «FIX» y el renglon a medias si el modelo se quedo sin texto (num_predict)."""
-    t = (texto or "").strip()
+    t = acentuar_comunes((texto or "").strip())
     interno = fuera.menciona_funciones(t)
     if interno:     # red de seguridad: el modelo no nombra funciones internas ni escribe llamadas tipo f(x=...)
         t = fuera.sin_funciones_internas(t, reemplazo="").strip()
