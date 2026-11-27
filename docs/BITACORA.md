@@ -263,3 +263,7 @@ Backend FastAPI (`app/servidor.py`, `app/api/{base,preguntar,explorar,contexto}.
 - Acentos en texto visible: `NOMBRES_PESOS` y `metodo_score` de `app/herramientas.py` («población», «dasimétrico», «término»), y dos campos de `config/giros.yaml` («reposición», «según»).
 - `agente.acentuar_comunes`: pone el acento a palabras que el LLM escribe sin él, como «nivel socioeconomico» en la trampa de Monterrey. No toca las MAYÚSCULAS, que son nombres de los datos. Tiene dos pruebas nuevas.
 - `uv run pytest -q`: 268 pasan. `eval/evaluar.py --solo-checks` sobre lo guardado: 31/31.
+
+## 2026-11-27 — RAG local en R (`rag_r/`, guía del profesor)
+- `rag_r/00_corpus.R` arma `rag_r/corpus.csv` (933 fragmentos de los 92 `.md` de `carpetas/`, columnas `id`, `fuente`, `texto`, UTF-8). `rag_r/rag_local.R` es la plantilla del profesor (mismas funciones, prompt y coseno; `embeddinggemma` y `qwen3:1.7b`), con el índice en `rag_r/indice.rds` (ignorado por Git), 8 preguntas provisionales en `preguntas.csv`, prueba controlada con `D11-F10` y salidas reales en `rag_r/salidas/`.
+- Revisión independiente (Opus): corrida repetida con salidas idénticas (temperatura 0); `lectura_evaluacion.csv` llenada tras leer los 3 fragmentos de cada pregunta (P01 a P03 parciales por citas mal puestas del modelo de 1.7b; P04 a P08 correctas). Pendiente: cambiar las 8 preguntas por las de la guía general. No se tocó Python ni `carpetas/`. Sin commit.

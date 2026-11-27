@@ -1,0 +1,25 @@
+"id_pregunta","pregunta","lugar","id","fuente","similitud"
+"P01","¿Cómo se estima el nivel socioeconómico de una AGEB a partir de la ENIGH?",1,"D07-F02","carpetas/01_metodologia/nse_estimado.md › Pasos",0.699755006473078
+"P01","¿Cómo se estima el nivel socioeconómico de una AGEB a partir de la ENIGH?",2,"D07-F04","carpetas/01_metodologia/nse_estimado.md › Gasto potencial",0.681451839161788
+"P01","¿Cómo se estima el nivel socioeconómico de una AGEB a partir de la ENIGH?",3,"D07-F01","carpetas/01_metodologia/nse_estimado.md › Introducción",0.65113886181865
+"P02","¿Qué es el DENUE y para qué lo usa el proyecto?",1,"D03-F01","carpetas/01_metodologia/denue.md › Qué es y qué se usó",0.57828310566548
+"P02","¿Qué es el DENUE y para qué lo usa el proyecto?",2,"D03-F04","carpetas/01_metodologia/denue.md › Límites que hay que decir al usar estos datos",0.460528017146348
+"P02","¿Qué es el DENUE y para qué lo usa el proyecto?",3,"D88-F33","carpetas/05_modelo/explicacion_modelo.md › Límites que hay que decir siempre",0.45334595254613
+"P03","¿Qué propone Huff sobre la probabilidad de que un consumidor compre en un establecimiento?",1,"D86-F02","carpetas/04_teoria_localizacion/marco_teorico.md › Gravitación comercial: Reilly (1931) y Huff (1964)",0.556108381085018
+"P03","¿Qué propone Huff sobre la probabilidad de que un consumidor compre en un establecimiento?",2,"D90-F16","carpetas/05_modelo/validacion_score.md › 2. Qué se midió y contra qué › Altas fuera de la carga censal — ρ de Spearman",0.416392760920119
+"P03","¿Qué propone Huff sobre la probabilidad de que un consumidor compre en un establecimiento?",3,"D90-F28","carpetas/05_modelo/validacion_score.md › 3. Qué se decidió y por qué",0.392190872270746
+"P04","¿Por qué el score no predice las aperturas crudas mejor que la competencia en la AGEB?",1,"D90-F07","carpetas/05_modelo/validacion_score.md › 1. Diagnóstico: por qué el score no predice aperturas crudas",0.726711508185018
+"P04","¿Por qué el score no predice las aperturas crudas mejor que la competencia en la AGEB?",2,"D89-F02","carpetas/05_modelo/preguntas_de_examen_del_score.md › ¿Por qué el score no predice aperturas crudas y está bien?",0.71619427235698
+"P04","¿Por qué el score no predice las aperturas crudas mejor que la competencia en la AGEB?",3,"D88-F24","carpetas/05_modelo/explicacion_modelo.md › Validación del modelo de aperturas (etapa Modelo E) › ¿Por qué el score no predice aperturas crudas y está bien?",0.68996246782483
+"P05","¿Qué ciudades quedan fuera del alcance del modelo?",1,"D88-F34","carpetas/05_modelo/explicacion_modelo.md › Límites que hay que decir siempre",0.633194324880126
+"P05","¿Qué ciudades quedan fuera del alcance del modelo?",2,"D01-F02","carpetas/00_alcance.md › Qué no cubre (responder «fuera de alcance» o «NO ENCONTRADO»)",0.616254018328752
+"P05","¿Qué ciudades quedan fuera del alcance del modelo?",3,"D01-F01","carpetas/00_alcance.md › Qué cubre",0.493391285340439
+"P06","¿Cuántos habitantes tiene Iztapalapa en sus AGEB urbanas?",1,"D15-F01","carpetas/03_municipios/09007_iztapalapa.md › Introducción + Población y hogares",0.712543027410661
+"P06","¿Cuántos habitantes tiene Iztapalapa en sus AGEB urbanas?",2,"D14-F01","carpetas/03_municipios/09006_iztacalco.md › Introducción + Población y hogares",0.673392653990003
+"P06","¿Cuántos habitantes tiene Iztapalapa en sus AGEB urbanas?",3,"D50-F01","carpetas/03_municipios/15039_ixtapaluca.md › Introducción + Población y hogares",0.669416729539463
+"P07","¿Cuál es el salario mínimo diario vigente en 2026?",1,"D08-F03","carpetas/02_macro/contexto_macro.md › Tipo de cambio, remesas y consumo",0.43953119106152
+"P07","¿Cuál es el salario mínimo diario vigente en 2026?",2,"D08-F02","carpetas/02_macro/contexto_macro.md › Inflación de alimentos",0.415068226514379
+"P07","¿Cuál es el salario mínimo diario vigente en 2026?",3,"D08-F01","carpetas/02_macro/contexto_macro.md › Introducción + Precios y tasas",0.391298688749828
+"P08","¿Cuántos pasajeros transporta al día la Línea 7 del Metro?",1,"D13-F01","carpetas/03_municipios/09005_gustavo_a_madero.md › Introducción + Población y hogares",0.367921279501478
+"P08","¿Cuántos pasajeros transporta al día la Línea 7 del Metro?",2,"D23-F01","carpetas/03_municipios/09015_cuauhtemoc.md › Introducción + Población y hogares",0.367215793978218
+"P08","¿Cuántos pasajeros transporta al día la Línea 7 del Metro?",3,"D25-F01","carpetas/03_municipios/09017_venustiano_carranza.md › Introducción + Población y hogares",0.365666321337565

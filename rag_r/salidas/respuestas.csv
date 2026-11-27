@@ -1,0 +1,48 @@
+"id_pregunta","pregunta","ids_recuperados","respuesta"
+"P01","¿Cómo se estima el nivel socioeconómico de una AGEB a partir de la ENIGH?","D07-F02 D07-F04 D07-F01","Los pasos para estimar el NSE de una AGEB a partir de la ENIGH se basan en:  
+1. **Modelo de regresión**: Se aplicó una regresión de `log(ingreso corriente)` contra variables como escolaridad del jefe, propiedad de automóvil, internet y computadora, obteniendo un R² ponderado del 0.40 y validación cruzada del 0.398.  
+2. **Calibración ecológica**: Se ajusta el ingreso de la ENIGH con un factor de 2.52 (rango 2.43–2.58) para compensar la subestimación en municipios.  
+3. **Distribución lognormal**: Se asume que el ingreso es lognormal alrededor del hogar típico, calculando probabilidad de cada decil (`p_decil_01` a `p_decil_10`).  
+4. **Gasto potencial**: Se calcula como `hogares × suma sobre deciles de P(decil) × gasto trimestral promedio del hogar en ese decil`, en pesos de 2024.  
+
+**Fragmentos citados**:  
+- [D07-F02] para el modelo de regresión y validación.  
+- [D07-F03] para la calibración ecológica.  
+- [D07-F04] para el gasto potencial y distribución lognormal."
+"P02","¿Qué es el DENUE y para qué lo usa el proyecto?","D03-F01 D03-F04 D88-F33","El DENUE es el directorio del INEGI que contiene información sobre establecimientos económicos en México, incluyendo su nombre, actividad económica (clave SCIAN), tamaño por estrato de personal ocupado y ubicación con coordenadas. El proyecto lo usa para analizar patrones de actividad económica, empleo y distribución geográfica de las empresas, especialmente en municipios como CDMX, Hidalgo y Estado de México.  
+
+**Para qué lo usa el proyecto:**  
+- **Análisis de actividad económica:** Estadísticas sobre número de establecimientos, actividad SCIAN y tamaño por empleo.  
+- **Distribución geográfica:** Datos sobre ubicación y coordenadas para estudios espaciales.  
+- **Comparación histórica:** Comparación entre corte histórico (2020) y actual (2026) para identificar cambios en la economía.  
+
+**Limitaciones:**  
+- No se incluyen datos de ventas, rentas o flujo peatonal.  
+- Los datos son de 2020 (Censo), 2024 (ENIGH) y 2026 (DENUE), con posibles errores por rotación de identificadores o cambios en la zona.  
+- Excluye negocios informales, comercio ambulante y no tiene datos sobre socioeconómico o gasto estimado para ciertas áreas.  
+
+**Evidencia:**  
+- [D03-F01] describe el contenido del DENUE.  
+- [D03-F4] menciona su uso en análisis de actividad y distribución.  
+- [D88-F33] detalla limitaciones y contexto de datos.  
+
+**Respuesta final:**  
+El DENUE es un directorio de establecimientos económicos con datos sobre actividad, tamaño y ubicación. El proyecto lo usa para analizar patrones de empleo, distribución geográfica y comparar datos históricos. Sin embargo, hay limitaciones en la calidad de los datos y en la representación de ciertos tipos de negocios."
+"P03","¿Qué propone Huff sobre la probabilidad de que un consumidor compre en un establecimiento?","D86-F02 D90-F16 D90-F28","La propuesta de Huff sobre la probabilidad de que un consumidor compre en un establecimiento se basa en una fórmula que relaciona la atracción del establecimiento (como su superficie de venta) con la distancia al consumidor, elevada a un parámetro de fricción. La probabilidad se calcula como:  
+$$ P(i,j) = \frac{S_j / d_{ij}^{\lambda}}{\sum_k S_k / d_{ik}^{\lambda}} $$  
+donde $ \lambda $ varía según el tipo de bien y se estima con datos. Este modelo es probabilístico, contrastando con la ley de gravitación comercial de Reilly (1931), que es determinista.  
+
+**Cita:** [D90-F16]"
+"P04","¿Por qué el score no predice las aperturas crudas mejor que la competencia en la AGEB?","D90-F07 D89-F02 D88-F24","El score no predice aperturas crudas mejor que la competencia en la AGEB porque **no está diseñado para hacerlo**. El modelo penaliza la competencia (mediante términos como ""captura Huff""), lo que hace que su AUC (0.577) sea inferior a la de la competencia (0.711) en la AGEB. Además, el score se ajusta a **lo que corresponde a la decisión** (crecimiento neto, sobrevivencia, altas fuera de la carga censal), no a la predicción de aperturas crudas. La AUC del score en este contexto es menor, lo que confirma que su propósito es **orientar la ubicación de negocios** (no su apertura), no predecir donde aparecerán más. La captura Huff, que es el castigo por competencia, tiene AUC 0.348, que ordena al revés, aclarando que el score no intenta predecir aperturas crudas. 
+
+**Evidencia:**  
+- [D90-F07] (AUC del score: 0.577 vs. competencia: 0.711)  
+- [D89-F02] (score no está diseñado para predecir aperturas crudas)  
+- [D88-F24] (score se ajusta a la decisión, no a la predicción de aperturas)  
+
+**Respuesta final:**  
+El score no predice aperturas crudas mejor que la competencia en la AGEB porque **no está diseñado para hacerlo** y penaliza la competencia, lo que reduce su AUC en este contexto. La respuesta corta es: **""El score no está hecho para adivinar dónde aparecen más negocios, sino dónde conviene poner uno.""**"
+"P05","¿Qué ciudades quedan fuera del alcance del modelo?","D88-F34 D01-F02 D01-F01","[D01-F02] ciudadas fuera de la ZMVM: Monterrey, Guadalajara, Puebla, Toluca, Querétaro, Cuernavaca, Pachuca, etc. No hay datos de esas ciudades en el proyecto."
+"P06","¿Cuántos habitantes tiene Iztapalapa en sus AGEB urbanas?","D15-F01 D14-F01 D50-F01","El número de habitantes de Iztapalapa en sus AGEB urbanas es **1,835,486 habitantes**, según la información proporcionada en el fragmento [D15-F01]."
+"P07","¿Cuál es el salario mínimo diario vigente en 2026?","D08-F03 D08-F02 D08-F01","No hay evidencia suficiente en los fragmentos."
+"P08","¿Cuántos pasajeros transporta al día la Línea 7 del Metro?","D13-F01 D23-F01 D25-F01","No hay evidencia suficiente en los fragmentos."

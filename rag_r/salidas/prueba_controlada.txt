@@ -1,0 +1,28 @@
+Pregunta: ¿Cuál es el gasto potencial total en comida fuera del hogar de Coyoacán por trimestre?
+ID de la evidencia: D11-F10
+Dato clave: 2,120.2
+IDs de los distractores: D23-F10 D18-F10
+
+Texto de los distractores
+[D23-F10] Ficha de alcaldía: Cuauhtémoc (Ciudad de México), clave 09015 › Gasto potencial en comida fuera del hogar + Fuentes de esta ficha
+Estimación: hogares × gasto trimestral promedio del hogar por decil (ENIGH 2024, ámbito ZMVM, pesos de 2024), ponderado por la probabilidad de decil de cada AGEB. Rubro «alimentos y bebidas consumidos fuera del hogar». Sirve para comparar zonas, no es una proyección de ventas.
+
+- Gasto potencial total: 1,664.4 millones de pesos por trimestre.
+- Por hogar: 8,472 pesos por trimestre (lugar 13 de 76).
+
+Censo 2020 (INEGI), DENUE 05/2026 y 11/2020 (INEGI), ENIGH 2024 (INEGI), IMU 2020 (CONAPO), Marco Geoestadístico 2020 (INEGI). Detalle y ligas en `01_metodologia/`. Generada el 2026-11-23 por `scripts/04a_carpetas.py`.
+[D18-F10] Ficha de alcaldía: Álvaro Obregón (Ciudad de México), clave 09010 › Gasto potencial en comida fuera del hogar + Fuentes de esta ficha
+Estimación: hogares × gasto trimestral promedio del hogar por decil (ENIGH 2024, ámbito ZMVM, pesos de 2024), ponderado por la probabilidad de decil de cada AGEB. Rubro «alimentos y bebidas consumidos fuera del hogar». Sirve para comparar zonas, no es una proyección de ventas.
+
+- Gasto potencial total: 2,016.3 millones de pesos por trimestre.
+- Por hogar: 9,193 pesos por trimestre (lugar 8 de 76).
+
+Censo 2020 (INEGI), DENUE 05/2026 y 11/2020 (INEGI), ENIGH 2024 (INEGI), IMU 2020 (CONAPO), Marco Geoestadístico 2020 (INEGI). Detalle y ligas en `01_metodologia/`. Generada el 2026-11-23 por `scripts/04a_carpetas.py`.
+
+Con evidencia
+El gasto potencial total en comida fuera del hogar de Coyoacán por trimestre es **2,120.2 millones de pesos**, según el fragmento [D11-F10].
+Menciona el dato clave: sí
+
+Sin evidencia
+No hay evidencia suficiente en los fragmentos.
+Menciona el dato clave: no

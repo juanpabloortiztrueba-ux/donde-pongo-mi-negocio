@@ -1,0 +1,379 @@
+$version
+[1] "0.40.17"
+
+Índice cargado de rag_r/indice.rds 
+Índice: 933 fragmentos x 768 dimensiones
+
+Pregunta: ¿Cómo se estima el nivel socioeconómico de una AGEB a partir de la ENIGH? 
+        id                                                    fuente similitud
+28 D07-F02           carpetas/01_metodologia/nse_estimado.md › Pasos 0.6997550
+30 D07-F04 carpetas/01_metodologia/nse_estimado.md › Gasto potencial 0.6814518
+27 D07-F01    carpetas/01_metodologia/nse_estimado.md › Introducción 0.6511389
+
+[D07-F02]
+Cómo se estima el nivel socioeconómico (NSE) de una AGEB › Pasos
+1. **Se aprende en la ENIGH 2024** (3 767 hogares urbanos de la ZMVM) una regresión de `log(ingreso corriente trimestral del hogar)` contra escolaridad del jefe, tener automóvil, internet y computadora, e integrantes del hogar. R² ponderado dentro de la muestra 0.40 y, con validación cruzada por unidad primaria de muestreo, 0.398. Todos los coeficientes son significativos (t > 9).
+2. **Se aplica a las variables del Censo por AGEB** (escolaridad promedio, % de viviendas con auto, internet y PC, ocupantes por vivienda). Son variables parecidas pero no idénticas (el Censo mide la escolaridad de toda la población de 15 años y más, no la del jefe), por eso hay una calibración de nivel.
+3. **Calibración ecológica**: entre municipios, el ingreso de la ENIGH sube más rápido de lo que dice el modelo de hogares. Se estira con un factor de 2.52 (rango de 2.43 a 2.58 quitando un municipio a la vez). Es un supuesto fuerte, documentado.
+4. **Distribución dentro de la AGEB**: se supone ingreso lognormal alrededor del hogar típico y se calcula la probabilidad de cada decil (`p_decil_01` a `p_decil_10`).
+
+[D07-F04]
+Cómo se estima el nivel socioeconómico (NSE) de una AGEB › Gasto potencial
+El gasto potencial de una AGEB en un rubro es: hogares × suma sobre deciles de P(decil) × gasto trimestral promedio del hogar en ese decil (ENIGH 2024, ámbito `zmvm`). Está en pesos de 2024 por trimestre. Es un orden de magnitud para comparar zonas, no una proyección de ventas.
+
+[D07-F01]
+Cómo se estima el nivel socioeconómico (NSE) de una AGEB › Introducción
+El Censo 2020 no pregunta el ingreso. El proyecto lo estima con estimación en áreas pequeñas. Detalle completo y pruebas en `reports/decil_imputado.md` (generado por `scripts/02_features.py`). Cifras al 2026-11-23.
+Respuesta: Los pasos para estimar el NSE de una AGEB a partir de la ENIGH se basan en:  
+1. **Modelo de regresión**: Se aplicó una regresión de `log(ingreso corriente)` contra variables como escolaridad del jefe, propiedad de automóvil, internet y computadora, obteniendo un R² ponderado del 0.40 y validación cruzada del 0.398.  
+2. **Calibración ecológica**: Se ajusta el ingreso de la ENIGH con un factor de 2.52 (rango 2.43–2.58) para compensar la subestimación en municipios.  
+3. **Distribución lognormal**: Se asume que el ingreso es lognormal alrededor del hogar típico, calculando probabilidad de cada decil (`p_decil_01` a `p_decil_10`).  
+4. **Gasto potencial**: Se calcula como `hogares × suma sobre deciles de P(decil) × gasto trimestral promedio del hogar en ese decil`, en pesos de 2024.  
+
+**Fragmentos citados**:  
+- [D07-F02] para el modelo de regresión y validación.  
+- [D07-F03] para la calibración ecológica.  
+- [D07-F04] para el gasto potencial y distribución lognormal. 
+
+Pregunta: ¿Qué es el DENUE y para qué lo usa el proyecto? 
+         id
+9   D03-F01
+12  D03-F04
+828 D88-F33
+                                                                              fuente
+9                             carpetas/01_metodologia/denue.md › Qué es y qué se usó
+12  carpetas/01_metodologia/denue.md › Límites que hay que decir al usar estos datos
+828     carpetas/05_modelo/explicacion_modelo.md › Límites que hay que decir siempre
+    similitud
+9   0.5782831
+12  0.4605280
+828 0.4533460
+
+[D03-F01]
+DENUE: Directorio Estadístico Nacional de Unidades Económicas (INEGI) › Qué es y qué se usó
+El DENUE es el directorio del INEGI con los establecimientos del país: nombre, actividad económica (clave SCIAN), tamaño por estrato de personal ocupado y ubicación con coordenadas. Se usa la descarga masiva por entidad (CDMX, Hidalgo y Estado de México) con dos cortes:
+- **Corte actual: mayo de 2026** (archivo modificado el 2026-05-20): 1 081 737 establecimientos en los 76 municipios de la ZMVM.
+- **Corte histórico: noviembre de 2020**, el más cercano al Censo 2020 en la sección de descargas históricas: 996 622 establecimientos.
+Fuente: INEGI, https://www.inegi.org.mx/app/descarga/?ti=6 (pestaña DENUE) y https://www.inegi.org.mx/app/mapa/denue/ . Descargado el 2026-11-23; sha256 en `data/FUENTES.md`.
+Comprobación: los conteos de la descarga masiva en CDMX por clase SCIAN coinciden con los de la API del DENUE (461110: 38 996; 311520: 1 090; 461170: 1 872).
+
+[D03-F04]
+DENUE: Directorio Estadístico Nacional de Unidades Económicas (INEGI) › Límites que hay que decir al usar estos datos
+- **«Apareció en el DENUE» no es lo mismo que «abrió».** Entre los dos cortes hay 651 710 identificadores en ambos, 344 912 solo en 2020 y 430 027 solo en 2026. Parte de lo nuevo es cobertura de los Censos Económicos (cargas masivas) y parte de lo que desaparece son cierres o identificadores reasignados.
+- `fecha_alta` del corte actual tiene cargas masivas (2019 y 2024) y por eso no sirve para contar aperturas.
+- El directorio solo distingue establecimientos fijos y semifijos; el comercio ambulante sin lugar fijo no se identifica. Los negocios informales sin registro no aparecen.
+- Una competencia cercana en el DENUE no dice qué tan buena es: no hay ventas ni calidad.
+
+[D88-F33]
+Qué hace el modelo y qué no puede decir › Límites que hay que decir siempre
+1. **Aparecer en el DENUE no es abrir ni tener éxito.** Entre los cortes de 2020 y 2026 hay cargas masivas de los Censos Económicos y rotación de identificadores. El modelo describe dónde entraron negocios al directorio, no dónde ganaron dinero.
+2. **No hay datos de ventas, rentas ni flujo peatonal por calle.** La unidad más fina es la AGEB (en promedio unas cuantas manzanas). Dentro de una AGEB la esquina importa y el modelo no la ve.
+3. **El nivel socioeconómico es una estimación** (ENIGH aplicada al Censo), no un dato medido. La ENIGH no representa municipios. Ver `01_metodologia/nse_estimado.md`.
+4. **Los datos son de 2020 (Censo), 2024 (ENIGH) y 2026 (DENUE).** Un barrio que cambió mucho desde 2020 puede estar mal descrito.
+5. **Complementarios, radios de influencia, clientes objetivo y tickets son supuestos razonados**, no evidencia. Los tickets en particular son «supuesto» en los 40 giros y deben contrastarse con precios reales.
+6. **Giros raros** (renta de bicicletas, coworking) tienen pocas observaciones en el DENUE; el modelo no tiene muestra para ellos y el resultado es poco confiable.
+7. **83 AGEB** no tienen NSE ni gasto estimado; para ellas el dato es NO ENCONTRADO.
+Respuesta: El DENUE es el directorio del INEGI que contiene información sobre establecimientos económicos en México, incluyendo su nombre, actividad económica (clave SCIAN), tamaño por estrato de personal ocupado y ubicación con coordenadas. El proyecto lo usa para analizar patrones de actividad económica, empleo y distribución geográfica de las empresas, especialmente en municipios como CDMX, Hidalgo y Estado de México.  
+
+**Para qué lo usa el proyecto:**  
+- **Análisis de actividad económica:** Estadísticas sobre número de establecimientos, actividad SCIAN y tamaño por empleo.  
+- **Distribución geográfica:** Datos sobre ubicación y coordenadas para estudios espaciales.  
+- **Comparación histórica:** Comparación entre corte histórico (2020) y actual (2026) para identificar cambios en la economía.  
+
+**Limitaciones:**  
+- No se incluyen datos de ventas, rentas o flujo peatonal.  
+- Los datos son de 2020 (Censo), 2024 (ENIGH) y 2026 (DENUE), con posibles errores por rotación de identificadores o cambios en la zona.  
+- Excluye negocios informales, comercio ambulante y no tiene datos sobre socioeconómico o gasto estimado para ciertas áreas.  
+
+**Evidencia:**  
+- [D03-F01] describe el contenido del DENUE.  
+- [D03-F4] menciona su uso en análisis de actividad y distribución.  
+- [D88-F33] detalla limitaciones y contexto de datos.  
+
+**Respuesta final:**  
+El DENUE es un directorio de establecimientos económicos con datos sobre actividad, tamaño y ubicación. El proyecto lo usa para analizar patrones de empleo, distribución geográfica y comparar datos históricos. Sin embargo, hay limitaciones en la calidad de los datos y en la representación de ciertos tipos de negocios. 
+
+Pregunta: ¿Qué propone Huff sobre la probabilidad de que un consumidor compre en un establecimiento? 
+         id
+784 D86-F02
+852 D90-F16
+864 D90-F28
+                                                                                                                    fuente
+784                  carpetas/04_teoria_localizacion/marco_teorico.md › Gravitación comercial: Reilly (1931) y Huff (1964)
+852 carpetas/05_modelo/validacion_score.md › 2. Qué se midió y contra qué › Altas fuera de la carga censal — ρ de Spearman
+864                                                   carpetas/05_modelo/validacion_score.md › 3. Qué se decidió y por qué
+    similitud
+784 0.5561084
+852 0.4163928
+864 0.3921909
+
+[D86-F02]
+Marco teórico: dónde conviene localizar un negocio › Gravitación comercial: Reilly (1931) y Huff (1964)
+Reilly (1931) propuso la «ley de gravitación del comercio al menudeo»: dos ciudades atraen a los compradores de un pueblo intermedio en proporción directa a su población y en proporción inversa al cuadrado de la distancia. Es una regla determinista sobre dos centros.
+Huff (1964) la volvió probabilística. La probabilidad de que un consumidor ubicado en `i` compre en el establecimiento `j` es proporcional a su atractivo (por ejemplo, su superficie de venta) dividido entre la distancia elevada a un parámetro de fricción, y se normaliza entre todos los establecimientos que el consumidor tiene a su alcance: P(i,j) = [S_j / d_ij^λ] / suma_k [S_k / d_ik^λ]. El parámetro λ cambia según el tipo de bien y se estima con datos.
+**Cómo se usa aquí.** El proyecto no estima la λ de Huff. Toma la idea: un competidor cercano pesa más que uno lejano y el peso cae con la distancia. La función `app/motor.py: conteos_giro` pondera cada establecimiento con 1/(1+(d/d0)²), con d0 igual a la mitad del radio de influencia del giro, y cuenta cero fuera del radio. Es una adaptación sencilla inspirada en Huff, no su fórmula.
+
+[D90-F16]
+Validación del score: ¿predice algo que le importe a quien abre un negocio? › 2. Qué se midió y contra qué › Altas fuera de la carga censal — ρ de Spearman
+| Puntuación | Valor | Lift 5 % | Lift 10 % | Δ pts 10 % |
+|---|---|---|---|---|
+| Complementarios | 0.109 ± 0.015 | 1.39 | 1.24 | +0.6 |
+| Prob. de apertura de la AGEB (modelo) | 0.022 ± 0.009 | 1.15 | 1.13 | +0.1 |
+| Prob. de seguir abierto (modelo dedicado) | -0.045 ± 0.014 | 0.83 | 0.89 | -0.7 |
+| Densidad de población | -0.036 ± 0.017 | 0.84 | 0.84 | -0.5 |
+| Competencia Huff | 0.100 ± 0.014 | 1.10 | 1.04 | -0.1 |
+| Competencia en la AGEB | 0.026 ± 0.009 | 1.17 | 1.10 | +0.0 |
+| Actividad (negocios a 500 m) | 0.098 ± 0.013 | 1.54 | 1.32 | +0.7 |
+
+Mejor línea base ingenua (con su mejor dirección): competencia Huff, 0.100.
+
+[D90-F28]
+Validación del score: ¿predice algo que le importe a quien abre un negocio? › 3. Qué se decidió y por qué
+**Se cambió el score a la versión 3.0; hay que decir con claridad qué prueba ese cambio y qué no.** El anterior no le ganaba a las líneas base en crecimiento neto y el nuevo sí, pero esa ventaja viene de la carga de los Censos Económicos 2024 (sección 2, robustez): sin la carga el nuevo no le gana al anterior. El cambio tiene dos partes:
+
+1. **Núcleo sin parámetros.** El término de aperturas pasó de «aperturas esperadas» a «**aperturas esperadas por competidor**» = aperturas esperadas × captura Huff = λ / (1 + competidores ponderados). Es presión de entrada sobre el stock que ya hay: donde se esperan muchas entradas y casi no hay competidores, el mercado está creciendo sin estar saturado. Se probó también multiplicar por la probabilidad de seguir abierto (la definición «apertura × sobrevivir × captura»): no mejora ningún objetivo, porque dentro de un giro esa probabilidad casi no varía entre lugares.
+Respuesta: La propuesta de Huff sobre la probabilidad de que un consumidor compre en un establecimiento se basa en una fórmula que relaciona la atracción del establecimiento (como su superficie de venta) con la distancia al consumidor, elevada a un parámetro de fricción. La probabilidad se calcula como:  
+$$ P(i,j) = \frac{S_j / d_{ij}^{\lambda}}{\sum_k S_k / d_{ik}^{\lambda}} $$  
+donde $ \lambda $ varía según el tipo de bien y se estima con datos. Este modelo es probabilístico, contrastando con la ley de gravitación comercial de Reilly (1931), que es determinista.  
+
+**Cita:** [D90-F16] 
+
+Pregunta: ¿Por qué el score no predice las aperturas crudas mejor que la competencia en la AGEB? 
+         id
+843 D90-F07
+831 D89-F02
+819 D88-F24
+                                                                                                                                                         fuente
+843                                                       carpetas/05_modelo/validacion_score.md › 1. Diagnóstico: por qué el score no predice aperturas crudas
+831                                            carpetas/05_modelo/preguntas_de_examen_del_score.md › ¿Por qué el score no predice aperturas crudas y está bien?
+819 carpetas/05_modelo/explicacion_modelo.md › Validación del modelo de aperturas (etapa Modelo E) › ¿Por qué el score no predice aperturas crudas y está bien?
+    similitud
+843 0.7267115
+831 0.7161943
+819 0.6899625
+
+[D90-F07]
+Validación del score: ¿predice algo que le importe a quien abre un negocio? › 1. Diagnóstico: por qué el score no predice aperturas crudas
+4. **Qué le hace el score a esa señal.** AUC medio contra aperturas crudas, por giro:
+
+| Puntuación | AUC |
+|---|---|
+| Prob. de apertura de la AGEB (modelo) | 0.806 |
+| Competencia en la AGEB | 0.711 |
+| Competencia Huff | 0.652 |
+| Aperturas esperadas (modelo) | 0.676 |
+| Score anterior **sin** el castigo por competencia (contrafactual) | 0.624 |
+| Score anterior (v2.1, pesos del autor) | 0.583 |
+| Gasto potencial × captura | 0.436 |
+| Población objetivo × NSE × captura | 0.468 |
+| Captura Huff (1/(1+competidores)) | 0.348 |
+
+La captura Huff (el castigo por competencia) tiene AUC por debajo de 0.5 contra aperturas: ordena al revés. Los términos de demanda y población la multiplican y pesaban 40 % del score anterior. Quitarle el castigo (mismo score, sin multiplicar por la captura) sube su AUC, lo que confirma que la causa es la competencia y no un error de cálculo. **La respuesta corta: el score no predice aperturas crudas porque no intenta hacerlo; premia lugares con aperturas esperadas y pocos competidores, y las aperturas crudas se dan donde ya hay muchos.**
+
+[D89-F02]
+Preguntas de examen sobre el score y respuestas cortas › ¿Por qué el score no predice aperturas crudas y está bien?
+**Respuesta corta.** El score no está hecho para adivinar dónde aparecen más negocios, sino dónde conviene poner uno. Las aperturas se aglomeran donde ya hay competencia: en las AGEB con 3 o más negocios del giro en 2020 aparecieron 3 nuevos por cada 10 que ya había y desaparecieron otros 3 (rotación). Un score que castiga la competencia, como debe hacerlo uno de ubicación, queda debajo de la competencia a secas para predecir aperturas crudas: AUC 0.577 contra 0.711 de la competencia en la AGEB y 0.806 del modelo de aperturas. La captura Huff, que es el castigo, tiene AUC 0.348: ordena al revés. Además, 93 % de lo que «apareció» en 2026 viene de la carga de los Censos Económicos 2024, así que «apareció» no es «abrió».
+
+**Qué se hizo.** Se midió contra lo que corresponde a la decisión, por (AGEB, giro): crecimiento neto (aperturas menos desapariciones sobre los establecimientos de 2020), sobrevivencia de los establecimientos de 2020 y altas fuera de la carga censal.
+
+[D88-F24]
+Qué hace el modelo y qué no puede decir › Validación del modelo de aperturas (etapa Modelo E) › ¿Por qué el score no predice aperturas crudas y está bien?
+**Respuesta corta, como la diría Juan Pablo:** «El score no está hecho para adivinar dónde aparecen más negocios, sino dónde conviene poner uno. Las aperturas se aglomeran donde ya hay competencia: en las AGEB con 3 o más negocios del giro en 2020 aparecieron 3 nuevos por cada 10 que ya había y desaparecieron otros 3, o sea que hay mucha rotación. Un score que castiga la competencia, como debe hacerlo uno de ubicación, forzosamente queda debajo de la competencia a secas para predecir aperturas crudas. Por eso lo medí contra lo que sí corresponde a la decisión: crecimiento neto, sobrevivencia y altas fuera de la carga censal. El score nuevo le gana a las líneas base en la tasa de crecimiento neto, pero esa ventaja viene de la carga de los Censos Económicos 2024 (negocios que ya existían y no estaban en el DENUE 2020): quitando la carga (crecimiento neto sin carga censal) no le gana al score anterior, en altas fuera de la carga pierde y en sobrevivencia empata (que ninguna variable predice bien dentro de un giro). Por eso lo conservo como decisión de diseño, no como victoria medida; el detalle y las limitaciones están en `reports/validacion_score.md`.»
+Respuesta: El score no predice aperturas crudas mejor que la competencia en la AGEB porque **no está diseñado para hacerlo**. El modelo penaliza la competencia (mediante términos como "captura Huff"), lo que hace que su AUC (0.577) sea inferior a la de la competencia (0.711) en la AGEB. Además, el score se ajusta a **lo que corresponde a la decisión** (crecimiento neto, sobrevivencia, altas fuera de la carga censal), no a la predicción de aperturas crudas. La AUC del score en este contexto es menor, lo que confirma que su propósito es **orientar la ubicación de negocios** (no su apertura), no predecir donde aparecerán más. La captura Huff, que es el castigo por competencia, tiene AUC 0.348, que ordena al revés, aclarando que el score no intenta predecir aperturas crudas. 
+
+**Evidencia:**  
+- [D90-F07] (AUC del score: 0.577 vs. competencia: 0.711)  
+- [D89-F02] (score no está diseñado para predecir aperturas crudas)  
+- [D88-F24] (score se ajusta a la decisión, no a la predicción de aperturas)  
+
+**Respuesta final:**  
+El score no predice aperturas crudas mejor que la competencia en la AGEB porque **no está diseñado para hacerlo** y penaliza la competencia, lo que reduce su AUC en este contexto. La respuesta corta es: **"El score no está hecho para adivinar dónde aparecen más negocios, sino dónde conviene poner uno."** 
+
+Pregunta: ¿Qué ciudades quedan fuera del alcance del modelo? 
+         id
+829 D88-F34
+2   D01-F02
+1   D01-F01
+                                                                                    fuente
+829           carpetas/05_modelo/explicacion_modelo.md › Límites que hay que decir siempre
+2   carpetas/00_alcance.md › Qué no cubre (responder «fuera de alcance» o «NO ENCONTRADO»)
+1                                                       carpetas/00_alcance.md › Qué cubre
+    similitud
+829 0.6331943
+2   0.6162540
+1   0.4933913
+
+[D88-F34]
+Qué hace el modelo y qué no puede decir › Límites que hay que decir siempre
+8. Zona de estudio: solo los 76 municipios de la ZMVM. Fuera de ahí (por ejemplo Monterrey) el modelo no tiene datos y debe decirlo.
+
+[D01-F02]
+Alcance del modelo: qué cubre y qué no › Qué no cubre (responder «fuera de alcance» o «NO ENCONTRADO»)
+- **Cualquier ciudad fuera de la ZMVM**: Monterrey, Guadalajara, Puebla, Toluca, Querétaro, Cuernavaca, Pachuca, etc. No hay datos de esas ciudades en el proyecto. No se debe contestar con colonias de la ZMVM como si fueran de otra ciudad.
+- **Municipios del Estado de México y de Hidalgo que no están entre los 76**.
+- **Zonas rurales**: solo hay AGEB urbanas; 43 AGEB urbanas del Censo (0.75 % de la población) quedaron sin polígono.
+- **Rentas, precios de locales, flujo peatonal por calle, seguridad, permisos y ventas reales**: no hay datos de eso en el proyecto.
+- **Giros que no están en el catálogo**: se puede aproximar con el giro más parecido, y hay que decirlo.
+
+[D01-F01]
+Alcance del modelo: qué cubre y qué no › Qué cubre
+El modelo responde **dónde conviene poner un negocio dentro de la Zona Metropolitana del Valle de México (ZMVM)**: las 16 alcaldías de la Ciudad de México, 59 municipios del Estado de México y Tizayuca (Hidalgo), 76 en total, según la delimitación 2015 de SEDATU, CONAPO e INEGI. La unidad de análisis es la AGEB urbana (5 875 en total) y se reporta con el nombre de colonia más frecuente del DENUE. La lista de municipios está en `03_municipios/00_resumen_zmvm.md`.
+Los 40 giros que entiende están en `06_giros/`.
+Respuesta: [D01-F02] ciudadas fuera de la ZMVM: Monterrey, Guadalajara, Puebla, Toluca, Querétaro, Cuernavaca, Pachuca, etc. No hay datos de esas ciudades en el proyecto. 
+
+Pregunta: ¿Cuántos habitantes tiene Iztapalapa en sus AGEB urbanas? 
+         id
+101 D15-F01
+91  D14-F01
+441 D50-F01
+                                                                             fuente
+101 carpetas/03_municipios/09007_iztapalapa.md › Introducción + Población y hogares
+91   carpetas/03_municipios/09006_iztacalco.md › Introducción + Población y hogares
+441 carpetas/03_municipios/15039_ixtapaluca.md › Introducción + Población y hogares
+    similitud
+101 0.7125430
+91  0.6733927
+441 0.6694167
+
+[D15-F01]
+Ficha de alcaldía: Iztapalapa (Ciudad de México), clave 09007 › Introducción + Población y hogares
+Zona Metropolitana del Valle de México (76 municipios, delimitación 2015 de SEDATU-CONAPO-INEGI). Es municipio central de la zona metropolitana. Está en la delimitación 2020. Cifras generadas con código el 2026-11-23 desde `data/processed/agebs_features.parquet` y el DENUE; cubren solo AGEB urbanas.
+
+- Población en AGEB urbanas: 1,835,486 habitantes (lugar 1 de 76 en la ZMVM). Fuente: INEGI, Censo de Población y Vivienda 2020 (resultados por AGEB urbana).
+- Hogares: 504,365. AGEB urbanas: 458. Superficie urbana de esas AGEB: 112.4 km².
+- Densidad: 16,325 hab/km² (lugar 5 de 76).
+- Edad: 0-14 años 20.0 %; 15-24 16.0 %; 25-59 49.7 %; 60 o más 14.3 %.
+- Escolaridad promedio de la población de 15 y más: 10.4 años (lugar 31 de 76); promedio de las AGEB ponderado por población.
+- Viviendas con automóvil: 39.1 %; con internet: 69.3 % (ponderado por viviendas habitadas).
+- Población en AGEB a 1 km o menos de una estación de transporte masivo (Metro, Metrobús, Tren Ligero, Cablebús, Tren Suburbano, Mexibús y Mexicable; estos dos últimos salen de OpenStreetMap): 59.3 %.
+
+[D14-F01]
+Ficha de alcaldía: Iztacalco (Ciudad de México), clave 09006 › Introducción + Población y hogares
+Zona Metropolitana del Valle de México (76 municipios, delimitación 2015 de SEDATU-CONAPO-INEGI). Es municipio central de la zona metropolitana. Está en la delimitación 2020. Cifras generadas con código el 2026-11-23 desde `data/processed/agebs_features.parquet` y el DENUE; cubren solo AGEB urbanas.
+
+- Población en AGEB urbanas: 404,695 habitantes (lugar 22 de 76 en la ZMVM). Fuente: INEGI, Censo de Población y Vivienda 2020 (resultados por AGEB urbana).
+- Hogares: 117,720. AGEB urbanas: 110. Superficie urbana de esas AGEB: 23.0 km².
+- Densidad: 17,624 hab/km² (lugar 2 de 76).
+- Edad: 0-14 años 17.1 %; 15-24 14.4 %; 25-59 50.9 %; 60 o más 17.5 %.
+- Escolaridad promedio de la población de 15 y más: 11.5 años (lugar 6 de 76); promedio de las AGEB ponderado por población.
+- Viviendas con automóvil: 45.3 %; con internet: 77.4 % (ponderado por viviendas habitadas).
+- Población en AGEB a 1 km o menos de una estación de transporte masivo (Metro, Metrobús, Tren Ligero, Cablebús, Tren Suburbano, Mexibús y Mexicable; estos dos últimos salen de OpenStreetMap): 90.6 %.
+
+[D50-F01]
+Ficha de municipio: Ixtapaluca (Estado de México), clave 15039 › Introducción + Población y hogares
+Zona Metropolitana del Valle de México (76 municipios, delimitación 2015 de SEDATU-CONAPO-INEGI). Es municipio central de la zona metropolitana. Está en la delimitación 2020. Cifras generadas con código el 2026-11-23 desde `data/processed/agebs_features.parquet` y el DENUE; cubren solo AGEB urbanas.
+
+- Población en AGEB urbanas: 524,818 habitantes (lugar 14 de 76 en la ZMVM). Fuente: INEGI, Censo de Población y Vivienda 2020 (resultados por AGEB urbana).
+- Hogares: 142,615. AGEB urbanas: 163. Superficie urbana de esas AGEB: 54.6 km².
+- Densidad: 9,621 hab/km² (lugar 21 de 76).
+- Edad: 0-14 años 23.9 %; 15-24 18.2 %; 25-59 48.9 %; 60 o más 8.9 %.
+- Escolaridad promedio de la población de 15 y más: 10.1 años (lugar 40 de 76); promedio de las AGEB ponderado por población.
+- Viviendas con automóvil: 36.5 %; con internet: 61.5 % (ponderado por viviendas habitadas).
+- Población en AGEB a 1 km o menos de una estación de transporte masivo (Metro, Metrobús, Tren Ligero, Cablebús, Tren Suburbano, Mexibús y Mexicable; estos dos últimos salen de OpenStreetMap): 0.0 %.
+Respuesta: El número de habitantes de Iztapalapa en sus AGEB urbanas es **1,835,486 habitantes**, según la información proporcionada en el fragmento [D15-F01]. 
+
+Pregunta: ¿Cuál es el salario mínimo diario vigente en 2026? 
+        id
+33 D08-F03
+32 D08-F02
+31 D08-F01
+                                                                    fuente
+33 carpetas/02_macro/contexto_macro.md › Tipo de cambio, remesas y consumo
+32            carpetas/02_macro/contexto_macro.md › Inflación de alimentos
+31    carpetas/02_macro/contexto_macro.md › Introducción + Precios y tasas
+   similitud
+33 0.4395312
+32 0.4150682
+31 0.3912987
+
+[D08-F03]
+Contexto macroeconómico de México › Tipo de cambio, remesas y consumo
+- **Tipo de cambio FIX**: 19.02 MXN por USD (dato de 2026-11-20, serie SF43718). Fuente: Banco de Mexico, SIE API (serie SF43718); https://www.banxico.org.mx/SieInternet/. Consultado el 2026-11-23.
+- **Remesas familiares (mensual)**: 5,362 millones de USD (mensual) (dato de 2026-09-01, serie SE27803). Fuente: Banco de Mexico, SIE API (serie SE27803); https://www.banxico.org.mx/SieInternet/. Consultado el 2026-11-23. Variación anual: 1.55 %. Acumulado de 12 meses: 63,452 millones de USD.
+- **Confianza del consumidor**: 45.19 puntos (indice) (dato de 2026-10, serie 454168). Fuente: INEGI, Banco de Indicadores API (BIE, id 454168); https://www.inegi.org.mx/app/indicadores/. Consultado el 2026-11-23. Serie 454168 del BIE tal cual; no se verifico si es desestacionalizada.
+- **Consumo privado (IMCP, variación anual)**: 1.343 % variacion anual (cifras originales) (dato de 2026-08, serie 740946). Fuente: INEGI, Banco de Indicadores API (BIE, id 740946); https://www.inegi.org.mx/app/indicadores/. Consultado el 2026-11-23. Índice de volumen base 2018 = 115.83. variacion anual recalculada desde el indice 740933: 1.34%; ids confirmados contra el boletin IMCP de INEGI (imcpmi2026_08.pdf)
+
+[D08-F02]
+Contexto macroeconómico de México › Inflación de alimentos
+**NO ENCONTRADO**: El subindice de INPC 'Alimentos, bebidas y tabaco' (por objeto del gasto) no se encontro en la API de indicadores del INEGI ni en el SIE de Banxico. Ver evidencia y proxies.
+
+Aproximaciones oficiales que sí existen (son proxies, no la inflación de alimentos):
+
+- **Agropecuarios (proxy)**: 2.99 % variacion anual (dato de 2026-10, serie 910411). Fuente: INEGI, Banco de Indicadores API (BIE, id 910411); https://www.inegi.org.mx/app/indicadores/. Consultado el 2026-11-23.
+- **Mercancías (proxy)**: 3.25 % variacion anual (dato de 2026-10, serie 910408). Fuente: INEGI, Banco de Indicadores API (BIE, id 910408); https://www.inegi.org.mx/app/indicadores/. Consultado el 2026-11-23.
+
+[D08-F01]
+Contexto macroeconómico de México › Introducción + Precios y tasas
+Generado por `scripts/04a_carpetas.py` desde `data/processed/macro.json` (última lectura de las series: 2026-11-23). Cada cifra trae fecha, número de serie y fuente. Las lecturas en «Qué significa» son interpretación del proyecto, no dato oficial.
+
+- **Inflación general anual (INPC)**: 3.75 % variacion anual (dato de 2026-10, serie 910406). Fuente: INEGI, Banco de Indicadores API (BIE, id 910406); https://www.inegi.org.mx/app/indicadores/. Consultado el 2026-11-23. Índice base 2018 = 147.026.
+- **Tasa objetivo de Banxico**: 6.25 % anual (dato de 2026-11-23, serie SF61745). Fuente: Banco de Mexico, SIE API (serie SF61745); https://www.banxico.org.mx/SieInternet/. Consultado el 2026-11-23.
+- **TIIE a 28 días**: 6.515 % anual (dato de 2026-11-23, serie SF43783). Fuente: Banco de Mexico, SIE API (serie SF43783); https://www.banxico.org.mx/SieInternet/. Consultado el 2026-11-23.
+- Tasa real aproximada (tasa objetivo menos inflación anual de 2026-10): 2.50 puntos porcentuales. Cálculo del proyecto.
+Respuesta: No hay evidencia suficiente en los fragmentos. 
+
+Pregunta: ¿Cuántos pasajeros transporta al día la Línea 7 del Metro? 
+         id
+81  D13-F01
+181 D23-F01
+201 D25-F01
+                                                                                      fuente
+81     carpetas/03_municipios/09005_gustavo_a_madero.md › Introducción + Población y hogares
+181          carpetas/03_municipios/09015_cuauhtemoc.md › Introducción + Población y hogares
+201 carpetas/03_municipios/09017_venustiano_carranza.md › Introducción + Población y hogares
+    similitud
+81  0.3679213
+181 0.3672158
+201 0.3656663
+
+[D13-F01]
+Ficha de alcaldía: Gustavo A. Madero (Ciudad de México), clave 09005 › Introducción + Población y hogares
+Zona Metropolitana del Valle de México (76 municipios, delimitación 2015 de SEDATU-CONAPO-INEGI). Es municipio central de la zona metropolitana. Está en la delimitación 2020. Cifras generadas con código el 2026-11-23 desde `data/processed/agebs_features.parquet` y el DENUE; cubren solo AGEB urbanas.
+
+- Población en AGEB urbanas: 1,173,351 habitantes (lugar 3 de 76 en la ZMVM). Fuente: INEGI, Censo de Población y Vivienda 2020 (resultados por AGEB urbana).
+- Hogares: 340,153. AGEB urbanas: 305. Superficie urbana de esas AGEB: 87.4 km².
+- Densidad: 13,428 hab/km² (lugar 10 de 76).
+- Edad: 0-14 años 18.1 %; 15-24 15.0 %; 25-59 49.5 %; 60 o más 17.3 %.
+- Escolaridad promedio de la población de 15 y más: 11.0 años (lugar 15 de 76); promedio de las AGEB ponderado por población.
+- Viviendas con automóvil: 42.2 %; con internet: 72.4 % (ponderado por viviendas habitadas).
+- Población en AGEB a 1 km o menos de una estación de transporte masivo (Metro, Metrobús, Tren Ligero, Cablebús, Tren Suburbano, Mexibús y Mexicable; estos dos últimos salen de OpenStreetMap): 82.7 %.
+
+[D23-F01]
+Ficha de alcaldía: Cuauhtémoc (Ciudad de México), clave 09015 › Introducción + Población y hogares
+Zona Metropolitana del Valle de México (76 municipios, delimitación 2015 de SEDATU-CONAPO-INEGI). Es municipio central de la zona metropolitana. Está en la delimitación 2020. Cifras generadas con código el 2026-11-23 desde `data/processed/agebs_features.parquet` y el DENUE; cubren solo AGEB urbanas.
+
+- Población en AGEB urbanas: 545,884 habitantes (lugar 11 de 76 en la ZMVM). Fuente: INEGI, Censo de Población y Vivienda 2020 (resultados por AGEB urbana).
+- Hogares: 196,466. AGEB urbanas: 153. Superficie urbana de esas AGEB: 32.3 km².
+- Densidad: 16,882 hab/km² (lugar 3 de 76).
+- Edad: 0-14 años 15.3 %; 15-24 12.8 %; 25-59 54.7 %; 60 o más 17.2 %.
+- Escolaridad promedio de la población de 15 y más: 12.3 años (lugar 4 de 76); promedio de las AGEB ponderado por población.
+- Viviendas con automóvil: 37.7 %; con internet: 80.3 % (ponderado por viviendas habitadas).
+- Población en AGEB a 1 km o menos de una estación de transporte masivo (Metro, Metrobús, Tren Ligero, Cablebús, Tren Suburbano, Mexibús y Mexicable; estos dos últimos salen de OpenStreetMap): 97.0 %.
+
+[D25-F01]
+Ficha de alcaldía: Venustiano Carranza (Ciudad de México), clave 09017 › Introducción + Población y hogares
+Zona Metropolitana del Valle de México (76 municipios, delimitación 2015 de SEDATU-CONAPO-INEGI). Es municipio central de la zona metropolitana. Está en la delimitación 2020. Cifras generadas con código el 2026-11-23 desde `data/processed/agebs_features.parquet` y el DENUE; cubren solo AGEB urbanas.
+
+- Población en AGEB urbanas: 443,704 habitantes (lugar 17 de 76 en la ZMVM). Fuente: INEGI, Censo de Población y Vivienda 2020 (resultados por AGEB urbana).
+- Hogares: 135,767. AGEB urbanas: 151. Superficie urbana de esas AGEB: 33.7 km².
+- Densidad: 13,180 hab/km² (lugar 12 de 76).
+- Edad: 0-14 años 17.6 %; 15-24 14.2 %; 25-59 50.3 %; 60 o más 17.8 %.
+- Escolaridad promedio de la población de 15 y más: 11.4 años (lugar 10 de 76); promedio de las AGEB ponderado por población.
+- Viviendas con automóvil: 40.5 %; con internet: 75.1 % (ponderado por viviendas habitadas).
+- Población en AGEB a 1 km o menos de una estación de transporte masivo (Metro, Metrobús, Tren Ligero, Cablebús, Tren Suburbano, Mexibús y Mexicable; estos dos últimos salen de OpenStreetMap): 98.4 %.
+Respuesta: No hay evidencia suficiente en los fragmentos. 
+Con evidencia
+ El gasto potencial total en comida fuera del hogar de Coyoacán por trimestre es **2,120.2 millones de pesos**, según el fragmento [D11-F10]. 
+Sin evidencia
+ No hay evidencia suficiente en los fragmentos. 
+
+Tabla de evaluación
+  id_pregunta          tipo similitud_maxima cita_id dice_no_hay_evidencia
+1         P01 con_evidencia           0.6998      sí                    no
+2         P02 con_evidencia           0.5783      sí                    no
+3         P03 con_evidencia           0.5561      sí                    no
+4         P04 con_evidencia           0.7267      sí                    no
+5         P05 con_evidencia           0.6332      sí                    no
+6         P06 con_evidencia           0.7125      sí                    no
+7         P07 sin_evidencia           0.4395      no                    sí
+8         P08 sin_evidencia           0.3679      no                    sí

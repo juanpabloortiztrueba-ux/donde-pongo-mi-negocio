@@ -1,0 +1,9 @@
+id_pregunta,contiene_evidencia,respuesta_correcta,comentario
+P01,sí,parcial,"Regresión, calibración de 2.52, lognormal y gasto potencial están en D07-F02 y D07-F04; omite el paso 2 (aplicar al Censo) y cita D07-F03, que no se recuperó."
+P02,sí,parcial,"Define bien el DENUE con D03-F01; el uso en el proyecto queda vago, llama municipios a CDMX, Hidalgo y Edomex y escribe [D03-F4] en vez de [D03-F04]."
+P03,sí,parcial,"La fórmula y la idea probabilística de Huff son correctas y están en D86-F02, pero cita D90-F16, una tabla de validación que no trae eso."
+P04,sí,sí,"AUC 0.577 contra 0.711 y captura Huff 0.348 están en D89-F02; atribuye el 0.577 a D90-F07, que trae 0.583 del score anterior."
+P05,sí,sí,"Lista las ciudades de D01-F02 y lo cita bien; «ciudadas» es errata del modelo."
+P06,sí,sí,"1,835,486 habitantes, igual que en D15-F01, bien citado."
+P07,no,sí,"Ningún archivo de carpetas/ menciona el salario mínimo (búsqueda de texto sin resultados); responde la frase exacta."
+P08,no,sí,"carpetas/ no trae pasajeros por línea del Metro (solo la variable afluencia_metro del modelo); responde la frase exacta."

@@ -1,0 +1,9 @@
+id,pregunta,tipo
+P01,¿Cómo se estima el nivel socioeconómico de una AGEB a partir de la ENIGH?,con_evidencia
+P02,¿Qué es el DENUE y para qué lo usa el proyecto?,con_evidencia
+P03,¿Qué propone Huff sobre la probabilidad de que un consumidor compre en un establecimiento?,con_evidencia
+P04,¿Por qué el score no predice las aperturas crudas mejor que la competencia en la AGEB?,con_evidencia
+P05,¿Qué ciudades quedan fuera del alcance del modelo?,con_evidencia
+P06,¿Cuántos habitantes tiene Iztapalapa en sus AGEB urbanas?,con_evidencia
+P07,¿Cuál es el salario mínimo diario vigente en 2026?,sin_evidencia
+P08,¿Cuántos pasajeros transporta al día la Línea 7 del Metro?,sin_evidencia

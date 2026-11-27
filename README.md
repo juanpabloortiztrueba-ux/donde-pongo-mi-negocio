@@ -165,6 +165,12 @@ Porque las aperturas se aglomeran donde ya hay competencia: en las AGEB con 3 o 
 - Los datos del Censo son de 2020. No hay rentas de locales, tráfico peatonal ni seguridad.
 - Solo la ZMVM. Fuera de ella (Monterrey, Guadalajara...) el agente dice que está fuera de alcance.
 
+## RAG local en R
+
+La carpeta `rag_r/` adapta al proyecto la guía «RAG local en R» del profesor: un script de R (`httr2`) que busca en `carpetas/` con `embeddinggemma` y responde con `qwen3:1.7b`, citando los IDs de los fragmentos. Es independiente del agente de Python.
+Requiere `ollama pull embeddinggemma`, `ollama pull qwen3:1.7b` y `install.packages("httr2")`. Se corre con `Rscript rag_r/00_corpus.R` y `Rscript rag_r/rag_local.R`, desde la raíz del repo.
+Las preguntas, las salidas reales y la tabla de evaluación quedan en `rag_r/`; el detalle y dónde se cumple cada punto de la guía están en [`rag_r/README.md`](rag_r/README.md).
+
 ## Estructura
 
 ```
